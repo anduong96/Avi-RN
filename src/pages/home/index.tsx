@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import BottomSheet from '@gorhom/bottom-sheet';
 import { PageContainer } from '@app/components/page.container';
 import { Text } from 'react-native';
 

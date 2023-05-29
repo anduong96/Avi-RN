@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:837257235182:android:3146f9466f5b81992441ff",
         "android_client_info": {
-          "package_name": "com.avi.app"
+          "package_name": "com.avitech.app"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "837257235182-bbdcc7tdtm8mhr4peiimrm21ss386cs9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.avi.app"
+                "bundle_id": "com.avitech.app"
               }
             }
           ]

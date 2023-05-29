@@ -1,4 +1,4 @@
-package com.avi.app;
+package com.avitech.app;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

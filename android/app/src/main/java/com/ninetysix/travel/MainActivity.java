@@ -1,4 +1,4 @@
-package com.avi.app;
+package com.avitech.app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

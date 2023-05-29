@@ -138,14 +138,14 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.avi.app"
+    namespace "com.avitech.app"
     defaultConfig {
-        applicationId "com.avi.app"
+        applicationId "com.avitech.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.5"
-        resValue "string", "build_config_package", "com.avi.app"
+        resValue "string", "build_config_package", "com.avitech.app"
     }
 
     splits {

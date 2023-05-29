@@ -1,0 +1,142 @@
+definitions:
+  brew_cache: &rn_brew_cache
+    cache_paths:
+      - $HOME/opt/homebrew/Cellar
+  rn_cache: &rn_cache
+    cache_paths:
+      - $CM_BUILD_DIR/node_modules
+  ios_cache: &ios_cache
+    cache_paths:
+      - $HOME/Library/Caches/CocoaPods
+      - $CM_BUILD_DIR/ios/Pods
+  notify: &notify
+    email:
+      recipients:
+        - engineering@flywithavi.com
+      notify:
+        success: true
+        failure: true
+  scripts:
+    - &export_match_key
+      name: Export key
+      script: |
+        ssh-agent bash -c 'ssh-add - <<< "${MATCH_SSH_KEY}"'
+    - &install_bundler
+      name: Install bundler
+      script: |
+        gem install bundler
+        bundle install
+    - &install_imagemagick
+      name: Install imagemagick
+      script: |
+        brew install imagemagick
+    - &install_pod_dep
+      name: Pod install
+      script: |
+        cd ios && pod install
+    - &install_rn_dep
+      name: Yarn install
+      script: |
+        yarn
+    - &compile
+      name: Compile
+      script: |
+        node ./scripts/make.env.js
+        bundle exec fastlane $LANE
+
+workflows:
+  ios-beta-release:
+    name: iOS Beta Release
+    triggering:
+      cancel_previous_builds: true
+      events:
+        - tag
+      tag_patterns:
+        - pattern: "*.*.0"
+          include: true
+      branch_patterns:
+        - pattern: "beta"
+          include: true
+          source: true
+    max_build_duration: 120
+    instance_type: mac_mini_m1
+    cache:
+      cache_paths:
+      - $CM_BUILD_DIR/ios/Pods
+      - $CM_BUILD_DIR/node_modules
+    environment:
+      xcode: 14.3
+      cocoapods: default
+      groups:
+        - Production_iOS
+        - Production
+        - Global
+      vars:
+        LANE: ios beta
+        SENTRY_DSYM_PATH: $CM_BUILD_DIR/ios/build/Avi.app.dSYM.zip
+        BUILD_NUMBER: $BUILD_NUMBER
+        REPO: $CM_REPO_SLUG
+        COMMIT_SHA: $CM_COMMIT
+    scripts:
+      - *export_match_key
+      - *install_bundler
+      - *install_rn_dep
+      - *install_pod_dep
+      - name: Transfer firebase.json for prod
+        script: |
+          cat ios/GoogleService-Info.prod.plist > ios/GoogleService-Info.plist
+      - *compile
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+    publishing:
+      <<: *notify
+  ios-staging:
+    name: iOS Staging
+    triggering:
+      cancel_previous_builds: true
+      events:
+        - push
+      branch_patterns:
+        - pattern: "staging"
+          include: true
+          source: true
+    max_build_duration: 120
+    instance_type: mac_mini_m1
+    cache:
+      cache_paths:
+      - $CM_BUILD_DIR/ios/Pods
+      - $CM_BUILD_DIR/node_modules
+    environment:
+      xcode: 14.3
+      cocoapods: default
+      groups:
+        - Staging_iOS
+        - Staging
+        - Global
+      vars:
+        LANE: ios staging
+        SENTRY_DSYM_PATH: $CM_BUILD_DIR/ios/build/Avi.app.dSYM.zip
+        BUILD_NUMBER: $BUILD_NUMBER
+        REPO: $CM_REPO_SLUG
+        COMMIT_SHA: $CM_COMMIT
+    scripts:
+      - *export_match_key
+      - *install_bundler
+      - *install_imagemagick
+      - *install_rn_dep
+      - *install_pod_dep
+      - name: Transfer firebase.json for staging
+        script: |
+          cat ios/GoogleService-Info.staging.plist > ios/GoogleService-Info.plist
+      - *compile
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+
+    publishing:
+      <<: *notify

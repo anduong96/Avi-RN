@@ -1,0 +1,17 @@
+{
+  "cSpell.words": [
+    "Codegen",
+    "gorhom",
+    "notifee",
+    "Pressable",
+    "Signin",
+    "tanstack"
+  ],
+  "yaml.schemas": {
+    "https://unpkg.com/graphql-config@4.0.1/config-schema.json": "graphql.config.yml",
+    "https://json.schemastore.org/github-workflow.json": "file:///Users/aduong/Git/tailwind-react-native/.github/workflows/deploy.yaml"
+  },
+  "editor.acceptSuggestionOnEnter": "smart",
+  "typescript.implementationsCodeLens.enabled": true,
+  "editor.tabCompletion": "on"
+}

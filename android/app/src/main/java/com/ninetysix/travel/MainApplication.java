@@ -1,4 +1,4 @@
-package com.ninetysix.travel;
+package com.avi.app;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

@@ -1,4 +1,4 @@
-package com.ninetysix.travel;
+package com.avi.app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

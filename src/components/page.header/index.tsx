@@ -38,6 +38,7 @@ export const PageHeader: React.FC<Props> = ({
   ...props
 }) => {
   const theme = useTheme();
+
   return (
     <Container
       style={[withoutInsets && { paddingTop: theme.space.medium }, style]}

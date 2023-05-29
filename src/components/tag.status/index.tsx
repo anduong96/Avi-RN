@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Container, Icon, IconText, Label } from './styles';
 import type { StyleProp, ViewStyle } from 'react-native';
 
-import { MaterialIcon } from '../material.icons';
+import { MaterialIcon } from '../icons.material';
 import tinycolor from 'tinycolor2';
 import { useTheme } from '@app/lib/hooks/use.theme';
 

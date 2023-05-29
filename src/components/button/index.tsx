@@ -10,6 +10,7 @@ import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = React.PropsWithChildren<{
   shadow?: boolean;
+  isBold?: boolean;
   type?: 'primary' | 'active';
   prefix?: React.ReactElement;
   postfix?: React.ReactElement;
@@ -25,6 +26,7 @@ export const Button = React.forwardRef<unknown, Props>(
   (
     {
       children,
+      isBold,
       isLoading,
       disabled,
       fullWidth,
@@ -44,8 +46,14 @@ export const Button = React.forwardRef<unknown, Props>(
         shadow={shadow}
         fullWidth={fullWidth}
         style={[
-          size === 'large' && { paddingVertical: theme.space.medium },
-          size === 'small' && { paddingVertical: theme.space.tiny },
+          size === 'large' && {
+            paddingVertical: theme.space.medium,
+            borderRadius: theme.space.medium * 3,
+          },
+          size === 'small' && {
+            paddingVertical: theme.space.tiny,
+            borderRadius: theme.space.tiny * 3,
+          },
           style,
         ]}
         onPress={onPress}
@@ -61,6 +69,7 @@ export const Button = React.forwardRef<unknown, Props>(
             value={children}
             Container={BtnText}
             style={[
+              isBold && { fontWeight: 'bold' },
               disabled && { color: theme.pallette.grey[400] },
               size === 'small' && {
                 fontSize: theme.typography.presets.small.fontSize,

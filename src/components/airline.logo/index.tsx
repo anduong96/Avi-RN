@@ -5,7 +5,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { Text, View } from 'react-native';
 
 import FastImage from 'react-native-fast-image';
-import { useAirlineLogoQuery } from '@app/generated/server.gql';
+import { useAirlineQuery } from '@app/generated/server.gql';
 
 type Props = {
   iata: string;
@@ -25,22 +25,22 @@ export const AirlineLogo: React.FC<Props> = ({
 }) => {
   const [hasError, setHasError] = React.useState(false);
   const [ratio, setRatio] = React.useState(-1);
-  const result = useAirlineLogoQuery({
+  const query = useAirlineQuery({
     initialFetchPolicy: 'cache-first',
     skip: !iata,
     variables: {
       iata,
     },
   });
-  const airline = result.data?.airline;
+  const airline = query.data?.airline;
   const [uri] =
     type === 'full' && !hasError
       ? [airline?.logoFullImageURL, airline?.logoFullImageType]
       : [airline?.logoCompactImageURL, airline?.logoCompactImageType];
 
-  if (!airline && !result.loading) {
+  if (!airline && !query.loading) {
     return <Text style={[{ fontSize: height }]}>{iata}</Text>;
-  } else if (!airline && result.loading) {
+  } else if (!airline && query.loading) {
     return <View style={{ height }} />;
   }
 

@@ -1,11 +1,8 @@
 import * as React from 'react';
 
-import RNReactNativeHapticFeedback, {
-  HapticFeedbackTypes,
-} from 'react-native-haptic-feedback';
-
 import { Container } from './styles';
-import { MaterialIcon } from '../material.icons';
+import { FaIcon } from '../icons.fontawesome';
+import { vibrate } from '@app/lib/haptic.feedback';
 
 type Props = {
   size?: number;
@@ -15,13 +12,13 @@ type Props = {
 
 export const CloseBtn: React.FC<Props> = ({ size = 30, onPress, disabled }) => {
   const handlePress = () => {
-    RNReactNativeHapticFeedback.trigger(HapticFeedbackTypes.impactMedium);
+    vibrate('impactMedium');
     onPress?.();
   };
 
   return (
     <Container onPress={handlePress} size={size} disabled={disabled}>
-      <MaterialIcon name="close" />
+      <FaIcon name="times" />
     </Container>
   );
 };

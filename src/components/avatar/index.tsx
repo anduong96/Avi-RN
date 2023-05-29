@@ -5,6 +5,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 
 import { ActivityIndicator } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { MaterialIcon } from '../icons.material';
 import { compact } from 'lodash';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
@@ -37,7 +38,7 @@ export const Avatar: React.FC<Props> = ({
   const theme = useTheme();
   const [bgColor, color] =
     type === 'fill'
-      ? [theme.pallette.grey[400], theme.pallette.white]
+      ? [theme.pallette.grey[100], theme.pallette.white]
       : [theme.pallette.background, theme.typography.color];
 
   const Content = () => {
@@ -54,6 +55,8 @@ export const Avatar: React.FC<Props> = ({
           style={{ borderRadius: size, width: size, height: size }}
         />
       );
+    } else if (!firstName && !lastName) {
+      return <MaterialIcon size={Math.max(0, size / 2)} name="account" />;
     } else {
       return (
         <InitialsText

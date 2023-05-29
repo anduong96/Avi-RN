@@ -79,19 +79,19 @@ const shadows = {
   }),
 } as const;
 
-const borderRadius = 10;
+const borderRadius = 20;
 const borderWidth = 1;
 
 const typography = {
   color: grey[900],
-  secondaryColor: grey[500],
+  secondaryColor: grey[600],
   presets: {
     massive: makeStyle({
-      fontSize: 40,
-      lineHeight: 40,
+      fontSize: 45,
+      lineHeight: 55,
     }),
     h1: makeStyle({
-      fontSize: 30,
+      fontSize: 35,
       lineHeight: 41,
     }),
     h2: makeStyle({
@@ -100,7 +100,7 @@ const typography = {
     }),
     h3: makeStyle({
       fontSize: 20,
-      lineHeight: 20,
+      lineHeight: 25,
     }),
     h4: makeStyle({
       fontSize: 18,
@@ -114,6 +114,9 @@ const typography = {
     }),
     small: makeStyle({
       fontSize: 12,
+    }),
+    tiny: makeStyle({
+      fontSize: 10,
     }),
   },
 };
@@ -130,7 +133,7 @@ const spaceFn: SpaceFn = (size: number) => {
 const space: Space = spaceFn;
 space.large = spaceFn(12);
 space.medium = spaceFn(7);
-space.small = spaceFn(5);
+space.small = spaceFn(4);
 space.tiny = spaceFn(2);
 
 export const BASE_THEME = {

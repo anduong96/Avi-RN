@@ -1,5 +1,6 @@
 import { Text, View } from 'react-native';
 
+import { BlurView } from '@react-native-community/blur';
 import { styled } from '@app/lib/styled';
 
 export const Day = styled(View, (theme) => [
@@ -17,6 +18,7 @@ export const Month = styled(View, (theme) => [
   {
     width: '100%',
     paddingBottom: theme.space.large,
+    paddingHorizontal: 4,
   },
 ]);
 
@@ -44,10 +46,10 @@ export const MonthText = styled(Text, (theme) => [
   { fontWeight: 'bold' },
 ]);
 
-export const MonthHeader = styled(View, (theme) => [
+export const MonthHeader = styled(BlurView, (theme) => [
   {
     padding: theme.space.small,
-    backgroundColor: theme.pallette.background,
+    paddingHorizontal: theme.space.medium,
     flexDirection: 'row',
     gap: theme.space.tiny,
   },

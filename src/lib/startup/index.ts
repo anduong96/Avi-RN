@@ -1,5 +1,6 @@
 import './push.notification';
 import './sentry';
+import '@app/state/user';
 
 import rudderClient, {
   RUDDER_LOG_LEVEL,
@@ -25,7 +26,9 @@ export async function startup() {
     remoteConfig().fetchAndActivate(),
     restoreGlobalState(),
     startSmartlook(),
-    auth().currentUser?.reload(),
+    auth().currentUser
+      ? auth().currentUser?.reload()
+      : auth().signInAnonymously(),
     ENV.RUDDER_STACK_KEY &&
       ENV.RUDDER_STACK_DATAPLANE_URL &&
       rudderClient.setup(ENV.RUDDER_STACK_KEY, {

@@ -12,10 +12,12 @@ type Props = {
   title?: StringOrElement;
   subtitle?: StringOrElement;
   onClose?: () => void;
+  withTopInset?: boolean;
 };
 
 export const ModalHeader: React.FC<Props> = ({
   withClose = true,
+  withTopInset = false,
   title,
   subtitle,
   onClose,
@@ -31,7 +33,7 @@ export const ModalHeader: React.FC<Props> = ({
   };
 
   return (
-    <Container>
+    <Container withTopInset={withTopInset}>
       <Meta>
         <StringRenderer value={title} Container={TitleText} />
         <StringRenderer value={subtitle} Container={SubtitleText} />

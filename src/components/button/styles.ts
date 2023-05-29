@@ -30,7 +30,6 @@ export const Container = styled<
 ]);
 
 export const BtnText = styled(Text, (theme) => ({
-  fontWeight: 'bold',
   fontSize: theme.typography.presets.h3.fontSize,
   color: color
     .mostReadable(theme.pallette.primary, [

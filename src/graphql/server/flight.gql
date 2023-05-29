@@ -1,0 +1,12 @@
+query SearchFlight($airlineIata: String!, $flightNumber: String!) {
+  searchFlight(airlineIata: $airlineIata, flightNumber: $flightNumber) {
+    departureTimezone
+    arrivalTimezone
+    airlineIata
+    flightNumber
+    originIata
+    destinationIata
+    departureAt
+    arrivalAt
+  }
+}

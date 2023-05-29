@@ -11,7 +11,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 
 import { HorizontalDivider } from '../divider.horizontal';
 import { List } from '../list';
-import { MaterialIcon } from '../material.icons';
+import { MaterialIcon } from '../icons.material';
 import { Modal } from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { RotateUpsidedown } from './animation';

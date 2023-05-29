@@ -3,7 +3,7 @@ import * as React from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 
 import { Container } from './styles';
-import { MaterialIcon } from '../material.icons';
+import { FaIcon } from '../icons.fontawesome';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 export type Props = {
@@ -25,11 +25,7 @@ export const IconBtn: React.FC<Props> = ({
 
   return (
     <Container style={style} onPress={onPress}>
-      <MaterialIcon
-        name={icon}
-        size={size}
-        color={color || theme.pallette.active}
-      />
+      <FaIcon name={icon} size={size} color={color || theme.pallette.active} />
     </Container>
   );
 };

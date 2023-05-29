@@ -19,7 +19,7 @@ export const BackBtn: React.FC<Props> = ({
 }) => {
   return (
     <Container
-      icon="arrow-left"
+      icon="chevron-left"
       size={size}
       onPress={onPress}
       align={align}

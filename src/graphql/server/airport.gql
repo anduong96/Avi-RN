@@ -1,0 +1,16 @@
+query Airport($iata: String!) {
+  airport(iata: $iata) {
+    id
+    name
+    cityName
+    cityCode
+    timezone
+    state
+    elevation
+    countryCode
+    countyName
+    location {
+      coordinates
+    }
+  }
+}

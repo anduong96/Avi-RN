@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { MaterialIcon } from '../material.icons';
+import { MaterialIcon } from '../icons.material';
 import { SignInBtn } from './btn';
 import { signInWithApple } from '@app/lib/auth/apple.auth';
 import { useTheme } from '@app/lib/hooks/use.theme';

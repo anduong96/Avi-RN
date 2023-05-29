@@ -44,26 +44,6 @@ export type Airport = {
   timezone: Scalars['String'];
 };
 
-export type Flight = {
-  __typename?: 'Flight';
-  airlineIata: Scalars['String'];
-  arrivalAt: Scalars['DateTime'];
-  departureAt: Scalars['DateTime'];
-  destinationIata: Scalars['String'];
-  flightNumber: Scalars['String'];
-  id: Scalars['ID'];
-  originIata: Scalars['String'];
-  status: FlightStatus;
-};
-
-export const FlightStatus = {
-  CANCELED: 'CANCELED',
-  COMPLETED: 'COMPLETED',
-  ENROUTE: 'ENROUTE',
-  SCHEDULED: 'SCHEDULED'
-} as const;
-
-export type FlightStatus = typeof FlightStatus[keyof typeof FlightStatus];
 export type Gql_Country = {
   __typename?: 'GQL_Country';
   dialCode: Scalars['String'];
@@ -113,7 +93,7 @@ export type Query = {
   country: Gql_Country;
   currentIata: Scalars['String'];
   isUserValid: Scalars['Boolean'];
-  searchFlights: Flight;
+  searchFlight: SearchFlightResponse;
   user: User;
 };
 
@@ -133,10 +113,21 @@ export type QueryCountryArgs = {
 };
 
 
-export type QuerySearchFlightsArgs = {
+export type QuerySearchFlightArgs = {
   airlineIata: Scalars['String'];
-  departureDate: Scalars['DateTime'];
   flightNumber: Scalars['String'];
+};
+
+export type SearchFlightResponse = {
+  __typename?: 'SearchFlightResponse';
+  airlineIata: Scalars['String'];
+  arrivalAt: Scalars['DateTime'];
+  arrivalTimezone: Scalars['String'];
+  departureAt: Scalars['DateTime'];
+  departureTimezone: Scalars['String'];
+  destinationIata: Scalars['String'];
+  flightNumber: Scalars['String'];
+  originIata: Scalars['String'];
 };
 
 export type User = {
@@ -154,12 +145,219 @@ export type User = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type AirlinesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AirlinesQuery = { __typename?: 'Query', airlines: Array<{ __typename?: 'Airline', id: string, name: string, iata: string, logoCompactImageURL: string, logoCompactImageType: ImageType }> };
+
+export type AirlineQueryVariables = Exact<{
+  iata: Scalars['String'];
+}>;
+
+
+export type AirlineQuery = { __typename?: 'Query', airline: { __typename?: 'Airline', id: string, name: string, iata: string, logoCompactImageURL: string, logoCompactImageType: ImageType, logoFullImageURL: string, logoFullImageType: ImageType } };
+
+export type AirportQueryVariables = Exact<{
+  iata: Scalars['String'];
+}>;
+
+
+export type AirportQuery = { __typename?: 'Query', airport: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, cityCode: string, timezone: string, state?: string | null, elevation?: number | null, countryCode: string, countyName?: string | null, location?: { __typename?: 'Location', coordinates: Array<number> } | null } };
+
+export type SearchFlightQueryVariables = Exact<{
+  airlineIata: Scalars['String'];
+  flightNumber: Scalars['String'];
+}>;
+
+
+export type SearchFlightQuery = { __typename?: 'Query', searchFlight: { __typename?: 'SearchFlightResponse', departureTimezone: string, arrivalTimezone: string, airlineIata: string, flightNumber: string, originIata: string, destinationIata: string, departureAt: Date, arrivalAt: Date } };
+
 export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string } };
 
 
+export const AirlinesDocument = gql`
+    query Airlines {
+  airlines {
+    id
+    name
+    iata
+    logoCompactImageURL
+    logoCompactImageType
+  }
+}
+    `;
+
+/**
+ * __useAirlinesQuery__
+ *
+ * To run a query within a React component, call `useAirlinesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAirlinesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAirlinesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAirlinesQuery(baseOptions?: Apollo.QueryHookOptions<AirlinesQuery, AirlinesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AirlinesQuery, AirlinesQueryVariables>(AirlinesDocument, options);
+      }
+export function useAirlinesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AirlinesQuery, AirlinesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AirlinesQuery, AirlinesQueryVariables>(AirlinesDocument, options);
+        }
+export type AirlinesQueryHookResult = ReturnType<typeof useAirlinesQuery>;
+export type AirlinesLazyQueryHookResult = ReturnType<typeof useAirlinesLazyQuery>;
+export type AirlinesQueryResult = Apollo.QueryResult<AirlinesQuery, AirlinesQueryVariables>;
+export function refetchAirlinesQuery(variables?: AirlinesQueryVariables) {
+      return { query: AirlinesDocument, variables: variables }
+    }
+export const AirlineDocument = gql`
+    query Airline($iata: String!) {
+  airline(iata: $iata) {
+    id
+    name
+    iata
+    logoCompactImageURL
+    logoCompactImageType
+    logoFullImageURL
+    logoFullImageType
+  }
+}
+    `;
+
+/**
+ * __useAirlineQuery__
+ *
+ * To run a query within a React component, call `useAirlineQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAirlineQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAirlineQuery({
+ *   variables: {
+ *      iata: // value for 'iata'
+ *   },
+ * });
+ */
+export function useAirlineQuery(baseOptions: Apollo.QueryHookOptions<AirlineQuery, AirlineQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AirlineQuery, AirlineQueryVariables>(AirlineDocument, options);
+      }
+export function useAirlineLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AirlineQuery, AirlineQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AirlineQuery, AirlineQueryVariables>(AirlineDocument, options);
+        }
+export type AirlineQueryHookResult = ReturnType<typeof useAirlineQuery>;
+export type AirlineLazyQueryHookResult = ReturnType<typeof useAirlineLazyQuery>;
+export type AirlineQueryResult = Apollo.QueryResult<AirlineQuery, AirlineQueryVariables>;
+export function refetchAirlineQuery(variables: AirlineQueryVariables) {
+      return { query: AirlineDocument, variables: variables }
+    }
+export const AirportDocument = gql`
+    query Airport($iata: String!) {
+  airport(iata: $iata) {
+    id
+    name
+    cityName
+    cityCode
+    timezone
+    state
+    elevation
+    countryCode
+    countyName
+    location {
+      coordinates
+    }
+  }
+}
+    `;
+
+/**
+ * __useAirportQuery__
+ *
+ * To run a query within a React component, call `useAirportQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAirportQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAirportQuery({
+ *   variables: {
+ *      iata: // value for 'iata'
+ *   },
+ * });
+ */
+export function useAirportQuery(baseOptions: Apollo.QueryHookOptions<AirportQuery, AirportQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AirportQuery, AirportQueryVariables>(AirportDocument, options);
+      }
+export function useAirportLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AirportQuery, AirportQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AirportQuery, AirportQueryVariables>(AirportDocument, options);
+        }
+export type AirportQueryHookResult = ReturnType<typeof useAirportQuery>;
+export type AirportLazyQueryHookResult = ReturnType<typeof useAirportLazyQuery>;
+export type AirportQueryResult = Apollo.QueryResult<AirportQuery, AirportQueryVariables>;
+export function refetchAirportQuery(variables: AirportQueryVariables) {
+      return { query: AirportDocument, variables: variables }
+    }
+export const SearchFlightDocument = gql`
+    query SearchFlight($airlineIata: String!, $flightNumber: String!) {
+  searchFlight(airlineIata: $airlineIata, flightNumber: $flightNumber) {
+    departureTimezone
+    arrivalTimezone
+    airlineIata
+    flightNumber
+    originIata
+    destinationIata
+    departureAt
+    arrivalAt
+  }
+}
+    `;
+
+/**
+ * __useSearchFlightQuery__
+ *
+ * To run a query within a React component, call `useSearchFlightQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchFlightQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchFlightQuery({
+ *   variables: {
+ *      airlineIata: // value for 'airlineIata'
+ *      flightNumber: // value for 'flightNumber'
+ *   },
+ * });
+ */
+export function useSearchFlightQuery(baseOptions: Apollo.QueryHookOptions<SearchFlightQuery, SearchFlightQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchFlightQuery, SearchFlightQueryVariables>(SearchFlightDocument, options);
+      }
+export function useSearchFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchFlightQuery, SearchFlightQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchFlightQuery, SearchFlightQueryVariables>(SearchFlightDocument, options);
+        }
+export type SearchFlightQueryHookResult = ReturnType<typeof useSearchFlightQuery>;
+export type SearchFlightLazyQueryHookResult = ReturnType<typeof useSearchFlightLazyQuery>;
+export type SearchFlightQueryResult = Apollo.QueryResult<SearchFlightQuery, SearchFlightQueryVariables>;
+export function refetchSearchFlightQuery(variables: SearchFlightQueryVariables) {
+      return { query: SearchFlightDocument, variables: variables }
+    }
 export const UserDocument = gql`
     query User {
   user {

@@ -18,7 +18,7 @@ fastlane_require "dotenv"
 
 BUILD_SCHEMES  = %i[develop staging].freeze
 AND_GRAD_PATH  = "android/app/build.gradle"
-ICON_IMAGE_LOC =  "src/assets/app.icon.png"
+ICON_IMAGE_LOC =  "app.icon.png"
 AND_PACKAGE_ID = CredentialsManager::AppfileConfig.try_fetch_value(:package_name) || ""
 IOS_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) || ""
 

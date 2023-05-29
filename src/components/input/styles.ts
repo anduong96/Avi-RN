@@ -1,35 +1,47 @@
 import { TextInput, TouchableOpacity } from 'react-native';
 
 import Animated from 'react-native-reanimated';
+import type { SpaceKeys } from '@app/themes';
 import { styled } from '../../lib/styled';
 
 export const Container = styled<
-  { type?: 'filled' | 'outlined'; disabled?: boolean },
+  { size: SpaceKeys; disabled?: boolean },
   typeof Animated.View
 >(Animated.View, (theme, props) => [
   theme.presets.outlinedBox,
   {
-    paddingHorizontal: theme.space.medium,
+    borderRadius: 100,
+    paddingHorizontal: theme.space.small,
+    paddingVertical: theme.space.tiny,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: theme.space.small,
-  },
-  props.type === 'filled' && {
-    backgroundColor: theme.pallette.grey[100],
-    borderColor: theme.pallette.grey[100],
+    backgroundColor: theme.pallette.grey[50],
   },
   props.disabled && {
     opacity: 0.5,
   },
-]);
-
-export const StyledInput = styled(TextInput, (theme) => [
-  {
-    fontSize: theme.typography.presets.p1.fontSize,
-    paddingVertical: theme.space.medium,
-    flexGrow: 1,
-    height: '100%',
+  props.size === 'medium' && {
+    paddingVertical: theme.space.small,
+  },
+  props.size === 'tiny' && {
+    paddingVertical: theme.space.tiny,
   },
 ]);
+
+export const StyledInput = styled<{ size: SpaceKeys }, typeof TextInput>(
+  TextInput,
+  (theme, props) => [
+    {
+      fontSize: theme.typography.presets.p1.fontSize,
+      flexGrow: 1,
+      height: '100%',
+    },
+    props.size === 'large' && {
+      fontSize: theme.typography.presets.h2.fontSize,
+    },
+  ],
+);
 
 export const ClearContainer = styled(TouchableOpacity, () => ({}));

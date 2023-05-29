@@ -1,0 +1,21 @@
+query Airlines {
+  airlines {
+    id
+    name
+    iata
+    logoCompactImageURL
+    logoCompactImageType
+  }
+}
+
+query Airline($iata: String!) {
+  airline(iata: $iata) {
+    id
+    name
+    iata
+    logoCompactImageURL
+    logoCompactImageType
+    logoFullImageURL
+    logoFullImageType
+  }
+}

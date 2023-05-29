@@ -9,17 +9,18 @@ import {
 } from 'react-native-reanimated';
 
 import { CheckIcon } from '../icon.check';
-import { MaterialIcon } from '../material.icons';
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import { IS_ANDROID } from '@app/lib/platform';
+import { MaterialIcon } from '../icons.material';
+import type { SpaceKeys } from '@app/themes';
 import { debounce } from 'lodash';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { vibrate } from '@app/lib/haptic.feedback';
 
 type Props = {
   value?: string;
   onChange?: (value: Props['value']) => void;
   hasErrors?: boolean;
-  type?: 'filled' | 'outlined';
-  size?: 'small' | 'medium';
+  size?: SpaceKeys;
   disabled?: boolean;
   postfix?: React.ReactElement;
   prefix?: React.ReactElement;
@@ -27,13 +28,15 @@ type Props = {
   allowClear?: boolean;
   debounceChange?: number;
   withFeedback?: boolean;
-} & Omit<React.ComponentProps<typeof StyledInput>, 'onChange' | 'onChangeText'>;
+} & Omit<
+  React.ComponentProps<typeof StyledInput>,
+  'onChange' | 'onChangeText' | 'size'
+>;
 
 export const Input: React.FC<Props> = ({
   value,
   hasErrors,
-  size,
-  type = 'outlined',
+  size = 'medium',
   withFeedback,
   onChange,
   disabled,
@@ -42,31 +45,35 @@ export const Input: React.FC<Props> = ({
   prefix,
   allowClear,
   debounceChange = 0,
+  inputMode,
   ...props
 }) => {
   const theme = useTheme();
   const isFocused = useSharedValue(false);
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      backgroundColor: theme.pallette.background,
       borderColor: withTiming(
         hasErrors
           ? theme.pallette.danger
           : isFocused.value
-          ? theme.pallette.grey[400]
-          : theme.pallette.grey[200],
+          ? theme.pallette.active
+          : theme.pallette.grey[50],
       ),
     };
   });
 
   const handleClear = () => {
+    vibrate('impactMedium');
     onChange?.(undefined);
-    ReactNativeHapticFeedback.trigger('impactMedium');
   };
 
   const handleChange = debounce((nextValue?: string) => {
     if (!disabled) {
-      onChange?.(nextValue);
+      if (inputMode === 'numeric') {
+        onChange?.(nextValue?.replace(/[^0-9]/g, ''));
+      } else {
+        onChange?.(nextValue);
+      }
     }
   }, debounceChange);
 
@@ -76,27 +83,27 @@ export const Input: React.FC<Props> = ({
 
   return (
     <Container
-      type={type}
+      size={size}
       style={[animatedStyle, props.style]}
       disabled={disabled}
     >
       {prefix}
       <StyledInput
         {...props}
+        inputMode={inputMode}
+        size={size}
         editable={!disabled}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        style={[
-          size === 'small' && { paddingVertical: theme.space.small },
-          inputStyle,
-        ]}
+        style={[inputStyle]}
         defaultValue={value}
         onChangeText={handleChange}
+        clearButtonMode="while-editing"
         placeholderTextColor={theme.pallette.grey[400]}
       />
       {postfix}
       {value && withFeedback && !hasErrors && <CheckIcon />}
-      {allowClear && value && (
+      {allowClear && value && IS_ANDROID && (
         <ClearContainer onPress={handleClear}>
           <MaterialIcon name="close-circle" />
         </ClearContainer>

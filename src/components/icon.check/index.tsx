@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Container } from './styles';
 import { FadeIn } from 'react-native-reanimated';
-import { MaterialIcon } from '../material.icons';
+import { MaterialIcon } from '../icons.material';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {

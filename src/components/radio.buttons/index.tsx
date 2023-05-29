@@ -7,7 +7,7 @@ import RNReactNativeHapticFeedback, {
 
 import { ActivityIndicator } from 'react-native';
 import type { LabelOption } from '@app/types/label.option';
-import { MaterialIcon } from '../material.icons';
+import { MaterialIcon } from '../icons.material';
 import { isEmpty } from 'lodash';
 import { useTheme } from '@app/lib/hooks/use.theme';
 

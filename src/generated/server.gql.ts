@@ -44,6 +44,41 @@ export type Airport = {
   timezone: Scalars['String'];
 };
 
+export type Flight = {
+  __typename?: 'Flight';
+  actualDuration?: Maybe<Scalars['Float']>;
+  actualGateArrival?: Maybe<Scalars['DateTime']>;
+  actualGateDeparture?: Maybe<Scalars['DateTime']>;
+  actualRunwayArrival?: Maybe<Scalars['DateTime']>;
+  actualRunwayDeparture?: Maybe<Scalars['DateTime']>;
+  airline: Airline;
+  airlineIata: Scalars['String'];
+  airplaneIata?: Maybe<Scalars['String']>;
+  destination: Airport;
+  destinationGate?: Maybe<Scalars['String']>;
+  destinationIata: Scalars['String'];
+  destinationTerminal: Scalars['String'];
+  destinationTimezone: Scalars['String'];
+  estimatedDuration: Scalars['Float'];
+  estimatedGateArrival: Scalars['DateTime'];
+  estimatedGateDeparture: Scalars['DateTime'];
+  estimatedRunwayArrival: Scalars['DateTime'];
+  estimatedRunwayDeparture: Scalars['DateTime'];
+  flightNumber: Scalars['String'];
+  id: Scalars['ID'];
+  origin: Airport;
+  originGate?: Maybe<Scalars['String']>;
+  originIata: Scalars['String'];
+  originTerminal?: Maybe<Scalars['String']>;
+  originTimezone: Scalars['String'];
+  scheduledDuration: Scalars['Float'];
+  scheduledGateArrival: Scalars['DateTime'];
+  scheduledGateDeparture: Scalars['DateTime'];
+  scheduledRunwayArrival: Scalars['DateTime'];
+  scheduledRunwayDeparture: Scalars['DateTime'];
+  status: Scalars['String'];
+};
+
 export type Gql_Country = {
   __typename?: 'GQL_Country';
   dialCode: Scalars['String'];
@@ -73,7 +108,19 @@ export type Location = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addUserFlight: Scalars['String'];
+  deleteUserFlight: Scalars['String'];
   updateUser: Scalars['Boolean'];
+};
+
+
+export type MutationAddUserFlightArgs = {
+  flightID: Scalars['String'];
+};
+
+
+export type MutationDeleteUserFlightArgs = {
+  flightID: Scalars['String'];
 };
 
 
@@ -92,9 +139,11 @@ export type Query = {
   countries: Array<Gql_Country>;
   country: Gql_Country;
   currentIata: Scalars['String'];
+  findFlights: Array<Flight>;
+  flight: Flight;
   isUserValid: Scalars['Boolean'];
-  searchFlight: SearchFlightResponse;
   user: User;
+  userFlights: Array<UserFlight>;
 };
 
 
@@ -113,21 +162,15 @@ export type QueryCountryArgs = {
 };
 
 
-export type QuerySearchFlightArgs = {
+export type QueryFindFlightsArgs = {
   airlineIata: Scalars['String'];
+  departureDate: Scalars['DateTime'];
   flightNumber: Scalars['String'];
 };
 
-export type SearchFlightResponse = {
-  __typename?: 'SearchFlightResponse';
-  airlineIata: Scalars['String'];
-  arrivalAt: Scalars['DateTime'];
-  arrivalTimezone: Scalars['String'];
-  departureAt: Scalars['DateTime'];
-  departureTimezone: Scalars['String'];
-  destinationIata: Scalars['String'];
-  flightNumber: Scalars['String'];
-  originIata: Scalars['String'];
+
+export type QueryFlightArgs = {
+  flightID: Scalars['String'];
 };
 
 export type User = {
@@ -143,6 +186,14 @@ export type User = {
   phone?: Maybe<Scalars['String']>;
   profileImageURL?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
+};
+
+export type UserFlight = {
+  __typename?: 'UserFlight';
+  createdAt: Scalars['DateTime'];
+  flight: Flight;
+  flightID: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 export type AirlinesQueryVariables = Exact<{ [key: string]: never; }>;
@@ -162,22 +213,100 @@ export type AirportQueryVariables = Exact<{
 }>;
 
 
-export type AirportQuery = { __typename?: 'Query', airport: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, cityCode: string, timezone: string, state?: string | null, elevation?: number | null, countryCode: string, countyName?: string | null, location?: { __typename?: 'Location', coordinates: Array<number> } | null } };
+export type AirportQuery = { __typename?: 'Query', airport: { __typename?: 'Airport', id: string, name: string, iata: string, cityName?: string | null, cityCode: string, timezone: string, state?: string | null, elevation?: number | null, countryCode: string, countyName?: string | null, location?: { __typename?: 'Location', coordinates: Array<number> } | null } };
 
-export type SearchFlightQueryVariables = Exact<{
+export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: string, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal: string, scheduledGateDeparture: Date, scheduledRunwayDeparture: Date, scheduledGateArrival: Date, scheduledRunwayArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedRunwayDeparture: Date, estimatedRunwayArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualRunwayDeparture?: Date | null, actualGateArrival?: Date | null, actualRunwayArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } };
+
+export type FindFlightsQueryVariables = Exact<{
   airlineIata: Scalars['String'];
   flightNumber: Scalars['String'];
+  departureDate: Scalars['DateTime'];
 }>;
 
 
-export type SearchFlightQuery = { __typename?: 'Query', searchFlight: { __typename?: 'SearchFlightResponse', departureTimezone: string, arrivalTimezone: string, airlineIata: string, flightNumber: string, originIata: string, destinationIata: string, departureAt: Date, arrivalAt: Date } };
+export type FindFlightsQuery = { __typename?: 'Query', findFlights: Array<{ __typename?: 'Flight', id: string, originTimezone: string, destinationTimezone: string, airlineIata: string, flightNumber: string, originIata: string, destinationIata: string, estimatedGateDeparture: Date, estimatedGateArrival: Date }> };
+
+export type GetFlightQueryVariables = Exact<{
+  flightID: Scalars['String'];
+}>;
+
+
+export type GetFlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: string, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal: string, scheduledGateDeparture: Date, scheduledRunwayDeparture: Date, scheduledGateArrival: Date, scheduledRunwayArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedRunwayDeparture: Date, estimatedRunwayArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualRunwayDeparture?: Date | null, actualGateArrival?: Date | null, actualRunwayArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } } };
+
+export type GetUserFlightsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserFlightsQuery = { __typename?: 'Query', userFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: Date, flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: string, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal: string, scheduledGateDeparture: Date, scheduledRunwayDeparture: Date, scheduledGateArrival: Date, scheduledRunwayArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedRunwayDeparture: Date, estimatedRunwayArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualRunwayDeparture?: Date | null, actualGateArrival?: Date | null, actualRunwayArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } } }> };
+
+export type AddUserFlightMutationVariables = Exact<{
+  flightID: Scalars['String'];
+}>;
+
+
+export type AddUserFlightMutation = { __typename?: 'Mutation', addUserFlight: string };
+
+export type DeleteUserFlightMutationVariables = Exact<{
+  flightID: Scalars['String'];
+}>;
+
+
+export type DeleteUserFlightMutation = { __typename?: 'Mutation', deleteUserFlight: string };
 
 export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string } };
 
-
+export const FullFlightFragmentFragmentDoc = gql`
+    fragment FullFlightFragment on Flight {
+  id
+  airlineIata
+  airline {
+    id
+    name
+    logoCompactImageURL
+  }
+  flightNumber
+  originTimezone
+  originIata
+  originTerminal
+  originGate
+  origin {
+    id
+    name
+    cityName
+    countryCode
+    iata
+  }
+  status
+  destinationTimezone
+  destinationIata
+  destinationGate
+  destinationTerminal
+  destination {
+    id
+    name
+    cityName
+    countryCode
+    iata
+  }
+  scheduledGateDeparture
+  scheduledRunwayDeparture
+  scheduledGateArrival
+  scheduledRunwayArrival
+  scheduledDuration
+  estimatedGateDeparture
+  estimatedGateArrival
+  estimatedRunwayDeparture
+  estimatedRunwayArrival
+  estimatedDuration
+  actualGateDeparture
+  actualRunwayDeparture
+  actualGateArrival
+  actualRunwayArrival
+  actualDuration
+}
+    `;
 export const AirlinesDocument = gql`
     query Airlines {
   airlines {
@@ -268,6 +397,7 @@ export const AirportDocument = gql`
   airport(iata: $iata) {
     id
     name
+    iata
     cityName
     cityCode
     timezone
@@ -312,52 +442,200 @@ export type AirportQueryResult = Apollo.QueryResult<AirportQuery, AirportQueryVa
 export function refetchAirportQuery(variables: AirportQueryVariables) {
       return { query: AirportDocument, variables: variables }
     }
-export const SearchFlightDocument = gql`
-    query SearchFlight($airlineIata: String!, $flightNumber: String!) {
-  searchFlight(airlineIata: $airlineIata, flightNumber: $flightNumber) {
-    departureTimezone
-    arrivalTimezone
+export const FindFlightsDocument = gql`
+    query FindFlights($airlineIata: String!, $flightNumber: String!, $departureDate: DateTime!) {
+  findFlights(
+    airlineIata: $airlineIata
+    flightNumber: $flightNumber
+    departureDate: $departureDate
+  ) {
+    id
+    originTimezone
+    destinationTimezone
     airlineIata
     flightNumber
     originIata
     destinationIata
-    departureAt
-    arrivalAt
+    estimatedGateDeparture
+    estimatedGateArrival
   }
 }
     `;
 
 /**
- * __useSearchFlightQuery__
+ * __useFindFlightsQuery__
  *
- * To run a query within a React component, call `useSearchFlightQuery` and pass it any options that fit your needs.
- * When your component renders, `useSearchFlightQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindFlightsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindFlightsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSearchFlightQuery({
+ * const { data, loading, error } = useFindFlightsQuery({
  *   variables: {
  *      airlineIata: // value for 'airlineIata'
  *      flightNumber: // value for 'flightNumber'
+ *      departureDate: // value for 'departureDate'
  *   },
  * });
  */
-export function useSearchFlightQuery(baseOptions: Apollo.QueryHookOptions<SearchFlightQuery, SearchFlightQueryVariables>) {
+export function useFindFlightsQuery(baseOptions: Apollo.QueryHookOptions<FindFlightsQuery, FindFlightsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SearchFlightQuery, SearchFlightQueryVariables>(SearchFlightDocument, options);
+        return Apollo.useQuery<FindFlightsQuery, FindFlightsQueryVariables>(FindFlightsDocument, options);
       }
-export function useSearchFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchFlightQuery, SearchFlightQueryVariables>) {
+export function useFindFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindFlightsQuery, FindFlightsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SearchFlightQuery, SearchFlightQueryVariables>(SearchFlightDocument, options);
+          return Apollo.useLazyQuery<FindFlightsQuery, FindFlightsQueryVariables>(FindFlightsDocument, options);
         }
-export type SearchFlightQueryHookResult = ReturnType<typeof useSearchFlightQuery>;
-export type SearchFlightLazyQueryHookResult = ReturnType<typeof useSearchFlightLazyQuery>;
-export type SearchFlightQueryResult = Apollo.QueryResult<SearchFlightQuery, SearchFlightQueryVariables>;
-export function refetchSearchFlightQuery(variables: SearchFlightQueryVariables) {
-      return { query: SearchFlightDocument, variables: variables }
+export type FindFlightsQueryHookResult = ReturnType<typeof useFindFlightsQuery>;
+export type FindFlightsLazyQueryHookResult = ReturnType<typeof useFindFlightsLazyQuery>;
+export type FindFlightsQueryResult = Apollo.QueryResult<FindFlightsQuery, FindFlightsQueryVariables>;
+export function refetchFindFlightsQuery(variables: FindFlightsQueryVariables) {
+      return { query: FindFlightsDocument, variables: variables }
     }
+export const GetFlightDocument = gql`
+    query GetFlight($flightID: String!) {
+  flight(flightID: $flightID) {
+    ...FullFlightFragment
+  }
+}
+    ${FullFlightFragmentFragmentDoc}`;
+
+/**
+ * __useGetFlightQuery__
+ *
+ * To run a query within a React component, call `useGetFlightQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFlightQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFlightQuery({
+ *   variables: {
+ *      flightID: // value for 'flightID'
+ *   },
+ * });
+ */
+export function useGetFlightQuery(baseOptions: Apollo.QueryHookOptions<GetFlightQuery, GetFlightQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetFlightQuery, GetFlightQueryVariables>(GetFlightDocument, options);
+      }
+export function useGetFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFlightQuery, GetFlightQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetFlightQuery, GetFlightQueryVariables>(GetFlightDocument, options);
+        }
+export type GetFlightQueryHookResult = ReturnType<typeof useGetFlightQuery>;
+export type GetFlightLazyQueryHookResult = ReturnType<typeof useGetFlightLazyQuery>;
+export type GetFlightQueryResult = Apollo.QueryResult<GetFlightQuery, GetFlightQueryVariables>;
+export function refetchGetFlightQuery(variables: GetFlightQueryVariables) {
+      return { query: GetFlightDocument, variables: variables }
+    }
+export const GetUserFlightsDocument = gql`
+    query GetUserFlights {
+  userFlights {
+    id
+    flightID
+    createdAt
+    flight {
+      ...FullFlightFragment
+    }
+  }
+}
+    ${FullFlightFragmentFragmentDoc}`;
+
+/**
+ * __useGetUserFlightsQuery__
+ *
+ * To run a query within a React component, call `useGetUserFlightsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserFlightsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserFlightsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserFlightsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserFlightsQuery, GetUserFlightsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserFlightsQuery, GetUserFlightsQueryVariables>(GetUserFlightsDocument, options);
+      }
+export function useGetUserFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserFlightsQuery, GetUserFlightsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserFlightsQuery, GetUserFlightsQueryVariables>(GetUserFlightsDocument, options);
+        }
+export type GetUserFlightsQueryHookResult = ReturnType<typeof useGetUserFlightsQuery>;
+export type GetUserFlightsLazyQueryHookResult = ReturnType<typeof useGetUserFlightsLazyQuery>;
+export type GetUserFlightsQueryResult = Apollo.QueryResult<GetUserFlightsQuery, GetUserFlightsQueryVariables>;
+export function refetchGetUserFlightsQuery(variables?: GetUserFlightsQueryVariables) {
+      return { query: GetUserFlightsDocument, variables: variables }
+    }
+export const AddUserFlightDocument = gql`
+    mutation AddUserFlight($flightID: String!) {
+  addUserFlight(flightID: $flightID)
+}
+    `;
+export type AddUserFlightMutationFn = Apollo.MutationFunction<AddUserFlightMutation, AddUserFlightMutationVariables>;
+
+/**
+ * __useAddUserFlightMutation__
+ *
+ * To run a mutation, you first call `useAddUserFlightMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddUserFlightMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addUserFlightMutation, { data, loading, error }] = useAddUserFlightMutation({
+ *   variables: {
+ *      flightID: // value for 'flightID'
+ *   },
+ * });
+ */
+export function useAddUserFlightMutation(baseOptions?: Apollo.MutationHookOptions<AddUserFlightMutation, AddUserFlightMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddUserFlightMutation, AddUserFlightMutationVariables>(AddUserFlightDocument, options);
+      }
+export type AddUserFlightMutationHookResult = ReturnType<typeof useAddUserFlightMutation>;
+export type AddUserFlightMutationResult = Apollo.MutationResult<AddUserFlightMutation>;
+export type AddUserFlightMutationOptions = Apollo.BaseMutationOptions<AddUserFlightMutation, AddUserFlightMutationVariables>;
+export const DeleteUserFlightDocument = gql`
+    mutation DeleteUserFlight($flightID: String!) {
+  deleteUserFlight(flightID: $flightID)
+}
+    `;
+export type DeleteUserFlightMutationFn = Apollo.MutationFunction<DeleteUserFlightMutation, DeleteUserFlightMutationVariables>;
+
+/**
+ * __useDeleteUserFlightMutation__
+ *
+ * To run a mutation, you first call `useDeleteUserFlightMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUserFlightMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUserFlightMutation, { data, loading, error }] = useDeleteUserFlightMutation({
+ *   variables: {
+ *      flightID: // value for 'flightID'
+ *   },
+ * });
+ */
+export function useDeleteUserFlightMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserFlightMutation, DeleteUserFlightMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteUserFlightMutation, DeleteUserFlightMutationVariables>(DeleteUserFlightDocument, options);
+      }
+export type DeleteUserFlightMutationHookResult = ReturnType<typeof useDeleteUserFlightMutation>;
+export type DeleteUserFlightMutationResult = Apollo.MutationResult<DeleteUserFlightMutation>;
+export type DeleteUserFlightMutationOptions = Apollo.BaseMutationOptions<DeleteUserFlightMutation, DeleteUserFlightMutationVariables>;
 export const UserDocument = gql`
     query User {
   user {

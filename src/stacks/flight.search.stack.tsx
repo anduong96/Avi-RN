@@ -6,9 +6,19 @@ import { FlightSearchPage } from '@app/pages/flight.search';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export type FlightSearchStackParams = {
-  Search: undefined;
-  List: undefined;
-  Confirm: undefined;
+  Search: {
+    airlineIata?: string;
+    flightNumber?: string;
+    departureDate?: string;
+  };
+  List: {
+    airlineIata: string;
+    flightNumber: string;
+    departureDate: string;
+  };
+  Confirm: {
+    flightID: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<FlightSearchStackParams>();

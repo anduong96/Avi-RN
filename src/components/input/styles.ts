@@ -1,7 +1,6 @@
-import { TextInput, TouchableOpacity } from 'react-native';
-
 import Animated from 'react-native-reanimated';
 import type { SpaceKeys } from '@app/themes';
+import { TouchableOpacity } from 'react-native';
 import { styled } from '../../lib/styled';
 
 export const Container = styled<
@@ -29,19 +28,5 @@ export const Container = styled<
     paddingVertical: theme.space.tiny,
   },
 ]);
-
-export const StyledInput = styled<{ size: SpaceKeys }, typeof TextInput>(
-  TextInput,
-  (theme, props) => [
-    {
-      fontSize: theme.typography.presets.p1.fontSize,
-      flexGrow: 1,
-      height: '100%',
-    },
-    props.size === 'large' && {
-      fontSize: theme.typography.presets.h2.fontSize,
-    },
-  ],
-);
 
 export const ClearContainer = styled(TouchableOpacity, () => ({}));

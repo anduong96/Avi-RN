@@ -1,13 +1,20 @@
 import * as React from 'react';
 
-import { Container, Content, LeftActions, Subtitle, Title } from './styles';
+import {
+  Container,
+  Content,
+  LeftActions,
+  RightActions,
+  Subtitle,
+  Title,
+} from './styles';
 
-import { BackBtn } from '../back.btn';
-import type { StringOrElement } from '@app/types/string.or.component';
-import { StringRenderer } from '../string.renderer';
-import type { StyleProp } from 'react-native/types';
-import type { ViewStyle } from 'react-native';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import type { StringOrElement } from '@app/types/string.or.component';
+import type { ViewStyle } from 'react-native';
+import { type StyleProp } from 'react-native/types';
+import { BackBtn } from '../back.btn';
+import { StringRenderer } from '../string.renderer';
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -43,10 +50,13 @@ export const PageHeader: React.FC<Props> = ({
     <Container
       style={[withoutInsets && { paddingTop: theme.space.medium }, style]}
     >
-      <LeftActions>
+      <LeftActions
+        style={[align === 'center' && { position: 'absolute', left: 0 }]}
+      >
         {'withBack' in props && <BackBtn onPress={props.onPressBack} />}
       </LeftActions>
       <Content
+        withoutInsets={withoutInsets}
         align={align}
         style={[
           'withBack' in props && {
@@ -61,7 +71,11 @@ export const PageHeader: React.FC<Props> = ({
         />
         <StringRenderer value={subtitle} Container={Subtitle} />
       </Content>
-      {rightActions}
+      <RightActions
+        style={[align === 'center' && { position: 'absolute', right: 0 }]}
+      >
+        {rightActions}
+      </RightActions>
     </Container>
   );
 };

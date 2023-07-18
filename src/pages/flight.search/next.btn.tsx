@@ -1,0 +1,68 @@
+import * as React from 'react';
+
+import { Button } from '@app/components/button';
+import type { FlightSearchStackParams } from '@app/stacks/flight.search.stack';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
+import { flightSearchState } from './state';
+import { size } from 'lodash';
+import { tryNice } from 'try-nice';
+import { useFindFlightsLazyQuery } from '@app/generated/server.gql';
+import { useNavigation } from '@react-navigation/native';
+import { vibrate } from '@app/lib/haptic.feedback';
+
+type Navigation = NativeStackNavigationProp<FlightSearchStackParams, 'Search'>;
+
+//TODO: error state & loading state
+export const NextBtn: React.FC = () => {
+  const [getFlight, { loading }] = useFindFlightsLazyQuery();
+  const navigation = useNavigation<Navigation>();
+  const airlineIata = flightSearchState.useSelect((s) => s.airlineIata);
+  const flightNumber = flightSearchState.useSelect((s) => s.flightNumber);
+  const departureDate = flightSearchState.useSelect((s) => s.departureDate);
+  const isDisabled = !(airlineIata && flightNumber && departureDate);
+
+  const handleSearchFlight = async () => {
+    if (isDisabled) {
+      return;
+    }
+
+    vibrate('impactHeavy');
+    const [response] = await tryNice(() =>
+      getFlight({
+        variables: {
+          airlineIata,
+          flightNumber,
+          departureDate,
+        },
+      }),
+    );
+
+    const result = response?.data?.findFlights;
+    if (!result) {
+      return;
+    }
+
+    if (size(result) > 1) {
+      navigation.push('List', {
+        airlineIata,
+        flightNumber,
+        departureDate: departureDate.toISOString(),
+      });
+    } else {
+      navigation.push('Confirm', {
+        flightID: result[0].id,
+      });
+    }
+  };
+
+  return (
+    <Button
+      shadow
+      size="small"
+      disabled={isDisabled || loading}
+      onPress={handleSearchFlight}
+    >
+      Next
+    </Button>
+  );
+};

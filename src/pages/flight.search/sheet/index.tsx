@@ -1,39 +1,38 @@
 import * as React from 'react';
 
-import { AirlineSelect } from './airline.select';
 import { BlurredBottomSheetBackground } from './sheet.background';
 import BottomSheet from '@gorhom/bottom-sheet';
-import { styled } from '@app/lib/styled';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
-  height: number;
+  children: React.ReactNode;
+  snapPoints: number[];
+  index?: number;
 };
 
-export const Sheet: React.FC<Props> = ({ height }) => {
-  const snapPoints = React.useMemo(() => [height], [height]);
-  const theme = useTheme();
-  const insets = useSafeAreaInsets();
+export const FlightSearchSheet = React.forwardRef<BottomSheet, Props>(
+  ({ children, snapPoints, index }, ref) => {
+    const theme = useTheme();
 
-  return (
-    <StyledBottomSheet
-      detached
-      index={0}
-      snapPoints={snapPoints}
-      backgroundComponent={BlurredBottomSheetBackground}
-      bottomInset={insets.bottom}
-      handleStyle={{ display: 'none' }}
-      style={{ borderRadius: theme.borderRadius, overflow: 'hidden' }}
-    >
-      <AirlineSelect />
-    </StyledBottomSheet>
-  );
-};
-
-const StyledBottomSheet = styled(BottomSheet, (theme) => [
-  theme.presets.shadows[100],
-  {
-    marginHorizontal: theme.space.small,
+    return (
+      <BottomSheet
+        detached
+        ref={ref}
+        index={index}
+        snapPoints={snapPoints}
+        enablePanDownToClose={false}
+        backgroundComponent={BlurredBottomSheetBackground}
+        handleStyle={{ display: 'none' }}
+        style={[
+          theme.presets.shadows[100],
+          {
+            borderRadius: theme.borderRadius,
+            marginHorizontal: theme.space.small,
+          },
+        ]}
+      >
+        {children}
+      </BottomSheet>
+    );
   },
-]);
+);

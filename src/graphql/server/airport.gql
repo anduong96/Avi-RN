@@ -2,6 +2,7 @@ query Airport($iata: String!) {
   airport(iata: $iata) {
     id
     name
+    iata
     cityName
     cityCode
     timezone

@@ -121,7 +121,7 @@ const typography = {
   },
 };
 
-export type SpaceKeys = 'tiny' | 'small' | 'medium' | 'large';
+export type SpaceKeys = 'tiny' | 'small' | 'medium' | 'large' | 'xlarge';
 type SpaceFn = (size: number) => number;
 type Space = SpaceFn & Record<SpaceKeys, number>;
 
@@ -132,6 +132,7 @@ const spaceFn: SpaceFn = (size: number) => {
 // @ts-ignore
 const space: Space = spaceFn;
 space.large = spaceFn(12);
+space.xlarge = spaceFn(15);
 space.medium = spaceFn(7);
 space.small = spaceFn(4);
 space.tiny = spaceFn(2);

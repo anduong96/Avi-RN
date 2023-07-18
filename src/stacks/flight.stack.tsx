@@ -4,7 +4,9 @@ import { FlightPage } from '@app/pages/flight';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export type FlightStackParams = {
-  Flight: undefined;
+  Flight: {
+    flightID: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<FlightStackParams>();

@@ -1,0 +1,7 @@
+mutation AddUserFlight($flightID: String!) {
+  addUserFlight(flightID: $flightID)
+}
+
+mutation DeleteUserFlight($flightID: String!) {
+  deleteUserFlight(flightID: $flightID)
+}

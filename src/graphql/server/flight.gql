@@ -1,12 +1,96 @@
-query SearchFlight($airlineIata: String!, $flightNumber: String!) {
-  searchFlight(airlineIata: $airlineIata, flightNumber: $flightNumber) {
-    departureTimezone
-    arrivalTimezone
+fragment FullFlightFragment on Flight {
+  id
+  airlineIata
+
+  airline {
+    id
+    name
+    logoCompactImageURL
+  }
+
+  flightNumber
+
+  originTimezone
+  originIata
+  originTerminal
+  originGate
+
+  origin {
+    id
+    name
+    cityName
+    countryCode
+    iata
+  }
+
+  status
+
+  destinationTimezone
+  destinationIata
+  destinationGate
+  destinationTerminal
+  destination {
+    id
+    name
+    cityName
+    countryCode
+    iata
+  }
+
+  scheduledGateDeparture
+  scheduledRunwayDeparture
+  scheduledGateArrival
+  scheduledRunwayArrival
+  scheduledDuration
+
+  estimatedGateDeparture
+  estimatedGateArrival
+  estimatedRunwayDeparture
+  estimatedRunwayArrival
+  estimatedDuration
+
+  actualGateDeparture
+  actualRunwayDeparture
+  actualGateArrival
+  actualRunwayArrival
+  actualDuration
+}
+
+query FindFlights(
+  $airlineIata: String!
+  $flightNumber: String!
+  $departureDate: DateTime!
+) {
+  findFlights(
+    airlineIata: $airlineIata
+    flightNumber: $flightNumber
+    departureDate: $departureDate
+  ) {
+    id
+    originTimezone
+    destinationTimezone
     airlineIata
     flightNumber
     originIata
     destinationIata
-    departureAt
-    arrivalAt
+    estimatedGateDeparture
+    estimatedGateArrival
+  }
+}
+
+query GetFlight($flightID: String!) {
+  flight(flightID: $flightID) {
+    ...FullFlightFragment
+  }
+}
+
+query GetUserFlights {
+  userFlights {
+    id
+    flightID
+    createdAt
+    flight {
+      ...FullFlightFragment
+    }
   }
 }

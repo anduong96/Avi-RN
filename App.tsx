@@ -11,6 +11,7 @@ import { AppNavigator } from '@app/stacks';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { default as CodePush } from 'react-native-code-push';
 import { ForceUpdateShield } from '@app/components/force.update';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NavigationContainerRef } from '@react-navigation/native';
 import { NestServerApolloClient } from '@app/apollo/nest.server';
@@ -52,11 +53,11 @@ const Entry: React.FC = () => {
       }}
     >
       <ApolloProvider client={NestServerApolloClient}>
-        <BottomSheetModalProvider>
-          <PortalProvider>
+        <PortalProvider>
+          <BottomSheetModalProvider>
             <AppNavigator />
-          </PortalProvider>
-        </BottomSheetModalProvider>
+          </BottomSheetModalProvider>
+        </PortalProvider>
       </ApolloProvider>
     </NavigationContainer>
   );
@@ -67,7 +68,9 @@ function App() {
     <SafeAreaProvider>
       <React.Suspense>
         <ForceUpdateShield />
-        <Entry />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Entry />
+        </GestureHandlerRootView>
       </React.Suspense>
     </SafeAreaProvider>
   );

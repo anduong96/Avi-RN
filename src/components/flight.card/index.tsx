@@ -1,96 +1,90 @@
 import * as React from 'react';
 
 import {
-  Airline,
-  AirlineLogoContainer,
-  AirlineNameText,
+  AirlineContainer,
+  AirlineFlightNumber,
+  AirportCity,
+  AirportIata,
   Body,
   Container,
-  Divider,
-  FlightNumberText,
+  DividerContainer,
+  FlightPoint,
+  Footer,
   Header,
-  Item,
-  Journey,
+  Movement,
+  MovementIconContainer,
+  MovementText,
+  Time,
+  TimeText,
 } from './styles';
 
-import FastImage from 'react-native-fast-image';
-import { FlightPoint } from '../flight.point';
-import { useAirlineQuery } from '@app/generated/server.gql';
-
-type Point = Pick<
-  React.ComponentProps<typeof FlightPoint>,
-  'airportIata' | 'date' | 'timezone'
->;
+import { AirlineLogo } from '../airline.logo';
+import { DOT_SEPARATOR } from '@app/constants';
+import DashedLine from 'react-native-dashed-line';
+import { FaIcon } from '../icons.fontawesome';
+import type { GetUserFlightsQuery } from '@app/generated/server.gql';
+import moment from 'moment';
+import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
-  flightNumber: string;
-  airlineIata: string;
-  origin: Point;
-  destination: Point;
+  value: GetUserFlightsQuery['userFlights'][number];
 };
 
-export const FlightCard: React.FC<Props> = ({
-  origin,
-  destination,
-  airlineIata,
-  flightNumber,
-}) => {
-  const airlineQuery = useAirlineQuery({
-    fetchPolicy: 'cache-first',
-    variables: {
-      iata: airlineIata,
-    },
-  });
+export const FlightCard: React.FC<Props> = ({ value: { flight } }) => {
+  const theme = useTheme();
 
   return (
     <Container>
       <Header>
-        {airlineQuery.data && (
-          <>
-            <AirlineLogoContainer>
-              <FastImage
-                style={{
-                  width: 25,
-                  height: undefined,
-                  aspectRatio: 1,
-                }}
-                source={{
-                  uri: airlineQuery.data.airline.logoCompactImageURL,
-                }}
-              />
-            </AirlineLogoContainer>
-            <Airline>
-              <FlightNumberText>
-                {airlineIata} {flightNumber}
-              </FlightNumberText>
-              <AirlineNameText>
-                {airlineQuery.data.airline.name}
-              </AirlineNameText>
-            </Airline>
-          </>
-        )}
+        <AirlineContainer>
+          <AirlineLogo
+            iata={flight.airlineIata}
+            type="compact"
+            width={15}
+            height={15}
+          />
+          <AirlineFlightNumber>
+            {flight.airlineIata} {flight.flightNumber}
+          </AirlineFlightNumber>
+        </AirlineContainer>
       </Header>
       <Body>
-        <Item>
-          <FlightPoint
-            type="origin"
-            date={origin.date}
-            timezone={origin.timezone}
-            airportIata={origin.airportIata}
-          />
-        </Item>
-        <Journey>
-          <Divider />
-        </Journey>
-        <Item>
-          <FlightPoint
-            type="destination"
-            date={destination.date}
-            timezone={destination.timezone}
-            airportIata={destination.airportIata}
-          />
-        </Item>
+        <FlightPoint type="origin">
+          <AirportIata>{flight.origin.iata}</AirportIata>
+          <AirportCity>{flight.origin.cityName}</AirportCity>
+        </FlightPoint>
+        <DividerContainer>
+          <DashedLine dashLength={2} dashColor={theme.pallette.grey[200]} />
+        </DividerContainer>
+        <FlightPoint type="destination">
+          <AirportIata>{flight.destination.iata}</AirportIata>
+          <AirportCity>{flight.destination.cityName}</AirportCity>
+        </FlightPoint>
       </Body>
+      <Footer>
+        {/* TODO: Change depend on state */}
+        <Movement>
+          <MovementIconContainer>
+            <FaIcon
+              size={20}
+              name="arrow-circle-up"
+              color={theme.pallette.successLight}
+            />
+          </MovementIconContainer>
+          <MovementText>
+            {moment(flight.estimatedGateDeparture).format('LT')}
+          </MovementText>
+        </Movement>
+        <Time>
+          <TimeText bold>
+            {moment(flight.estimatedGateDeparture).fromNow()}
+          </TimeText>
+          <TimeText>{DOT_SEPARATOR}</TimeText>
+          <TimeText>
+            {moment(flight.estimatedGateDeparture).format('MMM D')}
+          </TimeText>
+        </Time>
+      </Footer>
     </Container>
   );
 };

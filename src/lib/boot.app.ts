@@ -1,7 +1,10 @@
 import RNBootSplash from 'react-native-bootsplash';
+import { logger } from './logger';
 
 export async function bootApp() {
-  await RNBootSplash.hide({
+  logger.debug('Booting App');
+
+  RNBootSplash.hide({
     fade: true,
     duration: 300,
   });

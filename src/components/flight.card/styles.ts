@@ -1,73 +1,123 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { styled } from '@app/lib/styled';
 
 export const Container = styled(View, (theme) => [
+  theme.presets.shadows[100],
   {
-    padding: theme.space.medium,
-    gap: theme.space.medium,
-  },
-]);
-
-export const Item = styled(View, () => [
-  {
-    flexGrow: 1,
-    flexBasis: 1,
-  },
-]);
-
-export const Body = styled(View, () => [
-  {
-    flexDirection: 'row',
-    alignItems: 'center',
+    paddingVertical: theme.space.small,
+    paddingHorizontal: theme.space.medium,
+    gap: theme.space.small,
+    backgroundColor: theme.pallette.background,
+    borderRadius: theme.borderRadius,
   },
 ]);
 
 export const Header = styled(View, (theme) => [
   {
     flexDirection: 'row',
-    alignItems: 'center',
+    gap: theme.space.medium,
+  },
+]);
+
+export const Body = styled(View, (theme) => [
+  {
+    flexDirection: 'row',
+    gap: theme.space.medium,
+  },
+]);
+
+export const Footer = styled(View, (theme) => [
+  theme.presets.centered,
+  {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: theme.space.medium,
+    paddingTop: theme.space.small,
+  },
+]);
+
+export const FlightPoint = styled<
+  { type: 'origin' | 'destination' },
+  typeof View
+>(View, (_, props) => [
+  props.type === 'destination' && {
+    alignItems: 'flex-end',
+  },
+]);
+
+export const AirportIata = styled(Text, (theme) => [
+  theme.typography.presets.h1,
+]);
+
+export const AirportCity = styled(Text, (theme) => [
+  theme.typography.presets.p2,
+  {
+    color: theme.pallette.grey[800],
+  },
+]);
+
+export const DividerContainer = styled(View, (theme) => [
+  {
+    flexGrow: 1,
+    overflow: 'hidden',
+    paddingTop: theme.typography.presets.h1.fontSize / 2,
+  },
+]);
+
+export const AirlineContainer = styled(View, (theme) => [
+  {
+    flexDirection: 'row',
+    gap: theme.space.tiny,
+  },
+]);
+
+export const AirlineFlightNumber = styled(Text, (theme) => [
+  {
+    color: theme.typography.secondaryColor,
+  },
+]);
+
+export const Movement = styled(View, (theme) => [
+  theme.presets.centered,
+  {
+    flexDirection: 'row',
     gap: theme.space.small,
   },
 ]);
 
-export const AirlineLogoContainer = styled(View, (theme) => [
-  theme.presets.shadows[100],
+export const MovementText = styled(Text, (theme) => [
+  theme.typography.presets.h3,
   {
-    backgroundColor: theme.pallette.grey[100],
-    padding: theme.space.tiny,
-    borderRadius: 30,
-  },
-]);
-
-export const FlightNumberText = styled(Text, (theme) => [
-  theme.typography.presets.p1,
-  {
-    color: theme.typography.secondaryColor,
     fontWeight: 'bold',
+    color: theme.typography.color,
   },
 ]);
 
-export const AirlineNameText = styled(Text, (theme) => [
-  theme.typography.presets.tiny,
+export const MovementIconContainer = styled(View, () => [
   {
-    color: theme.typography.secondaryColor,
+    transform: [
+      {
+        rotate: '45deg',
+      },
+    ],
   },
 ]);
 
-export const Airline = styled(View, () => []);
-
-export const Journey = styled(View, () => [
+export const Time = styled(View, () => [
   {
-    flexGrow: 1,
+    flexDirection: 'row',
   },
 ]);
 
-export const Divider = styled(View, (theme) => [
-  {
-    borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 1,
-    marginTop: -10,
-    borderColor: theme.pallette.grey[600],
-  },
-]);
+export const TimeText = styled<{ bold?: boolean }, typeof Text>(
+  Text,
+  (theme, props) => [
+    {
+      color: theme.pallette.grey[500],
+    },
+    props.bold && {
+      fontWeight: 'bold',
+    },
+  ],
+);

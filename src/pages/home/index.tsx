@@ -1,61 +1,69 @@
 import * as React from 'react';
 
 import {
-  ActionButton,
-  Actions,
+  AddBtn,
   Container,
+  Content,
+  DeleteITemBtnText,
+  DeleteItemBtn,
+  FlightViewContainer,
+  FlightViewTag,
+  FlightViewTagText,
   Header,
   ListItem,
+  ListItemActions,
   Meta,
-  SearchBtn,
-  SearchContainer,
-  SearchPlaceholderText,
+  PageHeader,
   Title,
+  UserBtn,
 } from './styles';
+import { Alert, RefreshControl } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import {
+  GetUserFlightsDocument,
+  useDeleteUserFlightMutation,
+  useGetUserFlightsQuery,
+} from '@app/generated/server.gql';
 
+import { BlurredBottomSheetBackground } from '../flight.search/sheet/sheet.background';
+import { FaIcon } from '@app/components/icons.fontawesome';
+import { FlightCard } from '@app/components/flight.card';
+import { Logo } from '@app/components/logo';
 import type { MainStackParam } from '@app/stacks';
-import { MaterialIcon } from '@app/components/icons.material';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PageContainer } from '@app/components/page.container';
+import { SheetFooter } from './sheet.footer';
+import { Swipeable } from 'react-native-gesture-handler';
+import { UserAvatar } from '@app/components/user.avatar';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
-import { faker } from '@faker-js/faker';
+import { size } from 'lodash';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { vibrate } from '@app/lib/haptic.feedback';
 
 type Navigation = NativeStackNavigationProp<MainStackParam, 'Home'>;
 
-const data = Array.from({ length: 3 }).map(() => ({
-  id: faker.string.uuid(),
-  origin: {
-    ...faker.airline.airport(),
-    time: faker.date.future(),
-  },
-  destination: {
-    ...faker.airline.airport(),
-    time: faker.date.future(),
-  },
-}));
-
 export const HomePage: React.FC = () => {
+  const theme = useTheme();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<Navigation>();
+  const flights = useGetUserFlightsQuery();
+  const [removeFlight] = useDeleteUserFlightMutation({
+    refetchQueries: [{ query: GetUserFlightsDocument }],
+  });
   const snapPoints = React.useMemo(
-    () => [Math.min(WINDOW_HEIGHT / 2 + 100, 500), WINDOW_HEIGHT - insets.top],
+    () => [Math.min(WINDOW_HEIGHT / 2, 400), WINDOW_HEIGHT - insets.top],
     [insets],
   );
 
   const handleSearchFlights = () => {
     vibrate('impactMedium');
     navigation.push('FlightSearchStack', {
-      screen: 'Airline',
+      screen: 'Search',
+      params: {},
     });
-  };
-
-  const handleOpenSettings = () => {
-    vibrate('impactMedium');
-    navigation.push('Settings');
   };
 
   const handleOpenProfile = () => {
@@ -63,61 +71,112 @@ export const HomePage: React.FC = () => {
     navigation.push('Profile');
   };
 
-  const handleOpenFlight = () => {
+  const handleOpenFlight = (flightID: string) => {
     vibrate('impactMedium');
     navigation.push('FlightStack', {
       screen: 'Flight',
+      params: {
+        flightID,
+      },
     });
+  };
+
+  const handleRemoveFlight = (flightID: string) => {
+    vibrate('impactHeavy');
+    Alert.prompt('Are you sure?', undefined, [
+      {
+        text: 'Cancel',
+      },
+      {
+        text: 'Proceed',
+        onPress: () => {
+          removeFlight({
+            variables: {
+              flightID,
+            },
+          });
+        },
+      },
+    ]);
   };
 
   return (
     <PageContainer>
       <Container>
+        <PageHeader>
+          <Logo />
+          <UserBtn onPress={handleOpenProfile}>
+            <UserAvatar />
+          </UserBtn>
+        </PageHeader>
+        <Content style={[{ paddingBottom: snapPoints[0] }]}>
+          <Animated.View entering={FadeIn}>
+            <AddBtn onPress={handleSearchFlights}>
+              <FaIcon size={30} name="plus" color={theme.pallette.white} />
+            </AddBtn>
+          </Animated.View>
+        </Content>
         <BottomSheet
           index={0}
-          handleIndicatorStyle={{ opacity: 0 }}
           snapPoints={snapPoints}
+          backgroundComponent={BlurredBottomSheetBackground}
+          footerComponent={SheetFooter}
+          handleIndicatorStyle={{ display: 'none' }}
         >
           <BottomSheetFlatList
+            refreshControl={
+              <RefreshControl
+                refreshing={flights.loading}
+                onRefresh={() => flights.refetch()}
+              />
+            }
             ListHeaderComponent={
               <Header>
                 <Meta>
                   <Title>Flights</Title>
-                  <Actions>
-                    <ActionButton onPress={handleOpenProfile}>
-                      <MaterialIcon name="badge-account" />
-                    </ActionButton>
-                    <ActionButton onPress={handleOpenSettings}>
-                      <MaterialIcon name="cog" />
-                    </ActionButton>
-                  </Actions>
                 </Meta>
-                <SearchContainer>
-                  <SearchBtn onPress={handleSearchFlights}>
-                    <MaterialIcon name="magnify" />
-                    <SearchPlaceholderText>Find Flights</SearchPlaceholderText>
-                  </SearchBtn>
-                </SearchContainer>
+                <FlightViewContainer>
+                  {/* TODO: cycle switcher */}
+                  <FlightViewTag>
+                    <FlightViewTagText>
+                      {size(flights.data?.userFlights) || ''} Active
+                    </FlightViewTagText>
+                  </FlightViewTag>
+                  <FlightViewTag
+                    style={{
+                      position: 'absolute',
+                      zIndex: -1,
+                      left: -5,
+                      top: -5,
+                      backgroundColor: theme.pallette.grey[300],
+                    }}
+                  >
+                    <FlightViewTagText>Past</FlightViewTagText>
+                  </FlightViewTag>
+                </FlightViewContainer>
               </Header>
             }
-            data={data}
+            data={flights.data?.userFlights}
             stickyHeaderIndices={[0]}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <ListItem onPress={() => handleOpenFlight()}>
-                {/* <FlightCard
-                  origin={{
-                    airportIata: flight.originIata,
-                    timezone: flight.departureTimezone,
-                    date: flight.departureAt,
-                  }}
-                  destination={{
-                    airportIata: flight.originIata,
-                    timezone: flight.departureTimezone,
-                    date: flight.departureAt,
-                  }}
-                /> */}
-              </ListItem>
+              <Swipeable
+                renderRightActions={() => {
+                  return (
+                    <ListItemActions>
+                      <DeleteItemBtn
+                        onPress={() => handleRemoveFlight(item.flightID)}
+                      >
+                        <DeleteITemBtnText>Remove</DeleteITemBtnText>
+                      </DeleteItemBtn>
+                    </ListItemActions>
+                  );
+                }}
+              >
+                <ListItem onPress={() => handleOpenFlight(item.flightID)}>
+                  <FlightCard value={item} />
+                </ListItem>
+              </Swipeable>
             )}
           />
         </BottomSheet>

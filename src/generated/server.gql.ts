@@ -143,6 +143,7 @@ export type Query = {
   flight: Flight;
   isUserValid: Scalars['Boolean'];
   user: User;
+  userFlight: UserFlight;
   userFlights: Array<UserFlight>;
 };
 
@@ -170,6 +171,11 @@ export type QueryFindFlightsArgs = {
 
 
 export type QueryFlightArgs = {
+  flightID: Scalars['String'];
+};
+
+
+export type QueryUserFlightArgs = {
   flightID: Scalars['String'];
 };
 
@@ -251,6 +257,13 @@ export type DeleteUserFlightMutationVariables = Exact<{
 
 
 export type DeleteUserFlightMutation = { __typename?: 'Mutation', deleteUserFlight: string };
+
+export type UserFlightQueryVariables = Exact<{
+  flightID: Scalars['String'];
+}>;
+
+
+export type UserFlightQuery = { __typename?: 'Query', userFlight: { __typename?: 'UserFlight', id: string } };
 
 export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -628,6 +641,44 @@ export function useDeleteUserFlightMutation(baseOptions?: Apollo.MutationHookOpt
 export type DeleteUserFlightMutationHookResult = ReturnType<typeof useDeleteUserFlightMutation>;
 export type DeleteUserFlightMutationResult = Apollo.MutationResult<DeleteUserFlightMutation>;
 export type DeleteUserFlightMutationOptions = Apollo.BaseMutationOptions<DeleteUserFlightMutation, DeleteUserFlightMutationVariables>;
+export const UserFlightDocument = gql`
+    query UserFlight($flightID: String!) {
+  userFlight(flightID: $flightID) {
+    id
+  }
+}
+    `;
+
+/**
+ * __useUserFlightQuery__
+ *
+ * To run a query within a React component, call `useUserFlightQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserFlightQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserFlightQuery({
+ *   variables: {
+ *      flightID: // value for 'flightID'
+ *   },
+ * });
+ */
+export function useUserFlightQuery(baseOptions: Apollo.QueryHookOptions<UserFlightQuery, UserFlightQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserFlightQuery, UserFlightQueryVariables>(UserFlightDocument, options);
+      }
+export function useUserFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserFlightQuery, UserFlightQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserFlightQuery, UserFlightQueryVariables>(UserFlightDocument, options);
+        }
+export type UserFlightQueryHookResult = ReturnType<typeof useUserFlightQuery>;
+export type UserFlightLazyQueryHookResult = ReturnType<typeof useUserFlightLazyQuery>;
+export type UserFlightQueryResult = Apollo.QueryResult<UserFlightQuery, UserFlightQueryVariables>;
+export function refetchUserFlightQuery(variables: UserFlightQueryVariables) {
+      return { query: UserFlightDocument, variables: variables }
+    }
 export const UserDocument = gql`
     query User {
   user {

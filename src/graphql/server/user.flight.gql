@@ -5,3 +5,9 @@ mutation AddUserFlight($flightID: String!) {
 mutation DeleteUserFlight($flightID: String!) {
   deleteUserFlight(flightID: $flightID)
 }
+
+query UserFlight($flightID: String!) {
+  userFlight(flightID: $flightID) {
+    id
+  }
+}

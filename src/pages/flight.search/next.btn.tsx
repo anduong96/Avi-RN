@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Button } from '@app/components/button';
 import type { FlightSearchStackParams } from '@app/stacks/flight.search.stack';
+import type { MainStackParam } from '@app/stacks';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { flightSearchState } from './state';
 import { size } from 'lodash';
@@ -11,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { vibrate } from '@app/lib/haptic.feedback';
 
 type Navigation = NativeStackNavigationProp<FlightSearchStackParams, 'Search'>;
+type ParentNavigation = NativeStackNavigationProp<MainStackParam, 'Home'>;
 
 //TODO: error state & loading state
 export const NextBtn: React.FC = () => {
@@ -49,8 +51,12 @@ export const NextBtn: React.FC = () => {
         departureDate: departureDate.toISOString(),
       });
     } else {
-      navigation.push('Confirm', {
-        flightID: result[0].id,
+      const parent = navigation.getParent() as ParentNavigation;
+      parent.push('FlightStack', {
+        screen: 'Flight',
+        params: {
+          flightID: result[0].id,
+        },
       });
     }
   };

@@ -68,7 +68,7 @@ export const FlightCardCompact: React.FC<Props> = ({ flight, onPress }) => {
         </Movement>
         <Actions>
           <FaIcon
-            size={20}
+            size={12}
             name="chevron-right"
             color={theme.pallette.active}
           />
@@ -100,6 +100,7 @@ const Main = styled(View, (theme) => [
 const Footer = styled(View, (theme) => [
   {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: theme.space.medium,
   },
 ]);

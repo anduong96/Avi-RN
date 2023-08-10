@@ -6,6 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { FlightCardCompact } from '@app/components/flight.card.compact';
 import { FlightPageTopHeader } from '@app/components/flight.page/top.header';
 import type { FlightSearchStackParams } from '@app/stacks/flight.search.stack';
+import type { MainStackParam } from '@app/stacks';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PageContainer } from '@app/components/page.container';
 import { PageHeader } from '@app/components/page.header';
@@ -18,6 +19,7 @@ import { styled } from '@app/lib/styled';
 import { useFindFlightsQuery } from '@app/generated/server.gql';
 import { vibrate } from '@app/lib/haptic.feedback';
 
+type ParentNavigation = NativeStackNavigationProp<MainStackParam, 'Home'>;
 type Navigation = NativeStackNavigationProp<FlightSearchStackParams, 'List'>;
 type Route = RouteProp<FlightSearchStackParams, 'List'>;
 
@@ -41,8 +43,12 @@ export const FlightSearchListPage: React.FC = () => {
   };
 
   const handleFlightPress = (flightID: string) => {
-    navigation.push('Confirm', {
-      flightID,
+    const parent = navigation.getParent() as ParentNavigation;
+    parent.push('FlightStack', {
+      screen: 'Flight',
+      params: {
+        flightID,
+      },
     });
   };
 

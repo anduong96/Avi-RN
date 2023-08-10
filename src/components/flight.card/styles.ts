@@ -82,7 +82,7 @@ export const Movement = styled(View, (theme) => [
   theme.presets.centered,
   {
     flexDirection: 'row',
-    gap: theme.space.small,
+    gap: theme.space.tiny,
   },
 ]);
 

@@ -252,7 +252,7 @@ platform :ios do
     begin
       suffix_name(suffix: "D")
       prepare_icons(platform: :ios, lane: :develop)
-      sh "cd .. && npx react-native run-ios --device"
+      sh "cd .. && npx react-native run-ios"
     ensure
       suffix_name(suffix: nil)
       reset(platform: :ios)

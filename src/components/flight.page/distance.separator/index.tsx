@@ -17,7 +17,8 @@ export const FlightPageDistanceSeparator: React.FC<Props> = ({ duration }) => {
   return (
     <Container>
       <DashedLine
-        dashLength={2}
+        dashLength={3}
+        dashThickness={1}
         dashColor={theme.pallette.grey[200]}
         style={{
           position: 'absolute',

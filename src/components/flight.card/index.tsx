@@ -20,7 +20,6 @@ import {
 
 import { AirlineLogo } from '../airline.logo';
 import { DOT_SEPARATOR } from '@app/constants';
-import DashedLine from 'react-native-dashed-line';
 import { FaIcon } from '../icons.fontawesome';
 import type { GetUserFlightsQuery } from '@app/generated/server.gql';
 import moment from 'moment';
@@ -54,7 +53,7 @@ export const FlightCard: React.FC<Props> = ({ value: { flight } }) => {
           <AirportCity>{flight.origin.cityName}</AirportCity>
         </FlightPoint>
         <DividerContainer>
-          <DashedLine dashLength={2} dashColor={theme.pallette.grey[200]} />
+          {/* <DashedLine dashLength={2} dashColor={theme.pallette.grey[200]} /> */}
         </DividerContainer>
         <FlightPoint type="destination">
           <AirportIata>{flight.destination.iata}</AirportIata>

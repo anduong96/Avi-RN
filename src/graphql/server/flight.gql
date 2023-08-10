@@ -66,15 +66,7 @@ query FindFlights(
     flightNumber: $flightNumber
     departureDate: $departureDate
   ) {
-    id
-    originTimezone
-    destinationTimezone
-    airlineIata
-    flightNumber
-    originIata
-    destinationIata
-    estimatedGateDeparture
-    estimatedGateArrival
+    ...FullFlightFragment
   }
 }
 

@@ -12,6 +12,7 @@ import {
 import { useTheme } from '@app/lib/hooks/use.theme';
 import type { StringOrElement } from '@app/types/string.or.component';
 import type { ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import { type StyleProp } from 'react-native/types';
 import { BackBtn } from '../back.btn';
 import { StringRenderer } from '../string.renderer';
@@ -50,32 +51,40 @@ export const PageHeader: React.FC<Props> = ({
     <Container
       style={[withoutInsets && { paddingTop: theme.space.medium }, style]}
     >
-      <LeftActions
-        style={[align === 'center' && { position: 'absolute', left: 0 }]}
+      <View
+        style={{
+          width: '100%',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
       >
-        {'withBack' in props && <BackBtn onPress={props.onPressBack} />}
-      </LeftActions>
-      <Content
-        withoutInsets={withoutInsets}
-        align={align}
-        style={[
-          'withBack' in props && {
-            paddingHorizontal: 0,
-          },
-        ]}
-      >
-        <StringRenderer
-          value={title}
-          Container={Title}
-          style={[titleSize === 'h1' && theme.typography.presets.h1]}
-        />
-        <StringRenderer value={subtitle} Container={Subtitle} />
-      </Content>
-      <RightActions
-        style={[align === 'center' && { position: 'absolute', right: 0 }]}
-      >
-        {rightActions}
-      </RightActions>
+        <LeftActions
+          style={[align === 'center' && { position: 'absolute', left: 0 }]}
+        >
+          {'withBack' in props && <BackBtn onPress={props.onPressBack} />}
+        </LeftActions>
+        <Content
+          withoutInsets={withoutInsets}
+          align={align}
+          style={[
+            'withBack' in props && {
+              paddingHorizontal: 0,
+            },
+          ]}
+        >
+          <StringRenderer
+            value={title}
+            Container={Title}
+            style={[titleSize === 'h1' && theme.typography.presets.h1]}
+          />
+          <StringRenderer value={subtitle} Container={Subtitle} />
+        </Content>
+        <RightActions
+          style={[align === 'center' && { position: 'absolute', right: 0 }]}
+        >
+          {rightActions}
+        </RightActions>
+      </View>
     </Container>
   );
 };

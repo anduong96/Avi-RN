@@ -6,8 +6,6 @@ export const Container = styled(View, (theme) => ({
   paddingTop: theme.insets.top || theme.space.medium,
   paddingBottom: theme.space.medium,
   flexDirection: 'row',
-  alignItems: 'center',
-  position: 'relative',
 }));
 
 export const Content = styled<

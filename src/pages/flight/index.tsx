@@ -10,9 +10,7 @@ import { FlightPageDistanceSeparator } from '@app/components/flight.page/distanc
 import { FlightPageLocationSection } from '@app/components/flight.page/location.section';
 import { FlightPageTopHeader } from '@app/components/flight.page/top.header';
 import type { FlightStackParams } from '@app/stacks/flight.stack';
-import { IconBtn } from '@app/components/icon.btn';
 import { LoadingContainer } from '@app/components/loading.container';
-import type { MainStackParam } from '@app/stacks';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PageContainer } from '@app/components/page.container';
 import { PageHeader } from '@app/components/page.header';
@@ -26,7 +24,6 @@ import { useTheme } from '@app/lib/hooks/use.theme';
 import { vibrate } from '@app/lib/haptic.feedback';
 
 type Navigation = NativeStackNavigationProp<FlightStackParams, 'Flight'>;
-type ParentNav = NativeStackNavigationProp<MainStackParam, 'Home'>;
 type Route = RouteProp<FlightStackParams, 'Flight'>;
 
 export const FlightPage: React.FC = () => {
@@ -43,12 +40,6 @@ export const FlightPage: React.FC = () => {
   const handleGoBack = () => {
     vibrate('impactMedium');
     navigation.goBack();
-  };
-
-  const handleClose = () => {
-    vibrate('impactMedium');
-    const parent = navigation.getParent() as ParentNav;
-    parent.navigate('Home');
   };
 
   return (
@@ -68,9 +59,6 @@ export const FlightPage: React.FC = () => {
                 onPressBack={handleGoBack}
                 align="center"
                 title={<>{flight && <FlightPageTopHeader flight={flight} />}</>}
-                rightActions={
-                  <IconBtn size={20} icon="times" onPress={handleClose} />
-                }
               />
               <ActionsWrapper />
               <ScrollView

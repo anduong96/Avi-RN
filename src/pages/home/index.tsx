@@ -53,7 +53,6 @@ export const HomePage: React.FC = () => {
   const [removeFlight] = useDeleteUserFlightMutation({
     refetchQueries: [{ query: GetUserFlightsDocument }],
   });
-  console.log(flights.data?.userFlights);
   const snapPoints = React.useMemo(
     () => [Math.min(WINDOW_HEIGHT / 2, 400), WINDOW_HEIGHT - insets.top],
     [insets],

@@ -113,7 +113,9 @@ export const FlightPage: React.FC = () => {
                       actualMovementTime={flight.actualGateArrival}
                     />
                   </Meta>
-                  <PromptnessCompact value={flight.promptness} />
+                  {flight.promptness && (
+                    <PromptnessCompact value={flight.promptness} />
+                  )}
                 </Content>
               </ScrollView>
             </Wrapper>

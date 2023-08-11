@@ -24,7 +24,7 @@ export const PromptnessCompact: React.FC<Props> = ({ value }) => {
         <Item>
           <ItemTitle>Delay Average</ItemTitle>
           <ItemValue>
-            {moment.duration(value.averageDelayTime).as('minutes')} min
+            {moment.duration(value.averageDelayTime).minutes()} min
           </ItemValue>
         </Item>
       </Content>

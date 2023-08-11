@@ -14,6 +14,7 @@ import { LoadingContainer } from '@app/components/loading.container';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PageContainer } from '@app/components/page.container';
 import { PageHeader } from '@app/components/page.header';
+import { PromptnessCompact } from './promptness.compact';
 import type { RouteProp } from '@react-navigation/native';
 import { SaveFlightButton } from '@app/components/button.save.flight';
 import { ShareFlightButton } from '@app/components/button.share.flight';
@@ -112,6 +113,7 @@ export const FlightPage: React.FC = () => {
                       actualMovementTime={flight.actualGateArrival}
                     />
                   </Meta>
+                  <PromptnessCompact value={flight.promptness} />
                 </Content>
               </ScrollView>
             </Wrapper>
@@ -126,8 +128,8 @@ const Wrapper = styled(View, () => []);
 
 const Content = styled(View, (theme) => [
   {
-    padding: theme.space.medium,
-    gap: theme.space.xlarge,
+    padding: theme.space.small,
+    gap: theme.space.medium,
   },
 ]);
 

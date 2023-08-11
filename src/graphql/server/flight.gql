@@ -73,6 +73,11 @@ query FindFlights(
 query GetFlight($flightID: String!) {
   flight(flightID: $flightID) {
     ...FullFlightFragment
+    promptness {
+      onTimePercent
+      rating
+      averageDelayTime
+    }
   }
 }
 

@@ -63,8 +63,10 @@ const ItemTitle = styled(Text, (theme) => [
 ]);
 
 const ItemValue = styled(Text, (theme) => [
-  theme.pallette,
   theme.typography.presets.h1,
+  {
+    color: theme.typography.color,
+  },
 ]);
 
 const Content = styled(View, () => [

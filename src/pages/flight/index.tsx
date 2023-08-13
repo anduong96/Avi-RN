@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ScrollView, View } from 'react-native';
+import { RefreshControl, ScrollView, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { AltFlightsButton } from '@app/components/button.alt.flights';
@@ -19,6 +19,7 @@ import type { RouteProp } from '@react-navigation/native';
 import { SaveFlightButton } from '@app/components/button.save.flight';
 import { ShareFlightButton } from '@app/components/button.share.flight';
 import { VerticalDivider } from '@app/components/divider.vertical';
+import { isNil } from 'lodash';
 import { styled } from '@app/lib/styled';
 import { useGetFlightQuery } from '@app/generated/server.gql';
 import { useTheme } from '@app/lib/hooks/use.theme';
@@ -50,7 +51,7 @@ export const FlightPage: React.FC = () => {
           const flight = flightResponse.data?.flight;
 
           if (!flight) {
-            return <></>;
+            return <View />;
           }
 
           return (
@@ -59,12 +60,19 @@ export const FlightPage: React.FC = () => {
                 withBack
                 onPressBack={handleGoBack}
                 align="center"
-                title={<>{flight && <FlightPageTopHeader flight={flight} />}</>}
+                title={<FlightPageTopHeader flight={flight} />}
               />
               <ActionsWrapper />
               <ScrollView
                 showsVerticalScrollIndicator={false}
                 stickyHeaderIndices={[0]}
+                contentContainerStyle={{ flexGrow: 1 }}
+                refreshControl={
+                  <RefreshControl
+                    onRefresh={() => flightResponse.refetch()}
+                    refreshing={flightResponse.loading}
+                  />
+                }
               >
                 <BlurView blurType="light">
                   <Actions
@@ -113,7 +121,7 @@ export const FlightPage: React.FC = () => {
                       actualMovementTime={flight.actualGateArrival}
                     />
                   </Meta>
-                  {flight.promptness && (
+                  {!isNil(flight.promptness) && (
                     <PromptnessCompact value={flight.promptness} />
                   )}
                 </Content>
@@ -126,7 +134,7 @@ export const FlightPage: React.FC = () => {
   );
 };
 
-const Wrapper = styled(View, () => []);
+const Wrapper = styled(View, () => [{ flexGrow: 1 }]);
 
 const Content = styled(View, (theme) => [
   {

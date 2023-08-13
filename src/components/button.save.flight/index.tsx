@@ -10,8 +10,10 @@ import {
 
 import Animated from 'react-native-reanimated';
 import { FaIcon } from '../icons.fontawesome';
+import { PushNotificationSheet } from '../sheet.push.notification';
 import { isNil } from 'lodash';
 import { styled } from '@app/lib/styled';
+import { toast } from '@baronha/ting';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { vibrate } from '@app/lib/haptic.feedback';
 
@@ -21,6 +23,16 @@ type Props = {
 
 export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
   const [loading, setLoading] = React.useState(false);
+  const [shouldAskNotification, setShouldAskNotification] =
+    React.useState(false);
+
+  const userFlightResp = useUserFlightQuery({
+    errorPolicy: 'ignore',
+    variables: {
+      flightID,
+    },
+  });
+
   const [add] = useAddUserFlightMutation({
     variables: {
       flightID,
@@ -30,6 +42,11 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
         query: GetUserFlightsDocument,
       },
     ],
+    onCompleted() {
+      toast({
+        title: 'Flight Added!',
+      });
+    },
   });
   const [remove] = useDeleteUserFlightMutation({
     variables: {
@@ -40,17 +57,16 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
         query: GetUserFlightsDocument,
       },
     ],
-  });
-  const response = useUserFlightQuery({
-    errorPolicy: 'ignore',
-    variables: {
-      flightID,
+    onCompleted() {
+      toast({
+        title: 'Flight Removed!',
+      });
     },
   });
 
   const theme = useTheme();
-  const isSaved = !isNil(response.data?.userFlight.id);
-  const isLoading = response.loading || loading;
+  const isSaved = !isNil(userFlightResp.data?.userFlight.id);
+  const isLoading = userFlightResp.loading || loading;
   const [label, icon, backgroundColor, color] = isSaved
     ? ['Saved', 'star', theme.pallette.active, theme.pallette.white]
     : ['Save', 'star-o', theme.pallette.grey[100], theme.typography.color];
@@ -59,29 +75,33 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
     vibrate('impactHeavy');
     setLoading(true);
     isSaved ? await remove() : await add();
-    await response.refetch();
+    setShouldAskNotification(true);
+    await userFlightResp.refetch();
     setLoading(false);
   };
 
   return (
-    <Btn
-      style={[{ backgroundColor }]}
-      disabled={isLoading}
-      onPress={handlePress}
-    >
-      {loading ? (
-        <ActivityIndicator size="small" color={color} />
-      ) : (
-        <>
-          <FaIcon
-            type="fa"
-            name={icon}
-            color={isSaved ? theme.pallette.white : undefined}
-          />
-          <BtnText style={[{ color }]}>{label}</BtnText>
-        </>
-      )}
-    </Btn>
+    <>
+      <PushNotificationSheet enabled={shouldAskNotification} />
+      <Btn
+        style={[{ backgroundColor }]}
+        disabled={isLoading}
+        onPress={handlePress}
+      >
+        {loading ? (
+          <ActivityIndicator size="small" color={color} />
+        ) : (
+          <>
+            <FaIcon
+              type="fa"
+              name={icon}
+              color={isSaved ? theme.pallette.white : undefined}
+            />
+            <BtnText style={[{ color }]}>{label}</BtnText>
+          </>
+        )}
+      </Btn>
+    </>
   );
 };
 

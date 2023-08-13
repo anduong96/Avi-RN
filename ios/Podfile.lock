@@ -1397,6 +1397,8 @@ PODS:
     - RNNotifee/NotifeeCore (= 7.7.1)
   - RNNotifee/NotifeeCore (7.7.1):
     - React-Core
+  - RNPermissions (3.8.4):
+    - React-Core
   - RNReactNativeHapticFeedback (2.0.3):
     - React-Core
   - RNReanimated (3.0.2):
@@ -1452,6 +1454,7 @@ PODS:
     - SentryPrivate (= 8.4.0)
   - SentryPrivate (8.4.0)
   - SocketRocket (0.6.0)
+  - SPAlert (4.2.0)
   - SSZipArchive (2.2.3)
   - Stripe (23.5.1):
     - StripeApplePay (= 23.5.1)
@@ -1489,6 +1492,9 @@ PODS:
     - StripeUICore (= 23.5.1)
   - StripeUICore (23.5.1):
     - StripeCore (= 23.5.1)
+  - Ting (1.1.0):
+    - React-Core
+    - SPAlert (= 4.2.0)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -1594,6 +1600,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - "RNRudderSdk (from `../node_modules/@rudderstack/rudder-sdk-react-native`)"
@@ -1603,6 +1610,7 @@ DEPENDENCIES:
   - RNSnackbar (from `../node_modules/react-native-snackbar`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - "stripe-react-native (from `../node_modules/@stripe/stripe-react-native`)"
+  - "Ting (from `../node_modules/@baronha/ting`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1663,6 +1671,7 @@ SPEC REPOS:
     - Sentry
     - SentryPrivate
     - SocketRocket
+    - SPAlert
     - SSZipArchive
     - Stripe
     - StripeApplePay
@@ -1813,6 +1822,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-google-signin/google-signin"
   RNNotifee:
     :path: "../node_modules/@notifee/react-native"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReactNativeHapticFeedback:
     :path: "../node_modules/react-native-haptic-feedback"
   RNReanimated:
@@ -1831,6 +1842,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   stripe-react-native:
     :path: "../node_modules/@stripe/stripe-react-native"
+  Ting:
+    :path: "../node_modules/@baronha/ting"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1954,6 +1967,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
   RNNotifee: 05692d7bb42b6c718a3906aeb8431c48ff2e8097
+  RNPermissions: deffb28a61229d561c016150c7ae40f7444a3ccb
   RNReactNativeHapticFeedback: afa5bf2794aecbb2dba2525329253da0d66656df
   RNReanimated: f0dd6b881808e635ef0673f89642937d6c141314
   RNRudderSdk: 3b9251e2379775b10078cc7ed6ea59d5262ddff3
@@ -1968,6 +1982,7 @@ SPEC CHECKSUMS:
   Sentry: 16d46dd5ca10e7f4469a2611805a3de123188add
   SentryPrivate: 2bb4f8d9ff558b25ac70b66c1dedc58a7c43630b
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
+  SPAlert: 735da1f16a887e294719217572ce1f936d8c8782
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Stripe: d3dc7e6a9ac47a75ddb28ca9622f0e96c63398c9
   stripe-react-native: 23f5586ac954f54c5723c08be4f1a65d97f797eb
@@ -1978,6 +1993,7 @@ SPEC CHECKSUMS:
   StripePaymentSheet: 30d6f1f89e62b789ce22502c093f1f04785640df
   StripePaymentsUI: c10ddf9939e197b99a1123c6ca6075969a795f43
   StripeUICore: 5dc852ac5e4302721b7793ee16b74ad679dd5ffb
+  Ting: 8f31e1ea5195095e69645fb574b8038511a19d35
   Yoga: ba09b6b11e6139e3df8229238aa794205ca6a02a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

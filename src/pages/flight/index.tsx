@@ -3,6 +3,7 @@ import * as React from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
+import { AlertFlightButton } from '@app/components/button.alerts.flight';
 import { AltFlightsButton } from '@app/components/button.alt.flights';
 import Animated from 'react-native-reanimated';
 import { BlurView } from '@react-native-community/blur';
@@ -33,6 +34,7 @@ export const FlightPage: React.FC = () => {
   const route = useRoute<Route>();
   const theme = useTheme();
   const flightID = route.params.flightID;
+
   const flightResponse = useGetFlightQuery({
     variables: {
       flightID,
@@ -87,6 +89,7 @@ export const FlightPage: React.FC = () => {
                   >
                     <SaveFlightButton flightID={flightID} />
                     <VerticalDivider />
+                    <AlertFlightButton flightID={flightID} />
                     <AltFlightsButton flightID={flightID} />
                     <ShareFlightButton flightID={flightID} />
                   </Actions>

@@ -1519,6 +1519,11 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
+"@baronha/ting@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@baronha/ting/-/ting-1.1.0.tgz#b6575187eb5851abe60474b619c612aaa319476c"
+  integrity sha512-pWDZnON6zXPtrNf34TxuM0CawqZZR9YlGuP73ADJ+Hr20BVEn/i5+G2PCSdiUvv1vCc0QJYBSP26I8RZm70cMQ==
+
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
@@ -14000,6 +14005,14 @@ react-native-open-maps@^0.4.0:
   integrity sha512-8YkRZRSN/p7W5qiBd5Ucie4I/BmYwCQQ6fYTH3C7+mgZxOY8CkNl1czpt8v8GltEluJT6wmdfQsC4xImnRyVVA==
   dependencies:
     query-string "^6.1.0"
+
+react-native-permissions@^3.8.4:
+  version "3.8.4"
+  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.8.4.tgz#20f203f1dd659c28fb770fc26bbbf0126faa797e"
+  integrity sha512-tJq+5eNqu8Y1PpmuSVMjQtW8E7YJbQ0LSbZ1o9KjgF7etgYmBSZeCR138x715vyZUAtwuecV+ybEM9z8dDs76Q==
+  dependencies:
+    picocolors "^1.0.0"
+    pkg-dir "^5.0.0"
 
 react-native-phone-number-input@^2.1.0:
   version "2.1.0"

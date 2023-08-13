@@ -58,11 +58,11 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Import your flight calendar</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We may use your camera to assist with customer support</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Upload traveler information</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
+	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Track your travel securely</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We may use your photos to assist with customer support</string>

@@ -7,6 +7,7 @@ import { BlurredSheetBackdrop } from '../sheet.backdrop.blurred';
 import { FaIcon } from '../icons.fontawesome';
 import type { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
+import { delay } from '@app/lib/delay';
 import { globalState } from '@app/state/global';
 import messaging from '@react-native-firebase/messaging';
 import { styled } from '@app/lib/styled';
@@ -55,7 +56,11 @@ export const PushNotificationSheet: React.FC<Props> = ({ enabled }) => {
 
   React.useEffect(() => {
     if (enabled && !isPushAsked) {
-      sheet.current?.present();
+      // For the toast to disappear
+      // TODO: handle this better
+      delay(3 * 1000).then(() => {
+        sheet.current?.present();
+      });
     }
   }, [enabled, isPushAsked]);
 

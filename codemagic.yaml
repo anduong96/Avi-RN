@@ -128,7 +128,6 @@ workflows:
       - *install_bundler
       - *install_imagemagick
       - *install_rn_dep
-      - *install_pod_dep
       - name: Transfer firebase.json for staging
         script: |
           cat ios/GoogleService-Info.staging.plist > ios/GoogleService-Info.plist

@@ -139,4 +139,10 @@ workflows:
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
 
     publishing:
-      <<: *notify
+      firebase:
+        firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
+        ios:
+          app_id: 1:770636852536:ios:67ca3b06666260013aa5cd
+          groups:
+            - "Core"
+            - "Testers"

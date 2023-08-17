@@ -133,19 +133,9 @@ workflows:
           cat ios/GoogleService-Info.staging.plist > ios/GoogleService-Info.plist
       - name: Export Firebase service account
         script: |
-          echo "$FIREBASE_SERVICE_ACCOUNT" > $CM_BUILD_DIR/firebase_credentials.json
+          echo "$FIREBASE_SERVICE_ACCOUNT" > $GOOGLE_APPLICATION_CREDENTIALS
       - *compile
     artifacts:
       - build/ios/ipa/*.ipa
-      # - /tmp/xcodebuild_logs/*.log
-      # - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
-      # - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-
-    publishing:
-      firebase:
-        firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
-        ios:
-          app_id: 1:770636852536:ios:67ca3b06666260013aa5cd
-          groups:
-            - "Core"
-            - "Testers"
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM

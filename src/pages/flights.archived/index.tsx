@@ -20,7 +20,9 @@ type Navigation = NativeStackNavigationProp<MainStackParam, 'ArchivedFlights'>;
 
 export const ArchivedFlightsPage: React.FC = () => {
   const navigation = useNavigation<Navigation>();
-  const response = useGetUserFlightsQuery();
+  const response = useGetUserFlightsQuery({
+    fetchPolicy: 'cache-first',
+  });
   const data = response.data?.userFlights.filter(
     (entry) => entry.flight.status === FlightStatus.ARCHIVED,
   );

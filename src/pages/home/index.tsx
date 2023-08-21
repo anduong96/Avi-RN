@@ -48,7 +48,9 @@ export const HomePage: React.FC = () => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<Navigation>();
-  const flights = useGetUserFlightsQuery();
+  const flights = useGetUserFlightsQuery({
+    fetchPolicy: 'cache-first',
+  });
   const activeFlights = flights.data?.userFlights.filter(
     (entry) => entry.flight.status !== FlightStatus.ARCHIVED,
   );

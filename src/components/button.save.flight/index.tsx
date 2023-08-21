@@ -65,7 +65,7 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
   });
 
   const theme = useTheme();
-  const isSaved = !isNil(userFlightResp.data?.userFlight.id);
+  const isSaved = !isNil(userFlightResp.data?.userFlight?.id);
   const isLoading = userFlightResp.loading || loading;
   const [label, icon, backgroundColor, color] = isSaved
     ? ['Saved', 'star', theme.pallette.active, theme.pallette.white]

@@ -6,21 +6,18 @@ import {
   Content,
   DeleteITemBtnText,
   DeleteItemBtn,
-  FlightViewContainer,
-  FlightViewTag,
-  FlightViewTagText,
   Header,
   ListItem,
   ListItemActions,
   Meta,
   PageHeader,
-  Title,
   UserBtn,
 } from './styles';
-import { Alert, RefreshControl } from 'react-native';
+import { Alert, RefreshControl, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import {
+  FlightStatus,
   GetUserFlightsDocument,
   useDeleteUserFlightMutation,
   useGetUserFlightsQuery,
@@ -29,15 +26,17 @@ import {
 import { BlurredBottomSheetBackground } from '../flight.search/sheet/sheet.background';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { FlightCard } from '@app/components/flight.card';
+import { IconBtn } from '@app/components/icon.btn';
 import { Logo } from '@app/components/logo';
 import type { MainStackParam } from '@app/stacks';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PageContainer } from '@app/components/page.container';
 import { SheetFooter } from './sheet.footer';
 import { Swipeable } from 'react-native-gesture-handler';
+import { Title } from './title';
 import { UserAvatar } from '@app/components/user.avatar';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
-import { size } from 'lodash';
+import { styled } from '@app/lib/styled';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@app/lib/hooks/use.theme';
@@ -50,13 +49,25 @@ export const HomePage: React.FC = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<Navigation>();
   const flights = useGetUserFlightsQuery();
+  const activeFlights = flights.data?.userFlights.filter(
+    (entry) => entry.flight.status !== FlightStatus.ARCHIVED,
+  );
   const [removeFlight] = useDeleteUserFlightMutation({
-    refetchQueries: [{ query: GetUserFlightsDocument }],
+    refetchQueries: [
+      {
+        query: GetUserFlightsDocument,
+      },
+    ],
   });
   const snapPoints = React.useMemo(
     () => [Math.min(WINDOW_HEIGHT / 2, 400), WINDOW_HEIGHT - insets.top],
     [insets],
   );
+
+  const handleOpenArchivedFlights = () => {
+    vibrate('impactMedium');
+    navigation.push('ArchivedFlights');
+  };
 
   const handleSearchFlights = () => {
     vibrate('impactMedium');
@@ -133,30 +144,19 @@ export const HomePage: React.FC = () => {
             ListHeaderComponent={
               <Header>
                 <Meta>
-                  <Title>Flights</Title>
+                  <Title />
                 </Meta>
-                <FlightViewContainer>
-                  {/* TODO: cycle switcher */}
-                  <FlightViewTag>
-                    <FlightViewTagText>
-                      {size(flights.data?.userFlights) || ''} Active
-                    </FlightViewTagText>
-                  </FlightViewTag>
-                  <FlightViewTag
-                    style={{
-                      position: 'absolute',
-                      zIndex: -1,
-                      left: -5,
-                      top: -5,
-                      backgroundColor: theme.pallette.grey[300],
-                    }}
-                  >
-                    <FlightViewTagText>Past</FlightViewTagText>
-                  </FlightViewTag>
-                </FlightViewContainer>
+                <Actions>
+                  <ArchiveFlightsBtn
+                    icon="archive"
+                    size={12}
+                    color={theme.pallette.grey[800]}
+                    onPress={handleOpenArchivedFlights}
+                  />
+                </Actions>
               </Header>
             }
-            data={flights.data?.userFlights}
+            data={activeFlights}
             stickyHeaderIndices={[0]}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
@@ -184,3 +184,17 @@ export const HomePage: React.FC = () => {
     </PageContainer>
   );
 };
+
+const Actions = styled(View, (theme) => [
+  {
+    flexDirection: 'row',
+    gap: theme.space.tiny,
+  },
+]);
+
+const ArchiveFlightsBtn = styled(IconBtn, (theme) => [
+  {
+    backgroundColor: theme.pallette.grey[200],
+    borderRadius: 100,
+  },
+]);

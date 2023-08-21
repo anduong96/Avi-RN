@@ -159,14 +159,6 @@ Development...
 
 Submit a new staging build to internal testers...
 
-### android internal
-
-```sh
-[bundle exec] fastlane android internal
-```
-
-Submit a new production build to internal users...
-
 ### android beta
 
 ```sh

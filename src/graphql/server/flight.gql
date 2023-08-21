@@ -70,14 +70,17 @@ query FindFlights(
   }
 }
 
+query GetFlightPromptness($airlineIata: String!, $flightNumber: String!) {
+  flightPromptness(airlineIata: $airlineIata, flightNumber: $flightNumber) {
+    onTimePercent
+    rating
+    averageDelayTimeMs
+  }
+}
+
 query GetFlight($flightID: String!) {
   flight(flightID: $flightID) {
     ...FullFlightFragment
-    promptness {
-      onTimePercent
-      rating
-      averageDelayTime
-    }
   }
 }
 

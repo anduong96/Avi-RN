@@ -38,10 +38,6 @@ export const Header = styled(View, (theme) => [
   },
 ]);
 
-export const Title = styled(Text, (theme) => [
-  theme.typography.presets.massive,
-]);
-
 export const SearchContainer = styled(View, () => []);
 
 export const SearchBtn = styled(TouchableOpacity, (theme) => [
@@ -103,25 +99,6 @@ export const UserBtn = styled(TouchableOpacity, (theme) => [
     borderRadius: theme.borderRadius,
   },
 ]);
-
-export const FlightViewTag = styled(View, (theme) => [
-  theme.presets.shadows[100],
-  {
-    backgroundColor: theme.pallette.grey[200],
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    borderRadius: theme.borderRadius,
-  },
-]);
-
-export const FlightViewTagText = styled(Text, (theme) => [
-  theme.typography.presets.small,
-  {
-    color: theme.typography.color,
-  },
-]);
-
-export const FlightViewContainer = styled(View, () => []);
 
 export const ListItemActions = styled(View, (theme) => [
   {

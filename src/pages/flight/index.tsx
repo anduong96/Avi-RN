@@ -20,7 +20,6 @@ import type { RouteProp } from '@react-navigation/native';
 import { SaveFlightButton } from '@app/components/button.save.flight';
 import { ShareFlightButton } from '@app/components/button.share.flight';
 import { VerticalDivider } from '@app/components/divider.vertical';
-import { isNil } from 'lodash';
 import { styled } from '@app/lib/styled';
 import { useGetFlightQuery } from '@app/generated/server.gql';
 import { useTheme } from '@app/lib/hooks/use.theme';
@@ -124,9 +123,10 @@ export const FlightPage: React.FC = () => {
                       actualMovementTime={flight.actualGateArrival}
                     />
                   </Meta>
-                  {!isNil(flight.promptness) && (
-                    <PromptnessCompact value={flight.promptness} />
-                  )}
+                  <PromptnessCompact
+                    airlineIata={flight.airlineIata}
+                    flightNumber={flight.flightNumber}
+                  />
                 </Content>
               </ScrollView>
             </Wrapper>

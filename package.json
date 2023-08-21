@@ -5,7 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "fastlane ios develop --env development",
-    "start": "react-native start",
+    "start": "npm run localhost && react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "npm run lint -- --fix",
@@ -15,7 +15,8 @@
     "patch": "patch-package",
     "storybook": "start-storybook -p 7007",
     "build-storybook": "build-storybook",
-    "setup-permissions": "react-native setup-ios-permissions"
+    "setup-permissions": "react-native setup-ios-permissions",
+    "localhost": "node ./node_modules/react-native-localhost/scripts/postinstall.js"
   },
   "reactNativePermissionsIOS": [
     "AppTrackingTransparency",

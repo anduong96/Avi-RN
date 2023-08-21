@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { isEmpty, isNil } from 'lodash';
 
+import { ArchivedFlightsPage } from '@app/pages/flights.archived';
 import { FlightSearchStack } from './flight.search.stack';
 import type { FlightSearchStackParams } from './flight.search.stack';
 import { FlightStack } from './flight.stack';
@@ -24,6 +25,7 @@ export type MainStackParam = {
   Profile: undefined;
   PrivacyPolicies: undefined;
   TermsOfService: undefined;
+  ArchivedFlights: undefined;
   FlightStack: NavigatorScreenParams<FlightStackParams>;
   FlightSearchStack: NavigatorScreenParams<FlightSearchStackParams>;
 };
@@ -50,6 +52,7 @@ export const AppNavigator: React.FC = () => {
         <Stack.Screen name="Home" component={HomeOnboardPage} />
       )}
 
+      <Stack.Screen name="ArchivedFlights" component={ArchivedFlightsPage} />
       <Stack.Screen name="FlightStack" component={FlightStack} />
       <Stack.Screen name="FlightSearchStack" component={FlightSearchStack} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>

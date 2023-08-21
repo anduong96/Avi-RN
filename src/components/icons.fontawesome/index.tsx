@@ -11,6 +11,7 @@ type Props = {
   disabled?: boolean;
   isActive?: boolean;
   type?: 'fa' | 'fa5';
+  style?: React.ComponentProps<typeof RegFaIcon>['style'];
 };
 
 export const FaIcon: React.FC<Props> = ({
@@ -19,6 +20,7 @@ export const FaIcon: React.FC<Props> = ({
   color,
   disabled,
   isActive,
+  style,
   type = 'fa5',
 }) => {
   const theme = useTheme();
@@ -29,8 +31,10 @@ export const FaIcon: React.FC<Props> = ({
     : color || theme.pallette.grey[600];
 
   if (type === 'fa') {
-    return <RegFaIcon name={name} size={size} color={iconColor} />;
+    return (
+      <RegFaIcon style={style} name={name} size={size} color={iconColor} />
+    );
   }
 
-  return <Icon name={name} size={size} color={iconColor} />;
+  return <Icon style={style} name={name} size={size} color={iconColor} />;
 };

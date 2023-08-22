@@ -3,6 +3,7 @@ import * as React from 'react';
 import { isEmpty, isNil } from 'lodash';
 
 import { ArchivedFlightsPage } from '@app/pages/flights.archived';
+import { DebugMenuPage } from '@app/pages/debug.menu';
 import { FlightSearchStack } from './flight.search.stack';
 import type { FlightSearchStackParams } from './flight.search.stack';
 import { FlightStack } from './flight.stack';
@@ -29,6 +30,7 @@ export type MainStackParam = {
   ArchivedFlights: undefined;
   FlightStack: NavigatorScreenParams<FlightStackParams>;
   FlightSearchStack: NavigatorScreenParams<FlightSearchStackParams>;
+  Debug: undefined;
 };
 
 const Stack = createNativeStackNavigator<MainStackParam>();
@@ -62,6 +64,7 @@ export const AppNavigator: React.FC = () => {
       <Stack.Screen name="FlightStack" component={FlightStack} />
       <Stack.Screen name="FlightSearchStack" component={FlightSearchStack} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name="Debug" component={DebugMenuPage} />
         <Stack.Screen name="Profile" component={ProfilePage} />
         <Stack.Screen name="Settings" component={SettingsPage} />
         <Stack.Screen name="PrivacyPolicies" component={PrivacyPoliciesPage} />

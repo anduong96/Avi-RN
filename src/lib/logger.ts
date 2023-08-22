@@ -13,4 +13,4 @@ export const logger = RnLogger.createLogger<
   },
 });
 
-logger.patchConsole();
+// logger.patchConsole();

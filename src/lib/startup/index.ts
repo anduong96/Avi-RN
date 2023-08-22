@@ -1,31 +1,26 @@
+import '@app/state/user';
 import './push.notification';
 import './sentry';
-import '@app/state/user';
 
 import rudderClient, {
   RUDDER_LOG_LEVEL,
 } from '@rudderstack/rudder-sdk-react-native';
 
 import { ENV } from '@app/env';
-import Smartlook from 'react-native-smartlook-analytics';
 import auth from '@react-native-firebase/auth';
+import { handleBuildInfo } from './build.info';
+import { handleFcmToken } from './push.notification';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { restoreGlobalState } from '@app/state/global';
-
-function startSmartlook() {
-  if (!ENV.SMARTLOOK_KEY) {
-    return;
-  }
-
-  Smartlook.instance.preferences.setProjectKey(ENV.SMARTLOOK_KEY);
-  Smartlook.instance.start();
-}
+import { startSmartlook } from './smart.look';
 
 export async function startup() {
   await Promise.allSettled([
     remoteConfig().fetchAndActivate(),
     restoreGlobalState(),
     startSmartlook(),
+    handleFcmToken(),
+    handleBuildInfo(),
     auth().currentUser
       ? auth().currentUser?.reload()
       : auth().signInAnonymously(),

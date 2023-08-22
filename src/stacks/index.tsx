@@ -17,6 +17,7 @@ import { TermsOfServicePage } from '@app/pages/terms.of.service';
 import { bootApp } from '@app/lib/boot.app';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { globalState } from '@app/state/global';
+import { logger } from '@app/lib/logger';
 import { useGetUserFlightsQuery } from '@app/generated/server.gql';
 
 export type MainStackParam = {
@@ -39,6 +40,11 @@ export const AppNavigator: React.FC = () => {
   const hasUserFlights = !isEmpty(userFlights.data?.userFlights);
 
   React.useEffect(() => {
+    logger.debug({
+      canBoot,
+      userFlightsLoaded,
+    });
+
     if (canBoot && userFlightsLoaded) {
       bootApp();
     }

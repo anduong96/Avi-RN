@@ -7,6 +7,7 @@ type("development") # The default type, can be: appstore, adhoc, enterprise or d
 app_identifier([
   'com.avitech.app',
   'com.avitech.app.staging',
+  'com.avitech.app.develop'
 ])
 
 username(ENV['FASTLANE_APPLE_USERNAME']) # Your Apple Developer Portal username

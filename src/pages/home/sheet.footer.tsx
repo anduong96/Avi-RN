@@ -74,6 +74,7 @@ const Container = styled(Animated.View, () => [
     height: 50,
     elevation: 8,
     borderRadius: 100,
+    overflow: 'hidden',
   },
 ]);
 

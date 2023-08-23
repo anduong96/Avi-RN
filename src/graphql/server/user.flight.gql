@@ -9,5 +9,6 @@ mutation DeleteUserFlight($flightID: String!) {
 query UserFlight($flightID: String!) {
   userFlight(flightID: $flightID) {
     id
+    shouldAlert
   }
 }

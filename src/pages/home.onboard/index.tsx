@@ -23,6 +23,7 @@ export const HomeOnboardPage: React.FC = () => {
     vibrate('impactMedium');
     navigation.push('FlightSearchStack', {
       screen: 'Search',
+      params: {},
     });
   };
 

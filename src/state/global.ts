@@ -1,17 +1,21 @@
 import { createStore, createStoreHook, withShallow } from 'tiamut';
 
-import { storage } from '@app/lib/storage';
+import { AppState } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+import { withLocalStorage } from './plugins/perserve.local.plugin';
 
 const initialState = {
-  isInit: false,
+  isReady: false,
   isAuth: false,
   isDarkMode: false,
   isFinishStartup: false,
-  isPushAsked: undefined as undefined | boolean,
+  isPushAsked: false,
   hasOnboarded: false,
+  appState: AppState.currentState,
+  pushPermission: messaging.AuthorizationStatus.NOT_DETERMINED,
 };
 
-export const globalState = createStoreHook(
+export const GlobalState = createStoreHook(
   createStore(
     withShallow({
       initialState,
@@ -47,23 +51,4 @@ export const globalState = createStoreHook(
   ),
 );
 
-const key = 'globalState';
-
-globalState.subscribe((value) => {
-  if (value.isInit) {
-    storage.setItem(key, JSON.stringify(value));
-  }
-});
-
-export async function restoreGlobalState() {
-  await storage
-    .getItem(key)
-    .then((value) => {
-      globalState.actions.setState(value ? JSON.parse(value as string) : {});
-    })
-    .finally(() =>
-      globalState.actions.setState({
-        isInit: true,
-      }),
-    );
-}
+withLocalStorage('GlobalState', GlobalState);

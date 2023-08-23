@@ -5,37 +5,55 @@ import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 
 import { BlurredSheetBackdrop } from '../sheet.backdrop.blurred';
 import { FaIcon } from '../icons.fontawesome';
-import type { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
+import { GlobalState } from '@app/state/global';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { delay } from '@app/lib/delay';
-import { globalState } from '@app/state/global';
+import { isEmpty } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
 import { styled } from '@app/lib/styled';
+import { useAppState } from '@app/lib/hooks/use.app.state';
+import { useGetUserFlightsQuery } from '@app/generated/server.gql';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { vibrate } from '@app/lib/haptic.feedback';
 
-type Props = {
-  enabled?: boolean;
-};
-
-export const PushNotificationSheet: React.FC<Props> = ({ enabled }) => {
+export const PushNotificationSheet: React.FC = () => {
   const iconSize = 45;
   const insets = useSafeAreaInsets();
   const theme = useTheme();
   const sheet = React.useRef<BottomSheetModal>(null);
-  const isPushAsked = globalState.useSelect((s) => s.isPushAsked);
+  const isPushAsked = GlobalState.useSelect((s) => s.isPushAsked);
+  const status = GlobalState.useSelect((s) => s.pushPermission);
+  const userFlights = useGetUserFlightsQuery({ fetchPolicy: 'cache-first' });
+  const hasFlights = !isEmpty(userFlights.data?.userFlights);
+  const appState = useAppState();
   const [loading, setLoading] = React.useState(false);
-  const [status, setStatus] =
-    React.useState<FirebaseMessagingTypes.AuthorizationStatus>();
 
   const snapPoints = React.useMemo(
     () => [Math.min(WINDOW_HEIGHT - insets.top, 500)],
     [insets],
   );
 
+  const showSheet = React.useCallback(() => {
+    if (appState === 'active' && hasFlights && !isPushAsked) {
+      delay(3 * 1000).then(() => {
+        sheet.current?.present();
+      });
+    }
+  }, [appState, hasFlights, isPushAsked]);
+
+  React.useEffect(() => {
+    showSheet();
+  }, [showSheet]);
+
+  React.useEffect(() => {
+    if (status !== messaging.AuthorizationStatus.NOT_DETERMINED) {
+      sheet.current?.close();
+    }
+  }, [status]);
+
   const handleEnable = async () => {
-    globalState.actions.setIsPushAsked();
+    GlobalState.actions.setIsPushAsked();
 
     vibrate('impactMedium');
     setLoading(true);
@@ -46,29 +64,15 @@ export const PushNotificationSheet: React.FC<Props> = ({ enabled }) => {
       carPlay: true,
     });
     setLoading(false);
-    setStatus(responseStatus);
+    GlobalState.actions.setState({
+      pushPermission: responseStatus,
+    });
   };
 
   const handleDismiss = () => {
-    globalState.actions.setIsPushAsked();
+    GlobalState.actions.setIsPushAsked();
     sheet.current?.dismiss();
   };
-
-  React.useEffect(() => {
-    if (enabled && !isPushAsked) {
-      // For the toast to disappear
-      // TODO: handle this better
-      delay(3 * 1000).then(() => {
-        sheet.current?.present();
-      });
-    }
-  }, [enabled, isPushAsked]);
-
-  React.useEffect(() => {
-    if (status) {
-      sheet.current?.close();
-    }
-  }, [status]);
 
   return (
     <BottomSheetModal

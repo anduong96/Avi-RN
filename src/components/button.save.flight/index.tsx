@@ -10,7 +10,6 @@ import {
 
 import Animated from 'react-native-reanimated';
 import { FaIcon } from '../icons.fontawesome';
-import { PushNotificationSheet } from '../sheet.push.notification';
 import { isNil } from 'lodash';
 import { styled } from '@app/lib/styled';
 import { toast } from '@baronha/ting';
@@ -23,8 +22,6 @@ type Props = {
 
 export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
   const [loading, setLoading] = React.useState(false);
-  const [shouldAskNotification, setShouldAskNotification] =
-    React.useState(false);
 
   const userFlightResp = useUserFlightQuery({
     errorPolicy: 'ignore',
@@ -75,16 +72,20 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
     vibrate('impactHeavy');
     setLoading(true);
     isSaved ? await remove() : await add();
-    setShouldAskNotification(true);
     await userFlightResp.refetch();
     setLoading(false);
   };
 
   return (
     <>
-      <PushNotificationSheet enabled={shouldAskNotification} />
       <Btn
-        style={[{ backgroundColor }]}
+        style={[
+          {
+            backgroundColor,
+            shadowOpacity: isSaved ? 0.3 : 0,
+            shadowColor: backgroundColor,
+          },
+        ]}
         disabled={isLoading}
         onPress={handlePress}
       >
@@ -92,11 +93,7 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
           <ActivityIndicator size="small" color={color} />
         ) : (
           <>
-            <FaIcon
-              type="fa"
-              name={icon}
-              color={isSaved ? theme.pallette.white : undefined}
-            />
+            <FaIcon type="fa" name={icon} color={color} />
             <BtnText style={[{ color }]}>{label}</BtnText>
           </>
         )}
@@ -109,6 +106,7 @@ const Btn = styled(
   Animated.createAnimatedComponent(TouchableOpacity),
   (theme) => [
     theme.presets.centered,
+    theme.presets.shadows[100],
     {
       minWidth: 75,
       flexDirection: 'row',

@@ -12,7 +12,7 @@ export async function handleFcmToken() {
 
   logger.debug('Getting FCM Token');
   const fcmToken = await messaging().getToken();
-  logger.warn({ fcmToken });
+  logger.debug({ fcmToken });
 }
 
 messaging().onMessage((data) => {

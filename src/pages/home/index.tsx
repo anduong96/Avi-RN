@@ -26,6 +26,7 @@ import {
 import { BlurredBottomSheetBackground } from '../flight.search/sheet/sheet.background';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { FlightCard } from '@app/components/flight.card';
+import { HomeOnboardPage } from '../home.onboard';
 import { IconBtn } from '@app/components/icon.btn';
 import { Logo } from '@app/components/logo';
 import type { MainStackParam } from '@app/stacks';
@@ -36,6 +37,7 @@ import { Swipeable } from 'react-native-gesture-handler';
 import { Title } from './title';
 import { UserAvatar } from '@app/components/user.avatar';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
+import { isEmpty } from 'lodash';
 import { styled } from '@app/lib/styled';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -48,9 +50,7 @@ export const HomePage: React.FC = () => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<Navigation>();
-  const flights = useGetUserFlightsQuery({
-    fetchPolicy: 'cache-first',
-  });
+  const flights = useGetUserFlightsQuery({ fetchPolicy: 'cache-first' });
   const activeFlights = flights.data?.userFlights.filter(
     (entry) => entry.flight.status !== FlightStatus.ARCHIVED,
   );
@@ -112,6 +112,10 @@ export const HomePage: React.FC = () => {
       },
     ]);
   };
+
+  if (isEmpty(flights.data)) {
+    return <HomeOnboardPage />;
+  }
 
   return (
     <PageContainer>

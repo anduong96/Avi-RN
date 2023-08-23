@@ -33,7 +33,6 @@ export const Title: React.FC = () => {
 };
 
 const Container = styled(View, (theme) => [
-  theme.presets.shadows[100],
   theme.presets.centered,
   {
     flexDirection: 'row',
@@ -41,11 +40,11 @@ const Container = styled(View, (theme) => [
   },
 ]);
 
-const Meta = styled(View, () => [
+const Meta = styled(View, (theme) => [
   {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
+    gap: theme.space.small,
   },
 ]);
 
@@ -53,7 +52,7 @@ const Tag = styled(View, (theme) => [
   {
     backgroundColor: theme.pallette.grey[300],
     paddingHorizontal: theme.space.small,
-    paddingVertical: 0,
+    paddingVertical: 2,
     borderRadius: 50,
     marginTop: 4,
   },
@@ -63,6 +62,7 @@ const TagText = styled(Text, (theme) => [
   theme.typography.presets.small,
   {
     color: theme.typography.color,
+    fontWeight: 'bold',
   },
 ]);
 

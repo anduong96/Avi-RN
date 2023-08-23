@@ -89,6 +89,7 @@ query GetUserFlights {
     id
     flightID
     createdAt
+    shouldAlert
     flight {
       ...FullFlightFragment
     }

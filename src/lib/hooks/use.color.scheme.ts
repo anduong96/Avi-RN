@@ -1,5 +1,5 @@
+import { GlobalState } from '@app/state/global';
 import React from 'react';
-import { globalState } from '@app/state/global';
 import { useColorScheme as useRnColorScheme } from 'react-native';
 
 /**
@@ -8,13 +8,13 @@ import { useColorScheme as useRnColorScheme } from 'react-native';
  * @returns A function that returns a boolean value.
  */
 export function useIsDarkMode() {
-  return globalState.useSelect((s) => s.isDarkMode);
+  return GlobalState.useSelect((s) => s.isDarkMode);
 }
 
 export function useColorScheme() {
   const scheme = useRnColorScheme();
 
   React.useMemo(() => {
-    globalState.actions.setIsDarkMode(scheme === 'dark');
+    GlobalState.actions.setIsDarkMode(scheme === 'dark');
   }, [scheme]);
 }

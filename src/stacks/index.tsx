@@ -1,14 +1,12 @@
 import * as React from 'react';
 
-import { isEmpty, isNil } from 'lodash';
-
 import { ArchivedFlightsPage } from '@app/pages/flights.archived';
 import { DebugMenuPage } from '@app/pages/debug.menu';
 import { FlightSearchStack } from './flight.search.stack';
 import type { FlightSearchStackParams } from './flight.search.stack';
 import { FlightStack } from './flight.stack';
 import type { FlightStackParams } from './flight.stack';
-import { HomeOnboardPage } from '@app/pages/home.onboard';
+import { GlobalState } from '@app/state/global';
 import { HomePage } from '@app/pages/home';
 import type { NavigatorScreenParams } from '@react-navigation/native';
 import { PrivacyPoliciesPage } from '@app/pages/privacy.policies';
@@ -17,8 +15,7 @@ import { SettingsPage } from '@app/pages/settings';
 import { TermsOfServicePage } from '@app/pages/terms.of.service';
 import { bootApp } from '@app/lib/boot.app';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { globalState } from '@app/state/global';
-import { logger } from '@app/lib/logger';
+import { isNil } from 'lodash';
 import { useGetUserFlightsQuery } from '@app/generated/server.gql';
 
 export type MainStackParam = {
@@ -37,16 +34,10 @@ const Stack = createNativeStackNavigator<MainStackParam>();
 
 export const AppNavigator: React.FC = () => {
   const userFlights = useGetUserFlightsQuery();
-  const canBoot = globalState.useSelect((state) => state.isFinishStartup);
+  const canBoot = GlobalState.useSelect((state) => state.isFinishStartup);
   const userFlightsLoaded = !isNil(userFlights.data?.userFlights);
-  const hasUserFlights = !isEmpty(userFlights.data?.userFlights);
 
   React.useEffect(() => {
-    logger.debug({
-      canBoot,
-      userFlightsLoaded,
-    });
-
     if (canBoot && userFlightsLoaded) {
       bootApp();
     }
@@ -54,12 +45,7 @@ export const AppNavigator: React.FC = () => {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {hasUserFlights ? (
-        <Stack.Screen name="Home" component={HomePage} />
-      ) : (
-        <Stack.Screen name="Home" component={HomeOnboardPage} />
-      )}
-
+      <Stack.Screen name="Home" component={HomePage} />
       <Stack.Screen name="ArchivedFlights" component={ArchivedFlightsPage} />
       <Stack.Screen name="FlightStack" component={FlightStack} />
       <Stack.Screen name="FlightSearchStack" component={FlightSearchStack} />

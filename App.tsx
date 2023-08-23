@@ -8,6 +8,7 @@ import * as Sentry from '@sentry/react-native';
 import { Analytics } from '@app/lib/analytics';
 import { ApolloProvider } from '@apollo/client';
 import { AppNavigator } from '@app/stacks';
+import { BackgroundProcesses } from '@app/components/background.processes';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { default as CodePush } from 'react-native-code-push';
 import { ForceUpdateShield } from '@app/components/force.update';
@@ -16,24 +17,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import type { NavigationContainerRef } from '@react-navigation/native';
 import { NestServerApolloClient } from '@app/apollo/nest.server';
 import { PortalProvider } from '@gorhom/portal';
+import { PushNotificationSheet } from '@app/components/sheet.push.notification';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { globalState } from '@app/state/global';
-import { startup } from '@app/lib/startup';
 import { useColorScheme } from '@app/lib/hooks/use.color.scheme';
+import { useStartupPrep } from '@app/lib/startup';
 
 type NavigationRef = NavigationContainerRef<ReactNavigation.RootParamList>;
 
 const Entry: React.FC = () => {
   useColorScheme();
+  useStartupPrep();
 
   const routeNameRef = React.useRef<string>();
   const navigationRef = React.useRef<NavigationRef>(null);
-
-  React.useEffect(() => {
-    startup().finally(() => {
-      globalState.actions.setIsStartUpFinish();
-    });
-  }, []);
 
   return (
     <NavigationContainer
@@ -56,6 +52,8 @@ const Entry: React.FC = () => {
         <PortalProvider>
           <BottomSheetModalProvider>
             <AppNavigator />
+            <PushNotificationSheet />
+            <BackgroundProcesses />
           </BottomSheetModalProvider>
         </PortalProvider>
       </ApolloProvider>

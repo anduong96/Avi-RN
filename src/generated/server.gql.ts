@@ -88,9 +88,10 @@ export type FlightPromptness = {
 
 export const FlightStatus = {
   ARCHIVED: 'ARCHIVED',
+  ARRIVED: 'ARRIVED',
   CANCELED: 'CANCELED',
-  ENROUTE: 'ENROUTE',
-  LANDED: 'LANDED',
+  DELAYED: 'DELAYED',
+  DEPARTED: 'DEPARTED',
   SCHEDULED: 'SCHEDULED'
 } as const;
 
@@ -223,6 +224,7 @@ export type UserFlight = {
   flight: Flight;
   flightID: Scalars['String'];
   id: Scalars['ID'];
+  shouldAlert: Scalars['Boolean'];
 };
 
 export type AirlinesQueryVariables = Exact<{ [key: string]: never; }>;
@@ -273,7 +275,7 @@ export type GetFlightQuery = { __typename?: 'Query', flight: { __typename?: 'Fli
 export type GetUserFlightsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserFlightsQuery = { __typename?: 'Query', userFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: Date, flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, scheduledGateDeparture: Date, scheduledRunwayDeparture: Date, scheduledGateArrival: Date, scheduledRunwayArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedRunwayDeparture: Date, estimatedRunwayArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualRunwayDeparture?: Date | null, actualGateArrival?: Date | null, actualRunwayArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } } }> };
+export type GetUserFlightsQuery = { __typename?: 'Query', userFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: Date, shouldAlert: boolean, flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, scheduledGateDeparture: Date, scheduledRunwayDeparture: Date, scheduledGateArrival: Date, scheduledRunwayArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedRunwayDeparture: Date, estimatedRunwayArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualRunwayDeparture?: Date | null, actualGateArrival?: Date | null, actualRunwayArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } } }> };
 
 export type AddUserFlightMutationVariables = Exact<{
   flightID: Scalars['String'];
@@ -294,7 +296,7 @@ export type UserFlightQueryVariables = Exact<{
 }>;
 
 
-export type UserFlightQuery = { __typename?: 'Query', userFlight?: { __typename?: 'UserFlight', id: string } | null };
+export type UserFlightQuery = { __typename?: 'Query', userFlight?: { __typename?: 'UserFlight', id: string, shouldAlert: boolean } | null };
 
 export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -615,6 +617,7 @@ export const GetUserFlightsDocument = gql`
     id
     flightID
     createdAt
+    shouldAlert
     flight {
       ...FullFlightFragment
     }
@@ -717,6 +720,7 @@ export const UserFlightDocument = gql`
     query UserFlight($flightID: String!) {
   userFlight(flightID: $flightID) {
     id
+    shouldAlert
   }
 }
     `;

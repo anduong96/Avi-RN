@@ -10,6 +10,7 @@ import {
   MovementText,
 } from '../flight.card/styles';
 
+import DashedLine from 'react-native-dashed-line';
 import { FaIcon } from '../icons.fontawesome';
 import type { FindFlightsQuery } from '@app/generated/server.gql';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -28,6 +29,9 @@ type Props = {
 export const FlightCardCompact: React.FC<Props> = ({ flight, onPress }) => {
   const theme = useTheme();
   const canPress = !isNil(onPress);
+  const departure = moment
+    .utc(flight.estimatedGateDeparture)
+    .tz(flight.originTimezone);
 
   const handlePress = () => {
     if (!canPress) {
@@ -46,7 +50,7 @@ export const FlightCardCompact: React.FC<Props> = ({ flight, onPress }) => {
           <AirportCity>{flight.origin.cityName}</AirportCity>
         </FlightPoint>
         <DividerContainer>
-          {/* <DashedLine dashLength={5} dashColor={theme.pallette.grey[200]} /> */}
+          <DashedLine dashLength={2} dashColor={theme.pallette.grey[200]} />
         </DividerContainer>
         <FlightPoint type="destination">
           <AirportIata>{flight.destination.iata}</AirportIata>
@@ -62,9 +66,7 @@ export const FlightCardCompact: React.FC<Props> = ({ flight, onPress }) => {
               color={theme.pallette.successLight}
             />
           </MovementIconContainer>
-          <MovementText>
-            {moment(flight.estimatedGateDeparture).format('LT')}
-          </MovementText>
+          <MovementText>{departure.format('LT')}</MovementText>
         </Movement>
         <Actions>
           <FaIcon

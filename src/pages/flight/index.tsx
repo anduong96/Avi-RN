@@ -5,6 +5,7 @@ import { RefreshControl, ScrollView, View } from 'react-native';
 import { AlertFlightButton } from '@app/components/button.alerts.flight';
 import { AltFlightsButton } from '@app/components/button.alt.flights';
 import { BlurView } from '@react-native-community/blur';
+import DashedLine from 'react-native-dashed-line';
 import FastImage from 'react-native-fast-image';
 import { FlightPageDistanceSeparator } from '@app/components/flight.page/distance.separator';
 import { FlightPageLocationSection } from '@app/components/flight.page/location.section';
@@ -102,11 +103,25 @@ export const FlightPage: React.FC = () => {
                       scheduledMovementTime={flight.scheduledGateDeparture}
                       actualMovementTime={flight.actualGateDeparture}
                     />
-                    <FlightPageDistanceSeparator
-                      duration={
-                        flight.actualDuration ?? flight.estimatedDuration
-                      }
-                    />
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <DashedLine
+                        dashLength={2}
+                        dashColor={theme.pallette.grey[200]}
+                      />
+                      <View style={{ position: 'absolute' }}>
+                        <FlightPageDistanceSeparator
+                          duration={
+                            flight.actualDuration ?? flight.estimatedDuration
+                          }
+                        />
+                      </View>
+                    </View>
+
                     <FlightPageLocationSection
                       type="destination"
                       airport={flight.destination}

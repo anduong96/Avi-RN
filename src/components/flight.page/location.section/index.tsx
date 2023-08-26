@@ -25,11 +25,16 @@ export const FlightPageLocationSection: React.FC<Props> = ({
   gate,
   type,
   airport,
+  timezone,
   estimatedMovementTime,
   scheduledMovementTime,
   actualMovementTime,
 }) => {
   const theme = useTheme();
+  const movementTime = moment
+    .utc(actualMovementTime || estimatedMovementTime)
+    .tz(timezone);
+
   const timeColor = React.useMemo(
     () =>
       moment(estimatedMovementTime).isSameOrBefore(scheduledMovementTime)
@@ -50,9 +55,7 @@ export const FlightPageLocationSection: React.FC<Props> = ({
             <FaIcon size={22} name="arrow-circle-up" color={timeColor} />
           </DirectionalIconContainer>
           <TimeText style={[{ color: timeColor }]}>
-            {moment(actualMovementTime ?? estimatedMovementTime).format(
-              'h:mm A',
-            )}
+            {movementTime.format('h:mm A')}
           </TimeText>
         </Time>
         <View>

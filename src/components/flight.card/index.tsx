@@ -20,6 +20,7 @@ import {
 
 import { AirlineLogo } from '../airline.logo';
 import { DOT_SEPARATOR } from '@app/constants';
+import DashedLine from 'react-native-dashed-line';
 import { FaIcon } from '../icons.fontawesome';
 import type { GetUserFlightsQuery } from '@app/generated/server.gql';
 import moment from 'moment';
@@ -31,6 +32,9 @@ type Props = {
 
 export const FlightCard: React.FC<Props> = ({ value: { flight } }) => {
   const theme = useTheme();
+  const departure = moment
+    .utc(flight.estimatedGateDeparture)
+    .tz(flight.originTimezone);
 
   return (
     <Container>
@@ -53,7 +57,7 @@ export const FlightCard: React.FC<Props> = ({ value: { flight } }) => {
           <AirportCity>{flight.origin.cityName}</AirportCity>
         </FlightPoint>
         <DividerContainer>
-          {/* <DashedLine dashLength={2} dashColor={theme.pallette.grey[200]} /> */}
+          <DashedLine dashLength={2} dashColor={theme.pallette.grey[200]} />
         </DividerContainer>
         <FlightPoint type="destination">
           <AirportIata>{flight.destination.iata}</AirportIata>
@@ -61,7 +65,6 @@ export const FlightCard: React.FC<Props> = ({ value: { flight } }) => {
         </FlightPoint>
       </Body>
       <Footer>
-        {/* TODO: Change depend on state */}
         <Movement>
           <MovementIconContainer>
             <FaIcon
@@ -70,18 +73,12 @@ export const FlightCard: React.FC<Props> = ({ value: { flight } }) => {
               color={theme.pallette.successLight}
             />
           </MovementIconContainer>
-          <MovementText>
-            {moment(flight.estimatedGateDeparture).format('LT')}
-          </MovementText>
+          <MovementText>{departure.format('LT')}</MovementText>
         </Movement>
         <Time>
-          <TimeText bold>
-            {moment(flight.estimatedGateDeparture).fromNow()}
-          </TimeText>
+          <TimeText bold>{departure.fromNow()}</TimeText>
           <TimeText>{DOT_SEPARATOR}</TimeText>
-          <TimeText>
-            {moment(flight.estimatedGateDeparture).format('MMM D')}
-          </TimeText>
+          <TimeText>{departure.format('MMM D')}</TimeText>
         </Time>
       </Footer>
     </Container>

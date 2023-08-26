@@ -4,6 +4,7 @@ import { Button } from '@app/components/button';
 import type { FlightSearchStackParams } from '@app/stacks/flight.search.stack';
 import type { MainStackParam } from '@app/stacks';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
+import { alert } from '@baronha/ting';
 import { flightSearchState } from './state';
 import { size } from 'lodash';
 import { tryNice } from 'try-nice';
@@ -16,12 +17,21 @@ type ParentNavigation = NativeStackNavigationProp<MainStackParam, 'Home'>;
 
 //TODO: error state & loading state
 export const NextBtn: React.FC = () => {
-  const [getFlight, { loading }] = useFindFlightsLazyQuery();
   const navigation = useNavigation<Navigation>();
   const airlineIata = flightSearchState.useSelect((s) => s.airlineIata);
   const flightNumber = flightSearchState.useSelect((s) => s.flightNumber);
   const departureDate = flightSearchState.useSelect((s) => s.departureDate);
   const isDisabled = !(airlineIata && flightNumber && departureDate);
+  const [getFlight, { loading }] = useFindFlightsLazyQuery({
+    onError(error) {
+      alert({
+        title: 'Error!',
+        preset: 'error',
+        haptic: 'error',
+        message: error.message,
+      });
+    },
+  });
 
   const handleSearchFlight = async () => {
     if (isDisabled) {
@@ -67,6 +77,7 @@ export const NextBtn: React.FC = () => {
       size="small"
       disabled={isDisabled || loading}
       onPress={handleSearchFlight}
+      isLoading={loading}
     >
       Next
     </Button>

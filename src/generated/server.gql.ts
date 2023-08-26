@@ -49,8 +49,6 @@ export type Flight = {
   actualDuration?: Maybe<Scalars['Float']>;
   actualGateArrival?: Maybe<Scalars['DateTime']>;
   actualGateDeparture?: Maybe<Scalars['DateTime']>;
-  actualRunwayArrival?: Maybe<Scalars['DateTime']>;
-  actualRunwayDeparture?: Maybe<Scalars['DateTime']>;
   airline: Airline;
   airlineIata: Scalars['String'];
   airplaneIata?: Maybe<Scalars['String']>;
@@ -62,8 +60,6 @@ export type Flight = {
   estimatedDuration: Scalars['Float'];
   estimatedGateArrival: Scalars['DateTime'];
   estimatedGateDeparture: Scalars['DateTime'];
-  estimatedRunwayArrival: Scalars['DateTime'];
-  estimatedRunwayDeparture: Scalars['DateTime'];
   flightNumber: Scalars['String'];
   id: Scalars['ID'];
   origin: Airport;
@@ -74,8 +70,6 @@ export type Flight = {
   scheduledDuration: Scalars['Float'];
   scheduledGateArrival: Scalars['DateTime'];
   scheduledGateDeparture: Scalars['DateTime'];
-  scheduledRunwayArrival: Scalars['DateTime'];
-  scheduledRunwayDeparture: Scalars['DateTime'];
   status: FlightStatus;
 };
 
@@ -246,7 +240,7 @@ export type AirportQueryVariables = Exact<{
 
 export type AirportQuery = { __typename?: 'Query', airport: { __typename?: 'Airport', id: string, name: string, iata: string, cityName?: string | null, cityCode: string, timezone: string, state?: string | null, elevation?: number | null, countryCode: string, countyName?: string | null, location?: { __typename?: 'Location', coordinates: Array<number> } | null } };
 
-export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, scheduledGateDeparture: Date, scheduledRunwayDeparture: Date, scheduledGateArrival: Date, scheduledRunwayArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedRunwayDeparture: Date, estimatedRunwayArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualRunwayDeparture?: Date | null, actualGateArrival?: Date | null, actualRunwayArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } };
+export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, scheduledGateDeparture: Date, scheduledGateArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualGateArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } };
 
 export type FindFlightsQueryVariables = Exact<{
   airlineIata: Scalars['String'];
@@ -255,7 +249,7 @@ export type FindFlightsQueryVariables = Exact<{
 }>;
 
 
-export type FindFlightsQuery = { __typename?: 'Query', findFlights: Array<{ __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, scheduledGateDeparture: Date, scheduledRunwayDeparture: Date, scheduledGateArrival: Date, scheduledRunwayArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedRunwayDeparture: Date, estimatedRunwayArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualRunwayDeparture?: Date | null, actualGateArrival?: Date | null, actualRunwayArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } }> };
+export type FindFlightsQuery = { __typename?: 'Query', findFlights: Array<{ __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, scheduledGateDeparture: Date, scheduledGateArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualGateArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } }> };
 
 export type GetFlightPromptnessQueryVariables = Exact<{
   airlineIata: Scalars['String'];
@@ -270,12 +264,12 @@ export type GetFlightQueryVariables = Exact<{
 }>;
 
 
-export type GetFlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, scheduledGateDeparture: Date, scheduledRunwayDeparture: Date, scheduledGateArrival: Date, scheduledRunwayArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedRunwayDeparture: Date, estimatedRunwayArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualRunwayDeparture?: Date | null, actualGateArrival?: Date | null, actualRunwayArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } } };
+export type GetFlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, scheduledGateDeparture: Date, scheduledGateArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualGateArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } } };
 
 export type GetUserFlightsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserFlightsQuery = { __typename?: 'Query', userFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: Date, shouldAlert: boolean, flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, scheduledGateDeparture: Date, scheduledRunwayDeparture: Date, scheduledGateArrival: Date, scheduledRunwayArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedRunwayDeparture: Date, estimatedRunwayArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualRunwayDeparture?: Date | null, actualGateArrival?: Date | null, actualRunwayArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } } }> };
+export type GetUserFlightsQuery = { __typename?: 'Query', userFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: Date, shouldAlert: boolean, flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, scheduledGateDeparture: Date, scheduledGateArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualGateArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } } }> };
 
 export type AddUserFlightMutationVariables = Exact<{
   flightID: Scalars['String'];
@@ -337,19 +331,13 @@ export const FullFlightFragmentFragmentDoc = gql`
     iata
   }
   scheduledGateDeparture
-  scheduledRunwayDeparture
   scheduledGateArrival
-  scheduledRunwayArrival
   scheduledDuration
   estimatedGateDeparture
   estimatedGateArrival
-  estimatedRunwayDeparture
-  estimatedRunwayArrival
   estimatedDuration
   actualGateDeparture
-  actualRunwayDeparture
   actualGateArrival
-  actualRunwayArrival
   actualDuration
 }
     `;

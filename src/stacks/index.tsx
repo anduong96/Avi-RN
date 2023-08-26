@@ -46,10 +46,11 @@ export const AppNavigator: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomePage} />
-      <Stack.Screen name="ArchivedFlights" component={ArchivedFlightsPage} />
-      <Stack.Screen name="FlightStack" component={FlightStack} />
-      <Stack.Screen name="FlightSearchStack" component={FlightSearchStack} />
+
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name="ArchivedFlights" component={ArchivedFlightsPage} />
+        <Stack.Screen name="FlightStack" component={FlightStack} />
+        <Stack.Screen name="FlightSearchStack" component={FlightSearchStack} />
         <Stack.Screen name="Debug" component={DebugMenuPage} />
         <Stack.Screen name="Profile" component={ProfilePage} />
         <Stack.Screen name="Settings" component={SettingsPage} />

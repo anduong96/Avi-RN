@@ -38,21 +38,15 @@ fragment FullFlightFragment on Flight {
   }
 
   scheduledGateDeparture
-  scheduledRunwayDeparture
   scheduledGateArrival
-  scheduledRunwayArrival
   scheduledDuration
 
   estimatedGateDeparture
   estimatedGateArrival
-  estimatedRunwayDeparture
-  estimatedRunwayArrival
   estimatedDuration
 
   actualGateDeparture
-  actualRunwayDeparture
   actualGateArrival
-  actualRunwayArrival
   actualDuration
 }
 

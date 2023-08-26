@@ -21,8 +21,8 @@ type Props = {
 };
 
 export const FlightPageLocationSection: React.FC<Props> = ({
-  terminal,
-  gate,
+  terminal = '--',
+  gate = '--',
   type,
   airport,
   timezone,

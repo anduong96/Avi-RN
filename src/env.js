@@ -7,7 +7,7 @@ const ENV = {
   /**
    * @type {'production' | 'staging' | 'development'}
    */
-  APP_ENV: Config.APP_ENV,
+  APP_ENV: Config.APP_ENV || 'development',
   SERVER:
     Config.SERVER ||
     (isDev

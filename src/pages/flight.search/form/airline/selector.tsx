@@ -22,6 +22,7 @@ import { FlightSearchSheet } from '../../sheet';
 import Fuse from 'fuse.js';
 import { Input } from '@app/components/input';
 import type { TextInput } from 'react-native';
+import moment from 'moment';
 import { styled } from '@app/lib/styled';
 import { useAirlinesQuery } from '@app/generated/server.gql';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -30,7 +31,10 @@ import { vibrate } from '@app/lib/haptic.feedback';
 
 export const AirlineSheetSelector: React.FC = () => {
   const insets = useSafeAreaInsets();
-  const options = useAirlinesQuery();
+  const options = useAirlinesQuery({
+    fetchPolicy: 'cache-first',
+    pollInterval: moment.duration({ hours: 6 }).milliseconds(),
+  });
   const sheet = React.useRef<BottomSheet>(null);
   const input = React.useRef<TextInput>(null);
   const theme = useTheme();

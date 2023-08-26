@@ -60,6 +60,7 @@ export const FlightSearchListPage: React.FC = () => {
     <PageContainer>
       <PageHeader
         withBack
+        withoutInsets
         onPressBack={handleBack}
         align="center"
         title={<FlightPageTopHeader flight={flights[0]} />}

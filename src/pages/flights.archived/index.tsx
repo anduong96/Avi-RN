@@ -7,19 +7,12 @@ import {
 } from '@app/generated/server.gql';
 
 import { FlightCard } from '@app/components/flight.card';
-import type { MainStackParam } from '@app/stacks';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PageContainer } from '@app/components/page.container';
 import { PageHeader } from '@app/components/page.header';
 import { size } from 'lodash';
 import { styled } from '@app/lib/styled';
-import { useNavigation } from '@react-navigation/native';
-import { vibrate } from '@app/lib/haptic.feedback';
-
-type Navigation = NativeStackNavigationProp<MainStackParam, 'ArchivedFlights'>;
 
 export const ArchivedFlightsPage: React.FC = () => {
-  const navigation = useNavigation<Navigation>();
   const response = useGetUserFlightsQuery({
     fetchPolicy: 'cache-first',
   });
@@ -27,18 +20,9 @@ export const ArchivedFlightsPage: React.FC = () => {
     (entry) => entry.flight.status === FlightStatus.ARCHIVED,
   );
 
-  const handleExit = () => {
-    vibrate('impactMedium');
-    navigation.goBack();
-  };
-
   return (
     <PageContainer>
-      <PageHeader
-        withBack
-        title={`Archived Flights (${size(data)})`}
-        onPressBack={handleExit}
-      />
+      <PageHeader withoutInsets title={`Archived Flights (${size(data)})`} />
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}

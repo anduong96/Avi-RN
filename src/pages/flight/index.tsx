@@ -1,20 +1,17 @@
 import * as React from 'react';
 
 import { RefreshControl, ScrollView, View } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { AlertFlightButton } from '@app/components/button.alerts.flight';
 import { AltFlightsButton } from '@app/components/button.alt.flights';
-import Animated from 'react-native-reanimated';
 import { BlurView } from '@react-native-community/blur';
+import FastImage from 'react-native-fast-image';
 import { FlightPageDistanceSeparator } from '@app/components/flight.page/distance.separator';
 import { FlightPageLocationSection } from '@app/components/flight.page/location.section';
 import { FlightPageTopHeader } from '@app/components/flight.page/top.header';
 import type { FlightStackParams } from '@app/stacks/flight.stack';
 import { LoadingContainer } from '@app/components/loading.container';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PageContainer } from '@app/components/page.container';
-import { PageHeader } from '@app/components/page.header';
 import { PromptnessCompact } from './promptness.compact';
 import type { RouteProp } from '@react-navigation/native';
 import { SaveFlightButton } from '@app/components/button.save.flight';
@@ -22,14 +19,12 @@ import { ShareFlightButton } from '@app/components/button.share.flight';
 import { VerticalDivider } from '@app/components/divider.vertical';
 import { styled } from '@app/lib/styled';
 import { useGetFlightQuery } from '@app/generated/server.gql';
+import { useRoute } from '@react-navigation/native';
 import { useTheme } from '@app/lib/hooks/use.theme';
-import { vibrate } from '@app/lib/haptic.feedback';
 
-type Navigation = NativeStackNavigationProp<FlightStackParams, 'Flight'>;
 type Route = RouteProp<FlightStackParams, 'Flight'>;
 
 export const FlightPage: React.FC = () => {
-  const navigation = useNavigation<Navigation>();
   const route = useRoute<Route>();
   const theme = useTheme();
   const flightID = route.params.flightID;
@@ -39,11 +34,6 @@ export const FlightPage: React.FC = () => {
       flightID,
     },
   });
-
-  const handleGoBack = () => {
-    vibrate('impactMedium');
-    navigation.goBack();
-  };
 
   return (
     <PageContainer>
@@ -57,13 +47,19 @@ export const FlightPage: React.FC = () => {
 
           return (
             <Wrapper>
-              <PageHeader
-                withBack
-                onPressBack={handleGoBack}
-                align="center"
-                title={<FlightPageTopHeader flight={flight} />}
-              />
-              <ActionsWrapper />
+              <Header>
+                <FlightPageTopHeader flight={flight} />
+                <FastImage
+                  style={{
+                    width: 70,
+                    height: undefined,
+                    aspectRatio: 1,
+                  }}
+                  source={{
+                    uri: flight.airline.logoCompactImageURL,
+                  }}
+                />
+              </Header>
               <ScrollView
                 showsVerticalScrollIndicator={false}
                 stickyHeaderIndices={[0]}
@@ -156,6 +152,14 @@ const Meta = styled(View, (theme) => [
   },
 ]);
 
-const ActionsWrapper = styled(Animated.View, () => []);
-
 const Actions = styled(ScrollView, () => []);
+
+const Header = styled(View, (theme) => [
+  {
+    paddingVertical: theme.space.small,
+    paddingHorizontal: theme.space.medium,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+]);

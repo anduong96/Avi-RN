@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { Text, View } from 'react-native';
 
-import FastImage from 'react-native-fast-image';
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 import moment from 'moment';
 import { styled } from '@app/lib/styled';
@@ -15,13 +14,6 @@ export const FlightPageTopHeader: React.FC<Props> = ({ flight }) => {
   return (
     <Container>
       <Flight>
-        <AirlineLogoContainer>
-          <FastImage
-            source={{ uri: flight.airline.logoCompactImageURL }}
-            style={{ width: '100%', height: '100%' }}
-            resizeMode="contain"
-          />
-        </AirlineLogoContainer>
         <FlightMeta>
           <FlightNumber>
             {flight.airlineIata} {flight.flightNumber}
@@ -49,21 +41,18 @@ const Flight = styled(View, (theme) => [
   },
 ]);
 
-const AirlineLogoContainer = styled(View, () => [
+const FlightMeta = styled(View, () => []);
+
+const FlightNumber = styled(Text, (theme) => [
+  theme.typography.presets.h2,
   {
-    width: 30,
-    height: undefined,
-    aspectRatio: 1,
+    color: theme.typography.color,
   },
 ]);
 
-const FlightMeta = styled(View, () => []);
-
-const FlightNumber = styled(Text, (theme) => [theme.typography.presets.h4]);
-
 const DepartureDate = styled(Text, (theme) => [
-  theme.typography.presets.small,
+  theme.typography.presets.p2,
   {
-    color: theme.typography.secondaryColor,
+    color: theme.typography.color,
   },
 ]);

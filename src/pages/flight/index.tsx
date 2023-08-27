@@ -116,7 +116,7 @@ export const FlightPage: React.FC = () => {
                       <View style={{ position: 'absolute' }}>
                         <FlightPageDistanceSeparator
                           duration={
-                            flight.actualDuration ?? flight.estimatedDuration
+                            flight.actualDuration || flight.estimatedDuration
                           }
                         />
                       </View>

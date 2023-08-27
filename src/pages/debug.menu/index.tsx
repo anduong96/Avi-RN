@@ -36,7 +36,7 @@ export const DebugMenuPage: React.FC = () => {
       <PageHeader withoutInsets title="Debug" />
       <Content>
         <Text>Bundle: {DeviceInfo.getBundleId()}</Text>
-        <Text>FCM: {fcmToken ?? ''}</Text>
+        <Text selectable>FCM: {fcmToken ?? ''}</Text>
         <TouchableOpacity onPress={handleSubscribeToTopic}>
           <Text>
             Subscribe to {ENV.APP_ENV} topic:{' '}

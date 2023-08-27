@@ -59,8 +59,8 @@ export const FlightPageLocationSection: React.FC<Props> = ({
           </TimeText>
         </Time>
         <View>
-          <MetaText>Terminal {terminal}</MetaText>
-          <MetaText>Gate {gate}</MetaText>
+          <MetaText>Terminal {terminal || '--'}</MetaText>
+          <MetaText>Gate {gate || '--'}</MetaText>
         </View>
       </Meta>
     </Container>

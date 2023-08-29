@@ -6,6 +6,8 @@ import { AlertFlightButton } from '@app/components/button.alerts.flight';
 import { AltFlightsButton } from '@app/components/button.alt.flights';
 import { BlurView } from '@react-native-community/blur';
 import DashedLine from 'react-native-dashed-line';
+import { DebugNoficationFlightBtn } from '@app/components/button.debug.notif.flight';
+import { ENV } from '@app/env';
 import FastImage from 'react-native-fast-image';
 import { FlightPageDistanceSeparator } from '@app/components/flight.page/distance.separator';
 import { FlightPageLocationSection } from '@app/components/flight.page/location.section';
@@ -88,6 +90,12 @@ export const FlightPage: React.FC = () => {
                     <AlertFlightButton flightID={flightID} />
                     <AltFlightsButton flightID={flightID} />
                     <ShareFlightButton flightID={flightID} />
+                    {ENV.APP_ENV !== 'production' && (
+                      <>
+                        <VerticalDivider />
+                        <DebugNoficationFlightBtn flightID={flightID} />
+                      </>
+                    )}
                   </Actions>
                 </BlurView>
                 <Content>

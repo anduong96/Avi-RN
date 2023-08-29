@@ -120,12 +120,18 @@ export type Location = {
 export type Mutation = {
   __typename?: 'Mutation';
   addUserFlight: Scalars['String'];
+  debug_sendFlightNotification: Scalars['Float'];
   deleteUserFlight: Scalars['String'];
   updateUser: Scalars['Boolean'];
 };
 
 
 export type MutationAddUserFlightArgs = {
+  flightID: Scalars['String'];
+};
+
+
+export type MutationDebug_SendFlightNotificationArgs = {
   flightID: Scalars['String'];
 };
 
@@ -239,6 +245,13 @@ export type AirportQueryVariables = Exact<{
 
 
 export type AirportQuery = { __typename?: 'Query', airport: { __typename?: 'Airport', id: string, name: string, iata: string, cityName?: string | null, cityCode: string, timezone: string, state?: string | null, elevation?: number | null, countryCode: string, countyName?: string | null, location?: { __typename?: 'Location', coordinates: Array<number> } | null } };
+
+export type DebugFlightNoficationMutationVariables = Exact<{
+  flightID: Scalars['String'];
+}>;
+
+
+export type DebugFlightNoficationMutation = { __typename?: 'Mutation', debug_sendFlightNotification: number };
 
 export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originTimezone: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationTimezone: string, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, scheduledGateDeparture: Date, scheduledGateArrival: Date, scheduledDuration: number, estimatedGateDeparture: Date, estimatedGateArrival: Date, estimatedDuration: number, actualGateDeparture?: Date | null, actualGateArrival?: Date | null, actualDuration?: number | null, airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, origin: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string }, destination: { __typename?: 'Airport', id: string, name: string, cityName?: string | null, countryCode: string, iata: string } };
 
@@ -476,6 +489,37 @@ export type AirportQueryResult = Apollo.QueryResult<AirportQuery, AirportQueryVa
 export function refetchAirportQuery(variables: AirportQueryVariables) {
       return { query: AirportDocument, variables: variables }
     }
+export const DebugFlightNoficationDocument = gql`
+    mutation debugFlightNofication($flightID: String!) {
+  debug_sendFlightNotification(flightID: $flightID)
+}
+    `;
+export type DebugFlightNoficationMutationFn = Apollo.MutationFunction<DebugFlightNoficationMutation, DebugFlightNoficationMutationVariables>;
+
+/**
+ * __useDebugFlightNoficationMutation__
+ *
+ * To run a mutation, you first call `useDebugFlightNoficationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDebugFlightNoficationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [debugFlightNoficationMutation, { data, loading, error }] = useDebugFlightNoficationMutation({
+ *   variables: {
+ *      flightID: // value for 'flightID'
+ *   },
+ * });
+ */
+export function useDebugFlightNoficationMutation(baseOptions?: Apollo.MutationHookOptions<DebugFlightNoficationMutation, DebugFlightNoficationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DebugFlightNoficationMutation, DebugFlightNoficationMutationVariables>(DebugFlightNoficationDocument, options);
+      }
+export type DebugFlightNoficationMutationHookResult = ReturnType<typeof useDebugFlightNoficationMutation>;
+export type DebugFlightNoficationMutationResult = Apollo.MutationResult<DebugFlightNoficationMutation>;
+export type DebugFlightNoficationMutationOptions = Apollo.BaseMutationOptions<DebugFlightNoficationMutation, DebugFlightNoficationMutationVariables>;
 export const FindFlightsDocument = gql`
     query FindFlights($airlineIata: String!, $flightNumber: String!, $departureDate: DateTime!) {
   findFlights(

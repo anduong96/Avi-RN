@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { FaIcon } from '../icons.fontawesome';
 import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { styled } from '@app/lib/styled';
@@ -34,7 +33,6 @@ export const DebugNoficationFlightBtn: React.FC<Props> = ({ flightID }) => {
 
   return (
     <Btn onPress={() => send()} disabled={loading}>
-      <FaIcon name="share-alt" />
       <BtnText>[DEBUG] Send Notification</BtnText>
     </Btn>
   );

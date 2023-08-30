@@ -30,7 +30,7 @@ export const CalendarDates: React.FC<Props> = ({
     [month, year],
   );
 
-  const boxSize = cWidth / weekdays.length;
+  const boxSize = Math.floor(cWidth / weekdays.length);
 
   const handleSelect = (selection: moment.Moment) => {
     if (!onSelect) {
@@ -99,6 +99,7 @@ const Weekday = styled<{ size: number }, typeof View>(View, (theme, props) => [
   theme.presets.centered,
   {
     width: props.size,
+    height: props.size,
     overflow: 'hidden',
   },
 ]);

@@ -44,9 +44,7 @@ export const NextBtn: React.FC = () => {
         variables: {
           airlineIata,
           flightNumber,
-          year: departureDate.getFullYear(),
-          month: departureDate.getMonth(),
-          date: departureDate.getDate(),
+          departureDate,
         },
       }),
     );

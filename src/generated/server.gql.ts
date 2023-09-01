@@ -183,10 +183,8 @@ export type QueryCountryArgs = {
 
 export type QueryFindFlightsArgs = {
   airlineIata: Scalars['String'];
-  date: Scalars['Float'];
+  departureDate: Scalars['DateTime'];
   flightNumber: Scalars['String'];
-  month: Scalars['Float'];
-  year: Scalars['Float'];
 };
 
 
@@ -260,9 +258,7 @@ export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, ai
 export type FindFlightsQueryVariables = Exact<{
   airlineIata: Scalars['String'];
   flightNumber: Scalars['String'];
-  year: Scalars['Float'];
-  month: Scalars['Float'];
-  date: Scalars['Float'];
+  departureDate: Scalars['DateTime'];
 }>;
 
 
@@ -525,13 +521,11 @@ export type DebugFlightNoficationMutationHookResult = ReturnType<typeof useDebug
 export type DebugFlightNoficationMutationResult = Apollo.MutationResult<DebugFlightNoficationMutation>;
 export type DebugFlightNoficationMutationOptions = Apollo.BaseMutationOptions<DebugFlightNoficationMutation, DebugFlightNoficationMutationVariables>;
 export const FindFlightsDocument = gql`
-    query FindFlights($airlineIata: String!, $flightNumber: String!, $year: Float!, $month: Float!, $date: Float!) {
+    query FindFlights($airlineIata: String!, $flightNumber: String!, $departureDate: DateTime!) {
   findFlights(
     airlineIata: $airlineIata
     flightNumber: $flightNumber
-    year: $year
-    month: $month
-    date: $date
+    departureDate: $departureDate
   ) {
     ...FullFlightFragment
   }
@@ -552,9 +546,7 @@ export const FindFlightsDocument = gql`
  *   variables: {
  *      airlineIata: // value for 'airlineIata'
  *      flightNumber: // value for 'flightNumber'
- *      year: // value for 'year'
- *      month: // value for 'month'
- *      date: // value for 'date'
+ *      departureDate: // value for 'departureDate'
  *   },
  * });
  */

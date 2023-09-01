@@ -34,8 +34,10 @@ const Stack = createNativeStackNavigator<MainStackParam>();
 
 export const AppNavigator: React.FC = () => {
   const userFlights = useGetUserFlightsQuery();
-  const canBoot = GlobalState.useSelect((state) => state.isFinishStartup);
   const userFlightsLoaded = !isNil(userFlights.data?.userFlights);
+  const canBoot = GlobalState.useSelect(
+    (state) => state.isFinishStartup && state.isReady,
+  );
 
   React.useEffect(() => {
     if (canBoot && userFlightsLoaded) {

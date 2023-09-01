@@ -53,12 +53,16 @@ fragment FullFlightFragment on Flight {
 query FindFlights(
   $airlineIata: String!
   $flightNumber: String!
-  $departureDate: DateTime!
+  $year: Float!
+  $month: Float!
+  $date: Float!
 ) {
   findFlights(
     airlineIata: $airlineIata
     flightNumber: $flightNumber
-    departureDate: $departureDate
+    year: $year
+    month: $month
+    date: $date
   ) {
     ...FullFlightFragment
   }

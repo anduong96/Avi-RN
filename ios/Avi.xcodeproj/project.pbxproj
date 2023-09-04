@@ -647,7 +647,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.avitech.app.staging;
+				PRODUCT_BUNDLE_IDENTIFIER = com.avitech.app.develop;
 				PRODUCT_NAME = Avi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

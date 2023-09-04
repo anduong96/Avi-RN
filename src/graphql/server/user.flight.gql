@@ -6,6 +6,10 @@ mutation DeleteUserFlight($flightID: String!) {
   deleteUserFlight(flightID: $flightID)
 }
 
+query UserHasFlights {
+  userHasFlights
+}
+
 query UserFlight($flightID: String!) {
   userFlight(flightID: $flightID) {
     id

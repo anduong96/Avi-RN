@@ -16,7 +16,7 @@ import { TermsOfServicePage } from '@app/pages/terms.of.service';
 import { bootApp } from '@app/lib/boot.app';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { isNil } from 'lodash';
-import { useGetUserFlightsQuery } from '@app/generated/server.gql';
+import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 
 export type MainStackParam = {
   Home: undefined;
@@ -33,8 +33,8 @@ export type MainStackParam = {
 const Stack = createNativeStackNavigator<MainStackParam>();
 
 export const AppNavigator: React.FC = () => {
-  const userFlights = useGetUserFlightsQuery();
-  const userFlightsLoaded = !isNil(userFlights.data?.userFlights);
+  const userFlights = useUserHasFlightsQuery({ fetchPolicy: 'cache-only' });
+  const userFlightsLoaded = !isNil(userFlights.data?.userHasFlights);
   const canBoot = GlobalState.useSelect(
     (state) => state.isFinishStartup && state.isReady,
   );

@@ -46,14 +46,3 @@ messaging().onMessage((data) => {
 
   notifee.displayNotification(payload);
 });
-
-// notifee.onBackgroundEvent(async (event) => {
-//   // logger.debug('onBackgroundEvent', event);
-//   // if (event.detail.notification) {
-//   //   notifee.displayNotification(event.detail.notification);
-//   // }
-// });
-
-// notifee.onForegroundEvent(async (event) => {
-//   // logger.debug('onForegroundEvent', event);
-// });

@@ -53,6 +53,7 @@ export const FlightPage: React.FC = () => {
               <Header>
                 <FlightPageTopHeader flight={flight} />
                 <FastImage
+                  resizeMode="contain"
                   style={{
                     width: 70,
                     height: undefined,

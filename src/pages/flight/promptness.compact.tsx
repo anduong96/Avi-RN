@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Text, View } from 'react-native';
 
-import { FaIcon } from '@app/components/icons.fontawesome';
+// import { FaIcon } from '@app/components/icons.fontawesome';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 import { VerticalDivider } from '@app/components/divider.vertical';
 import { isNil } from 'lodash';
@@ -51,9 +51,9 @@ export const PromptnessCompact: React.FC<Props> = ({
           </ItemValue>
         </Item>
       </Content>
-      <Footer>
+      {/* <Footer>
         <FaIcon isActive name="chevron-right" />
-      </Footer>
+      </Footer> */}
     </Container>
   );
 };
@@ -99,9 +99,9 @@ const Content = styled(View, () => [
   },
 ]);
 
-const Footer = styled(View, () => [
-  {
-    alignItems: 'flex-end',
-    width: '100%',
-  },
-]);
+// const Footer = styled(View, () => [
+//   {
+//     alignItems: 'flex-end',
+//     width: '100%',
+//   },
+// ]);

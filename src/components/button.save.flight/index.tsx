@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import {
-  GetUserFlightsDocument,
+  GetUserActiveFlightsDocument,
   useAddUserFlightMutation,
   useDeleteUserFlightMutation,
   useUserFlightQuery,
@@ -36,7 +36,7 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
     },
     refetchQueries: [
       {
-        query: GetUserFlightsDocument,
+        query: GetUserActiveFlightsDocument,
       },
     ],
     onCompleted() {
@@ -51,7 +51,7 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
     },
     refetchQueries: [
       {
-        query: GetUserFlightsDocument,
+        query: GetUserActiveFlightsDocument,
       },
     ],
     onCompleted() {

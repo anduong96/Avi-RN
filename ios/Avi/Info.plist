@@ -31,6 +31,10 @@
 			</array>
 		</dict>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>flywithavi</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>flywithavi</string>

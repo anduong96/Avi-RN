@@ -1,24 +1,20 @@
 import * as React from 'react';
 
 import { FlatList, RefreshControl, View } from 'react-native';
-import {
-  FlightStatus,
-  useGetUserFlightsQuery,
-} from '@app/generated/server.gql';
 
 import { FlightCard } from '@app/components/flight.card';
 import { PageContainer } from '@app/components/page.container';
 import { PageHeader } from '@app/components/page.header';
 import { size } from 'lodash';
 import { styled } from '@app/lib/styled';
+import { useGetUserArchivedFlightsQuery } from '@app/generated/server.gql';
 
 export const ArchivedFlightsPage: React.FC = () => {
-  const response = useGetUserFlightsQuery({
+  const response = useGetUserArchivedFlightsQuery({
     fetchPolicy: 'cache-first',
   });
-  const data = response.data?.userFlights.filter(
-    (entry) => entry.flight.status === FlightStatus.ARCHIVED,
-  );
+
+  const data = response.data?.userArchivedFlights;
 
   return (
     <PageContainer>

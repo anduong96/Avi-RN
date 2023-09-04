@@ -10,8 +10,8 @@ query Airport($iata: String!) {
     elevation
     countryCode
     countyName
-    location {
-      coordinates
-    }
+    # location {
+    #   coordinates
+    # }
   }
 }

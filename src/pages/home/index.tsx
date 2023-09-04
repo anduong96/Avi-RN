@@ -17,10 +17,9 @@ import { Alert, RefreshControl, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import {
-  FlightStatus,
-  GetUserFlightsDocument,
+  GetUserActiveFlightsDocument,
   useDeleteUserFlightMutation,
-  useGetUserFlightsQuery,
+  useGetUserActiveFlightsQuery,
 } from '@app/generated/server.gql';
 
 import { BlurredBottomSheetBackground } from '../flight.search/sheet/sheet.background';
@@ -50,14 +49,12 @@ export const HomePage: React.FC = () => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<Navigation>();
-  const flights = useGetUserFlightsQuery({ fetchPolicy: 'cache-first' });
-  const activeFlights = flights.data?.userFlights.filter(
-    (entry) => entry.flight.status !== FlightStatus.ARCHIVED,
-  );
+  const flights = useGetUserActiveFlightsQuery({ fetchPolicy: 'cache-first' });
+  const activeFlights = flights.data?.userActiveFlights;
   const [removeFlight] = useDeleteUserFlightMutation({
     refetchQueries: [
       {
-        query: GetUserFlightsDocument,
+        query: GetUserActiveFlightsDocument,
       },
     ],
   });

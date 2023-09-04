@@ -39,15 +39,12 @@ fragment FullFlightFragment on Flight {
 
   scheduledGateDeparture
   scheduledGateArrival
-  scheduledDuration
 
   estimatedGateDeparture
   estimatedGateArrival
-  estimatedDuration
 
   actualGateDeparture
   actualGateArrival
-  actualDuration
 }
 
 query FindFlights(
@@ -78,12 +75,23 @@ query GetFlight($flightID: String!) {
   }
 }
 
-query GetUserFlights {
-  userFlights {
+query GetUserActiveFlights {
+  userActiveFlights {
     id
     flightID
     createdAt
     shouldAlert
+    flight {
+      ...FullFlightFragment
+    }
+  }
+}
+
+query GetUserArchivedFlights {
+  userArchivedFlights {
+    id
+    flightID
+    createdAt
     flight {
       ...FullFlightFragment
     }

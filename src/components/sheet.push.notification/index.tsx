@@ -8,13 +8,12 @@ import { FaIcon } from '../icons.fontawesome';
 import { GlobalState } from '@app/state/global';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { delay } from '@app/lib/delay';
-import { isEmpty } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
 import { styled } from '@app/lib/styled';
 import { useAppState } from '@app/lib/hooks/use.app.state';
-import { useGetUserFlightsQuery } from '@app/generated/server.gql';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 import { vibrate } from '@app/lib/haptic.feedback';
 
 export const PushNotificationSheet: React.FC = () => {
@@ -24,8 +23,8 @@ export const PushNotificationSheet: React.FC = () => {
   const sheet = React.useRef<BottomSheetModal>(null);
   const isPushAsked = GlobalState.useSelect((s) => s.isPushAsked);
   const status = GlobalState.useSelect((s) => s.pushPermission);
-  const userFlights = useGetUserFlightsQuery({ fetchPolicy: 'cache-first' });
-  const hasFlights = !isEmpty(userFlights.data?.userFlights);
+  const userFlights = useUserHasFlightsQuery();
+  const hasFlights = userFlights.data?.userHasFlights;
   const appState = useAppState();
   const [loading, setLoading] = React.useState(false);
 

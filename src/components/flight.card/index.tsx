@@ -43,8 +43,8 @@ export const FlightCard: React.FC<Props> = ({ value: { flight } }) => {
           <AirlineLogo
             iata={flight.airlineIata}
             type="compact"
-            width={15}
-            height={15}
+            width={20}
+            height={20}
           />
           <AirlineFlightNumber>
             {flight.airlineIata} {flight.flightNumber}

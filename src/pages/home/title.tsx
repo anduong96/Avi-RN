@@ -1,20 +1,15 @@
 import * as React from 'react';
 
-import {
-  FlightStatus,
-  useGetUserFlightsQuery,
-} from '@app/generated/server.gql';
 import { Text, View } from 'react-native';
 
 import { size } from 'lodash';
 import { styled } from '@app/lib/styled';
+import { useGetUserActiveFlightsQuery } from '@app/generated/server.gql';
 
 export const Title: React.FC = () => {
-  const flights = useGetUserFlightsQuery();
-  const data = flights.data?.userFlights;
-  const count = size(
-    data?.filter((entry) => entry.flight.status !== FlightStatus.ARCHIVED),
-  );
+  const flights = useGetUserActiveFlightsQuery();
+  const data = flights.data?.userActiveFlights;
+  const count = size(data);
 
   return (
     <Container>

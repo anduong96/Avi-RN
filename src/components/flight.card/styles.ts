@@ -68,6 +68,7 @@ export const DividerContainer = styled(View, (theme) => [
 export const AirlineContainer = styled(View, (theme) => [
   {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: theme.space.tiny,
   },
 ]);

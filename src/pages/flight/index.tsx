@@ -20,6 +20,7 @@ import type { RouteProp } from '@react-navigation/native';
 import { SaveFlightButton } from '@app/components/button.save.flight';
 import { ShareFlightButton } from '@app/components/button.share.flight';
 import { VerticalDivider } from '@app/components/divider.vertical';
+import moment from 'moment';
 import { styled } from '@app/lib/styled';
 import { useGetFlightQuery } from '@app/generated/server.gql';
 import { useRoute } from '@react-navigation/native';
@@ -124,9 +125,9 @@ export const FlightPage: React.FC = () => {
                       />
                       <View style={{ position: 'absolute' }}>
                         <FlightPageDistanceSeparator
-                          duration={
-                            flight.actualDuration || flight.estimatedDuration
-                          }
+                          duration={moment(flight.estimatedGateArrival).diff(
+                            flight.estimatedGateDeparture,
+                          )}
                         />
                       </View>
                     </View>

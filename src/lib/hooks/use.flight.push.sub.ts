@@ -6,10 +6,11 @@ import { logger } from '../logger';
 import { useGetUserActiveFlightsQuery } from '@app/generated/server.gql';
 
 export function useFlightPushSub() {
+  const isReady = FlightPushSubState.useSelect((s) => s.isReady);
   const { data } = useGetUserActiveFlightsQuery();
 
   React.useEffect(() => {
-    if (!data?.userActiveFlights) {
+    if (!data?.userActiveFlights || !isReady) {
       return;
     }
 
@@ -32,5 +33,5 @@ export function useFlightPushSub() {
     for (const entry of diff.removed) {
       FlightPushSubState.actions.removeFlight(entry);
     }
-  }, [data]);
+  }, [data, isReady]);
 }

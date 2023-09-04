@@ -6,7 +6,6 @@ import { AlertFlightButton } from '@app/components/button.alerts.flight';
 import { AltFlightsButton } from '@app/components/button.alt.flights';
 import { BlurView } from '@react-native-community/blur';
 import { DebugNoficationFlightBtn } from '@app/components/button.debug.notif.flight';
-import { DividerDashed } from '@app/components/divider.dashed';
 import { ENV } from '@app/env';
 import FastImage from 'react-native-fast-image';
 import { FlightPageDistanceSeparator } from '@app/components/flight.page/distance.separator';

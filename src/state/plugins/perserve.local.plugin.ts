@@ -12,31 +12,21 @@ export function withLocalStorage<
     setState: (state: State, nextState: Partial<State>) => void;
   },
 >(key: string, store: Pick<Store<State, A>, 'subscribe' | 'actions'>) {
-  store.subscribe((value) => {
+  store.subscribe(async (value) => {
     if (value.isReady) {
-      storage.setItem(key, JSON.stringify(value));
+      logger.debug('Saving', key, value);
+      storage.set(key, JSON.stringify(value));
     }
   });
 
-  storage
-    .getItem(key)
-    .then((value) => {
-      const [parsed] = tryNice(() => JSON.parse(value as string) as object);
-      if (parsed) {
-        logger.debug('Restored state', key);
+  const previousState = storage.getString(key);
+  const [parsed] = tryNice((): object =>
+    previousState ? JSON.parse(previousState) : {},
+  );
 
-        // @ts-ignore
-        store.actions.setState(parsed);
-      }
-    })
-    .finally(() => {
-      logger.debug('State', key, 'is ready');
-
-      // @ts-ignore
-      store.actions.setState({
-        isReady: true,
-      });
-    });
+  logger.debug(key, 'restored state', parsed);
+  // @ts-ignore
+  store.actions.setState({ ...parsed, isReady: true });
 
   return store;
 }

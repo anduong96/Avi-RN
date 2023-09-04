@@ -9,6 +9,8 @@ import { GlobalState } from '@app/state/global';
  */
 export function useAppStateListener() {
   React.useEffect(() => {
+    GlobalState.actions.setState({ appState: AppState.currentState });
+
     AppState.addEventListener('change', (state) => {
       GlobalState.actions.setState({ appState: state });
     });

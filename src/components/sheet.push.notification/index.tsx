@@ -10,7 +10,7 @@ import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { delay } from '@app/lib/delay';
 import messaging from '@react-native-firebase/messaging';
 import { styled } from '@app/lib/styled';
-import { useAppState } from '@app/lib/hooks/use.app.state';
+import { useAppActive } from '@app/lib/hooks/use.app.state';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { useUserHasFlightsQuery } from '@app/generated/server.gql';
@@ -24,8 +24,8 @@ export const PushNotificationSheet: React.FC = () => {
   const isPushAsked = GlobalState.useSelect((s) => s.isPushAsked);
   const status = GlobalState.useSelect((s) => s.pushPermission);
   const userFlights = useUserHasFlightsQuery();
-  const hasFlights = userFlights.data?.userHasFlights;
-  const appState = useAppState();
+  const hasFlights = userFlights.data?.userHasFlights ?? false;
+  const isActive = useAppActive();
   const [loading, setLoading] = React.useState(false);
 
   const snapPoints = React.useMemo(
@@ -34,12 +34,12 @@ export const PushNotificationSheet: React.FC = () => {
   );
 
   const showSheet = React.useCallback(() => {
-    if (appState === 'active' && hasFlights && !isPushAsked) {
+    if (isActive && hasFlights && !isPushAsked) {
       delay(3 * 1000).then(() => {
         sheet.current?.present();
       });
     }
-  }, [appState, hasFlights, isPushAsked]);
+  }, [isActive, hasFlights, isPushAsked]);
 
   React.useEffect(() => {
     showSheet();

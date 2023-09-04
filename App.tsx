@@ -13,27 +13,32 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { default as CodePush } from 'react-native-code-push';
 import { ForceUpdateShield } from '@app/components/force.update';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { LINKING_CONFIG } from '@app/linking';
+import type { MainStackParam } from '@app/stacks';
 import { NavigationContainer } from '@react-navigation/native';
 import type { NavigationContainerRef } from '@react-navigation/native';
 import { NestServerApolloClient } from '@app/apollo/nest.server';
 import { PortalProvider } from '@gorhom/portal';
 import { PushNotificationSheet } from '@app/components/sheet.push.notification';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useAppStateListener } from '@app/lib/hooks/use.app.state';
 import { useColorScheme } from '@app/lib/hooks/use.color.scheme';
 import { useStartupPrep } from '@app/lib/startup';
 
-type NavigationRef = NavigationContainerRef<ReactNavigation.RootParamList>;
+type NavigationRef = NavigationContainerRef<MainStackParam>;
 
 const Entry: React.FC = () => {
   useColorScheme();
   useStartupPrep();
+  useAppStateListener();
 
   const routeNameRef = React.useRef<string>();
   const navigationRef = React.useRef<NavigationRef>(null);
 
   return (
-    <NavigationContainer
+    <NavigationContainer<MainStackParam>
       ref={navigationRef}
+      linking={LINKING_CONFIG}
       onReady={() => {
         routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name;
       }}

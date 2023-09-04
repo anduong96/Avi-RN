@@ -98,7 +98,7 @@
     "react-native-markdown-package": "^1.8.2",
     "react-native-mask-input": "^1.2.3",
     "react-native-mask-text": "^0.13.2",
-    "react-native-mmkv-storage": "^0.9.1",
+    "react-native-mmkv": "^2.10.2",
     "react-native-network-info": "^5.2.1",
     "react-native-open-maps": "^0.4.0",
     "react-native-permissions": "^3.8.4",

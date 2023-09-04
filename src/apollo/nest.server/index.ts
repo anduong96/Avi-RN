@@ -44,7 +44,15 @@ const cache = new InMemoryCache();
 
 persistCache({
   cache,
-  storage: new MMKVStorageWrapper(storage as any),
+  storage: new MMKVStorageWrapper({
+    getItem: async (key) => storage.getString(key),
+    setItem: async (key, value): Promise<undefined> => {
+      storage.set(key, value);
+    },
+    removeItem: async (key): Promise<undefined> => {
+      storage.delete(key);
+    },
+  }),
 });
 
 export const NestServerApolloClient = new ApolloClient({

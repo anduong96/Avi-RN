@@ -1,3 +1,3 @@
-import { MMKVLoader } from 'react-native-mmkv-storage';
+import { MMKV } from 'react-native-mmkv';
 
-export const storage = new MMKVLoader().withEncryption().initialize();
+export const storage = new MMKV();

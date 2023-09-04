@@ -54,7 +54,7 @@ export const NestServerApolloClient = new ApolloClient({
     watchQuery: {
       pollInterval: 10 * 1000 * 60,
       fetchPolicy:
-        ENV.APP_ENV === 'production' ? 'cache-and-network' : 'network-only',
+        ENV.APP_ENV === 'development' ? 'cache-and-network' : 'cache-first',
     },
   },
 });

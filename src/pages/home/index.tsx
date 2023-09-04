@@ -20,6 +20,7 @@ import {
   GetUserActiveFlightsDocument,
   useDeleteUserFlightMutation,
   useGetUserActiveFlightsQuery,
+  useGetUserArchivedFlightsQuery,
   useUserHasFlightsQuery,
 } from '@app/generated/server.gql';
 
@@ -37,6 +38,7 @@ import { Swipeable } from 'react-native-gesture-handler';
 import { Title } from './title';
 import { UserAvatar } from '@app/components/user.avatar';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
+import { isEmpty } from 'lodash';
 import { styled } from '@app/lib/styled';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -51,6 +53,9 @@ export const HomePage: React.FC = () => {
   const navigation = useNavigation<Navigation>();
   const flights = useGetUserActiveFlightsQuery({ fetchPolicy: 'cache-first' });
   const hasFlights = useUserHasFlightsQuery({ fetchPolicy: 'cache-only' });
+  const archivedFlights = useGetUserArchivedFlightsQuery({
+    fetchPolicy: 'cache-first',
+  });
   const activeFlights = flights.data?.userActiveFlights;
   const [removeFlight] = useDeleteUserFlightMutation({
     refetchQueries: [
@@ -66,7 +71,9 @@ export const HomePage: React.FC = () => {
 
   const handleOpenArchivedFlights = () => {
     vibrate('impactMedium');
-    navigation.push('ArchivedFlights');
+    navigation.push('FlightStack', {
+      screen: 'Archived',
+    });
   };
 
   const handleSearchFlights = () => {
@@ -151,12 +158,14 @@ export const HomePage: React.FC = () => {
                   <Title />
                 </Meta>
                 <Actions>
-                  <ArchiveFlightsBtn
-                    icon="archive"
-                    size={12}
-                    color={theme.pallette.grey[800]}
-                    onPress={handleOpenArchivedFlights}
-                  />
+                  {!isEmpty(archivedFlights.data?.userArchivedFlights) && (
+                    <ArchiveFlightsBtn
+                      icon="archive"
+                      size={12}
+                      color={theme.pallette.grey[800]}
+                      onPress={handleOpenArchivedFlights}
+                    />
+                  )}
                 </Actions>
               </Header>
             }

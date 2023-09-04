@@ -22,12 +22,12 @@ import { AirlineLogo } from '../airline.logo';
 import { DOT_SEPARATOR } from '@app/constants';
 import { DividerDashed } from '../divider.dashed';
 import { FaIcon } from '../icons.fontawesome';
-import type { GetUserActiveFlightsQuery } from '@app/generated/server.gql';
+import type { GetUserArchivedFlightsQuery } from '@app/generated/server.gql';
 import moment from 'moment';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
-  value: GetUserActiveFlightsQuery['userActiveFlights'][number];
+  value: GetUserArchivedFlightsQuery['userArchivedFlights'][number];
 };
 
 export const FlightCard: React.FC<Props> = ({ value: { flight } }) => {

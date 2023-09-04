@@ -11,8 +11,22 @@ export const LINKING_CONFIG: LinkingOptions<MainStackParam> = {
     initialRouteName: 'Home',
     screens: {
       Home: 'home',
+      Profile: 'profile',
+      Settings: 'settings',
+      PrivacyPolicies: 'privacy',
+      TermsOfService: 'terms',
+      FlightSearchStack: {
+        screens: {
+          Search: {
+            path: 'flights/search',
+          },
+        },
+      },
       FlightStack: {
         screens: {
+          Archived: {
+            path: 'flights/archived',
+          },
           Flight: {
             path: 'flights/:flightID',
           },

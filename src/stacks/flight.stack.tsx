@@ -1,9 +1,11 @@
 import * as React from 'react';
 
+import { ArchivedFlightsPage } from '@app/pages/flights.archived';
 import { FlightPage } from '@app/pages/flight';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export type FlightStackParams = {
+  Archived: undefined;
   Flight: {
     flightID: string;
   };
@@ -19,6 +21,7 @@ export const FlightStack: React.FC = () => {
         presentation: 'modal',
       }}
     >
+      <Stack.Screen name="Archived" component={ArchivedFlightsPage} />
       <Stack.Screen name="Flight" component={FlightPage} />
     </Stack.Navigator>
   );

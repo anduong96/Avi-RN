@@ -1435,6 +1435,8 @@ PODS:
   - RNSentry (5.3.1):
     - React-Core
     - Sentry/HybridSDK (= 8.4.0)
+  - RNShare (9.4.0):
+    - React-Core
   - RNSharedElement (0.8.8):
     - React-Core
   - RNSnackbar (2.4.0):
@@ -1603,6 +1605,7 @@ DEPENDENCIES:
   - "RNRudderSdk (from `../node_modules/@rudderstack/rudder-sdk-react-native`)"
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSharedElement (from `../node_modules/react-native-shared-element`)
   - RNSnackbar (from `../node_modules/react-native-snackbar`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -1829,6 +1832,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSentry:
     :path: "../node_modules/@sentry/react-native"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSharedElement:
     :path: "../node_modules/react-native-shared-element"
   RNSnackbar:
@@ -1967,6 +1972,7 @@ SPEC CHECKSUMS:
   RNRudderSdk: 3b9251e2379775b10078cc7ed6ea59d5262ddff3
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSentry: 68d5b2339fc7cd864e8076279345cc90174fa583
+  RNShare: df09e4d08ce0b50e32e2b6b9ec0249d7fdc06960
   RNSharedElement: 504fa28a235b12505b6daedbb452a9ec96809bd0
   RNSnackbar: be3333a21a453ccc272f41a8add5a71f7d44dfcd
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315

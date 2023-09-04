@@ -3,7 +3,6 @@ import * as React from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 
 import { AlertFlightButton } from '@app/components/button.alerts.flight';
-import { AltFlightsButton } from '@app/components/button.alt.flights';
 import { BlurView } from '@react-native-community/blur';
 import { DebugNoficationFlightBtn } from '@app/components/button.debug.notif.flight';
 import { ENV } from '@app/env';
@@ -89,7 +88,7 @@ export const FlightPage: React.FC = () => {
                     <SaveFlightButton flightID={flightID} />
                     <VerticalDivider />
                     <AlertFlightButton flightID={flightID} />
-                    <AltFlightsButton flightID={flightID} />
+                    {/* <AltFlightsButton flightID={flightID} /> */}
                     <ShareFlightButton flightID={flightID} />
                     {ENV.APP_ENV !== 'production' && (
                       <>

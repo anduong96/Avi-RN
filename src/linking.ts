@@ -1,12 +1,10 @@
+import { APP_LINK, DOM_LINK, FLIGHT_URL, WEB_LINK } from './lib/deep.link';
+
 import type { LinkingOptions } from '@react-navigation/native';
 import type { MainStackParam } from './stacks';
 
 export const LINKING_CONFIG: LinkingOptions<MainStackParam> = {
-  prefixes: [
-    'flywithavi://',
-    'https://flywithavi.com',
-    'https://*.flywithavi.com',
-  ],
+  prefixes: [APP_LINK, WEB_LINK, DOM_LINK],
   config: {
     initialRouteName: 'Home',
     screens: {
@@ -28,7 +26,7 @@ export const LINKING_CONFIG: LinkingOptions<MainStackParam> = {
             path: 'flights/archived',
           },
           Flight: {
-            path: 'flights/:flightID',
+            path: FLIGHT_URL,
           },
         },
       },

@@ -1,17 +1,51 @@
 import * as React from 'react';
 
 import { FaIcon } from '../icons.fontawesome';
+import { LoadingOverlay } from '../loading.overlay';
+import Share from 'react-native-share';
 import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { buildFlightLink } from '@app/lib/deep.link';
 import { styled } from '@app/lib/styled';
+import { tryNice } from 'try-nice';
+import { useGetFlightQuery } from '@app/generated/server.gql';
+import { vibrate } from '@app/lib/haptic.feedback';
 
 type Props = {
   flightID: string;
 };
 
-export const ShareFlightButton: React.FC<Props> = () => {
+export const ShareFlightButton: React.FC<Props> = ({ flightID }) => {
+  const [loading, setLoading] = React.useState(false);
+  const flight = useGetFlightQuery({ variables: { flightID } });
+
+  const buildTitle = (): string => {
+    if (!flight.data?.flight) {
+      return 'UNKNOWN';
+    }
+
+    const { airlineIata, flightNumber, destination } = flight.data.flight;
+    const flightCode = `${airlineIata}${flightNumber}`;
+    const destinationName = destination.cityName || destination.countryCode;
+    const title = `${flightCode} to ${destinationName}`;
+    return title;
+  };
+
+  const handlePress = async () => {
+    vibrate('effectClick');
+    setLoading(true);
+    await tryNice(() =>
+      Share.open({
+        title: buildTitle(),
+        url: buildFlightLink(flightID),
+      }),
+    );
+    setLoading(false);
+  };
+
   return (
-    <Btn>
+    <Btn onPress={handlePress} disabled={loading}>
+      <LoadingOverlay isLoading={loading} size="small" />
       <FaIcon name="share-alt" />
       <BtnText>Share</BtnText>
     </Btn>

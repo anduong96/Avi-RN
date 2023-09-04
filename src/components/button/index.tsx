@@ -61,6 +61,7 @@ export const Button = React.forwardRef<unknown, Props>(
       >
         <LoadingOverlay
           isLoading={isLoading}
+          size={'small'}
           style={{ backgroundColor: theme.pallette.primary }}
         />
         <>

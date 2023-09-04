@@ -14,6 +14,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: Date;
+  JSON: any;
 };
 
 export type Airline = {
@@ -116,7 +117,10 @@ export type MutationAddUserFlightArgs = {
 
 
 export type MutationDebug_SendFlightNotificationArgs = {
+  body?: InputMaybe<Scalars['String']>;
+  data?: InputMaybe<Scalars['JSON']>;
   flightID: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -209,6 +213,9 @@ export type AirportQuery = { __typename?: 'Query', airport: { __typename?: 'Airp
 
 export type DebugFlightNoficationMutationVariables = Exact<{
   flightID: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
+  body?: InputMaybe<Scalars['String']>;
+  data?: InputMaybe<Scalars['JSON']>;
 }>;
 
 
@@ -450,8 +457,13 @@ export function refetchAirportQuery(variables: AirportQueryVariables) {
       return { query: AirportDocument, variables: variables }
     }
 export const DebugFlightNoficationDocument = gql`
-    mutation debugFlightNofication($flightID: String!) {
-  debug_sendFlightNotification(flightID: $flightID)
+    mutation debugFlightNofication($flightID: String!, $title: String, $body: String, $data: JSON) {
+  debug_sendFlightNotification(
+    flightID: $flightID
+    title: $title
+    body: $body
+    data: $data
+  )
 }
     `;
 export type DebugFlightNoficationMutationFn = Apollo.MutationFunction<DebugFlightNoficationMutation, DebugFlightNoficationMutationVariables>;
@@ -470,6 +482,9 @@ export type DebugFlightNoficationMutationFn = Apollo.MutationFunction<DebugFligh
  * const [debugFlightNoficationMutation, { data, loading, error }] = useDebugFlightNoficationMutation({
  *   variables: {
  *      flightID: // value for 'flightID'
+ *      title: // value for 'title'
+ *      body: // value for 'body'
+ *      data: // value for 'data'
  *   },
  * });
  */

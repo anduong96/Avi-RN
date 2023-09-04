@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { Text } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { styled } from '@app/lib/styled';
 import { toast } from '@baronha/ting';
@@ -14,6 +15,9 @@ export const DebugNoficationFlightBtn: React.FC<Props> = ({ flightID }) => {
   const [send, { loading }] = useDebugFlightNoficationMutation({
     variables: {
       flightID,
+      data: {
+        url: `flywithavi://flights/${flightID}`,
+      },
     },
     onCompleted(data) {
       toast({
@@ -33,7 +37,11 @@ export const DebugNoficationFlightBtn: React.FC<Props> = ({ flightID }) => {
 
   return (
     <Btn onPress={() => send()} disabled={loading}>
-      <BtnText>[DEBUG] Send Notification</BtnText>
+      {loading ? (
+        <ActivityIndicator size={'small'} />
+      ) : (
+        <BtnText>[DEBUG] Send Notification</BtnText>
+      )}
     </Btn>
   );
 };

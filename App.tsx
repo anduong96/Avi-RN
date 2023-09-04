@@ -23,6 +23,7 @@ import { PushNotificationSheet } from '@app/components/sheet.push.notification';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useAppStateListener } from '@app/lib/hooks/use.app.state';
 import { useColorScheme } from '@app/lib/hooks/use.color.scheme';
+import { useNotificationHandling } from '@app/lib/startup/push.notification';
 import { useStartupPrep } from '@app/lib/startup';
 
 type NavigationRef = NavigationContainerRef<MainStackParam>;
@@ -31,6 +32,7 @@ const Entry: React.FC = () => {
   useColorScheme();
   useStartupPrep();
   useAppStateListener();
+  useNotificationHandling();
 
   const routeNameRef = React.useRef<string>();
   const navigationRef = React.useRef<NavigationRef>(null);

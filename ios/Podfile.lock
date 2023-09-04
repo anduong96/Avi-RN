@@ -1247,8 +1247,6 @@ PODS:
     - ReactCommon/turbomodule/core
   - react-native-smartlook-analytics (2.1.3):
     - React-Core
-  - react-native-splash-screen (3.3.0):
-    - React-Core
   - react-native-tracking-transparency (0.1.2):
     - React
   - react-native-wallet-manager (0.0.2):
@@ -1566,7 +1564,6 @@ DEPENDENCIES:
   - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-smartlook-analytics (from `../node_modules/react-native-smartlook-analytics`)
-  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-tracking-transparency (from `../node_modules/react-native-tracking-transparency`)
   - react-native-wallet-manager (from `../node_modules/react-native-wallet-manager`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -1754,8 +1751,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-smartlook-analytics:
     :path: "../node_modules/react-native-smartlook-analytics"
-  react-native-splash-screen:
-    :path: "../node_modules/react-native-splash-screen"
   react-native-tracking-transparency:
     :path: "../node_modules/react-native-tracking-transparency"
   react-native-wallet-manager:
@@ -1933,7 +1928,6 @@ SPEC CHECKSUMS:
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
   react-native-safe-area-context: f5549f36508b1b7497434baa0cd97d7e470920d4
   react-native-smartlook-analytics: d6874b437e3419b22b1f56745dba2e0aa77c4d37
-  react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-tracking-transparency: 25ff1ff866e338c137c818bdec20526bb05ffcc1
   react-native-wallet-manager: f12c928bbbedbde5da1fef62f7a0ddceda76b458
   react-native-webview: 203b6a1c7507737f777c91d7e10c30e7e67c1a17

@@ -1,13 +1,18 @@
 import * as React from 'react';
 
+import type {
+  ActivityIndicatorProps,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
-import type { StyleProp, ViewStyle } from 'react-native';
 
 import { ActivityIndicator } from 'react-native';
 import { styled } from '@app/lib/styled';
 
 type Props = {
   isLoading?: boolean;
+  size?: ActivityIndicatorProps['size'];
   style?: StyleProp<ViewStyle>;
 };
 
@@ -24,7 +29,11 @@ const Container = styled(Animated.View, (theme) => [
   },
 ]);
 
-export const LoadingOverlay: React.FC<Props> = ({ isLoading, style }) => {
+export const LoadingOverlay: React.FC<Props> = ({
+  isLoading,
+  style,
+  size = 'large',
+}) => {
   if (!isLoading) {
     return null;
   }
@@ -32,7 +41,7 @@ export const LoadingOverlay: React.FC<Props> = ({ isLoading, style }) => {
   return (
     <Container exiting={FadeOut} style={style}>
       <Animated.View entering={FadeIn.delay(750)}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size={size} />
       </Animated.View>
     </Container>
   );

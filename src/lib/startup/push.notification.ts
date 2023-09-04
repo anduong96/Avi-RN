@@ -1,7 +1,12 @@
+import * as React from 'react';
+
+import { Linking } from 'react-native';
 import { logger as Logger } from '../logger';
 import type { Notification } from '@notifee/react-native';
+import { isEmpty } from 'lodash';
 import messaging from '@react-native-firebase/messaging';
 import notifee from '@notifee/react-native';
+import { useAppActive } from '../hooks/use.app.state';
 
 const logger = Logger.extend('[Notification]');
 
@@ -13,6 +18,36 @@ export async function handleFcmToken() {
   logger.debug('Getting FCM Token');
   const fcmToken = await messaging().getToken();
   logger.debug({ fcmToken });
+}
+
+export function useNotificationHandling() {
+  const appIsActive = useAppActive();
+
+  const handleInitialNotification = React.useCallback(
+    async (isActive: boolean) => {
+      if (!isActive) {
+        return;
+      }
+
+      const event = await notifee.getInitialNotification();
+      if (isEmpty(event)) {
+        return;
+      }
+
+      const urlToOpen = event?.notification.data?.url as string;
+      if (urlToOpen) {
+        const canOpen = await Linking.canOpenURL(urlToOpen);
+        if (canOpen) {
+          await Linking.openURL(urlToOpen);
+        }
+      }
+    },
+    [],
+  );
+
+  React.useEffect(() => {
+    handleInitialNotification(appIsActive);
+  }, [handleInitialNotification, appIsActive]);
 }
 
 messaging().onMessage((data) => {
@@ -46,3 +81,11 @@ messaging().onMessage((data) => {
 
   notifee.displayNotification(payload);
 });
+
+// notifee.onBackgroundEvent(async (e) => {
+//   logger.debug(e);
+// });
+
+// messaging().onNotificationOpenedApp((message) => {
+//   logger.debug('Opened notification', message);
+// });

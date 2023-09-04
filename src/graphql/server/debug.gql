@@ -1,3 +1,13 @@
-mutation debugFlightNofication($flightID: String!) {
-  debug_sendFlightNotification(flightID: $flightID)
+mutation debugFlightNofication(
+  $flightID: String!
+  $title: String
+  $body: String
+  $data: JSON
+) {
+  debug_sendFlightNotification(
+    flightID: $flightID
+    title: $title
+    body: $body
+    data: $data
+  )
 }

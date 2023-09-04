@@ -2,29 +2,18 @@ import * as React from 'react';
 
 import { Text, View } from 'react-native';
 
-import DashedLine from 'react-native-dashed-line';
+import { DividerDashed } from '@app/components/divider.dashed';
 import moment from 'moment';
 import { styled } from '@app/lib/styled';
-import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
   duration: number;
 };
 
 export const FlightPageDistanceSeparator: React.FC<Props> = ({ duration }) => {
-  const theme = useTheme();
-
   return (
     <Container>
-      <DashedLine
-        dashLength={3}
-        dashThickness={1}
-        dashColor={theme.pallette.grey[200]}
-        style={{
-          position: 'absolute',
-          top: '50%',
-        }}
-      />
+      <Divider />
       <Content>
         <TextContainer>
           <StyledText>
@@ -44,6 +33,14 @@ export const FlightPageDistanceSeparator: React.FC<Props> = ({ duration }) => {
 const Container = styled(View, (theme) => [theme.presets.centered]);
 
 const Content = styled(View, (theme) => [theme.presets.centered]);
+
+const Divider = styled(DividerDashed, () => [
+  {
+    width: '100%',
+    position: 'absolute',
+    alignSelf: 'center',
+  },
+]);
 
 const TextContainer = styled(View, (theme) => [
   theme.presets.centered,

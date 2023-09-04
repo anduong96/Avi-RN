@@ -13603,11 +13603,6 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-radash@^10.8.1:
-  version "10.8.1"
-  resolved "https://registry.yarnpkg.com/radash/-/radash-10.8.1.tgz#7a49fa1ec07381dba9174ddadf83401e1db293f9"
-  integrity sha512-NzYo3XgM9Tzjf5iFPIMG2l5+LSOCi2H7Axe3Ry/1PrhlvuqxUoiLsmcTBtw4CfKtzy5Fzo79STiEj9JZWMfDQg==
-
 ramda@^0.28.0:
   version "0.28.0"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.28.0.tgz#acd785690100337e8b063cab3470019be427cc97"
@@ -13831,11 +13826,6 @@ react-native-crisp-chat-sdk@^0.13.3:
   integrity sha512-BLEpO1mGdWUvDgKDy3ir93byhLcaOXZhjZ7vkQWh0w8tfwCQkSLQn+qnVPepprY1Q2mYY6f6nM6XZmgccwIxHg==
   dependencies:
     "@expo/config-plugins" "^4.1.5"
-
-react-native-dashed-line@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-dashed-line/-/react-native-dashed-line-1.1.0.tgz#dd586dbeabee3bc7d51aef0b8ae0d9fda418b1fc"
-  integrity sha512-eO1YxTSYuE/1eaOO/mnV/DSQ45e7LQ690D6iv24Oyl9FcZFFiIIwoCurHnS+myJQvydppsshY1d0WwaQroNx/Q==
 
 react-native-date-picker@^4.2.10:
   version "4.2.10"

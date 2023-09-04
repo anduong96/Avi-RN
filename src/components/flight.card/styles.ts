@@ -24,6 +24,7 @@ export const Body = styled(View, (theme) => [
   {
     flexDirection: 'row',
     gap: theme.space.medium,
+    overflow: 'hidden',
   },
 ]);
 

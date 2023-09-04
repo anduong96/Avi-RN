@@ -10,7 +10,7 @@ import {
   MovementText,
 } from '../flight.card/styles';
 
-import DashedLine from 'react-native-dashed-line';
+import { DividerDashed } from '../divider.dashed';
 import { FaIcon } from '../icons.fontawesome';
 import type { FindFlightsQuery } from '@app/generated/server.gql';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -50,7 +50,7 @@ export const FlightCardCompact: React.FC<Props> = ({ flight, onPress }) => {
           <AirportCity>{flight.origin.cityName}</AirportCity>
         </FlightPoint>
         <DividerContainer>
-          <DashedLine dashLength={2} dashColor={theme.pallette.grey[200]} />
+          <DividerDashed />
         </DividerContainer>
         <FlightPoint type="destination">
           <AirportIata>{flight.destination.iata}</AirportIata>

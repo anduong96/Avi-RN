@@ -6,6 +6,7 @@ import { AlertFlightButton } from '@app/components/button.alerts.flight';
 import { BlurView } from '@react-native-community/blur';
 import { DebugNoficationFlightBtn } from '@app/components/button.debug.notif.flight';
 import { ENV } from '@app/env';
+import { ExitToHomeBtn } from './exit.to.home.btn';
 import { FlightPageDistanceSeparator } from '@app/components/flight.page/distance.separator';
 import { FlightPageLocationSection } from '@app/components/flight.page/location.section';
 import { FlightPageTopHeader } from '@app/components/flight.page/top.header';
@@ -29,6 +30,7 @@ export const FlightPage: React.FC = () => {
   const route = useRoute<Route>();
   const theme = useTheme();
   const flightID = route.params.flightID;
+  const isFromSearch = route.params.isFromSearch;
 
   const flightResponse = useGetFlightQuery({
     variables: {
@@ -120,6 +122,7 @@ export const FlightPage: React.FC = () => {
           );
         }}
       </LoadingContainer>
+      {isFromSearch && <ExitToHomeBtn flightID={flightID} />}
     </PageContainer>
   );
 };

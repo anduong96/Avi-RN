@@ -8,6 +8,7 @@ export type FlightStackParams = {
   Archived: undefined;
   Flight: {
     flightID: string;
+    isFromSearch?: boolean;
   };
 };
 

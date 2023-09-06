@@ -66,6 +66,7 @@ export const NextBtn: React.FC = () => {
         screen: 'Flight',
         params: {
           flightID: result[0].id,
+          isFromSearch: true,
         },
       });
     }

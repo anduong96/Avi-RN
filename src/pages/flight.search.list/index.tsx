@@ -48,6 +48,7 @@ export const FlightSearchListPage: React.FC = () => {
       screen: 'Flight',
       params: {
         flightID,
+        isFromSearch: true,
       },
     });
   };

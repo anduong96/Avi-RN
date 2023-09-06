@@ -29,6 +29,8 @@ fragment FullFlightFragment on Flight {
   destinationIata
   destinationGate
   destinationTerminal
+  destinationBaggageClaim
+
   destination {
     id
     name

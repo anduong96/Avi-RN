@@ -13,7 +13,7 @@ import {
   PageHeader,
   UserBtn,
 } from './styles';
-import { Alert, RefreshControl, View } from 'react-native';
+import { Alert, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import {
@@ -146,12 +146,6 @@ export const HomePage: React.FC = () => {
           handleIndicatorStyle={{ display: 'none' }}
         >
           <BottomSheetFlatList
-            refreshControl={
-              <RefreshControl
-                refreshing={flights.loading}
-                onRefresh={() => flights.refetch()}
-              />
-            }
             ListHeaderComponent={
               <Header>
                 <Meta>

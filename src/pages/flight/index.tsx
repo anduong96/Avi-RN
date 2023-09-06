@@ -126,7 +126,8 @@ export const FlightPage: React.FC = () => {
 
 const Content = styled(View, (theme) => [
   {
-    padding: theme.space.small,
+    flexGrow: 1,
+    paddingHorizontal: theme.space.small,
     gap: theme.space.medium,
   },
 ]);

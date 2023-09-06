@@ -1,12 +1,11 @@
 import * as React from 'react';
 
-import { RefreshControl, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { AlertFlightButton } from '@app/components/button.alerts.flight';
 import { BlurView } from '@react-native-community/blur';
 import { DebugNoficationFlightBtn } from '@app/components/button.debug.notif.flight';
 import { ENV } from '@app/env';
-import FastImage from 'react-native-fast-image';
 import { FlightPageDistanceSeparator } from '@app/components/flight.page/distance.separator';
 import { FlightPageLocationSection } from '@app/components/flight.page/location.section';
 import { FlightPageTopHeader } from '@app/components/flight.page/top.header';
@@ -48,103 +47,82 @@ export const FlightPage: React.FC = () => {
           }
 
           return (
-            <Wrapper>
-              <Header>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              stickyHeaderIndices={[0]}
+              contentContainerStyle={{
+                flexGrow: 1,
+              }}
+            >
+              <Header blurType="light">
                 <FlightPageTopHeader flight={flight} />
-                <FastImage
-                  resizeMode="contain"
-                  style={{
-                    width: 70,
-                    height: undefined,
-                    aspectRatio: 1,
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={{
+                    paddingHorizontal: theme.space.medium,
+                    paddingVertical: theme.space.small,
+                    alignItems: 'center',
+                    gap: theme.space.small,
                   }}
-                  source={{
-                    uri: flight.airline.logoCompactImageURL,
-                  }}
-                />
+                >
+                  <SaveFlightButton flightID={flightID} />
+                  <VerticalDivider />
+                  <AlertFlightButton flightID={flightID} />
+                  {/* <AltFlightsButton flightID={flightID} /> */}
+                  <ShareFlightButton flightID={flightID} />
+                  {ENV.APP_ENV !== 'production' && (
+                    <>
+                      <VerticalDivider />
+                      <DebugNoficationFlightBtn flightID={flightID} />
+                    </>
+                  )}
+                </ScrollView>
               </Header>
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                stickyHeaderIndices={[0]}
-                contentContainerStyle={{ flexGrow: 1 }}
-                refreshControl={
-                  <RefreshControl
-                    onRefresh={() => flightResponse.refetch()}
-                    refreshing={flightResponse.loading}
+              <Content>
+                <Meta>
+                  <FlightPageLocationSection
+                    type="origin"
+                    airport={flight.origin}
+                    timezone={flight.originTimezone}
+                    airportIata={flight.originIata}
+                    terminal={flight.originTerminal}
+                    gate={flight.originGate}
+                    estimatedMovementTime={flight.estimatedGateDeparture}
+                    scheduledMovementTime={flight.scheduledGateDeparture}
+                    actualMovementTime={flight.actualGateDeparture}
                   />
-                }
-              >
-                <BlurView blurType="light">
-                  <Actions
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{
-                      paddingHorizontal: theme.space.medium,
-                      paddingVertical: theme.space.medium,
-                      alignItems: 'center',
-                      gap: theme.space.small,
-                    }}
-                  >
-                    <SaveFlightButton flightID={flightID} />
-                    <VerticalDivider />
-                    <AlertFlightButton flightID={flightID} />
-                    {/* <AltFlightsButton flightID={flightID} /> */}
-                    <ShareFlightButton flightID={flightID} />
-                    {ENV.APP_ENV !== 'production' && (
-                      <>
-                        <VerticalDivider />
-                        <DebugNoficationFlightBtn flightID={flightID} />
-                      </>
+
+                  <FlightPageDistanceSeparator
+                    duration={moment(flight.estimatedGateArrival).diff(
+                      flight.estimatedGateDeparture,
                     )}
-                  </Actions>
-                </BlurView>
-                <Content>
-                  <Meta>
-                    <FlightPageLocationSection
-                      type="origin"
-                      airport={flight.origin}
-                      timezone={flight.originTimezone}
-                      airportIata={flight.originIata}
-                      terminal={flight.originTerminal}
-                      gate={flight.originGate}
-                      estimatedMovementTime={flight.estimatedGateDeparture}
-                      scheduledMovementTime={flight.scheduledGateDeparture}
-                      actualMovementTime={flight.actualGateDeparture}
-                    />
-
-                    <FlightPageDistanceSeparator
-                      duration={moment(flight.estimatedGateArrival).diff(
-                        flight.estimatedGateDeparture,
-                      )}
-                    />
-
-                    <FlightPageLocationSection
-                      type="destination"
-                      airport={flight.destination}
-                      timezone={flight.destinationTimezone}
-                      airportIata={flight.destinationIata}
-                      terminal={flight.destinationTerminal}
-                      gate={flight.destinationGate}
-                      estimatedMovementTime={flight.estimatedGateArrival}
-                      scheduledMovementTime={flight.scheduledGateArrival}
-                      actualMovementTime={flight.actualGateArrival}
-                    />
-                  </Meta>
-                  <PromptnessCompact
-                    airlineIata={flight.airlineIata}
-                    flightNumber={flight.flightNumber}
                   />
-                </Content>
-              </ScrollView>
-            </Wrapper>
+
+                  <FlightPageLocationSection
+                    type="destination"
+                    airport={flight.destination}
+                    timezone={flight.destinationTimezone}
+                    airportIata={flight.destinationIata}
+                    terminal={flight.destinationTerminal}
+                    gate={flight.destinationGate}
+                    estimatedMovementTime={flight.estimatedGateArrival}
+                    scheduledMovementTime={flight.scheduledGateArrival}
+                    actualMovementTime={flight.actualGateArrival}
+                  />
+                </Meta>
+                <PromptnessCompact
+                  airlineIata={flight.airlineIata}
+                  flightNumber={flight.flightNumber}
+                />
+              </Content>
+            </ScrollView>
           );
         }}
       </LoadingContainer>
     </PageContainer>
   );
 };
-
-const Wrapper = styled(View, () => [{ flexGrow: 1 }]);
 
 const Content = styled(View, (theme) => [
   {
@@ -163,14 +141,9 @@ const Meta = styled(View, (theme) => [
   },
 ]);
 
-const Actions = styled(ScrollView, () => []);
-
-const Header = styled(View, (theme) => [
+const Header = styled(BlurView, (theme) => [
   {
-    paddingVertical: theme.space.small,
-    paddingHorizontal: theme.space.medium,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    paddingVertical: theme.space.medium,
+    gap: theme.space.small,
   },
 ]);

@@ -14103,6 +14103,11 @@ react-native-snackbar@^2.4.0:
   resolved "https://registry.yarnpkg.com/react-native-snackbar/-/react-native-snackbar-2.4.0.tgz#dd9687f5228e379ecd57678a921e546331681bcf"
   integrity sha512-xEDIDxw0ubBHrsvzaMfrZlFoy+ai1WEJZQwyAsG55fqYxUfQM20h+V4v25u+/H/YKY7ZCRMdCZ8zB5JOnbvCQw==
 
+react-native-sticky-parallax-header@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-sticky-parallax-header/-/react-native-sticky-parallax-header-1.1.1.tgz#1b58dfcb1acd21b236ea8f4010cb1a24c9eb60fc"
+  integrity sha512-vP2tCqsWECNy1H5dNbLnMTpgSkswIpRTFO1itkQZX23JERxCUe7EfSQ9gDw0KwYgQm94ix2vWAo2mn/MeVLI0Q==
+
 react-native-store-version@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-native-store-version/-/react-native-store-version-1.4.1.tgz#7b73b274295bb0c35cab8c0ec68f7c66b5acb0e5"

@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
-import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
-import moment from 'moment';
+import { type FullFlightFragmentFragment } from '@app/generated/server.gql';
 import { styled } from '@app/lib/styled';
+import { FlightMeta } from './flight.meta';
 
 type Props = {
   flight: FullFlightFragmentFragment;
@@ -14,45 +14,24 @@ export const FlightPageTopHeader: React.FC<Props> = ({ flight }) => {
   return (
     <Container>
       <Flight>
-        <FlightMeta>
-          <FlightNumber>
-            {flight.airlineIata} {flight.flightNumber}
-          </FlightNumber>
-          <DepartureDate>
-            {moment(flight.estimatedGateDeparture).format('LL')}
-          </DepartureDate>
-        </FlightMeta>
+        <FlightMeta flight={flight} />
       </Flight>
     </Container>
   );
 };
 
-const Container = styled(View, () => [
+const Container = styled(View, (theme) => [
   {
+    paddingHorizontal: theme.space.medium,
+    alignItems: 'center',
+    width: '100%',
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 ]);
 
 const Flight = styled(View, (theme) => [
   {
-    flexDirection: 'row',
     gap: theme.space.tiny,
-    justifyContent: 'center',
-  },
-]);
-
-const FlightMeta = styled(View, () => []);
-
-const FlightNumber = styled(Text, (theme) => [
-  theme.typography.presets.h2,
-  {
-    color: theme.typography.color,
-  },
-]);
-
-const DepartureDate = styled(Text, (theme) => [
-  theme.typography.presets.p2,
-  {
-    color: theme.typography.color,
   },
 ]);

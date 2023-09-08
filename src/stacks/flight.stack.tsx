@@ -26,10 +26,7 @@ export const FlightStack: React.FC = () => {
   return (
     <Stack.Navigator
       initialRouteName="Archived"
-      screenOptions={{
-        headerShown: false,
-        presentation: 'modal',
-      }}
+      screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Archived" component={ArchivedFlightsPage} />
       <Stack.Screen name="Flight" component={FlightPage} />

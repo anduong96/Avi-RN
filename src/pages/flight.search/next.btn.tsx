@@ -49,7 +49,7 @@ export const NextBtn: React.FC = () => {
       }),
     );
 
-    const result = response?.data?.findFlights;
+    const result = response?.data?.flights;
     if (!result) {
       return;
     }

@@ -1,10 +1,10 @@
 mutation debugFlightNofication(
   $flightID: String!
-  $title: String
-  $body: String
+  $title: String!
+  $body: String!
   $data: JSON
 ) {
-  debug_sendFlightNotification(
+  _sendFlightNotification(
     flightID: $flightID
     title: $title
     body: $body

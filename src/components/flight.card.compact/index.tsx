@@ -22,7 +22,7 @@ import { useTheme } from '@app/lib/hooks/use.theme';
 import { vibrate } from '@app/lib/haptic.feedback';
 
 type Props = {
-  flight: FindFlightsQuery['findFlights'][number];
+  flight: FindFlightsQuery['flights'][number];
   onPress?: () => void;
 };
 
@@ -31,7 +31,7 @@ export const FlightCardCompact: React.FC<Props> = ({ flight, onPress }) => {
   const canPress = !isNil(onPress);
   const departure = moment
     .utc(flight.estimatedGateDeparture)
-    .tz(flight.originTimezone);
+    .tz(flight.Origin.timezone);
 
   const handlePress = () => {
     if (!canPress) {
@@ -46,15 +46,15 @@ export const FlightCardCompact: React.FC<Props> = ({ flight, onPress }) => {
     <Container onPress={handlePress} disabled={!canPress}>
       <Main>
         <FlightPoint type="origin">
-          <AirportIata>{flight.origin.iata}</AirportIata>
-          <AirportCity>{flight.origin.cityName}</AirportCity>
+          <AirportIata>{flight.Origin.iata}</AirportIata>
+          <AirportCity>{flight.Origin.cityName}</AirportCity>
         </FlightPoint>
         <DividerContainer>
           <DividerDashed />
         </DividerContainer>
         <FlightPoint type="destination">
-          <AirportIata>{flight.destination.iata}</AirportIata>
-          <AirportCity>{flight.destination.cityName}</AirportCity>
+          <AirportIata>{flight.Destination.iata}</AirportIata>
+          <AirportCity>{flight.Destination.cityName}</AirportCity>
         </FlightPoint>
       </Main>
       <Footer>

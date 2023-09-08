@@ -54,6 +54,7 @@ export const FlightPage: React.FC = () => {
               stickyHeaderIndices={[0]}
               contentContainerStyle={{
                 flexGrow: 1,
+                gap: theme.space.medium,
               }}
             >
               <Header blurType="light">
@@ -85,8 +86,8 @@ export const FlightPage: React.FC = () => {
                 <Meta>
                   <FlightPageLocationSection
                     type="origin"
-                    airport={flight.origin}
-                    timezone={flight.originTimezone}
+                    airport={flight.Origin}
+                    timezone={flight.Origin.timezone}
                     airportIata={flight.originIata}
                     terminal={flight.originTerminal}
                     gate={flight.originGate}
@@ -100,11 +101,10 @@ export const FlightPage: React.FC = () => {
                       flight.estimatedGateDeparture,
                     )}
                   />
-
                   <FlightPageLocationSection
                     type="destination"
-                    airport={flight.destination}
-                    timezone={flight.destinationTimezone}
+                    airport={flight.Destination}
+                    timezone={flight.Destination.timezone}
                     airportIata={flight.destinationIata}
                     terminal={flight.destinationTerminal}
                     gate={flight.destinationGate}
@@ -113,10 +113,7 @@ export const FlightPage: React.FC = () => {
                     actualMovementTime={flight.actualGateArrival}
                   />
                 </Meta>
-                <PromptnessCompact
-                  airlineIata={flight.airlineIata}
-                  flightNumber={flight.flightNumber}
-                />
+                <PromptnessCompact flightID={flightID} />
               </Content>
             </ScrollView>
           );
@@ -147,7 +144,8 @@ const Meta = styled(View, (theme) => [
 
 const Header = styled(BlurView, (theme) => [
   {
-    paddingVertical: theme.space.medium,
+    paddingTop: theme.space.medium,
+    paddingBottom: 0,
     gap: theme.space.small,
   },
 ]);

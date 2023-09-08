@@ -30,38 +30,38 @@ type Props = {
   value: GetUserArchivedFlightsQuery['userArchivedFlights'][number];
 };
 
-export const FlightCard: React.FC<Props> = ({ value: { flight } }) => {
+export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
   const theme = useTheme();
   const departure = moment
-    .utc(flight.estimatedGateDeparture)
-    .tz(flight.originTimezone);
+    .utc(Flight.estimatedGateDeparture)
+    .tz(Flight.Origin.timezone);
 
   return (
     <Container>
       <Header>
         <AirlineContainer>
           <AirlineLogo
-            iata={flight.airlineIata}
+            iata={Flight.airlineIata}
             type="compact"
             width={20}
             height={20}
           />
           <AirlineFlightNumber>
-            {flight.airlineIata} {flight.flightNumber}
+            {Flight.airlineIata} {Flight.flightNumber}
           </AirlineFlightNumber>
         </AirlineContainer>
       </Header>
       <Body>
         <FlightPoint type="origin">
-          <AirportIata>{flight.origin.iata}</AirportIata>
-          <AirportCity>{flight.origin.cityName}</AirportCity>
+          <AirportIata>{Flight.Origin.iata}</AirportIata>
+          <AirportCity>{Flight.Origin.cityName}</AirportCity>
         </FlightPoint>
         <DividerContainer>
           <DividerDashed />
         </DividerContainer>
         <FlightPoint type="destination">
-          <AirportIata>{flight.destination.iata}</AirportIata>
-          <AirportCity>{flight.destination.cityName}</AirportCity>
+          <AirportIata>{Flight.Destination.iata}</AirportIata>
+          <AirportCity>{Flight.Destination.cityName}</AirportCity>
         </FlightPoint>
       </Body>
       <Footer>

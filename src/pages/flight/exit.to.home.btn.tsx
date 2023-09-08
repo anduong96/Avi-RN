@@ -7,8 +7,8 @@ import type { FlightStackParams } from '@app/stacks/flight.stack';
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { styled } from '@app/lib/styled';
-import { useGetFlightQuery } from '@app/generated/server.gql';
 import { useNavigation } from '@react-navigation/native';
+import { useUserFlightQuery } from '@app/generated/server.gql';
 import { vibrate } from '@app/lib/haptic.feedback';
 
 type Navigation = NativeStackNavigationProp<FlightStackParams, 'Flight'>;
@@ -18,18 +18,10 @@ type Props = {
 };
 
 export const ExitToHomeBtn: React.FC<Props> = ({ flightID }) => {
-  const [visible, setVisible] = React.useState(false);
   const navigation = useNavigation<Navigation>();
-
-  useGetFlightQuery({
+  const response = useUserFlightQuery({
     variables: {
       flightID,
-    },
-    onCompleted() {
-      setVisible(true);
-    },
-    onError() {
-      setVisible(false);
     },
   });
 
@@ -38,7 +30,7 @@ export const ExitToHomeBtn: React.FC<Props> = ({ flightID }) => {
     navigation.popToTop();
   };
 
-  if (!visible) {
+  if (!response.data?.userFlight) {
     return null;
   }
 
@@ -68,7 +60,7 @@ const Btn = styled(
     theme.presets.shadows[200],
     {
       zIndex: 1,
-      backgroundColor: theme.pallette.grey[200],
+      backgroundColor: theme.pallette.primary,
       width: 70,
       borderRadius: 70,
       height: undefined,
@@ -80,7 +72,7 @@ const Btn = styled(
 const BtnText = styled(Text, (theme) => [
   theme.typography.presets.small,
   {
-    color: theme.typography.color,
+    color: theme.pallette.white,
     fontWeight: 'bold',
   },
 ]);

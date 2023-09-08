@@ -11,27 +11,33 @@ import { styled } from '@app/lib/styled';
 type Props = {
   flight: Pick<
     FullFlightFragmentFragment,
-    'flightNumber' | 'airline' | 'airlineIata' | 'estimatedGateDeparture'
+    | 'flightNumber'
+    | 'Airline'
+    | 'airlineIata'
+    | 'estimatedGateDeparture'
+    | 'Origin'
   >;
 };
 
-export const FlightMeta: React.FC<Props> = ({
-  flight: { flightNumber, airline, airlineIata, estimatedGateDeparture },
-}) => {
+export const FlightMeta: React.FC<Props> = ({ flight }) => {
   return (
     <Container>
-      <AirlineLogo source={{ uri: airline.logoCompactImageURL }} />
+      <AirlineLogo source={{ uri: flight.Airline.logoCompactImageURL }} />
       <Airline>
-        <AirlineName>{airline.name}</AirlineName>
+        <AirlineName>{flight.Airline.name}</AirlineName>
         <Ticket>
           <FlightNumber>
             <FlightText style={{ fontWeight: 'bold' }}>
-              {airlineIata}
+              {flight.airlineIata}
             </FlightText>
-            <FlightText>{flightNumber}</FlightText>
+            <FlightText>{flight.flightNumber}</FlightText>
           </FlightNumber>
           <FlightText>{DOT_SEPARATOR}</FlightText>
-          <FlightText>{moment(estimatedGateDeparture).fromNow()}</FlightText>
+          <FlightText>
+            {moment(flight.estimatedGateDeparture)
+              .tz(flight.Origin.timezone)
+              .format('MMM D, YYYY')}
+          </FlightText>
         </Ticket>
       </Airline>
     </Container>

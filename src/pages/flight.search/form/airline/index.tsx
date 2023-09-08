@@ -15,7 +15,7 @@ import { vibrate } from '@app/lib/haptic.feedback';
 export const AirlineFormItem: React.FC = () => {
   const isFocused = useIsFocused(FLIGHT_SEARCH_STATE_STEP.AIRLINE);
   const value = flightSearchState.useSelect((s) => s.airlineIata);
-  const data = useAirlineQuery({
+  const response = useAirlineQuery({
     skip: !value,
     variables: {
       iata: value!,
@@ -33,7 +33,7 @@ export const AirlineFormItem: React.FC = () => {
         <>
           <Image
             resizeMode="contain"
-            source={{ uri: data.data?.airline.logoCompactImageURL }}
+            source={{ uri: response.data?.airline.logoCompactImageURL }}
           />
           <DisplayText hasValue isFocused={isFocused}>
             {value}

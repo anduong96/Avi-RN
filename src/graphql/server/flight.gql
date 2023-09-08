@@ -2,7 +2,7 @@ fragment FullFlightFragment on Flight {
   id
   airlineIata
 
-  airline {
+  Airline {
     id
     name
     logoCompactImageURL
@@ -10,33 +10,33 @@ fragment FullFlightFragment on Flight {
 
   flightNumber
 
-  originTimezone
   originIata
   originTerminal
   originGate
 
-  origin {
+  Origin {
     id
     name
     cityName
     countryCode
     iata
+    timezone
   }
 
   status
 
-  destinationTimezone
   destinationIata
   destinationGate
   destinationTerminal
   destinationBaggageClaim
 
-  destination {
+  Destination {
     id
     name
     cityName
     countryCode
     iata
+    timezone
   }
 
   scheduledGateDeparture
@@ -52,9 +52,9 @@ fragment FullFlightFragment on Flight {
 query FindFlights(
   $airlineIata: String!
   $flightNumber: String!
-  $departureDate: DateTime!
+  $departureDate: DateTimeISO!
 ) {
-  findFlights(
+  flights(
     airlineIata: $airlineIata
     flightNumber: $flightNumber
     departureDate: $departureDate
@@ -63,8 +63,8 @@ query FindFlights(
   }
 }
 
-query GetFlightPromptness($airlineIata: String!, $flightNumber: String!) {
-  flightPromptness(airlineIata: $airlineIata, flightNumber: $flightNumber) {
+query GetFlightPromptness($flightID: String!) {
+  flightPromptness(flightID: $flightID) {
     onTimePercent
     rating
     averageDelayTimeMs
@@ -83,7 +83,7 @@ query GetUserActiveFlights {
     flightID
     createdAt
     shouldAlert
-    flight {
+    Flight {
       ...FullFlightFragment
     }
   }
@@ -94,7 +94,7 @@ query GetUserArchivedFlights {
     id
     flightID
     createdAt
-    flight {
+    Flight {
       ...FullFlightFragment
     }
   }

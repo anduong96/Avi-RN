@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Text, View } from 'react-native';
 
-// import { FaIcon } from '@app/components/icons.fontawesome';
+import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 import { VerticalDivider } from '@app/components/divider.vertical';
 import { isNil } from 'lodash';
@@ -11,19 +11,14 @@ import { styled } from '@app/lib/styled';
 import { useGetFlightPromptnessQuery } from '@app/generated/server.gql';
 
 type Props = {
-  airlineIata: string;
-  flightNumber: string;
+  flightID: FullFlightFragmentFragment['id'];
 };
 
-export const PromptnessCompact: React.FC<Props> = ({
-  airlineIata,
-  flightNumber,
-}) => {
+export const PromptnessCompact: React.FC<Props> = ({ flightID }) => {
   const response = useGetFlightPromptnessQuery({
     fetchPolicy: 'cache-first',
     variables: {
-      airlineIata,
-      flightNumber,
+      flightID,
     },
   });
 
@@ -51,9 +46,6 @@ export const PromptnessCompact: React.FC<Props> = ({
           </ItemValue>
         </Item>
       </Content>
-      {/* <Footer>
-        <FaIcon isActive name="chevron-right" />
-      </Footer> */}
     </Container>
   );
 };
@@ -65,7 +57,7 @@ const Container = styled(View, (theme) => [
     padding: theme.space.medium,
     borderRadius: theme.borderRadius,
     backgroundColor: theme.pallette.background,
-    gap: theme.space.small,
+    gap: theme.space.medium,
   },
 ]);
 
@@ -98,10 +90,3 @@ const Content = styled(View, () => [
     alignItems: 'center',
   },
 ]);
-
-// const Footer = styled(View, () => [
-//   {
-//     alignItems: 'flex-end',
-//     width: '100%',
-//   },
-// ]);

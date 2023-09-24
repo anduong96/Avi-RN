@@ -1,21 +1,20 @@
 import * as React from 'react';
 
 import { Button } from '@app/components/button';
-import type { FlightSearchStackParams } from '@app/stacks/flight.search.stack';
+import { useFindFlightsLazyQuery } from '@app/generated/server.gql';
+import { vibrate } from '@app/lib/haptic.feedback';
 import type { MainStackParam } from '@app/stacks';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
+import type { FlightSearchStackParams } from '@app/stacks/flight.search.stack';
 import { alert } from '@baronha/ting';
-import { flightSearchState } from './state';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { size } from 'lodash';
 import { tryNice } from 'try-nice';
-import { useFindFlightsLazyQuery } from '@app/generated/server.gql';
-import { useNavigation } from '@react-navigation/native';
-import { vibrate } from '@app/lib/haptic.feedback';
+import { flightSearchState } from './state';
 
 type Navigation = NativeStackNavigationProp<FlightSearchStackParams, 'Search'>;
 type ParentNavigation = NativeStackNavigationProp<MainStackParam, 'Home'>;
 
-//TODO: error state & loading state
 export const NextBtn: React.FC = () => {
   const navigation = useNavigation<Navigation>();
   const airlineIata = flightSearchState.useSelect((s) => s.airlineIata);
@@ -44,7 +43,9 @@ export const NextBtn: React.FC = () => {
         variables: {
           airlineIata,
           flightNumber,
-          departureDate,
+          year: departureDate.getFullYear(),
+          month: departureDate.getMonth(),
+          date: departureDate.getDate(),
         },
       }),
     );
@@ -58,7 +59,9 @@ export const NextBtn: React.FC = () => {
       navigation.push('List', {
         airlineIata,
         flightNumber,
-        departureDate: departureDate.toISOString(),
+        year: departureDate.getFullYear(),
+        month: departureDate.getMonth(),
+        date: departureDate.getDate(),
       });
     } else {
       const parent = navigation.getParent() as ParentNavigation;

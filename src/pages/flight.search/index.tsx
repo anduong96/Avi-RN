@@ -1,19 +1,16 @@
 import * as React from 'react';
 
-import { FlightSearchForm } from './form';
-import { NextBtn } from './next.btn';
 import { PageContainer } from '@app/components/page.container';
 import { PageHeader } from '@app/components/page.header';
+import { useTheme } from '@app/lib/hooks/use.theme';
+import { styled } from '@app/lib/styled';
 import { PortalHost } from '@gorhom/portal';
 import { View } from 'react-native';
+import { FlightSearchForm } from './form';
+import { NextBtn } from './next.btn';
 import { flightSearchState } from './state';
-import { styled } from '@app/lib/styled';
-import { useTheme } from '@app/lib/hooks/use.theme';
-
-// type Navigation = NativeStackNavigationProp<FlightSearchStackParams, 'Search'>;
 
 export const FlightSearchPage: React.FC = () => {
-  // const navigation = useNavigation<Navigation>();
   const theme = useTheme();
 
   React.useEffect(() => {

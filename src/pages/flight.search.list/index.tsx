@@ -30,11 +30,13 @@ export const FlightSearchListPage: React.FC = () => {
     variables: {
       airlineIata: route.params.airlineIata,
       flightNumber: route.params.flightNumber,
-      departureDate: new Date(route.params.departureDate),
+      year: route.params.year,
+      month: route.params.month,
+      date: route.params.date,
     },
   });
 
-  const flights = response.data?.findFlights;
+  const flights = response.data?.flights;
   const count = size(flights);
 
   const handleBack = () => {

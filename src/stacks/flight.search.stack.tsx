@@ -8,12 +8,16 @@ export type FlightSearchStackParams = {
   Search: {
     airlineIata?: string;
     flightNumber?: string;
-    departureDate?: string;
+    year: number;
+    month?: number;
+    date?: number;
   };
   List: {
     airlineIata: string;
     flightNumber: string;
-    departureDate: string;
+    year: number;
+    month: number;
+    date: number;
   };
 };
 

@@ -32,9 +32,7 @@ export const PromptnessCompact: React.FC<Props> = ({ flightID }) => {
       <Content>
         <Item>
           <ItemTitle>Delay Chance</ItemTitle>
-          <ItemValue>
-            {hasData ? `${100 - onTimePercent}%` : 'Unavailable'}
-          </ItemValue>
+          <ItemValue>{hasData ? `${100 - onTimePercent}%` : 'N/A'}</ItemValue>
         </Item>
         <VerticalDivider />
         <Item>
@@ -42,7 +40,7 @@ export const PromptnessCompact: React.FC<Props> = ({ flightID }) => {
           <ItemValue>
             {hasData
               ? `${moment.duration(averageDelayTimeMs).minutes()} min`
-              : 'Unavailable'}
+              : 'N/A'}
           </ItemValue>
         </Item>
       </Content>

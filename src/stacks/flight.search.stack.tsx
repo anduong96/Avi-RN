@@ -8,7 +8,7 @@ export type FlightSearchStackParams = {
   Search: {
     airlineIata?: string;
     flightNumber?: string;
-    year: number;
+    year?: number;
     month?: number;
     date?: number;
   };

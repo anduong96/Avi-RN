@@ -1,6 +1,16 @@
 import * as React from 'react';
 
 import {
+  GetUserActiveFlightsDocument,
+  useDeleteUserFlightMutation,
+  useGetUserActiveFlightsQuery,
+  useGetUserArchivedFlightsQuery,
+  useUserHasFlightsQuery,
+} from '@app/generated/server.gql';
+import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import { Alert, View } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
+import {
   AddBtn,
   Container,
   Content,
@@ -13,37 +23,27 @@ import {
   PageHeader,
   UserBtn,
 } from './styles';
-import { Alert, View } from 'react-native';
-import Animated, { FadeIn } from 'react-native-reanimated';
-import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
-import {
-  GetUserActiveFlightsDocument,
-  useDeleteUserFlightMutation,
-  useGetUserActiveFlightsQuery,
-  useGetUserArchivedFlightsQuery,
-  useUserHasFlightsQuery,
-} from '@app/generated/server.gql';
 
-import { BlurredBottomSheetBackground } from '../flight.search/sheet/sheet.background';
-import { FaIcon } from '@app/components/icons.fontawesome';
 import { FlightCard } from '@app/components/flight.card';
-import { HomeOnboardPage } from '../home.onboard';
 import { IconBtn } from '@app/components/icon.btn';
+import { FaIcon } from '@app/components/icons.fontawesome';
 import { Logo } from '@app/components/logo';
-import type { MainStackParam } from '@app/stacks';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PageContainer } from '@app/components/page.container';
-import { SheetFooter } from './sheet.footer';
-import { Swipeable } from 'react-native-gesture-handler';
-import { Title } from './title';
 import { UserAvatar } from '@app/components/user.avatar';
-import { WINDOW_HEIGHT } from '@app/lib/platform';
-import { isEmpty } from 'lodash';
-import { styled } from '@app/lib/styled';
-import { useNavigation } from '@react-navigation/native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '@app/lib/hooks/use.theme';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
+import { WINDOW_HEIGHT } from '@app/lib/platform';
+import { styled } from '@app/lib/styled';
+import type { MainStackParam } from '@app/stacks';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { isEmpty } from 'lodash';
+import { Swipeable } from 'react-native-gesture-handler';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { BlurredBottomSheetBackground } from '../flight.search/sheet/sheet.background';
+import { HomeOnboardPage } from '../home.onboard';
+import { SheetFooter } from './sheet.footer';
+import { Title } from './title';
 
 type Navigation = NativeStackNavigationProp<MainStackParam, 'Home'>;
 
@@ -51,18 +51,13 @@ export const HomePage: React.FC = () => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<Navigation>();
-  const flights = useGetUserActiveFlightsQuery({ fetchPolicy: 'cache-first' });
-  const hasFlights = useUserHasFlightsQuery({ fetchPolicy: 'cache-only' });
-  const archivedFlights = useGetUserArchivedFlightsQuery({
-    fetchPolicy: 'cache-first',
-  });
+  const flights = useGetUserActiveFlightsQuery();
+  const hasFlights = useUserHasFlightsQuery();
+  const archived = useGetUserArchivedFlightsQuery();
   const activeFlights = flights.data?.userActiveFlights;
+  const archivedFlights = archived.data?.userArchivedFlights;
   const [removeFlight] = useDeleteUserFlightMutation({
-    refetchQueries: [
-      {
-        query: GetUserActiveFlightsDocument,
-      },
-    ],
+    refetchQueries: [{ query: GetUserActiveFlightsDocument }],
   });
   const snapPoints = React.useMemo(
     () => [Math.min(WINDOW_HEIGHT / 2, 400), WINDOW_HEIGHT - insets.top],
@@ -152,7 +147,7 @@ export const HomePage: React.FC = () => {
                   <Title />
                 </Meta>
                 <Actions>
-                  {!isEmpty(archivedFlights.data?.userArchivedFlights) && (
+                  {!isEmpty(archivedFlights) && (
                     <ArchiveFlightsBtn
                       icon="archive"
                       size={12}

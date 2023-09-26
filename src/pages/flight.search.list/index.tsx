@@ -1,23 +1,22 @@
 import * as React from 'react';
 
-import { FlatList, Text, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { FlatList, Text, View } from 'react-native';
 
 import { FlightCardCompact } from '@app/components/flight.card.compact';
-import { FlightPageTopHeader } from '@app/components/flight.page/top.header';
-import type { FlightSearchStackParams } from '@app/stacks/flight.search.stack';
-import type { MainStackParam } from '@app/stacks';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PageContainer } from '@app/components/page.container';
 import { PageHeader } from '@app/components/page.header';
-import type { RouteProp } from '@react-navigation/native';
 import { SpaceVertical } from '@app/components/space.vertical';
-import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
-import pluralize from 'pluralize';
-import { size } from 'lodash';
-import { styled } from '@app/lib/styled';
 import { useFindFlightsQuery } from '@app/generated/server.gql';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { styled } from '@app/lib/styled';
+import type { MainStackParam } from '@app/stacks';
+import type { FlightSearchStackParams } from '@app/stacks/flight.search.stack';
+import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
+import type { RouteProp } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { size } from 'lodash';
+import pluralize from 'pluralize';
 
 type ParentNavigation = NativeStackNavigationProp<MainStackParam, 'Home'>;
 type Navigation = NativeStackNavigationProp<FlightSearchStackParams, 'List'>;
@@ -61,13 +60,7 @@ export const FlightSearchListPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <PageHeader
-        withBack
-        withoutInsets
-        onPressBack={handleBack}
-        align="center"
-        title={<FlightPageTopHeader flight={flights[0]} />}
-      />
+      <PageHeader withBack withoutInsets onPressBack={handleBack} />
       <FlatList
         contentContainerStyle={{ flexGrow: 1 }}
         data={flights}

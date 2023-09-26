@@ -22,7 +22,13 @@ type Props = {
 export const FlightMeta: React.FC<Props> = ({ flight }) => {
   return (
     <Container>
-      <AirlineLogo source={{ uri: flight.Airline.logoCompactImageURL }} />
+      <AirlineLogo
+        resizeMode={FastImage.resizeMode.contain}
+        source={{
+          uri: flight.Airline.logoCompactImageURL,
+          priority: FastImage.priority.high,
+        }}
+      />
       <Airline>
         <AirlineName>{flight.Airline.name}</AirlineName>
         <Ticket>

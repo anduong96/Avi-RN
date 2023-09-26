@@ -3,26 +3,26 @@ import * as React from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { AlertFlightButton } from '@app/components/button.alerts.flight';
-import { BlurView } from '@react-native-community/blur';
 import { DebugNoficationFlightBtn } from '@app/components/button.debug.notif.flight';
-import { ENV } from '@app/env';
-import { ExitToHomeBtn } from './exit.to.home.btn';
-import { FlightPageDistanceSeparator } from '@app/components/flight.page/distance.separator';
-import { FlightPageLocationSection } from '@app/components/flight.page/location.section';
-import { FlightPageTopHeader } from '@app/components/flight.page/top.header';
-import type { FlightStackParams } from '@app/stacks/flight.stack';
-import { LoadingContainer } from '@app/components/loading.container';
-import { PageContainer } from '@app/components/page.container';
-import { PromptnessCompact } from './promptness.compact';
-import type { RouteProp } from '@react-navigation/native';
 import { SaveFlightButton } from '@app/components/button.save.flight';
 import { ShareFlightButton } from '@app/components/button.share.flight';
 import { VerticalDivider } from '@app/components/divider.vertical';
-import moment from 'moment';
-import { styled } from '@app/lib/styled';
+import { FlightPageDistanceSeparator } from '@app/components/flight.page/distance.separator';
+import { FlightPageLocationSection } from '@app/components/flight.page/location.section';
+import { FlightPageTopHeader } from '@app/components/flight.page/top.header';
+import { LoadingContainer } from '@app/components/loading.container';
+import { PageContainer } from '@app/components/page.container';
+import { ENV } from '@app/env';
 import { useGetFlightQuery } from '@app/generated/server.gql';
-import { useRoute } from '@react-navigation/native';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { styled } from '@app/lib/styled';
+import type { FlightStackParams } from '@app/stacks/flight.stack';
+import { BlurView } from '@react-native-community/blur';
+import type { RouteProp } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import moment from 'moment';
+import { ExitToHomeBtn } from './exit.to.home.btn';
+import { PromptnessCompact } from './promptness.compact';
 
 type Route = RouteProp<FlightStackParams, 'Flight'>;
 
@@ -72,7 +72,6 @@ export const FlightPage: React.FC = () => {
                   <SaveFlightButton flightID={flightID} />
                   <VerticalDivider />
                   <AlertFlightButton flightID={flightID} />
-                  {/* <AltFlightsButton flightID={flightID} /> */}
                   <ShareFlightButton flightID={flightID} />
                   {ENV.APP_ENV !== 'production' && (
                     <>

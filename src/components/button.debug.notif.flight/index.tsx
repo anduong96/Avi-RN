@@ -15,13 +15,15 @@ export const DebugNoficationFlightBtn: React.FC<Props> = ({ flightID }) => {
   const [send, { loading }] = useDebugFlightNoficationMutation({
     variables: {
       flightID,
+      title: 'title',
+      body: 'body',
       data: {
         url: `flywithavi://flights/${flightID}`,
       },
     },
     onCompleted(data) {
       toast({
-        title: `Sent ${data.debug_sendFlightNotification}`,
+        title: `Sent ${data._sendFlightNotification} notification`,
         preset: 'done',
         position: 'top',
       });

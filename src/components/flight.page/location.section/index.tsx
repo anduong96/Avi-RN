@@ -2,11 +2,11 @@ import * as React from 'react';
 
 import { Text, View } from 'react-native';
 
-import type { AirportQuery } from '@app/generated/server.gql';
 import { FaIcon } from '@app/components/icons.fontawesome';
-import moment from 'moment';
-import { styled } from '@app/lib/styled';
+import type { AirportQuery } from '@app/generated/server.gql';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { styled } from '@app/lib/styled';
+import moment from 'moment';
 
 type Props = {
   airportIata: string;
@@ -31,17 +31,11 @@ export const FlightPageLocationSection: React.FC<Props> = ({
   actualMovementTime,
 }) => {
   const theme = useTheme();
-  const movementTime = moment
-    .utc(actualMovementTime || estimatedMovementTime)
-    .tz(timezone);
-
-  const timeColor = React.useMemo(
-    () =>
-      moment(estimatedMovementTime).isSameOrBefore(scheduledMovementTime)
-        ? theme.pallette.successLight
-        : theme.pallette.warn,
-    [theme, estimatedMovementTime, scheduledMovementTime],
-  );
+  const usableTime = actualMovementTime || estimatedMovementTime;
+  const movementTime = moment.utc(usableTime).tz(timezone);
+  const timeColor = moment(usableTime).isSameOrBefore(scheduledMovementTime)
+    ? theme.pallette.successLight
+    : theme.pallette.warn;
 
   return (
     <Container>

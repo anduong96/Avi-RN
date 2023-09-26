@@ -24,9 +24,9 @@ const Container = styled(View, (theme) => [
   {
     paddingHorizontal: theme.space.medium,
     alignItems: 'center',
-    width: '100%',
+    justifyContent: 'flex-start',
+    flexGrow: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
 ]);
 

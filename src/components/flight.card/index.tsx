@@ -18,13 +18,13 @@ import {
   TimeText,
 } from './styles';
 
-import { AirlineLogo } from '../airline.logo';
 import { DOT_SEPARATOR } from '@app/constants';
+import type { GetUserArchivedFlightsQuery } from '@app/generated/server.gql';
+import { useTheme } from '@app/lib/hooks/use.theme';
+import moment from 'moment';
+import { AirlineLogoAvatar } from '../airline.logo.avatar';
 import { DividerDashed } from '../divider.dashed';
 import { FaIcon } from '../icons.fontawesome';
-import type { GetUserArchivedFlightsQuery } from '@app/generated/server.gql';
-import moment from 'moment';
-import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
   value: GetUserArchivedFlightsQuery['userArchivedFlights'][number];
@@ -40,11 +40,10 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
     <Container>
       <Header>
         <AirlineContainer>
-          <AirlineLogo
+          <AirlineLogoAvatar
+            size={20}
             iata={Flight.airlineIata}
-            type="compact"
-            width={20}
-            height={20}
+            uri={Flight.Airline.logoCompactImageURL}
           />
           <AirlineFlightNumber>
             {Flight.airlineIata} {Flight.flightNumber}

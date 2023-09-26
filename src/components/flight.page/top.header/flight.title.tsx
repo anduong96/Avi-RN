@@ -5,13 +5,13 @@ import { Text } from 'react-native';
 import { styled } from '@app/lib/styled';
 
 type Props = {
-  flight: Pick<FullFlightFragmentFragment, 'destination'>;
+  flight: Pick<FullFlightFragmentFragment, 'Destination'>;
 };
 
 export const FlightTitle: React.FC<Props> = ({ flight }) => {
   return (
     <Title>
-      Flight to {flight.destination.cityName || flight.destination.countryCode}
+      Flight to {flight.Destination.cityName || flight.Destination.countryCode}
     </Title>
   );
 };

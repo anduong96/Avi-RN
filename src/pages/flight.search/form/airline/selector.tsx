@@ -1,33 +1,29 @@
 import * as React from 'react';
 
-import { ActivityIndicator, Text, View } from 'react-native';
-import Animated, {
-  FadeOut,
-  useAnimatedStyle,
-  useDerivedValue,
-  withTiming,
-} from 'react-native-reanimated';
 import {
   BottomSheetFlatList,
   SCREEN_HEIGHT,
   TouchableOpacity,
 } from '@gorhom/bottom-sheet';
+import { Text, View } from 'react-native';
+import Animated, { FadeInRight, FadeOutRight } from 'react-native-reanimated';
 import { FLIGHT_SEARCH_STATE_STEP, flightSearchState } from '../../state';
 
-import { BlurView } from '@react-native-community/blur';
-import type BottomSheet from '@gorhom/bottom-sheet';
+import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
 import { FaIcon } from '@app/components/icons.fontawesome';
-import FastImage from 'react-native-fast-image';
-import { FlightSearchSheet } from '../../sheet';
-import Fuse from 'fuse.js';
 import { Input } from '@app/components/input';
-import type { TextInput } from 'react-native';
-import moment from 'moment';
-import { styled } from '@app/lib/styled';
+import { LoadingOverlay } from '@app/components/loading.overlay';
 import { useAirlinesQuery } from '@app/generated/server.gql';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '@app/lib/hooks/use.theme';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
+import { styled } from '@app/lib/styled';
+import type BottomSheet from '@gorhom/bottom-sheet';
+import { BlurView } from '@react-native-community/blur';
+import Fuse from 'fuse.js';
+import moment from 'moment';
+import type { TextInput } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { FlightSearchSheet } from '../../sheet';
 
 export const AirlineSheetSelector: React.FC = () => {
   const insets = useSafeAreaInsets();
@@ -41,13 +37,9 @@ export const AirlineSheetSelector: React.FC = () => {
   const [isSearching, setIsSearching] = React.useState(false);
   const [search, setSearch] = React.useState<string>();
   const snapPoints = React.useMemo(
-    () => [450, SCREEN_HEIGHT - insets.bottom - theme.space.medium],
+    () => [450, SCREEN_HEIGHT - insets.bottom - theme.space.medium * 2],
     [insets, theme],
   );
-  const isSearchingDerived = useDerivedValue(() => isSearching, [isSearching]);
-  const inputStyle = useAnimatedStyle(() => ({
-    width: withTiming(isSearchingDerived.value ? 65 : 0),
-  }));
 
   const display = React.useMemo(() => {
     const airlines = options?.data?.airlines ?? [];
@@ -72,30 +64,20 @@ export const AirlineSheetSelector: React.FC = () => {
 
   return (
     <FlightSearchSheet snapPoints={snapPoints} index={0} ref={sheet}>
+      <LoadingOverlay isLoading={options.loading} />
       <BottomSheetFlatList
         data={display}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         keyExtractor={(item) => item.id}
-        ListEmptyComponent={
-          <>
-            {!options.data && options.loading && (
-              <Animated.View exiting={FadeOut}>
-                <ActivityIndicator />
-              </Animated.View>
-            )}
-          </>
-        }
         renderItem={({ item }) => {
           return (
             <Airline onPress={() => handleSelect(item.iata)}>
-              <AirlineLogo>
-                <FastImage
-                  source={{ uri: item.logoCompactImageURL }}
-                  style={{ width: '100%', height: '100%' }}
-                  resizeMode="contain"
-                />
-              </AirlineLogo>
+              <AirlineLogoAvatar
+                size={50}
+                uri={item.logoCompactImageURL}
+                iata={item.iata}
+              />
               <AirlineMeta>
                 <AirlineIataText>{item.iata}</AirlineIataText>
                 <AirlineNameText>{item.name}</AirlineNameText>
@@ -113,35 +95,17 @@ export const AirlineSheetSelector: React.FC = () => {
               onChange={(value) => setSearch(value)}
               prefix={<FaIcon name="search" />}
             />
-            <Animated.View
-              style={[
-                inputStyle,
-                {
-                  height: '100%',
-                  flexDirection: 'row',
-                },
-              ]}
-            >
-              <TouchableOpacity
-                onPress={() => input.current?.blur?.()}
-                style={{
-                  height: '100%',
-                  flexGrow: 1,
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                }}
+            {isSearching && (
+              <Animated.View
+                entering={FadeInRight}
+                exiting={FadeOutRight}
+                style={{ height: 50, width: 65 }}
               >
-                <Text
-                  style={[
-                    theme.typography.presets.p1,
-                    { color: theme.pallette.active },
-                  ]}
-                >
-                  Cancel
-                </Text>
-              </TouchableOpacity>
-            </Animated.View>
+                <CancelBtn onPress={() => input.current?.blur?.()}>
+                  <CancelBtnText>Cancel</CancelBtnText>
+                </CancelBtn>
+              </Animated.View>
+            )}
           </Header>
         }
       />
@@ -184,19 +148,6 @@ const Airline = styled(TouchableOpacity, (theme) => [
   },
 ]);
 
-const AirlineLogo = styled(View, (theme) => [
-  theme.presets.centered,
-  {
-    padding: 10,
-    backgroundColor: theme.pallette.grey[50],
-    borderRadius: 200,
-    overflow: 'hidden',
-    width: 50,
-    height: undefined,
-    aspectRatio: 1,
-  },
-]);
-
 const AirlineMeta = styled(View, () => [
   {
     flexGrow: 1,
@@ -216,5 +167,22 @@ const AirlineNameText = styled(Text, (theme) => [
   theme.typography.presets.p1,
   {
     flexShrink: 1,
+  },
+]);
+
+const CancelBtn = styled(TouchableOpacity, () => [
+  {
+    height: '100%',
+    flexGrow: 1,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+]);
+
+const CancelBtnText = styled(Text, (theme) => [
+  theme.typography.presets.p1,
+  {
+    color: theme.pallette.active,
   },
 ]);

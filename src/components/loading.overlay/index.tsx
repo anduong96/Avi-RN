@@ -14,24 +14,15 @@ type Props = {
   isLoading?: boolean;
   size?: ActivityIndicatorProps['size'];
   style?: StyleProp<ViewStyle>;
+  isDark?: boolean;
+  type?: 'translucent' | 'solid';
 };
-
-const Container = styled(Animated.View, (theme) => [
-  theme.presets.centered,
-  {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    zIndex: 1,
-    backgroundColor: theme.pallette.background,
-  },
-]);
 
 export const LoadingOverlay: React.FC<Props> = ({
   isLoading,
   style,
+  isDark,
+  type = 'solid',
   size = 'large',
 }) => {
   if (!isLoading) {
@@ -39,10 +30,41 @@ export const LoadingOverlay: React.FC<Props> = ({
   }
 
   return (
-    <Container exiting={FadeOut} style={style}>
+    <Container type={type} isDark={isDark} exiting={FadeOut} style={[style]}>
       <Animated.View entering={FadeIn.delay(750)}>
-        <ActivityIndicator size={size} />
+        <ActivityIndicator color={isDark ? 'white' : 'black'} size={size} />
       </Animated.View>
     </Container>
   );
 };
+
+const Container = styled<Pick<Props, 'isDark' | 'type'>, typeof Animated.View>(
+  Animated.View,
+  (theme, props) => [
+    theme.presets.centered,
+    {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      zIndex: 1,
+    },
+    props.type === 'translucent' &&
+      props.isDark && {
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+      },
+    props.type === 'translucent' &&
+      !props.isDark && {
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+      },
+    props.type === 'solid' &&
+      props.isDark && {
+        backgroundColor: '#000',
+      },
+    props.type === 'solid' &&
+      !props.isDark && {
+        backgroundColor: '#fff',
+      },
+  ],
+);

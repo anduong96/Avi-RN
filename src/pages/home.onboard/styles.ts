@@ -21,8 +21,11 @@ export const Background = styled(Image, () => [
 
 export const Header = styled(View, (theme) => [
   {
-    paddingTop: theme.insets.top || theme.space.medium,
+    marginTop: theme.insets.top || theme.space.medium,
     paddingHorizontal: theme.space.large,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 ]);
 

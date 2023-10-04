@@ -60,9 +60,11 @@ export type Flight = {
   destinationTerminal?: Maybe<Scalars['String']>;
   estimatedGateArrival: Scalars['DateTimeISO'];
   estimatedGateDeparture: Scalars['DateTimeISO'];
+  flightDate: Scalars['Int'];
+  flightMonth: Scalars['Int'];
   flightNumber: Scalars['String'];
+  flightYear: Scalars['Int'];
   id: Scalars['ID'];
-  originDepartureDate: Scalars['String'];
   originGate?: Maybe<Scalars['String']>;
   originIata: Scalars['String'];
   originTerminal?: Maybe<Scalars['String']>;
@@ -153,6 +155,7 @@ export type Query = {
   flight: Flight;
   flightPromptness: FlightPromptness;
   flights: Array<Flight>;
+  randomFlight: Flight;
   userActiveFlights: Array<UserFlight>;
   userArchivedFlights: Array<UserFlight>;
   userFlight?: Maybe<UserFlight>;
@@ -259,6 +262,11 @@ export type GetFlightQueryVariables = Exact<{
 
 
 export type GetFlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
+
+export type GetRandomFlightQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRandomFlightQuery = { __typename?: 'Query', randomFlight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
 
 export type GetUserActiveFlightsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -634,6 +642,43 @@ export type GetFlightLazyQueryHookResult = ReturnType<typeof useGetFlightLazyQue
 export type GetFlightQueryResult = Apollo.QueryResult<GetFlightQuery, GetFlightQueryVariables>;
 export function refetchGetFlightQuery(variables: GetFlightQueryVariables) {
       return { query: GetFlightDocument, variables: variables }
+    }
+export const GetRandomFlightDocument = gql`
+    query GetRandomFlight {
+  randomFlight {
+    ...FullFlightFragment
+  }
+}
+    ${FullFlightFragmentFragmentDoc}`;
+
+/**
+ * __useGetRandomFlightQuery__
+ *
+ * To run a query within a React component, call `useGetRandomFlightQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRandomFlightQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRandomFlightQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetRandomFlightQuery(baseOptions?: Apollo.QueryHookOptions<GetRandomFlightQuery, GetRandomFlightQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRandomFlightQuery, GetRandomFlightQueryVariables>(GetRandomFlightDocument, options);
+      }
+export function useGetRandomFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRandomFlightQuery, GetRandomFlightQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRandomFlightQuery, GetRandomFlightQueryVariables>(GetRandomFlightDocument, options);
+        }
+export type GetRandomFlightQueryHookResult = ReturnType<typeof useGetRandomFlightQuery>;
+export type GetRandomFlightLazyQueryHookResult = ReturnType<typeof useGetRandomFlightLazyQuery>;
+export type GetRandomFlightQueryResult = Apollo.QueryResult<GetRandomFlightQuery, GetRandomFlightQueryVariables>;
+export function refetchGetRandomFlightQuery(variables?: GetRandomFlightQueryVariables) {
+      return { query: GetRandomFlightDocument, variables: variables }
     }
 export const GetUserActiveFlightsDocument = gql`
     query GetUserActiveFlights {

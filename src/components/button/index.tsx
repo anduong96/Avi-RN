@@ -18,6 +18,7 @@ type Props = React.PropsWithChildren<{
   disabled?: boolean;
   onPress?: () => void;
   fullWidth?: boolean;
+  gap?: number;
   style?: StyleProp<ViewStyle>;
   size?: 'small' | 'medium' | 'large';
 }>;
@@ -35,6 +36,7 @@ export const Button = React.forwardRef<unknown, Props>(
       style,
       prefix,
       postfix,
+      gap,
       size = 'medium',
     },
     ref,
@@ -45,6 +47,7 @@ export const Button = React.forwardRef<unknown, Props>(
         ref={ref}
         shadow={shadow}
         fullWidth={fullWidth}
+        gap={gap}
         style={[
           size === 'large' && {
             paddingVertical: theme.space.medium,

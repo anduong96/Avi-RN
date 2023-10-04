@@ -4,14 +4,15 @@ import { Background, Container, Content, Footer, Header } from './styles';
 
 import { Button } from '@app/components/button';
 import { FaIcon } from '@app/components/icons.fontawesome';
-import { Hero } from './hero';
 import { Logo } from '@app/components/logo';
-import type { MainStackParam } from '@app/stacks';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useTheme } from '@app/lib/hooks/use.theme';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
+import type { MainStackParam } from '@app/stacks';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Hero } from './hero';
+import { RandomFlightBtn } from '@app/components/button.random.flight';
+import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
 type Navigation = NativeStackNavigationProp<MainStackParam, 'Home'>;
 
@@ -27,6 +28,16 @@ export const HomeOnboardPage: React.FC = () => {
     });
   };
 
+  const handleRandomFlight = (flight: FullFlightFragmentFragment) => {
+    navigation.push('FlightStack', {
+      screen: 'Flight',
+      params: {
+        flightID: flight.id,
+        isFromSearch: false,
+      },
+    });
+  };
+
   return (
     <Container>
       <Background
@@ -36,19 +47,17 @@ export const HomeOnboardPage: React.FC = () => {
       />
       <Header>
         <Logo type="light" />
+        <RandomFlightBtn onFlight={handleRandomFlight} />
       </Header>
       <Content>
         <Hero />
       </Content>
       <Footer>
         <Button
+          gap={theme.space.medium}
           size="large"
           onPress={handleAddFirstFlight}
-          prefix={
-            <View style={{ marginRight: theme.space.medium }}>
-              <FaIcon name="plus" color="#fff" />
-            </View>
-          }
+          prefix={<FaIcon name="plus" color="#fff" />}
         >
           ADD YOUR FLIGHT
         </Button>

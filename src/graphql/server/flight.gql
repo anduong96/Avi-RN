@@ -81,6 +81,12 @@ query GetFlight($flightID: String!) {
   }
 }
 
+query GetRandomFlight {
+  randomFlight {
+    ...FullFlightFragment
+  }
+}
+
 query GetUserActiveFlights {
   userActiveFlights {
     id

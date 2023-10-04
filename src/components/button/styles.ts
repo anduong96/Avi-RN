@@ -7,7 +7,7 @@ import { styled } from '@app/lib/styled';
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 export const Container = styled<
-  { fullWidth?: boolean; shadow?: boolean },
+  { fullWidth?: boolean; shadow?: boolean; gap?: number },
   typeof AnimatedTouchable
 >(AnimatedTouchable, (theme, props) => [
   {
@@ -19,6 +19,7 @@ export const Container = styled<
     borderRadius: theme.borderRadius,
     paddingVertical: theme.space.small,
     paddingHorizontal: theme.space.medium,
+    gap: props.gap ?? theme.space.tiny,
   },
   props.fullWidth && {
     width: '100%',

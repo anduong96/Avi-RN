@@ -50,9 +50,8 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
       flightID,
     },
     refetchQueries: [
-      {
-        query: GetUserActiveFlightsDocument,
-      },
+      { query: GetUserActiveFlightsDocument },
+      { query: UserHasFlightsDocument },
     ],
     onCompleted() {
       toast({

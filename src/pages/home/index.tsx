@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import {
   GetUserActiveFlightsDocument,
+  UserHasFlightsDocument,
   useDeleteUserFlightMutation,
   useGetUserActiveFlightsQuery,
   useGetUserArchivedFlightsQuery,
@@ -57,7 +58,10 @@ export const HomePage: React.FC = () => {
   const activeFlights = flights.data?.userActiveFlights;
   const archivedFlights = archived.data?.userArchivedFlights;
   const [removeFlight] = useDeleteUserFlightMutation({
-    refetchQueries: [{ query: GetUserActiveFlightsDocument }],
+    refetchQueries: [
+      { query: GetUserActiveFlightsDocument },
+      { query: UserHasFlightsDocument },
+    ],
   });
   const snapPoints = React.useMemo(
     () => [Math.min(WINDOW_HEIGHT / 2, 400), WINDOW_HEIGHT - insets.top],

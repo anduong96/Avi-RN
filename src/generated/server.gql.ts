@@ -17,6 +17,39 @@ export type Scalars = {
   JSON: any;
 };
 
+export type Aircraft = {
+  __typename?: 'Aircraft';
+  AircraftPositions: Array<AircraftPosition>;
+  airlineIata: Scalars['String'];
+  createdAt: Scalars['DateTimeISO'];
+  description?: Maybe<Scalars['String']>;
+  iata?: Maybe<Scalars['String']>;
+  icao: Scalars['String'];
+  id: Scalars['Int'];
+  imageURL?: Maybe<Scalars['String']>;
+  model: Scalars['String'];
+  tailNumber: Scalars['String'];
+  updatedAt: Scalars['DateTimeISO'];
+};
+
+export type AircraftPosition = {
+  __typename?: 'AircraftPosition';
+  aircraftID: Scalars['Int'];
+  airlineIata: Scalars['String'];
+  altitude?: Maybe<Scalars['Int']>;
+  createdAt: Scalars['DateTimeISO'];
+  destinationIata: Scalars['String'];
+  flightDate: Scalars['Int'];
+  flightMonth: Scalars['Int'];
+  flightNumber: Scalars['String'];
+  flightYear: Scalars['Int'];
+  id: Scalars['Int'];
+  latitude?: Maybe<Scalars['Int']>;
+  longitude?: Maybe<Scalars['Int']>;
+  originIata: Scalars['String'];
+  updatedAt: Scalars['DateTimeISO'];
+};
+
 export type Airline = {
   __typename?: 'Airline';
   iata: Scalars['String'];
@@ -149,6 +182,8 @@ export type MutationDeleteUserFlightArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  aircraft?: Maybe<Aircraft>;
+  aircraftPosition?: Maybe<AircraftPosition>;
   airline: Airline;
   airlines: Array<Airline>;
   airport: Airport;
@@ -160,6 +195,16 @@ export type Query = {
   userArchivedFlights: Array<UserFlight>;
   userFlight?: Maybe<UserFlight>;
   userHasFlights: Scalars['Boolean'];
+};
+
+
+export type QueryAircraftArgs = {
+  tailNumber: Scalars['String'];
+};
+
+
+export type QueryAircraftPositionArgs = {
+  aircraftID: Scalars['Float'];
 };
 
 
@@ -206,6 +251,20 @@ export type UserFlight = {
   updatedAt: Scalars['DateTimeISO'];
   userID: Scalars['String'];
 };
+
+export type AircraftQueryVariables = Exact<{
+  tailNumber: Scalars['String'];
+}>;
+
+
+export type AircraftQuery = { __typename?: 'Query', aircraft?: { __typename?: 'Aircraft', id: number, iata?: string | null, icao: string, model: string, airlineIata: string, description?: string | null, tailNumber: string, imageURL?: string | null, createdAt: any, updatedAt: any } | null };
+
+export type AircraftPositionQueryVariables = Exact<{
+  aircraftId: Scalars['Float'];
+}>;
+
+
+export type AircraftPositionQuery = { __typename?: 'Query', aircraftPosition?: { __typename?: 'AircraftPosition', id: number, aircraftID: number, latitude?: number | null, longitude?: number | null, altitude?: number | null, flightYear: number, flightMonth: number, flightDate: number, flightNumber: string, airlineIata: string, originIata: string, destinationIata: string, createdAt: any, updatedAt: any } | null };
 
 export type AirlinesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -346,6 +405,104 @@ export const FullFlightFragmentFragmentDoc = gql`
   actualGateArrival
 }
     `;
+export const AircraftDocument = gql`
+    query Aircraft($tailNumber: String!) {
+  aircraft(tailNumber: $tailNumber) {
+    id
+    iata
+    icao
+    model
+    airlineIata
+    description
+    tailNumber
+    imageURL
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useAircraftQuery__
+ *
+ * To run a query within a React component, call `useAircraftQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAircraftQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAircraftQuery({
+ *   variables: {
+ *      tailNumber: // value for 'tailNumber'
+ *   },
+ * });
+ */
+export function useAircraftQuery(baseOptions: Apollo.QueryHookOptions<AircraftQuery, AircraftQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AircraftQuery, AircraftQueryVariables>(AircraftDocument, options);
+      }
+export function useAircraftLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AircraftQuery, AircraftQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AircraftQuery, AircraftQueryVariables>(AircraftDocument, options);
+        }
+export type AircraftQueryHookResult = ReturnType<typeof useAircraftQuery>;
+export type AircraftLazyQueryHookResult = ReturnType<typeof useAircraftLazyQuery>;
+export type AircraftQueryResult = Apollo.QueryResult<AircraftQuery, AircraftQueryVariables>;
+export function refetchAircraftQuery(variables: AircraftQueryVariables) {
+      return { query: AircraftDocument, variables: variables }
+    }
+export const AircraftPositionDocument = gql`
+    query AircraftPosition($aircraftId: Float!) {
+  aircraftPosition(aircraftID: $aircraftId) {
+    id
+    aircraftID
+    latitude
+    longitude
+    altitude
+    flightYear
+    flightMonth
+    flightDate
+    flightNumber
+    airlineIata
+    originIata
+    destinationIata
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useAircraftPositionQuery__
+ *
+ * To run a query within a React component, call `useAircraftPositionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAircraftPositionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAircraftPositionQuery({
+ *   variables: {
+ *      aircraftId: // value for 'aircraftId'
+ *   },
+ * });
+ */
+export function useAircraftPositionQuery(baseOptions: Apollo.QueryHookOptions<AircraftPositionQuery, AircraftPositionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AircraftPositionQuery, AircraftPositionQueryVariables>(AircraftPositionDocument, options);
+      }
+export function useAircraftPositionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AircraftPositionQuery, AircraftPositionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AircraftPositionQuery, AircraftPositionQueryVariables>(AircraftPositionDocument, options);
+        }
+export type AircraftPositionQueryHookResult = ReturnType<typeof useAircraftPositionQuery>;
+export type AircraftPositionLazyQueryHookResult = ReturnType<typeof useAircraftPositionLazyQuery>;
+export type AircraftPositionQueryResult = Apollo.QueryResult<AircraftPositionQuery, AircraftPositionQueryVariables>;
+export function refetchAircraftPositionQuery(variables: AircraftPositionQueryVariables) {
+      return { query: AircraftPositionDocument, variables: variables }
+    }
 export const AirlinesDocument = gql`
     query Airlines {
   airlines {

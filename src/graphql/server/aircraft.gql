@@ -1,0 +1,33 @@
+query Aircraft($tailNumber: String!) {
+  aircraft(tailNumber: $tailNumber) {
+    id
+    iata
+    icao
+    model
+    airlineIata
+    description
+    tailNumber
+    imageURL
+    createdAt
+    updatedAt
+  }
+}
+
+query AircraftPosition($aircraftId: Float!) {
+  aircraftPosition(aircraftID: $aircraftId) {
+    id
+    aircraftID
+    latitude
+    longitude
+    altitude
+    flightYear
+    flightMonth
+    flightDate
+    flightNumber
+    airlineIata
+    originIata
+    destinationIata
+    createdAt
+    updatedAt
+  }
+}

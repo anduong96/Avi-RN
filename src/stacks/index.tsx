@@ -1,21 +1,21 @@
 import * as React from 'react';
 
+import { useUserHasFlightsQuery } from '@app/generated/server.gql';
+import { bootApp } from '@app/lib/boot.app';
 import { DebugMenuPage } from '@app/pages/debug.menu';
-import { FlightSearchStack } from './flight.search.stack';
-import type { FlightSearchStackParams } from './flight.search.stack';
-import { FlightStack } from './flight.stack';
-import type { FlightStackParams } from './flight.stack';
-import { GlobalState } from '@app/state/global';
+import { FlightSearchPage } from '@app/pages/flight.search';
 import { HomePage } from '@app/pages/home';
-import type { NavigatorScreenParams } from '@react-navigation/native';
 import { PrivacyPoliciesPage } from '@app/pages/privacy.policies';
 import { ProfilePage } from '@app/pages/profile';
 import { SettingsPage } from '@app/pages/settings';
 import { TermsOfServicePage } from '@app/pages/terms.of.service';
-import { bootApp } from '@app/lib/boot.app';
+import { GlobalState } from '@app/state/global';
+import type { NavigatorScreenParams } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { isNil } from 'lodash';
-import { useUserHasFlightsQuery } from '@app/generated/server.gql';
+import type { FlightStackParams } from './flight.stack';
+import { FlightStack } from './flight.stack';
 
 export type MainStackParam = {
   Home: undefined;
@@ -24,9 +24,12 @@ export type MainStackParam = {
   PrivacyPolicies: undefined;
   TermsOfService: undefined;
   FlightStack: NavigatorScreenParams<FlightStackParams>;
-  FlightSearchStack: NavigatorScreenParams<FlightSearchStackParams>;
   Debug: undefined;
+  Search: undefined;
 };
+
+export type MainStack<T extends keyof MainStackParam> =
+  NativeStackNavigationProp<MainStackParam, T>;
 
 const Stack = createNativeStackNavigator<MainStackParam>();
 
@@ -49,7 +52,7 @@ export const AppNavigator: React.FC = () => {
 
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="FlightStack" component={FlightStack} />
-        <Stack.Screen name="FlightSearchStack" component={FlightSearchStack} />
+        <Stack.Screen name="Search" component={FlightSearchPage} />
         <Stack.Screen name="Debug" component={DebugMenuPage} />
         <Stack.Screen name="Profile" component={ProfilePage} />
         <Stack.Screen name="Settings" component={SettingsPage} />

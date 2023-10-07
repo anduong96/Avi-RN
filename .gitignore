@@ -108,3 +108,10 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+/node_modules/react-native-vector-icons/Fonts/FontAwesome6_Pro_Brands.ttf
+/node_modules/react-native-vector-icons/Fonts/FontAwesome6_Pro_Duotone.ttf
+/node_modules/react-native-vector-icons/Fonts/FontAwesome6_Pro_Light.ttf
+/node_modules/react-native-vector-icons/Fonts/FontAwesome6_Pro_Regular.ttf
+/node_modules/react-native-vector-icons/Fonts/FontAwesome6_Pro_Sharp_Solid.ttf
+/node_modules/react-native-vector-icons/Fonts/FontAwesome6_Pro_Solid.ttf
+/node_modules/react-native-vector-icons/Fonts/FontAwesome6_Pro_Thin.ttf

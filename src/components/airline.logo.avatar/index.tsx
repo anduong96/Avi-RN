@@ -1,35 +1,39 @@
 import * as React from 'react';
 
-import type { StyleProp, ViewStyle } from 'react-native';
-import { Text, View } from 'react-native';
+import { useAirlinesQuery } from '@app/generated/server.gql';
 import { styled } from '@app/lib/styled';
+import type { StyleProp, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 type Props = {
-  iata: string;
-  uri: string;
+  airlineIata: string;
   size?: number;
   style?: StyleProp<ViewStyle>;
 };
 
 export const AirlineLogoAvatar: React.FC<Props> = ({
-  iata,
-  uri,
+  airlineIata,
   style,
   size = 50,
 }) => {
-  const [hasError, setHasError] = React.useState(false);
+  const request = useAirlinesQuery();
+  const airlines = request.data?.airlines;
+  const match = React.useMemo(
+    () => airlines?.find((airline) => airline.iata === airlineIata),
+    [airlines, airlineIata],
+  );
 
   return (
     <Container style={[style]} size={size}>
-      {hasError && <Name>{iata}</Name>}
-      {!hasError && (
-        <Logo
-          source={{ uri, priority: FastImage.priority.high }}
-          resizeMode={FastImage.resizeMode.contain}
-          onError={() => setHasError(true)}
-        />
-      )}
+      <Logo
+        defaultSource={require('@app/assets/airline.png')}
+        resizeMode={FastImage.resizeMode.contain}
+        source={{
+          uri: match?.logoCompactImageURL,
+          priority: FastImage.priority.high,
+        }}
+      />
     </Container>
   );
 };
@@ -52,10 +56,4 @@ const Container = styled<Required<Pick<Props, 'size'>>, typeof View>(
 const Logo = styled(FastImage, () => ({
   width: '100%',
   height: '100%',
-}));
-
-const Name = styled(Text, (theme) => ({
-  color: theme.pallette.grey[400],
-  fontSize: theme.typography.presets.small.fontSize,
-  fontWeight: '900',
 }));

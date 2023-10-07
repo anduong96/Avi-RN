@@ -22,7 +22,7 @@ export const Background = styled(Image, () => [
 export const Header = styled(View, (theme) => [
   {
     marginTop: theme.insets.top || theme.space.medium,
-    paddingHorizontal: theme.space.large,
+    paddingHorizontal: theme.space.medium,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',

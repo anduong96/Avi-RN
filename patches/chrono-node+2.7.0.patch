@@ -1,0 +1,47 @@
+diff --git a/node_modules/chrono-node/dist/cjs/index.js b/node_modules/chrono-node/dist/cjs/index.js
+index 8336e43..b8a2348 100644
+--- a/node_modules/chrono-node/dist/cjs/index.js
++++ b/node_modules/chrono-node/dist/cjs/index.js
+@@ -31,24 +31,24 @@ Object.defineProperty(exports, "ReferenceWithTimezone", { enumerable: true, get:
+ const types_1 = require("./types");
+ Object.defineProperty(exports, "Meridiem", { enumerable: true, get: function () { return types_1.Meridiem; } });
+ Object.defineProperty(exports, "Weekday", { enumerable: true, get: function () { return types_1.Weekday; } });
+-const de = __importStar(require("./locales/de"));
+-exports.de = de;
+-const fr = __importStar(require("./locales/fr"));
+-exports.fr = fr;
+-const ja = __importStar(require("./locales/ja"));
+-exports.ja = ja;
+-const pt = __importStar(require("./locales/pt"));
+-exports.pt = pt;
+-const nl = __importStar(require("./locales/nl"));
+-exports.nl = nl;
+-const zh = __importStar(require("./locales/zh"));
+-exports.zh = zh;
+-const ru = __importStar(require("./locales/ru"));
+-exports.ru = ru;
+-const es = __importStar(require("./locales/es"));
+-exports.es = es;
+-const uk = __importStar(require("./locales/uk"));
+-exports.uk = uk;
++// const de = __importStar(require("./locales/de"));
++// exports.de = de;
++// const fr = __importStar(require("./locales/fr"));
++// exports.fr = fr;
++// const ja = __importStar(require("./locales/ja"));
++// exports.ja = ja;
++// const pt = __importStar(require("./locales/pt"));
++// exports.pt = pt;
++// const nl = __importStar(require("./locales/nl"));
++// exports.nl = nl;
++// const zh = __importStar(require("./locales/zh"));
++// exports.zh = zh;
++// const ru = __importStar(require("./locales/ru"));
++// exports.ru = ru;
++// const es = __importStar(require("./locales/es"));
++// exports.es = es;
++// const uk = __importStar(require("./locales/uk"));
++// exports.uk = uk;
+ exports.strict = en.strict;
+ exports.casual = en.casual;
+ function parse(text, ref, option) {

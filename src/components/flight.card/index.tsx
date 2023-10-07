@@ -40,11 +40,7 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
     <Container>
       <Header>
         <AirlineContainer>
-          <AirlineLogoAvatar
-            size={20}
-            iata={Flight.airlineIata}
-            uri={Flight.Airline.logoCompactImageURL}
-          />
+          <AirlineLogoAvatar size={20} airlineIata={Flight.airlineIata} />
           <AirlineFlightNumber>
             {Flight.airlineIata} {Flight.flightNumber}
           </AirlineFlightNumber>

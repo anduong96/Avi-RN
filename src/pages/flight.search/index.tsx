@@ -1,51 +1,49 @@
 import * as React from 'react';
 
+import { CloseBtn } from '@app/components/btn.close';
 import { PageContainer } from '@app/components/page.container';
 import { PageHeader } from '@app/components/page.header';
-import { useTheme } from '@app/lib/hooks/use.theme';
+import { useGoBack } from '@app/lib/hooks/use.go.back';
 import { styled } from '@app/lib/styled';
-import { PortalHost } from '@gorhom/portal';
+import type { MainStack } from '@app/stacks';
+import { useNavigation } from '@react-navigation/native';
 import { View } from 'react-native';
-import { FlightSearchForm } from './form';
-import { NextBtn } from './next.btn';
-import { flightSearchState } from './state';
+import { InputBar } from './input.bar';
+import { ResultSet } from './result.set';
+import { State } from './state';
 
 export const FlightSearchPage: React.FC = () => {
-  const theme = useTheme();
+  const navigation = useNavigation<MainStack<'Search'>>();
+  const handleClose = useGoBack(navigation);
 
   React.useEffect(() => {
-    return () => {
-      flightSearchState.actions.resetState();
-    };
+    State.actions.reset();
   }, []);
 
   return (
-    <PageContainer style={[{ backgroundColor: theme.pallette.grey[50] }]}>
+    <PageContainer>
       <PageHeader
         withoutInsets
-        rightActions={
-          <Actions>
-            <NextBtn />
-          </Actions>
-        }
+        rightActions={<CloseBtn onPress={handleClose} />}
       />
       <Content>
-        <FlightSearchForm />
+        <InputBar />
+        <ResultContainer>
+          <ResultSet />
+        </ResultContainer>
       </Content>
-      <PortalHost name="FlightSearch" />
     </PageContainer>
   );
 };
 
 const Content = styled(View, (theme) => [
   {
-    flexGrow: 1,
-    padding: theme.space.medium,
+    gap: theme.space.large,
   },
 ]);
 
-const Actions = styled(View, (theme) => [
+const ResultContainer = styled(View, () => [
   {
-    paddingHorizontal: theme.space.medium,
+    flexGrow: 1,
   },
 ]);

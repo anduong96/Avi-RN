@@ -24,3 +24,21 @@ export function formatDisplayDate(v?: Date | string) {
 
   return moment(v).format('ddd, MMMM DD');
 }
+
+export function formatRelativeDay(v: moment.MomentInput) {
+  var fromNow = moment(v).fromNow();
+
+  // ensure the date is displayed with today and yesterday
+  return moment(v).calendar(null, {
+    // when the date is closer, specify custom values
+    lastWeek: '[Last] dddd',
+    lastDay: '[Yesterday]',
+    sameDay: '[Today]',
+    nextDay: '[Tomorrow]',
+    nextWeek: 'dddd',
+    // when the date is further away, use from-now functionality
+    sameElse: function () {
+      return '[' + fromNow + ']';
+    },
+  });
+}

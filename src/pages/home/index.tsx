@@ -25,6 +25,7 @@ import {
   UserBtn,
 } from './styles';
 
+import { BlurredBackground } from '@app/components/blurred.background';
 import { FlightCard } from '@app/components/flight.card';
 import { IconBtn } from '@app/components/icon.btn';
 import { FaIcon } from '@app/components/icons.fontawesome';
@@ -35,23 +36,19 @@ import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { styled } from '@app/lib/styled';
-import type { MainStackParam } from '@app/stacks';
+import { MainStack } from '@app/stacks';
 import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { isEmpty } from 'lodash';
 import { Swipeable } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BlurredBottomSheetBackground } from '../flight.search/sheet/sheet.background';
 import { HomeOnboardPage } from '../home.onboard';
 import { SheetFooter } from './sheet.footer';
 import { Title } from './title';
 
-type Navigation = NativeStackNavigationProp<MainStackParam, 'Home'>;
-
 export const HomePage: React.FC = () => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation<Navigation>();
+  const navigation = useNavigation<MainStack<'Home'>>();
   const flights = useGetUserActiveFlightsQuery();
   const hasFlights = useUserHasFlightsQuery();
   const archived = useGetUserArchivedFlightsQuery();
@@ -77,10 +74,7 @@ export const HomePage: React.FC = () => {
 
   const handleSearchFlights = () => {
     vibrate('impactMedium');
-    navigation.push('FlightSearchStack', {
-      screen: 'Search',
-      params: {},
-    });
+    navigation.push('Search');
   };
 
   const handleOpenProfile = () => {
@@ -140,7 +134,7 @@ export const HomePage: React.FC = () => {
         <BottomSheet
           index={0}
           snapPoints={snapPoints}
-          backgroundComponent={BlurredBottomSheetBackground}
+          backgroundComponent={BlurredBackground}
           footerComponent={SheetFooter}
           handleIndicatorStyle={{ display: 'none' }}
         >

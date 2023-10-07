@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { ClearContainer, Container } from './styles';
 import type { StyleProp, ViewStyle } from 'react-native';
 import {
   useAnimatedStyle,
@@ -8,14 +7,13 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 
-import { CheckIcon } from '../icon.check';
+import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { IS_ANDROID } from '@app/lib/platform';
-import { MaterialIcon } from '../icons.material';
 import type { SpaceKeys } from '@app/themes';
 import { TextInput } from 'react-native';
-import { debounce } from 'lodash';
-import { useTheme } from '@app/lib/hooks/use.theme';
-import { vibrate } from '@app/lib/haptic.feedback';
+import { CheckIcon } from '../icon.check';
+import { MaterialIcon } from '../icons.material';
 
 type Props = {
   value?: string;
@@ -27,8 +25,8 @@ type Props = {
   prefix?: React.ReactElement;
   inputStyle?: StyleProp<ViewStyle>;
   allowClear?: boolean;
-  debounceChange?: number;
   withFeedback?: boolean;
+  debug?: boolean;
 } & Omit<
   React.ComponentProps<typeof TextInput>,
   'onChange' | 'onChangeText' | 'size'
@@ -47,8 +45,9 @@ export const Input = React.forwardRef<TextInput, Props>(
       postfix,
       prefix,
       allowClear,
-      debounceChange = 0,
       inputMode,
+      placeholder,
+      defaultValue,
       ...props
     },
     ref,
@@ -72,28 +71,25 @@ export const Input = React.forwardRef<TextInput, Props>(
       onChange?.(undefined);
     };
 
-    const handleChange = debounce((nextValue?: string) => {
+    const handleChange = (nextValue?: string) => {
       if (!disabled) {
-        if (inputMode === 'numeric') {
-          onChange?.(nextValue?.replace(/[^0-9]/g, ''));
-        } else {
-          onChange?.(nextValue);
-        }
+        onChange?.(nextValue);
       }
-    }, debounceChange);
-
-    const setIsFocused = (state: boolean) => {
-      isFocused.value = state;
     };
 
     const handleBlur: Props['onBlur'] = (event) => {
-      setIsFocused(false);
+      isFocused.value = false;
       props.onBlur?.(event);
     };
 
     const handleFocus: Props['onFocus'] = (event) => {
-      setIsFocused(false);
+      isFocused.value = true;
       props.onFocus?.(event);
+    };
+
+    const handleSubmit: Props['onSubmitEditing'] = (event) => {
+      InputPublisher.broadcast('submit', undefined);
+      props.onSubmitEditing?.(event);
     };
 
     return (
@@ -103,28 +99,21 @@ export const Input = React.forwardRef<TextInput, Props>(
         disabled={disabled}
       >
         {prefix}
-        <TextInput
+        <StyledInput
           {...props}
           ref={ref}
+          defaultValue={defaultValue}
+          placeholder={placeholder}
           inputMode={inputMode}
           editable={!disabled}
+          value={value}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          defaultValue={value}
           onChangeText={handleChange}
           clearButtonMode="while-editing"
           placeholderTextColor={theme.pallette.grey[400]}
-          style={[
-            inputStyle,
-            {
-              fontSize: theme.typography.presets.p1.fontSize,
-              flexGrow: 1,
-              height: '100%',
-            },
-            size === 'large' && {
-              fontSize: theme.typography.presets.h2.fontSize,
-            },
-          ]}
+          style={[inputStyle]}
+          onSubmitEditing={handleSubmit}
         />
         {postfix}
         {value && withFeedback && !hasErrors && <CheckIcon />}
@@ -137,3 +126,48 @@ export const Input = React.forwardRef<TextInput, Props>(
     );
   },
 );
+
+import { TouchableOpacity } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { styled } from '../../lib/styled';
+import { InputPublisher } from './publisher';
+
+const Container = styled<
+  Pick<Props, 'size' | 'disabled'>,
+  typeof Animated.View
+>(Animated.View, (theme, props) => [
+  theme.presets.outlinedBox,
+  {
+    borderRadius: 100,
+    paddingHorizontal: theme.space.small,
+    paddingVertical: theme.space.tiny,
+    flexDirection: 'row',
+    gap: theme.space.small,
+    flexGrow: 1,
+    backgroundColor: theme.pallette.grey[50],
+  },
+  props.disabled && {
+    opacity: 0.5,
+  },
+  props.size === 'medium' && {
+    paddingVertical: theme.space.small,
+  },
+  props.size === 'tiny' && {
+    paddingVertical: theme.space.tiny,
+  },
+]);
+
+const StyledInput = styled<Pick<Props, 'size'>, typeof TextInput>(
+  TextInput,
+  (theme, props) => [
+    {
+      fontSize: theme.typography.presets.p1.fontSize,
+      flexGrow: 1,
+    },
+    props.size === 'large' && {
+      fontSize: theme.typography.presets.h2.fontSize,
+    },
+  ],
+);
+
+const ClearContainer = styled(TouchableOpacity, () => ({}));

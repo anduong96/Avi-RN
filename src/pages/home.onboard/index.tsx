@@ -3,29 +3,23 @@ import * as React from 'react';
 import { Background, Container, Content, Footer, Header } from './styles';
 
 import { Button } from '@app/components/button';
+import { RandomFlightBtn } from '@app/components/button.random.flight';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { Logo } from '@app/components/logo';
+import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
-import type { MainStackParam } from '@app/stacks';
+import { MainStack } from '@app/stacks';
 import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Hero } from './hero';
-import { RandomFlightBtn } from '@app/components/button.random.flight';
-import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
-
-type Navigation = NativeStackNavigationProp<MainStackParam, 'Home'>;
 
 export const HomeOnboardPage: React.FC = () => {
   const theme = useTheme();
-  const navigation = useNavigation<Navigation>();
+  const navigation = useNavigation<MainStack<'Home'>>();
 
   const handleAddFirstFlight = () => {
     vibrate('impactMedium');
-    navigation.push('FlightSearchStack', {
-      screen: 'Search',
-      params: {},
-    });
+    navigation.push('Search');
   };
 
   const handleRandomFlight = (flight: FullFlightFragmentFragment) => {
@@ -42,12 +36,11 @@ export const HomeOnboardPage: React.FC = () => {
     <Container>
       <Background
         resizeMode="cover"
-        resizeMethod="auto"
         source={require('./assets/background.png')}
       />
       <Header>
         <Logo type="light" />
-        <RandomFlightBtn onFlight={handleRandomFlight} />
+        <RandomFlightBtn withLabel onFlight={handleRandomFlight} />
       </Header>
       <Content>
         <Hero />

@@ -30,6 +30,7 @@ target 'Avi' do
   pod 'FirebaseInstallations', :modular_headers => true
   pod 'GoogleDataTransport', :modular_headers => true
   pod 'nanopb', :modular_headers => true
+  pod 'RSCrashReporter', :modular_headers => true
 
   config = use_native_modules!
 

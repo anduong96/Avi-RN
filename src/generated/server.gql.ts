@@ -5,77 +5,79 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  DateTimeISO: any;
-  JSON: any;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  DateTimeISO: { input: any; output: any; }
+  JSON: { input: any; output: any; }
 };
 
 export type Aircraft = {
   __typename?: 'Aircraft';
   AircraftPositions: Array<AircraftPosition>;
-  airlineIata: Scalars['String'];
-  createdAt: Scalars['DateTimeISO'];
-  description?: Maybe<Scalars['String']>;
-  iata?: Maybe<Scalars['String']>;
-  icao: Scalars['String'];
-  id: Scalars['Int'];
-  imageURL?: Maybe<Scalars['String']>;
-  model: Scalars['String'];
-  tailNumber: Scalars['String'];
-  updatedAt: Scalars['DateTimeISO'];
+  airlineIata: Scalars['String']['output'];
+  createdAt: Scalars['DateTimeISO']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  iata?: Maybe<Scalars['String']['output']>;
+  icao: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  imageURL?: Maybe<Scalars['String']['output']>;
+  model: Scalars['String']['output'];
+  tailNumber: Scalars['String']['output'];
+  updatedAt: Scalars['DateTimeISO']['output'];
 };
 
 export type AircraftPosition = {
   __typename?: 'AircraftPosition';
-  aircraftID: Scalars['Int'];
-  airlineIata: Scalars['String'];
-  altitude?: Maybe<Scalars['Int']>;
-  createdAt: Scalars['DateTimeISO'];
-  destinationIata: Scalars['String'];
-  flightDate: Scalars['Int'];
-  flightMonth: Scalars['Int'];
-  flightNumber: Scalars['String'];
-  flightYear: Scalars['Int'];
-  id: Scalars['Int'];
-  latitude?: Maybe<Scalars['Int']>;
-  longitude?: Maybe<Scalars['Int']>;
-  originIata: Scalars['String'];
-  updatedAt: Scalars['DateTimeISO'];
+  aircraftID: Scalars['Int']['output'];
+  airlineIata: Scalars['String']['output'];
+  altitude?: Maybe<Scalars['Int']['output']>;
+  createdAt: Scalars['DateTimeISO']['output'];
+  destinationIata: Scalars['String']['output'];
+  flightDate: Scalars['Int']['output'];
+  flightMonth: Scalars['Int']['output'];
+  flightNumber: Scalars['String']['output'];
+  flightYear: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  latitude?: Maybe<Scalars['Int']['output']>;
+  longitude?: Maybe<Scalars['Int']['output']>;
+  originIata: Scalars['String']['output'];
+  updatedAt: Scalars['DateTimeISO']['output'];
 };
 
 export type Airline = {
   __typename?: 'Airline';
-  iata: Scalars['String'];
-  id: Scalars['ID'];
-  isLowCost: Scalars['Boolean'];
+  iata: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  isLowCost: Scalars['Boolean']['output'];
   logoCompactImageType: ImageType;
-  logoCompactImageURL: Scalars['String'];
+  logoCompactImageURL: Scalars['String']['output'];
   logoFullImageType: ImageType;
-  logoFullImageURL: Scalars['String'];
-  name: Scalars['String'];
+  logoFullImageURL: Scalars['String']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type Airport = {
   __typename?: 'Airport';
-  cityCode: Scalars['String'];
-  cityName: Scalars['String'];
-  countryCode: Scalars['String'];
-  countyName?: Maybe<Scalars['String']>;
-  elevation?: Maybe<Scalars['Int']>;
-  iata: Scalars['String'];
-  id: Scalars['ID'];
-  latitude: Scalars['Int'];
-  longitude: Scalars['Int'];
-  name: Scalars['String'];
-  state?: Maybe<Scalars['String']>;
-  timezone: Scalars['String'];
+  cityCode: Scalars['String']['output'];
+  cityName: Scalars['String']['output'];
+  countryCode: Scalars['String']['output'];
+  countyName?: Maybe<Scalars['String']['output']>;
+  elevation?: Maybe<Scalars['Int']['output']>;
+  iata: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  latitude: Scalars['Int']['output'];
+  longitude: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  state?: Maybe<Scalars['String']['output']>;
+  timezone: Scalars['String']['output'];
 };
 
 export type Flight = {
@@ -83,53 +85,53 @@ export type Flight = {
   Airline: Airline;
   Destination: Airport;
   Origin: Airport;
-  actualGateArrival?: Maybe<Scalars['DateTimeISO']>;
-  actualGateDeparture?: Maybe<Scalars['DateTimeISO']>;
-  aircraftTailnumber?: Maybe<Scalars['String']>;
-  airlineIata: Scalars['String'];
-  destinationBaggageClaim?: Maybe<Scalars['String']>;
-  destinationGate?: Maybe<Scalars['String']>;
-  destinationIata: Scalars['String'];
-  destinationTerminal?: Maybe<Scalars['String']>;
-  estimatedGateArrival: Scalars['DateTimeISO'];
-  estimatedGateDeparture: Scalars['DateTimeISO'];
-  flightDate: Scalars['Int'];
-  flightMonth: Scalars['Int'];
-  flightNumber: Scalars['String'];
-  flightYear: Scalars['Int'];
-  id: Scalars['ID'];
-  originGate?: Maybe<Scalars['String']>;
-  originIata: Scalars['String'];
-  originTerminal?: Maybe<Scalars['String']>;
-  reconAttempt?: Maybe<Scalars['Int']>;
-  scheduledGateArrival: Scalars['DateTimeISO'];
-  scheduledGateDeparture: Scalars['DateTimeISO'];
+  actualGateArrival?: Maybe<Scalars['DateTimeISO']['output']>;
+  actualGateDeparture?: Maybe<Scalars['DateTimeISO']['output']>;
+  aircraftTailnumber?: Maybe<Scalars['String']['output']>;
+  airlineIata: Scalars['String']['output'];
+  destinationBaggageClaim?: Maybe<Scalars['String']['output']>;
+  destinationGate?: Maybe<Scalars['String']['output']>;
+  destinationIata: Scalars['String']['output'];
+  destinationTerminal?: Maybe<Scalars['String']['output']>;
+  estimatedGateArrival: Scalars['DateTimeISO']['output'];
+  estimatedGateDeparture: Scalars['DateTimeISO']['output'];
+  flightDate: Scalars['Int']['output'];
+  flightMonth: Scalars['Int']['output'];
+  flightNumber: Scalars['String']['output'];
+  flightYear: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+  originGate?: Maybe<Scalars['String']['output']>;
+  originIata: Scalars['String']['output'];
+  originTerminal?: Maybe<Scalars['String']['output']>;
+  reconAttempt?: Maybe<Scalars['Int']['output']>;
+  scheduledGateArrival: Scalars['DateTimeISO']['output'];
+  scheduledGateDeparture: Scalars['DateTimeISO']['output'];
   status: FlightStatus;
-  totalDistanceKm?: Maybe<Scalars['Int']>;
+  totalDistanceKm?: Maybe<Scalars['Int']['output']>;
 };
 
 export type FlightPromptness = {
   __typename?: 'FlightPromptness';
-  airlineIata: Scalars['String'];
-  averageDelayTimeMs: Scalars['Int'];
-  cancelledCount: Scalars['Int'];
-  createdAt: Scalars['DateTimeISO'];
-  daysObserved: Scalars['Int'];
-  destinationIata: Scalars['String'];
-  divertedCount: Scalars['Int'];
-  excessiveCount: Scalars['Int'];
-  expiresAt: Scalars['DateTimeISO'];
-  flightNumber: Scalars['String'];
-  flightsObservered: Scalars['Int'];
-  id: Scalars['ID'];
-  lateCount: Scalars['Int'];
-  onTimeCount: Scalars['Int'];
-  onTimePercent: Scalars['Int'];
-  originIata: Scalars['String'];
-  rating: Scalars['Int'];
-  updatedAt: Scalars['DateTimeISO'];
+  airlineIata: Scalars['String']['output'];
+  averageDelayTimeMs: Scalars['Int']['output'];
+  cancelledCount: Scalars['Int']['output'];
+  createdAt: Scalars['DateTimeISO']['output'];
+  daysObserved: Scalars['Int']['output'];
+  destinationIata: Scalars['String']['output'];
+  divertedCount: Scalars['Int']['output'];
+  excessiveCount: Scalars['Int']['output'];
+  expiresAt: Scalars['DateTimeISO']['output'];
+  flightNumber: Scalars['String']['output'];
+  flightsObservered: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+  lateCount: Scalars['Int']['output'];
+  onTimeCount: Scalars['Int']['output'];
+  onTimePercent: Scalars['Int']['output'];
+  originIata: Scalars['String']['output'];
+  rating: Scalars['Int']['output'];
+  updatedAt: Scalars['DateTimeISO']['output'];
   vendor: FlightVendor;
-  veryLateCount: Scalars['Int'];
+  veryLateCount: Scalars['Int']['output'];
 };
 
 export const FlightStatus = {
@@ -157,27 +159,27 @@ export const ImageType = {
 export type ImageType = typeof ImageType[keyof typeof ImageType];
 export type Mutation = {
   __typename?: 'Mutation';
-  _sendFlightNotification: Scalars['Float'];
-  addUserFlight: Scalars['String'];
-  deleteUserFlight: Scalars['String'];
+  _sendFlightNotification: Scalars['Float']['output'];
+  addUserFlight: Scalars['String']['output'];
+  deleteUserFlight: Scalars['String']['output'];
 };
 
 
 export type Mutation_SendFlightNotificationArgs = {
-  body: Scalars['String'];
-  data?: InputMaybe<Scalars['JSON']>;
-  flightID: Scalars['String'];
-  title: Scalars['String'];
+  body: Scalars['String']['input'];
+  data?: InputMaybe<Scalars['JSON']['input']>;
+  flightID: Scalars['String']['input'];
+  title: Scalars['String']['input'];
 };
 
 
 export type MutationAddUserFlightArgs = {
-  flightID: Scalars['String'];
+  flightID: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteUserFlightArgs = {
-  flightID: Scalars['String'];
+  flightID: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -194,73 +196,73 @@ export type Query = {
   userActiveFlights: Array<UserFlight>;
   userArchivedFlights: Array<UserFlight>;
   userFlight?: Maybe<UserFlight>;
-  userHasFlights: Scalars['Boolean'];
+  userHasFlights: Scalars['Boolean']['output'];
 };
 
 
 export type QueryAircraftArgs = {
-  tailNumber: Scalars['String'];
+  tailNumber: Scalars['String']['input'];
 };
 
 
 export type QueryAircraftPositionArgs = {
-  aircraftID: Scalars['Float'];
+  aircraftID: Scalars['Float']['input'];
 };
 
 
 export type QueryAirlineArgs = {
-  iata: Scalars['String'];
+  iata: Scalars['String']['input'];
 };
 
 
 export type QueryAirportArgs = {
-  iata: Scalars['String'];
+  iata: Scalars['String']['input'];
 };
 
 
 export type QueryFlightArgs = {
-  flightID: Scalars['String'];
+  flightID: Scalars['String']['input'];
 };
 
 
 export type QueryFlightPromptnessArgs = {
-  flightID: Scalars['String'];
+  flightID: Scalars['String']['input'];
 };
 
 
 export type QueryFlightsArgs = {
-  airlineIata: Scalars['String'];
-  date: Scalars['Float'];
-  flightNumber: Scalars['String'];
-  month: Scalars['Float'];
-  year: Scalars['Float'];
+  airlineIata: Scalars['String']['input'];
+  date: Scalars['Float']['input'];
+  flightNumber: Scalars['String']['input'];
+  month: Scalars['Float']['input'];
+  year: Scalars['Float']['input'];
 };
 
 
 export type QueryUserFlightArgs = {
-  flightID: Scalars['String'];
+  flightID: Scalars['String']['input'];
 };
 
 export type UserFlight = {
   __typename?: 'UserFlight';
   Flight: Flight;
-  createdAt: Scalars['DateTimeISO'];
-  flightID: Scalars['String'];
-  id: Scalars['ID'];
-  shouldAlert: Scalars['Boolean'];
-  updatedAt: Scalars['DateTimeISO'];
-  userID: Scalars['String'];
+  createdAt: Scalars['DateTimeISO']['output'];
+  flightID: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  shouldAlert: Scalars['Boolean']['output'];
+  updatedAt: Scalars['DateTimeISO']['output'];
+  userID: Scalars['String']['output'];
 };
 
 export type AircraftQueryVariables = Exact<{
-  tailNumber: Scalars['String'];
+  tailNumber: Scalars['String']['input'];
 }>;
 
 
 export type AircraftQuery = { __typename?: 'Query', aircraft?: { __typename?: 'Aircraft', id: number, iata?: string | null, icao: string, model: string, airlineIata: string, description?: string | null, tailNumber: string, imageURL?: string | null, createdAt: any, updatedAt: any } | null };
 
 export type AircraftPositionQueryVariables = Exact<{
-  aircraftId: Scalars['Float'];
+  aircraftId: Scalars['Float']['input'];
 }>;
 
 
@@ -272,80 +274,80 @@ export type AirlinesQueryVariables = Exact<{ [key: string]: never; }>;
 export type AirlinesQuery = { __typename?: 'Query', airlines: Array<{ __typename?: 'Airline', id: string, name: string, iata: string, logoCompactImageURL: string, logoCompactImageType: ImageType }> };
 
 export type AirlineQueryVariables = Exact<{
-  iata: Scalars['String'];
+  iata: Scalars['String']['input'];
 }>;
 
 
 export type AirlineQuery = { __typename?: 'Query', airline: { __typename?: 'Airline', id: string, name: string, iata: string, logoCompactImageURL: string, logoCompactImageType: ImageType, logoFullImageURL: string, logoFullImageType: ImageType } };
 
 export type AirportQueryVariables = Exact<{
-  iata: Scalars['String'];
+  iata: Scalars['String']['input'];
 }>;
 
 
 export type AirportQuery = { __typename?: 'Query', airport: { __typename?: 'Airport', id: string, name: string, iata: string, cityName: string, cityCode: string, timezone: string, state?: string | null, elevation?: number | null, countryCode: string, countyName?: string | null } };
 
 export type DebugFlightNoficationMutationVariables = Exact<{
-  flightID: Scalars['String'];
-  title: Scalars['String'];
-  body: Scalars['String'];
-  data?: InputMaybe<Scalars['JSON']>;
+  flightID: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+  body: Scalars['String']['input'];
+  data?: InputMaybe<Scalars['JSON']['input']>;
 }>;
 
 
 export type DebugFlightNoficationMutation = { __typename?: 'Mutation', _sendFlightNotification: number };
 
-export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } };
+export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } };
 
 export type FindFlightsQueryVariables = Exact<{
-  airlineIata: Scalars['String'];
-  flightNumber: Scalars['String'];
-  year: Scalars['Float'];
-  month: Scalars['Float'];
-  date: Scalars['Float'];
+  airlineIata: Scalars['String']['input'];
+  flightNumber: Scalars['String']['input'];
+  year: Scalars['Float']['input'];
+  month: Scalars['Float']['input'];
+  date: Scalars['Float']['input'];
 }>;
 
 
-export type FindFlightsQuery = { __typename?: 'Query', flights: Array<{ __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } }> };
+export type FindFlightsQuery = { __typename?: 'Query', flights: Array<{ __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } }> };
 
 export type GetFlightPromptnessQueryVariables = Exact<{
-  flightID: Scalars['String'];
+  flightID: Scalars['String']['input'];
 }>;
 
 
 export type GetFlightPromptnessQuery = { __typename?: 'Query', flightPromptness: { __typename?: 'FlightPromptness', onTimePercent: number, rating: number, averageDelayTimeMs: number } };
 
 export type GetFlightQueryVariables = Exact<{
-  flightID: Scalars['String'];
+  flightID: Scalars['String']['input'];
 }>;
 
 
-export type GetFlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
+export type GetFlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
 
 export type GetRandomFlightQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetRandomFlightQuery = { __typename?: 'Query', randomFlight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
+export type GetRandomFlightQuery = { __typename?: 'Query', randomFlight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
 
 export type GetUserActiveFlightsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserActiveFlightsQuery = { __typename?: 'Query', userActiveFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, shouldAlert: boolean, Flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } }> };
+export type GetUserActiveFlightsQuery = { __typename?: 'Query', userActiveFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, shouldAlert: boolean, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } }> };
 
 export type GetUserArchivedFlightsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserArchivedFlightsQuery = { __typename?: 'Query', userArchivedFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, Flight: { __typename?: 'Flight', id: string, airlineIata: string, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } }> };
+export type GetUserArchivedFlightsQuery = { __typename?: 'Query', userArchivedFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } }> };
 
 export type AddUserFlightMutationVariables = Exact<{
-  flightID: Scalars['String'];
+  flightID: Scalars['String']['input'];
 }>;
 
 
 export type AddUserFlightMutation = { __typename?: 'Mutation', addUserFlight: string };
 
 export type DeleteUserFlightMutationVariables = Exact<{
-  flightID: Scalars['String'];
+  flightID: Scalars['String']['input'];
 }>;
 
 
@@ -357,7 +359,7 @@ export type UserHasFlightsQueryVariables = Exact<{ [key: string]: never; }>;
 export type UserHasFlightsQuery = { __typename?: 'Query', userHasFlights: boolean };
 
 export type UserFlightQueryVariables = Exact<{
-  flightID: Scalars['String'];
+  flightID: Scalars['String']['input'];
 }>;
 
 
@@ -372,6 +374,7 @@ export const FullFlightFragmentFragmentDoc = gql`
     name
     logoCompactImageURL
   }
+  aircraftTailnumber
   flightNumber
   originIata
   originTerminal

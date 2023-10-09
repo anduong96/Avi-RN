@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../hooks/use.theme';
 
 type Styles = ViewStyle | TextStyle | ImageStyle;
+type CustomTheme = Theme & { insets: EdgeInsets };
 
 /**
  * It takes a React component and a style object, and returns a new React component that renders the
@@ -21,45 +22,36 @@ export function styled<
   C extends React.ComponentType<any> | (new (props: any) => any),
 >(
   Component: C,
-  style:
+  style?:
     | StyleProp<Styles>
     | ((
-        theme: Theme & { insets: EdgeInsets },
+        theme: CustomTheme,
         props: React.ComponentProps<C> & D,
       ) => StyleProp<Styles>),
-  defaultProps?: React.ComponentProps<C>,
+  initProps?:
+    | Partial<React.ComponentProps<C>>
+    | ((theme: CustomTheme) => Partial<React.ComponentProps<C>>),
 ) {
   type P = React.ComponentProps<C> & D;
-  const output =
-    typeof style === 'function'
-      ? React.forwardRef((props: P, ref) => {
-          const theme = useTheme();
-          const insets = useSafeAreaInsets();
-          return (
-            // @ts-ignore
-            <Component
-              {...(defaultProps ?? {})}
-              {...props}
-              ref={ref}
-              style={[
-                style(
-                  {
-                    ...theme,
-                    insets,
-                  },
-                  props,
-                ),
-                props.style,
-              ]}
-            />
-          );
-        })
-      : (props: P) => {
-          return (
-            // @ts-ignore
-            <Component {...(defaultProps ?? {})} {...props} style={style} />
-          );
-        };
+  return React.forwardRef((props: P, ref) => {
+    const theme = useTheme();
+    const insets = useSafeAreaInsets();
+    const combinedTheme = { ...theme, insets };
+    const isStyleFn = typeof style === 'function';
+    const isPropFn = typeof initProps === 'function';
+    const resolvedStyle = isStyleFn ? style(combinedTheme, props) : style;
+    const defaultPropsResolved = isPropFn
+      ? initProps(combinedTheme)
+      : initProps;
 
-  return output;
+    return (
+      // @ts-ignore
+      <Component
+        {...(defaultPropsResolved ?? {})}
+        {...props}
+        ref={ref}
+        style={[resolvedStyle, props.style]}
+      />
+    );
+  });
 }

@@ -3,7 +3,7 @@ import { useGetRandomFlightLazyQuery } from '@app/generated/server.gql';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { styled } from '@app/lib/styled';
-import { toast } from '@baronha/ting';
+import * as ting from '@baronha/ting';
 import { BlurView } from '@react-native-community/blur';
 import * as React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
@@ -19,7 +19,7 @@ export const RandomFlightBtn: React.FC<Props> = ({ onFlight, withLabel }) => {
   const theme = useTheme();
   const [getFlight, { loading }] = useGetRandomFlightLazyQuery({
     onError(error) {
-      toast({
+      ting.toast({
         title: error.message,
         preset: 'error',
         position: 'top',
@@ -30,19 +30,14 @@ export const RandomFlightBtn: React.FC<Props> = ({ onFlight, withLabel }) => {
     },
   });
 
-  const handlePress = async () => {
+  const handlePress = () => {
     vibrate('impactHeavy');
-    await getFlight();
+    getFlight();
   };
 
   return (
     <Btn disabled={loading} onPress={handlePress}>
-      <LoadingOverlay
-        isDark
-        type="translucent"
-        isLoading={loading}
-        size="small"
-      />
+      <LoadingOverlay type="translucent" isLoading={loading} size="small" />
       <Bg blurType="xlight" />
       <FaIcon color={theme.pallette.grey[800]} name="dice" />
       {withLabel && <Label>Random Flight</Label>}

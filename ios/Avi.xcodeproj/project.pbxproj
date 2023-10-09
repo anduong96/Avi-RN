@@ -21,6 +21,7 @@
 		EB2EF9B12AD44057001F1D42 /* FontAwesome6_Pro_Duotone.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB2EF9AB2AD44057001F1D42 /* FontAwesome6_Pro_Duotone.ttf */; };
 		EB2EF9B22AD44057001F1D42 /* FontAwesome6_Pro_Sharp_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB2EF9AC2AD44057001F1D42 /* FontAwesome6_Pro_Sharp_Solid.ttf */; };
 		EB2EF9B32AD44057001F1D42 /* FontAwesome6_Pro_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB2EF9AD2AD44057001F1D42 /* FontAwesome6_Pro_Light.ttf */; };
+		EB2EF9B52AD48CE7001F1D42 /* FontAwesome6_Pro_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB2EF9B42AD48CE7001F1D42 /* FontAwesome6_Pro_Solid.ttf */; };
 		EB3E245B2966686900AC0920 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB3E244B2966686900AC0920 /* Fontisto.ttf */; };
 		EB3E245C2966686900AC0920 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB3E244C2966686900AC0920 /* Octicons.ttf */; };
 		EB3E245D2966686900AC0920 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB3E244D2966686900AC0920 /* Feather.ttf */; };
@@ -91,6 +92,7 @@
 		EB2EF9AB2AD44057001F1D42 /* FontAwesome6_Pro_Duotone.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome6_Pro_Duotone.ttf; path = ../../../src/assets/fonts/FontAwesome6_Pro_Duotone.ttf; sourceTree = "<group>"; };
 		EB2EF9AC2AD44057001F1D42 /* FontAwesome6_Pro_Sharp_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome6_Pro_Sharp_Solid.ttf; path = ../../../src/assets/fonts/FontAwesome6_Pro_Sharp_Solid.ttf; sourceTree = "<group>"; };
 		EB2EF9AD2AD44057001F1D42 /* FontAwesome6_Pro_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome6_Pro_Light.ttf; path = ../../../src/assets/fonts/FontAwesome6_Pro_Light.ttf; sourceTree = "<group>"; };
+		EB2EF9B42AD48CE7001F1D42 /* FontAwesome6_Pro_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome6_Pro_Solid.ttf; path = ../../../src/assets/fonts/FontAwesome6_Pro_Solid.ttf; sourceTree = "<group>"; };
 		EB3E244B2966686900AC0920 /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		EB3E244C2966686900AC0920 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		EB3E244D2966686900AC0920 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				EB3E244E2966686900AC0920 /* Entypo.ttf */,
 				EB3E244F2966686900AC0920 /* FontAwesome5_Brands.ttf */,
 				EB3E24502966686900AC0920 /* MaterialCommunityIcons.ttf */,
+				EB2EF9B42AD48CE7001F1D42 /* FontAwesome6_Pro_Solid.ttf */,
 				EB2EF9A82AD44057001F1D42 /* FontAwesome6_Pro_Brands.ttf */,
 				EB2EF9AB2AD44057001F1D42 /* FontAwesome6_Pro_Duotone.ttf */,
 				EB2EF9AD2AD44057001F1D42 /* FontAwesome6_Pro_Light.ttf */,
@@ -362,6 +365,7 @@
 				EB3E24642966686900AC0920 /* FontAwesome5_Solid.ttf in Resources */,
 				EB3E24692966686900AC0920 /* SimpleLineIcons.ttf in Resources */,
 				EB3E245E2966686900AC0920 /* Entypo.ttf in Resources */,
+				EB2EF9B52AD48CE7001F1D42 /* FontAwesome6_Pro_Solid.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				EB3E24612966686900AC0920 /* AntDesign.ttf in Resources */,
 				EB3E24672966686900AC0920 /* Zocial.ttf in Resources */,

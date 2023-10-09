@@ -2,19 +2,15 @@ import { Text, View } from 'react-native';
 
 import { styled } from '@app/lib/styled';
 
-export const Container = styled(View, () => ({
+export const Container = styled(View, (theme) => ({
   flexDirection: 'row',
   alignItems: 'center',
+  gap: theme.space.small,
 }));
 
-export const Value = styled(Text, (theme) => [
-  theme.typography.presets.h4,
-  { lineHeight: 30 },
-]);
+export const Value = styled(Text, (theme) => [theme.typography.presets.h4]);
 
-export const IconContainer = styled(View, (theme) => ({
-  marginRight: theme.space.small,
-}));
+export const IconContainer = styled(View, () => [{}]);
 
 export const Meta = styled(View, () => ({}));
 

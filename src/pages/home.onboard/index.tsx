@@ -9,7 +9,7 @@ import { Logo } from '@app/components/logo';
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
-import { MainStack } from '@app/stacks';
+import type { MainStack } from '@app/stacks';
 import { useNavigation } from '@react-navigation/native';
 import { Hero } from './hero';
 
@@ -19,7 +19,7 @@ export const HomeOnboardPage: React.FC = () => {
 
   const handleAddFirstFlight = () => {
     vibrate('impactMedium');
-    navigation.push('Search');
+    navigation.push('FlightSearch');
   };
 
   const handleRandomFlight = (flight: FullFlightFragmentFragment) => {

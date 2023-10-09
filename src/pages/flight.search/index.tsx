@@ -13,7 +13,7 @@ import { ResultSet } from './result.set';
 import { State } from './state';
 
 export const FlightSearchPage: React.FC = () => {
-  const navigation = useNavigation<MainStack<'Search'>>();
+  const navigation = useNavigation<MainStack<'FlightSearch'>>();
   const handleClose = useGoBack(navigation);
 
   React.useEffect(() => {
@@ -40,6 +40,7 @@ export const FlightSearchPage: React.FC = () => {
 const Content = styled(View, (theme) => [
   {
     gap: theme.space.large,
+    flexGrow: 1,
   },
 ]);
 

@@ -1,16 +1,16 @@
 import * as React from 'react';
 
-import { FlatList, RefreshControl, TouchableOpacity, View } from 'react-native';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 
 import { FlightCard } from '@app/components/flight.card';
-import type { FlightStackParams } from '@app/stacks/flight.stack';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { PageContainer } from '@app/components/page.container';
 import { PageHeader } from '@app/components/page.header';
-import { styled } from '@app/lib/styled';
 import { useGetUserArchivedFlightsQuery } from '@app/generated/server.gql';
-import { useNavigation } from '@react-navigation/native';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { styled } from '@app/lib/styled';
+import type { FlightStackParams } from '@app/stacks/flight.stack';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type Navigation = NativeStackNavigationProp<FlightStackParams, 'Archived'>;
 
@@ -33,12 +33,8 @@ export const ArchivedFlightsPage: React.FC = () => {
       <FlatList
         data={response.data?.userArchivedFlights}
         keyExtractor={(item) => item.id}
-        refreshControl={
-          <RefreshControl
-            refreshing={response.loading}
-            onRefresh={() => response.refetch()}
-          />
-        }
+        refreshing={response.loading}
+        onRefresh={() => response.refetch()}
         renderItem={(entry) => {
           return (
             <ListItem>

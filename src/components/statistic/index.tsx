@@ -13,6 +13,7 @@ type Props = {
   label?: string | React.ReactElement;
   style?: StyleProp<ViewStyle>;
   valueStyle?: StyleProp<TextStyle>;
+  labelStyle?: StyleProp<TextStyle>;
 };
 
 export const Statistic: React.FC<Props> = ({
@@ -22,14 +23,15 @@ export const Statistic: React.FC<Props> = ({
   label,
   style,
   valueStyle,
+  labelStyle,
 }) => {
   return (
     <Container style={[style]}>
       {icon && <IconContainer>{icon}</IconContainer>}
       <Meta>
-        {label && <StringRenderer value={label} Container={Label} />}
+        <StringRenderer value={label} Container={Label} style={labelStyle} />
         <StringRenderer value={value} Container={Value} style={valueStyle} />
-        {hint && <StringRenderer value={hint} Container={Hint} />}
+        <StringRenderer value={hint} Container={Hint} />
       </Meta>
     </Container>
   );

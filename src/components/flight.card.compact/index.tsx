@@ -10,40 +10,26 @@ import {
   MovementText,
 } from '../flight.card/styles';
 
+import type { FindFlightsQuery } from '@app/generated/server.gql';
+import { useTheme } from '@app/lib/hooks/use.theme';
+import { styled } from '@app/lib/styled';
+import moment from 'moment';
+import { View } from 'react-native';
 import { DividerDashed } from '../divider.dashed';
 import { FaIcon } from '../icons.fontawesome';
-import type { FindFlightsQuery } from '@app/generated/server.gql';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { View } from 'react-native';
-import { isNil } from 'lodash';
-import moment from 'moment';
-import { styled } from '@app/lib/styled';
-import { useTheme } from '@app/lib/hooks/use.theme';
-import { vibrate } from '@app/lib/haptic.feedback';
 
 type Props = {
   flight: FindFlightsQuery['flights'][number];
-  onPress?: () => void;
 };
 
-export const FlightCardCompact: React.FC<Props> = ({ flight, onPress }) => {
+export const FlightCardCompact: React.FC<Props> = ({ flight }) => {
   const theme = useTheme();
-  const canPress = !isNil(onPress);
   const departure = moment
     .utc(flight.estimatedGateDeparture)
     .tz(flight.Origin.timezone);
 
-  const handlePress = () => {
-    if (!canPress) {
-      return;
-    }
-
-    vibrate('impactMedium');
-    onPress?.();
-  };
-
   return (
-    <Container onPress={handlePress} disabled={!canPress}>
+    <Container>
       <Main>
         <FlightPoint type="origin">
           <AirportIata>{flight.Origin.iata}</AirportIata>
@@ -61,8 +47,9 @@ export const FlightCardCompact: React.FC<Props> = ({ flight, onPress }) => {
         <Movement>
           <MovementIconContainer>
             <FaIcon
+              solid
               size={20}
-              name="arrow-circle-up"
+              name="circle-arrow-up-right"
               color={theme.pallette.successLight}
             />
           </MovementIconContainer>
@@ -80,7 +67,7 @@ export const FlightCardCompact: React.FC<Props> = ({ flight, onPress }) => {
   );
 };
 
-const Container = styled(TouchableOpacity, (theme) => [
+const Container = styled(View, (theme) => [
   theme.presets.shadows[100],
   {
     gap: theme.space.medium,

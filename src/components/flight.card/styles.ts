@@ -96,15 +96,7 @@ export const MovementText = styled(Text, (theme) => [
   },
 ]);
 
-export const MovementIconContainer = styled(View, () => [
-  {
-    transform: [
-      {
-        rotate: '45deg',
-      },
-    ],
-  },
-]);
+export const MovementIconContainer = styled(View, () => [{}]);
 
 export const Time = styled(View, () => [
   {

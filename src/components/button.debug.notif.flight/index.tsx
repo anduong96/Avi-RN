@@ -4,7 +4,7 @@ import { ActivityIndicator, Text } from 'react-native';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { styled } from '@app/lib/styled';
-import { toast } from '@baronha/ting';
+import * as ting from '@baronha/ting';
 import { useDebugFlightNoficationMutation } from '@app/generated/server.gql';
 
 type Props = {
@@ -22,14 +22,14 @@ export const DebugNoficationFlightBtn: React.FC<Props> = ({ flightID }) => {
       },
     },
     onCompleted(data) {
-      toast({
+      ting.toast({
         title: `Sent ${data._sendFlightNotification} notification`,
         preset: 'done',
         position: 'top',
       });
     },
     onError(error) {
-      toast({
+      ting.toast({
         title: error.message,
         preset: 'error',
         position: 'top',

@@ -17,17 +17,11 @@ export const LINKING_CONFIG: LinkingOptions<MainStackParam> = {
       Settings: 'settings',
       PrivacyPolicies: 'privacy',
       TermsOfService: 'terms',
-      FlightSearchStack: {
-        screens: {
-          Search: {
-            path: buildPath('flights', 'search'),
-          },
-        },
-      },
+      FlightSearch: buildPath('flights', 'search'),
       FlightStack: {
         screens: {
           Archived: {
-            path: buildPath('flights', 'archvied'),
+            path: buildPath('flights', 'archived'),
           },
           Flight: {
             path: buildPath(FLIGHT_URL),

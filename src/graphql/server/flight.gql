@@ -8,6 +8,7 @@ fragment FullFlightFragment on Flight {
     logoCompactImageURL
   }
 
+  aircraftTailnumber
   flightNumber
 
   originIata

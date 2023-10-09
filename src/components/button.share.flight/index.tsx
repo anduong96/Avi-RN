@@ -24,9 +24,9 @@ export const ShareFlightButton: React.FC<Props> = ({ flightID }) => {
       return 'UNKNOWN';
     }
 
-    const { airlineIata, flightNumber, destination } = flight.data.flight;
+    const { airlineIata, flightNumber, Destination } = flight.data.flight;
     const flightCode = `${airlineIata}${flightNumber}`;
-    const destinationName = destination.cityName || destination.countryCode;
+    const destinationName = Destination.cityName || Destination.countryCode;
     const title = `${flightCode} to ${destinationName}`;
     return title;
   };
@@ -46,7 +46,7 @@ export const ShareFlightButton: React.FC<Props> = ({ flightID }) => {
   return (
     <Btn onPress={handlePress} disabled={loading}>
       <LoadingOverlay isLoading={loading} size="small" />
-      <FaIcon name="share-alt" />
+      <FaIcon name="bullhorn" />
       <BtnText>Share</BtnText>
     </Btn>
   );

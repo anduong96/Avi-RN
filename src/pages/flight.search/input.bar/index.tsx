@@ -17,7 +17,7 @@ import { FocusedContainer } from './focused.container';
 import { TextSearchInput } from './text.search.input';
 
 export const InputBar: React.FC = () => {
-  const navigation = useNavigation<MainStack<'Search'>>();
+  const navigation = useNavigation<MainStack<'FlightSearch'>>();
   const focusedInput = useFocusedInput();
   const hasAirlineIata = useHasValue('airlineIata');
   const hasFlightNumber = useHasValue('flightNumber');
@@ -44,8 +44,7 @@ export const InputBar: React.FC = () => {
   useTopic('Selected', handleFocus, [handleFocus]);
 
   const handleRandomFlight = (flight: FullFlightFragmentFragment) => {
-    const parent = navigation.getParent() as MainStack<'Home'>;
-    parent.push('FlightStack', {
+    navigation.push('FlightStack', {
       screen: 'Flight',
       params: {
         flightID: flight.id,

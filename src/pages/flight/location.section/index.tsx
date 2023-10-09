@@ -37,6 +37,9 @@ export const FlightPageLocationSection: React.FC<Props> = ({
     ? theme.pallette.successLight
     : theme.pallette.warn;
 
+  const icon =
+    type === 'origin' ? 'circle-arrow-up-right' : 'circle-arrow-down-right';
+
   return (
     <Container>
       <Airport>
@@ -45,8 +48,8 @@ export const FlightPageLocationSection: React.FC<Props> = ({
       </Airport>
       <Meta>
         <Time>
-          <DirectionalIconContainer type={type}>
-            <FaIcon size={22} name="arrow-circle-up" color={timeColor} />
+          <DirectionalIconContainer>
+            <FaIcon solid size={22} name={icon} color={timeColor} />
           </DirectionalIconContainer>
           <TimeText style={[{ color: timeColor }]}>
             {movementTime.format('h:mm A')}
@@ -125,22 +128,4 @@ const TimeText = styled(Text, () => [
   },
 ]);
 
-const DirectionalIconContainer = styled<
-  { type: 'origin' | 'destination' },
-  typeof View
->(View, (_, props) => [
-  props.type === 'origin' && {
-    transform: [
-      {
-        rotate: '45deg',
-      },
-    ],
-  },
-  props.type === 'destination' && {
-    transform: [
-      {
-        rotate: '135deg',
-      },
-    ],
-  },
-]);
+const DirectionalIconContainer = styled(View, (_) => []);

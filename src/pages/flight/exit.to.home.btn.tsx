@@ -1,15 +1,17 @@
 import * as React from 'react';
 
+import { TouchableOpacity, View } from 'react-native';
 import Animated, { SlideInDown } from 'react-native-reanimated';
-import { Text, TouchableOpacity, View } from 'react-native';
 
-import type { FlightStackParams } from '@app/stacks/flight.stack';
+import { FaIcon } from '@app/components/icons.fontawesome';
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { styled } from '@app/lib/styled';
-import { useNavigation } from '@react-navigation/native';
 import { useUserFlightQuery } from '@app/generated/server.gql';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
+import { styled } from '@app/lib/styled';
+import type { FlightStackParams } from '@app/stacks/flight.stack';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type Navigation = NativeStackNavigationProp<FlightStackParams, 'Flight'>;
 
@@ -18,6 +20,7 @@ type Props = {
 };
 
 export const ExitToHomeBtn: React.FC<Props> = ({ flightID }) => {
+  const theme = useTheme();
   const navigation = useNavigation<Navigation>();
   const response = useUserFlightQuery({
     variables: {
@@ -37,8 +40,7 @@ export const ExitToHomeBtn: React.FC<Props> = ({ flightID }) => {
   return (
     <Container>
       <Btn entering={SlideInDown} onPress={handleExit}>
-        <BtnText>To</BtnText>
-        <BtnText>Home</BtnText>
+        <FaIcon solid name="house" size={30} color={theme.pallette.white} />
       </Btn>
     </Container>
   );
@@ -68,11 +70,3 @@ const Btn = styled(
     },
   ],
 );
-
-const BtnText = styled(Text, (theme) => [
-  theme.typography.presets.small,
-  {
-    color: theme.pallette.white,
-    fontWeight: 'bold',
-  },
-]);

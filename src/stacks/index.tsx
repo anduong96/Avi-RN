@@ -24,8 +24,8 @@ export type MainStackParam = {
   PrivacyPolicies: undefined;
   TermsOfService: undefined;
   FlightStack: NavigatorScreenParams<FlightStackParams>;
+  FlightSearch: undefined;
   Debug: undefined;
-  Search: undefined;
 };
 
 export type MainStack<T extends keyof MainStackParam> =
@@ -52,7 +52,7 @@ export const AppNavigator: React.FC = () => {
 
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="FlightStack" component={FlightStack} />
-        <Stack.Screen name="Search" component={FlightSearchPage} />
+        <Stack.Screen name="FlightSearch" component={FlightSearchPage} />
         <Stack.Screen name="Debug" component={DebugMenuPage} />
         <Stack.Screen name="Profile" component={ProfilePage} />
         <Stack.Screen name="Settings" component={SettingsPage} />

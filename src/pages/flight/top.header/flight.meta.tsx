@@ -2,11 +2,11 @@ import * as React from 'react';
 
 import { Text, View } from 'react-native';
 
+import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
 import { DOT_SEPARATOR } from '@app/constants';
-import FastImage from 'react-native-fast-image';
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
-import moment from 'moment';
 import { styled } from '@app/lib/styled';
+import moment from 'moment';
 
 type Props = {
   flight: Pick<
@@ -22,13 +22,7 @@ type Props = {
 export const FlightMeta: React.FC<Props> = ({ flight }) => {
   return (
     <Container>
-      <AirlineLogo
-        resizeMode={FastImage.resizeMode.contain}
-        source={{
-          uri: flight.Airline.logoCompactImageURL,
-          priority: FastImage.priority.high,
-        }}
-      />
+      <AirlineLogoAvatar airlineIata={flight.airlineIata} size={50} />
       <Airline>
         <AirlineName>{flight.Airline.name}</AirlineName>
         <Ticket>
@@ -75,14 +69,6 @@ const Ticket = styled(View, () => [
   {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-]);
-
-const AirlineLogo = styled(FastImage, () => [
-  {
-    height: 50,
-    width: undefined,
-    aspectRatio: 1,
   },
 ]);
 

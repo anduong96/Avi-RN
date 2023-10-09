@@ -36,7 +36,7 @@ import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { styled } from '@app/lib/styled';
-import { MainStack } from '@app/stacks';
+import type { MainStack } from '@app/stacks';
 import { useNavigation } from '@react-navigation/native';
 import { isEmpty } from 'lodash';
 import { Swipeable } from 'react-native-gesture-handler';
@@ -74,7 +74,7 @@ export const HomePage: React.FC = () => {
 
   const handleSearchFlights = () => {
     vibrate('impactMedium');
-    navigation.push('Search');
+    navigation.push('FlightSearch');
   };
 
   const handleOpenProfile = () => {

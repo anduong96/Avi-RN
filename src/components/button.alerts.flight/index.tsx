@@ -18,8 +18,8 @@ export const AlertFlightButton: React.FC<Props> = ({ flightID }) => {
     (s) => s.subscriptions[flightID]?.pushEnabled ?? false,
   );
   const [color, bgColor, icon] = isEnabled
-    ? [theme.pallette.white, theme.pallette.active, 'bell']
-    : [theme.typography.color, theme.pallette.grey[100], 'bell-o'];
+    ? [theme.pallette.white, theme.pallette.active, 'bell-on']
+    : [theme.typography.color, theme.pallette.grey[100], 'bell'];
 
   const handleToggle = () => {
     vibrate('impactLight');
@@ -37,7 +37,7 @@ export const AlertFlightButton: React.FC<Props> = ({ flightID }) => {
         shadowOpacity: isEnabled ? 0.3 : 0,
       }}
     >
-      <FaIcon type="fa" name={icon} color={color} />
+      <FaIcon name={icon} color={color} solid={isEnabled} />
       <BtnText style={{ color }}>Alerts</BtnText>
     </Btn>
   );

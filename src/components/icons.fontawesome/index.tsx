@@ -10,7 +10,14 @@ type Props = {
   isActive?: boolean;
 } & Pick<
   Icon['props'],
-  'style' | 'light' | 'thin' | 'brand' | 'duotone' | 'sharpSolid' | 'name'
+  | 'style'
+  | 'light'
+  | 'thin'
+  | 'brand'
+  | 'duotone'
+  | 'sharpSolid'
+  | 'solid'
+  | 'name'
 >;
 
 export const FaIcon: React.FC<Props> = ({
@@ -28,5 +35,5 @@ export const FaIcon: React.FC<Props> = ({
     : color || theme.pallette.grey[600];
 
   // @ts-ignore
-  return <Icon {...props} size={size} color={iconColor} />;
+  return <Icon light {...props} size={size} color={iconColor} />;
 };

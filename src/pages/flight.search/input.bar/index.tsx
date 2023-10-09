@@ -8,7 +8,6 @@ import * as React from 'react';
 import type { TextInput } from 'react-native';
 import { View } from 'react-native';
 import { useTopic } from '../publisher';
-import { State } from '../state';
 import { useFocusedInput } from '../state/use.focused.input';
 import { useHasValue } from '../state/use.has.value';
 import { AirlineInput } from './airline.input';
@@ -27,29 +26,14 @@ export const InputBar: React.FC = () => {
   const departureDateInput = React.useRef<TextInput>(null);
 
   const handleFocus = React.useCallback(() => {
-    const state = State.getState();
-
-    const inputs: Array<[unknown, () => void]> = [
-      [state.airlineIata, () => airlineInput.current?.focus()],
-      [state.flightNumber, () => flightNumberInput.current?.focus()],
-      [state.departureDate, () => departureDateInput.current?.focus()],
-    ];
-
-    for (const [value, onFocus] of inputs) {
-      if (!value) {
-        onFocus();
-        return;
-      }
-    }
-
-    if (state.focusInput === 'airlineIata') {
+    if (focusedInput === 'airlineIata') {
       return flightNumberInput.current?.focus();
-    } else if (state.focusInput === 'flightNumber') {
+    } else if (focusedInput === 'flightNumber') {
       return departureDateInput.current?.focus();
-    } else if (state.focusInput === 'departureDate') {
+    } else if (focusedInput === 'departureDate') {
       return departureDateInput.current?.blur();
     }
-  }, []);
+  }, [focusedInput]);
 
   useKeyboardSubmitEvent(handleFocus, [handleFocus]);
   useTopic('Selected', handleFocus, [handleFocus]);

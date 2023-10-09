@@ -31,16 +31,12 @@ export const TextSearchResultSet: React.FC = () => {
   const handleSelection = React.useCallback(
     (airline: AirlinesQuery['airlines'][number]) => {
       vibrate('impactMedium');
+      Publisher.broadcast('Selected', undefined);
       State.actions.setState({
         textSearch: undefined,
         airlineIata: airline.iata,
         flightNumber: flightNumber || currentFlightNumber,
       });
-
-      //TODO: Theres a race condition here
-      setTimeout(() => {
-        Publisher.broadcast('Selected', undefined);
-      }, 50);
     },
     [flightNumber, currentFlightNumber],
   );

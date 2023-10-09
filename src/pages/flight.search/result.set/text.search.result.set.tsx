@@ -31,14 +31,23 @@ export const TextSearchResultSet: React.FC = () => {
   const handleSelection = React.useCallback(
     (airline: AirlinesQuery['airlines'][number]) => {
       vibrate('impactMedium');
-      Publisher.broadcast('Selected', undefined);
+      if (isFocusOnAirlineIata) {
+        Publisher.broadcast('Selected', undefined);
+      }
+
       State.actions.setState({
         textSearch: undefined,
         airlineIata: airline.iata,
         flightNumber: flightNumber || currentFlightNumber,
       });
+
+      if (!isFocusOnAirlineIata) {
+        setTimeout(() => {
+          Publisher.broadcast('Selected', undefined);
+        }, 100);
+      }
     },
-    [flightNumber, currentFlightNumber],
+    [isFocusOnAirlineIata, flightNumber, currentFlightNumber],
   );
 
   useKeyboardSubmitEvent(() => {

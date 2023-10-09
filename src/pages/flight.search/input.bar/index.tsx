@@ -26,14 +26,19 @@ export const InputBar: React.FC = () => {
   const departureDateInput = React.useRef<TextInput>(null);
 
   const handleFocus = React.useCallback(() => {
-    if (focusedInput === 'airlineIata') {
+    if (
+      focusedInput === 'airlineIata' ||
+      (focusedInput === 'textSearch' && !hasFlightNumber)
+    ) {
       return flightNumberInput.current?.focus();
     } else if (focusedInput === 'flightNumber') {
+      return departureDateInput.current?.focus();
+    } else if (focusedInput === 'textSearch') {
       return departureDateInput.current?.focus();
     } else if (focusedInput === 'departureDate') {
       return departureDateInput.current?.blur();
     }
-  }, [focusedInput]);
+  }, [focusedInput, hasFlightNumber]);
 
   useKeyboardSubmitEvent(handleFocus, [handleFocus]);
   useTopic('Selected', handleFocus, [handleFocus]);

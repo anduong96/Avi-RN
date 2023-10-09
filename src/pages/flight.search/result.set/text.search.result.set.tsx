@@ -42,9 +42,10 @@ export const TextSearchResultSet: React.FC = () => {
       });
 
       if (!isFocusOnAirlineIata) {
+        //TODO: Fix race condition issue
         setTimeout(() => {
           Publisher.broadcast('Selected', undefined);
-        }, 100);
+        }, 50);
       }
     },
     [isFocusOnAirlineIata, flightNumber, currentFlightNumber],

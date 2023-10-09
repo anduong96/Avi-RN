@@ -24,6 +24,7 @@ export const FlightSearchPage: React.FC = () => {
     <PageContainer>
       <PageHeader
         withoutInsets
+        title="Flight Search"
         rightActions={<CloseBtn onPress={handleClose} />}
       />
       <Content>

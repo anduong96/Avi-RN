@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { DepartureDateResultSet } from './departure.date.result.set';
-import { FlightNumberResultSet } from './flight.number.result.set';
-import { TextSearchResultSet } from './text.search.result.set';
 import { useFocusedInput } from '../state/use.focused.input';
 import { useHasValue } from '../state/use.has.value';
+import { DepartureDateResultSet } from './departure.date.result.set';
+import { FlightNumberResultSet } from './flight.number.result.set';
 import { FlightsResultSet } from './flights.result.set';
+import { TextSearchResultSet } from './text.search.result.set';
 
 export const ResultSet: React.FC = () => {
   const hasTextSearch = useHasValue('textSearch');

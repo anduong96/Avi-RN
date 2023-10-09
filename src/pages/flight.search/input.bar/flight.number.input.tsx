@@ -9,6 +9,11 @@ import { useValue } from '../state/use.value';
 
 export const FlightNumberInput = React.forwardRef<TextInput>((_, ref) => {
   const flightNumber = useValue('flightNumber');
+  const inputValue = State.useSelect((state) =>
+    state.focusInput === 'flightNumber'
+      ? state.textSearch
+      : state.flightNumber ?? state.textSearch,
+  );
 
   const handleFocus = () => {
     vibrate('impactMedium');
@@ -36,7 +41,7 @@ export const FlightNumberInput = React.forwardRef<TextInput>((_, ref) => {
       ref={ref}
       maxLength={4}
       keyboardType={isIos ? 'numbers-and-punctuation' : 'default'}
-      defaultValue={flightNumber}
+      value={inputValue}
       returnKeyType="next"
       placeholder="Flight Number"
       autoComplete="off"

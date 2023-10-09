@@ -4,10 +4,15 @@ import moment from 'moment';
 import * as React from 'react';
 import type { TextInput } from 'react-native';
 import { State } from '../state';
+import { FaIcon } from '@app/components/icons.fontawesome';
 
 export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
-  const displayText = State.useSelect((state) =>
-    state.departureDate ? moment(state.departureDate).format('L') : '',
+  const inputValue = State.useSelect((state) =>
+    state.focusInput === 'departureDate'
+      ? state.textSearch
+      : state.departureDate
+      ? moment(state.departureDate).format('L')
+      : undefined,
   );
 
   const handleChange = (value?: string) => {
@@ -20,6 +25,7 @@ export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
     vibrate('impactMedium');
     State.actions.setState({
       focusInput: 'departureDate',
+      textSearch: inputValue,
     });
   };
 
@@ -33,7 +39,7 @@ export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
     <Input
       allowClear
       ref={ref}
-      defaultValue={displayText}
+      value={inputValue}
       returnKeyType="search"
       placeholder="Flight Date"
       autoComplete="off"
@@ -42,6 +48,7 @@ export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
       onFocus={handleFocus}
       onBlur={handleBlur}
       onChange={handleChange}
+      prefix={<FaIcon name="calendar" size={12} light />}
       blurOnSubmit
     />
   );

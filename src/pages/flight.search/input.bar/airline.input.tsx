@@ -8,6 +8,11 @@ import { useValue } from '../state/use.value';
 
 export const AirlineInput = React.forwardRef<TextInput>((_, ref) => {
   const airlineIata = useValue('airlineIata');
+  const inputValue = State.useSelect((state) =>
+    state.focusInput === 'airlineIata'
+      ? state.textSearch
+      : state.airlineIata ?? state.textSearch,
+  );
 
   const handleFocus = () => {
     vibrate('impactMedium');
@@ -30,7 +35,7 @@ export const AirlineInput = React.forwardRef<TextInput>((_, ref) => {
       allowClear
       ref={ref}
       prefix={<AirlineLogoAvatar size={15} airlineIata={airlineIata!} />}
-      defaultValue={airlineIata}
+      value={inputValue}
       returnKeyType="next"
       placeholder="Airline"
       autoComplete="off"

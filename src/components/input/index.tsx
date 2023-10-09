@@ -141,6 +141,8 @@ const Container = styled<
     borderRadius: 100,
     paddingHorizontal: theme.space.small,
     paddingVertical: theme.space.tiny,
+    justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
     gap: theme.space.small,
     flexGrow: 1,

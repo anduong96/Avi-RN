@@ -9,7 +9,6 @@ import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { parseFlightIata } from '@app/lib/parse.flight.iata';
 import { styled } from '@app/lib/styled';
-import { isEmpty } from 'lodash';
 import * as React from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
 import { Publisher } from '../publisher';
@@ -51,10 +50,6 @@ export const TextSearchResultSet: React.FC = () => {
       handleSelection(result[0].item);
     }
   }, [result, handleSelection, focused]);
-
-  if (isEmpty(result)) {
-    return null;
-  }
 
   return (
     <FlatList

@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash';
 import { State } from '.';
 
 /**
@@ -10,6 +9,8 @@ import { State } from '.';
  */
 export function useHasValue<
   K extends keyof ReturnType<(typeof State)['getState']>,
->(key: K) {
-  return State.useSelect((state) => !isEmpty(state[key]));
+>(key: K): boolean {
+  return State.useSelect(
+    (state) => !['', undefined, null].includes(state[key] as any),
+  );
 }

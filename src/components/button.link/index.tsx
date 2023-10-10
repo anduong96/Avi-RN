@@ -1,32 +1,31 @@
-import * as React from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import * as React from 'react';
+import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { Container, Label } from './styles';
-import type { StyleProp, ViewStyle } from 'react-native';
 
-import { useTheme } from '@app/lib/hooks/use.theme';
+import { styled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
   children: React.ReactNode;
-  onPress?: () => void;
   disabled?: boolean;
   loading?: boolean;
   noPadding?: boolean;
+  onPress?: () => void;
   style?: StyleProp<ViewStyle>;
 };
 
 export const ButtonLink: React.FC<Props> = ({
   children,
-  onPress,
   disabled,
   loading,
-  noPadding,
+  onPress,
   style,
 }) => {
   const loadingShared = useDerivedValue(() => loading, [loading]);
@@ -51,7 +50,7 @@ export const ButtonLink: React.FC<Props> = ({
     <Container
       activeOpacity={disabled || loading ? 1 : undefined}
       onPress={handlePress}
-      style={[noPadding && styles.noPadding, style]}
+      style={[style]}
     >
       <Label
         style={[(disabled || loading) && { color: theme.pallette.disabled }]}
@@ -70,8 +69,14 @@ export const ButtonLink: React.FC<Props> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  noPadding: {
-    padding: 0,
+const Container = styled(TouchableOpacity, () => ({
+  flexDirection: 'row',
+  padding: 0,
+}));
+
+const Label = styled(Text, (theme) => [
+  theme.typography.presets.p1,
+  {
+    color: theme.pallette.active,
   },
-});
+]);

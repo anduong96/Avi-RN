@@ -30,12 +30,12 @@ export function formatRelativeDay(v: moment.MomentInput) {
 
   // ensure the date is displayed with today and yesterday
   return moment(v).calendar(null, {
+    lastDay: '[Yesterday]',
     // when the date is closer, specify custom values
     lastWeek: '[Last] dddd',
-    lastDay: '[Yesterday]',
-    sameDay: '[Today]',
     nextDay: '[Tomorrow]',
     nextWeek: 'dddd',
+    sameDay: '[Today]',
     // when the date is further away, use from-now functionality
     sameElse: function () {
       return '[' + fromNow + ']';

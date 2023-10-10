@@ -1,12 +1,13 @@
 import * as React from 'react';
 
+import { CloseBtn } from '@app/components/btn.close';
+import { PageHeader } from '@app/components/page.header';
 import { PageContainer } from '@app/components/page.container';
-import { Text } from 'react-native';
 
 export const SettingsPage: React.FC = () => {
   return (
     <PageContainer>
-      <Text>Settings</Text>
+      <PageHeader rightActions={<CloseBtn />} title="Settings" withoutInsets />
     </PageContainer>
   );
 };

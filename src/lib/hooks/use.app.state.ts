@@ -1,6 +1,6 @@
 import * as React from 'react';
-
 import { AppState } from 'react-native';
+
 import { GlobalState } from '@app/state/global';
 
 /**

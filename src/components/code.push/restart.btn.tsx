@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { useTimer } from 'react-timer-hook';
+import codepush from 'react-native-code-push';
+
+import moment from 'moment';
 
 import { Button } from '../button';
-import codepush from 'react-native-code-push';
-import moment from 'moment';
-import { useTimer } from 'react-timer-hook';
 
 export const RestartBtn: React.FC = () => {
   const time = useTimer({
@@ -14,7 +15,12 @@ export const RestartBtn: React.FC = () => {
   });
 
   return (
-    <Button shadow fullWidth size="large" onPress={() => codepush.restartApp()}>
+    <Button
+      fullWidth
+      hasShadow
+      onPress={() => codepush.restartApp()}
+      size="large"
+    >
       {`Restart in ${time.seconds}`}
     </Button>
   );

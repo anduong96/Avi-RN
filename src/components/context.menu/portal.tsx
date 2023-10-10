@@ -1,40 +1,42 @@
-import * as React from 'react';
+import type { SharedValue } from 'react-native-reanimated';
+import type { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 
+import * as React from 'react';
+import { Pressable, StyleSheet } from 'react-native';
 import Animated, {
   FadeIn,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import type { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
-import { Portal, PortalHost } from '@gorhom/portal';
-import { Pressable, StyleSheet } from 'react-native';
 
+import { Portal, PortalHost } from '@gorhom/portal';
 import { BlurView } from '@react-native-community/blur';
+
+import { useTheme } from '@app/lib/hooks/use.theme';
+import { useIsDarkMode } from '@app/lib/hooks/use.color.scheme';
+
 import { ContextMenu } from './menu';
 import { MenuContext } from './context';
-import type { SharedValue } from 'react-native-reanimated';
-import { useIsDarkMode } from '@app/lib/hooks/use.color.scheme';
-import { useTheme } from '@app/lib/hooks/use.theme';
 
 const AnimatedBlur = Animated.createAnimatedComponent(BlurView);
 
 type Props = {
-  onClose: () => void;
   childrenDim: SharedValue<LayoutRectangle>;
+  onClose: () => void;
 };
 
 const NIL_LAYOUT = {
+  height: -1,
+  width: -1,
   x: -1,
   y: -1,
-  width: -1,
-  height: -1,
 };
 
 const HOST_NAME = 'CONTEXT_MENU' as const;
 export const ContextMenuPortal: React.FC<Props> & {
   ForModal: typeof ForModal;
-} = ({ onClose, childrenDim }) => {
+} = ({ childrenDim, onClose }) => {
   const container = React.useRef<View>(null);
   const context = React.useContext(MenuContext);
   const theme = useTheme();
@@ -43,21 +45,21 @@ export const ContextMenuPortal: React.FC<Props> & {
   const menuLayout = useSharedValue<LayoutRectangle>({ ...NIL_LAYOUT });
 
   const childrenStyle = useAnimatedStyle(() => ({
-    position: 'absolute',
-    left: context.childrenDim?.value.x,
-    top: context.childrenDim?.value.y,
-    width: context.childrenDim?.value.width,
     height: context.childrenDim?.value.height,
+    left: context.childrenDim?.value.x,
+    position: 'absolute',
+    top: context.childrenDim?.value.y,
     transform: [{ scale: withTiming(1) }, { translateY: 0 }],
+    width: context.childrenDim?.value.width,
   }));
 
   const opacityStyle = useAnimatedStyle(() => ({
-    position: 'absolute',
+    height: context.childrenDim?.value.height,
     left: 0,
+    opacity: withTiming(0),
+    position: 'absolute',
     top: 0,
     width: context.childrenDim?.value.width,
-    height: context.childrenDim?.value.height,
-    opacity: withTiming(0),
   }));
 
   /* Setting the position of the menu. */
@@ -76,9 +78,9 @@ export const ContextMenuPortal: React.FC<Props> & {
     }
 
     return {
-      top: menuY,
       left: menuX,
       position: 'absolute',
+      top: menuY,
     };
   });
 
@@ -98,10 +100,10 @@ export const ContextMenuPortal: React.FC<Props> & {
   const collectScaledDimension = () => {
     container.current?.measure((_fx, _fy, width, height, px, py) => {
       scaledDimensions.value = {
+        height,
+        width,
         x: px,
         y: py,
-        width,
-        height,
       };
     });
   };
@@ -109,16 +111,16 @@ export const ContextMenuPortal: React.FC<Props> & {
   return (
     <Portal hostName={HOST_NAME}>
       <Pressable
-        style={[StyleSheet.absoluteFill, { zIndex: 1 }]}
         onPress={() => handleClose()}
+        style={[StyleSheet.absoluteFill, { zIndex: 1 }]}
       >
         <AnimatedBlur
-          ref={container}
-          onLayout={collectScaledDimension}
-          style={[{ flex: 1 }]}
-          blurType={isDark ? 'dark' : 'light'}
           blurAmount={7}
+          blurType={isDark ? 'dark' : 'light'}
           entering={FadeIn.duration(100)}
+          onLayout={collectScaledDimension}
+          ref={container}
+          style={[{ flex: 1 }]}
         />
         <Animated.View style={[childrenStyle]}>
           {context.children}
@@ -126,18 +128,18 @@ export const ContextMenuPortal: React.FC<Props> & {
             style={[
               opacityStyle,
               {
-                borderRadius: theme.borderRadius,
                 backgroundColor: theme.pallette.black,
+                borderRadius: theme.borderRadius,
               },
             ]}
           />
         </Animated.View>
         <ContextMenu
-          style={[menuStyle]}
           items={context.items}
-          title={context.title}
-          onLayout={handleMenuLayout}
           onClose={onClose}
+          onLayout={handleMenuLayout}
+          style={[menuStyle]}
+          title={context.title}
         />
       </Pressable>
     </Portal>

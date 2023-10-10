@@ -1,8 +1,10 @@
 module.exports = {
-  root: true,
-  extends: '@react-native-community',
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'jest', 'prettier'],
+  extends: [
+    '@react-native',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:perfectionist/recommended-natural',
+  ],
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
@@ -13,11 +15,43 @@ module.exports = {
       },
     },
   ],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint', 'jest', 'prettier', 'perfectionist'],
+  root: true,
   rules: {
-    'no-console': 'error',
     '@typescript-eslint/consistent-type-imports': 'error',
-    'react/react-in-jsx-scope': 'off',
+    'no-console': 'error',
+    'perfectionist/sort-imports': [
+      'error',
+      {
+        'custom-groups': {
+          type: {
+            react: 'react',
+          },
+          value: {
+            react: ['react', 'react-*'],
+          },
+        },
+        groups: [
+          'side-effect',
+          'type',
+          'react',
+          'unknown',
+          ['builtin', 'external'],
+          'internal-type',
+          'internal',
+          ['parent-type', 'sibling-type', 'index-type'],
+          ['parent', 'sibling', 'index'],
+          'style',
+        ],
+        'internal-pattern': ['@app/**'],
+        'newlines-between': 'always',
+        order: 'asc',
+        type: 'line-length',
+      },
+    ],
     'react/no-unstable-nested-components': 'off',
+    'react/react-in-jsx-scope': 'off',
     'react-native/no-inline-styles': 'off',
   },
 };

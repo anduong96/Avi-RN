@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { Image, View } from 'react-native';
 
 import { styled } from '@app/lib/styled';
-import { Image, View } from 'react-native';
 
 export type Props = Omit<React.ComponentProps<typeof Image>, 'source'> & {
   size?: number;
@@ -16,8 +16,8 @@ export const Logo: React.FC<Props> = ({
   return (
     <Container size={size}>
       <LogoImage
-        source={require('@app/assets/logo.png')}
         resizeMode="contain"
+        source={require('@app/assets/logo.png')}
         type={type}
         {...props}
       />
@@ -27,10 +27,10 @@ export const Logo: React.FC<Props> = ({
 
 const Container = styled<{ size: number }, typeof View>(View, (_, props) => [
   {
-    width: props.size,
+    aspectRatio: 1,
     height: undefined,
     overflow: 'hidden',
-    aspectRatio: 1,
+    width: props.size,
   },
 ]);
 
@@ -41,8 +41,8 @@ const LogoImage = styled<{ type?: 'dark' | 'light' }, typeof Image>(
       tintColor: '#fff',
     },
     {
-      width: '100%',
       height: '100%',
+      width: '100%',
     },
   ],
 );

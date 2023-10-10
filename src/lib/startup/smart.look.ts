@@ -1,5 +1,6 @@
-import { ENV } from '@app/env';
 import Smartlook from 'react-native-smartlook-analytics';
+
+import { ENV } from '@app/env';
 
 export function startSmartlook() {
   if (!ENV.SMARTLOOK_KEY) {

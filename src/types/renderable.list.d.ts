@@ -1,1 +1,1 @@
-export type RenderableList<T> = Array<T | null | undefined | false>;
+export type RenderableList<T> = Array<T | false | null | undefined>;

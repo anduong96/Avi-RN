@@ -1,11 +1,13 @@
-import * as React from 'react';
-
-import { Linking } from 'react-native';
-import { logger as Logger } from '../logger';
 import type { Notification } from '@notifee/react-native';
+
+import * as React from 'react';
+import { Linking } from 'react-native';
+
 import { isEmpty } from 'lodash';
-import messaging from '@react-native-firebase/messaging';
 import notifee from '@notifee/react-native';
+import messaging from '@react-native-firebase/messaging';
+
+import { logger as Logger } from '../logger';
 import { useAppActive } from '../hooks/use.app.state';
 
 const logger = Logger.extend('[Notification]');
@@ -58,14 +60,14 @@ messaging().onMessage((data) => {
   }
 
   const payload: Notification = {
-    id: data.messageId,
-    title: data.notification.title,
     body: data.notification.body,
     data: data.data,
+    id: data.messageId,
     remote: {
       messageId: data.messageId!,
       senderId: data.from!,
     },
+    title: data.notification.title,
   };
 
   if (data.data?.fcm_options?.image) {

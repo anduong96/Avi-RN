@@ -2,21 +2,34 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    }
+  | T;
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  DateTimeISO: { input: any; output: any; }
-  JSON: { input: any; output: any; }
+  Boolean: { input: boolean; output: boolean };
+  DateTimeISO: { input: any; output: any };
+  Float: { input: number; output: number };
+  ID: { input: string; output: string };
+  Int: { input: number; output: number };
+  JSON: { input: any; output: any };
+  String: { input: string; output: string };
 };
 
 export type Aircraft = {
@@ -142,29 +155,28 @@ export const FlightStatus = {
   DELAYED: 'DELAYED',
   DEPARTED: 'DEPARTED',
   LANDED: 'LANDED',
-  SCHEDULED: 'SCHEDULED'
+  SCHEDULED: 'SCHEDULED',
 } as const;
 
-export type FlightStatus = typeof FlightStatus[keyof typeof FlightStatus];
+export type FlightStatus = (typeof FlightStatus)[keyof typeof FlightStatus];
 export const FlightVendor = {
   AERO_DATA_BOX: 'AERO_DATA_BOX',
-  FLIGHT_STATS: 'FLIGHT_STATS'
+  FLIGHT_STATS: 'FLIGHT_STATS',
 } as const;
 
-export type FlightVendor = typeof FlightVendor[keyof typeof FlightVendor];
+export type FlightVendor = (typeof FlightVendor)[keyof typeof FlightVendor];
 export const ImageType = {
   PNG: 'PNG',
-  SVG: 'SVG'
+  SVG: 'SVG',
 } as const;
 
-export type ImageType = typeof ImageType[keyof typeof ImageType];
+export type ImageType = (typeof ImageType)[keyof typeof ImageType];
 export type Mutation = {
   __typename?: 'Mutation';
   _sendFlightNotification: Scalars['Float']['output'];
   addUserFlight: Scalars['String']['output'];
   deleteUserFlight: Scalars['String']['output'];
 };
-
 
 export type Mutation_SendFlightNotificationArgs = {
   body: Scalars['String']['input'];
@@ -173,11 +185,9 @@ export type Mutation_SendFlightNotificationArgs = {
   title: Scalars['String']['input'];
 };
 
-
 export type MutationAddUserFlightArgs = {
   flightID: Scalars['String']['input'];
 };
-
 
 export type MutationDeleteUserFlightArgs = {
   flightID: Scalars['String']['input'];
@@ -200,36 +210,29 @@ export type Query = {
   userHasFlights: Scalars['Boolean']['output'];
 };
 
-
 export type QueryAircraftArgs = {
   tailNumber: Scalars['String']['input'];
 };
-
 
 export type QueryAircraftPositionArgs = {
   aircraftID: Scalars['Float']['input'];
 };
 
-
 export type QueryAirlineArgs = {
   iata: Scalars['String']['input'];
 };
-
 
 export type QueryAirportArgs = {
   iata: Scalars['String']['input'];
 };
 
-
 export type QueryFlightArgs = {
   flightID: Scalars['String']['input'];
 };
 
-
 export type QueryFlightPromptnessArgs = {
   flightID: Scalars['String']['input'];
 };
-
 
 export type QueryFlightsArgs = {
   airlineIata: Scalars['String']['input'];
@@ -238,7 +241,6 @@ export type QueryFlightsArgs = {
   month: Scalars['Float']['input'];
   year: Scalars['Float']['input'];
 };
-
 
 export type QueryUserFlightArgs = {
   flightID: Scalars['String']['input'];
@@ -259,173 +261,552 @@ export type AircraftQueryVariables = Exact<{
   tailNumber: Scalars['String']['input'];
 }>;
 
-
-export type AircraftQuery = { __typename?: 'Query', aircraft?: { __typename?: 'Aircraft', id: number, iata?: string | null, icao: string, model: string, airlineIata: string, description?: string | null, tailNumber: string, firstFlight: any, imageURL?: string | null, createdAt: any, updatedAt: any } | null };
+export type AircraftQuery = {
+  __typename?: 'Query';
+  aircraft?: {
+    __typename?: 'Aircraft';
+    airlineIata: string;
+    createdAt: any;
+    description?: null | string;
+    firstFlight: any;
+    iata?: null | string;
+    icao: string;
+    id: number;
+    imageURL?: null | string;
+    model: string;
+    tailNumber: string;
+    updatedAt: any;
+  } | null;
+};
 
 export type AircraftPositionQueryVariables = Exact<{
   aircraftId: Scalars['Float']['input'];
 }>;
 
+export type AircraftPositionQuery = {
+  __typename?: 'Query';
+  aircraftPosition?: {
+    __typename?: 'AircraftPosition';
+    aircraftID: number;
+    airlineIata: string;
+    altitude?: null | number;
+    createdAt: any;
+    destinationIata: string;
+    flightDate: number;
+    flightMonth: number;
+    flightNumber: string;
+    flightYear: number;
+    id: number;
+    latitude?: null | number;
+    longitude?: null | number;
+    originIata: string;
+    updatedAt: any;
+  } | null;
+};
 
-export type AircraftPositionQuery = { __typename?: 'Query', aircraftPosition?: { __typename?: 'AircraftPosition', id: number, aircraftID: number, latitude?: number | null, longitude?: number | null, altitude?: number | null, flightYear: number, flightMonth: number, flightDate: number, flightNumber: string, airlineIata: string, originIata: string, destinationIata: string, createdAt: any, updatedAt: any } | null };
+export type AirlinesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type AirlinesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AirlinesQuery = { __typename?: 'Query', airlines: Array<{ __typename?: 'Airline', id: string, name: string, iata: string, logoCompactImageURL: string, logoCompactImageType: ImageType }> };
+export type AirlinesQuery = {
+  __typename?: 'Query';
+  airlines: Array<{
+    __typename?: 'Airline';
+    iata: string;
+    id: string;
+    logoCompactImageType: ImageType;
+    logoCompactImageURL: string;
+    name: string;
+  }>;
+};
 
 export type AirlineQueryVariables = Exact<{
   iata: Scalars['String']['input'];
 }>;
 
-
-export type AirlineQuery = { __typename?: 'Query', airline: { __typename?: 'Airline', id: string, name: string, iata: string, logoCompactImageURL: string, logoCompactImageType: ImageType, logoFullImageURL: string, logoFullImageType: ImageType } };
+export type AirlineQuery = {
+  __typename?: 'Query';
+  airline: {
+    __typename?: 'Airline';
+    iata: string;
+    id: string;
+    logoCompactImageType: ImageType;
+    logoCompactImageURL: string;
+    logoFullImageType: ImageType;
+    logoFullImageURL: string;
+    name: string;
+  };
+};
 
 export type AirportQueryVariables = Exact<{
   iata: Scalars['String']['input'];
 }>;
 
+export type AirportQuery = {
+  __typename?: 'Query';
+  airport: {
+    __typename?: 'Airport';
+    cityCode: string;
+    cityName: string;
+    countryCode: string;
+    countyName?: null | string;
+    elevation?: null | number;
+    iata: string;
+    id: string;
+    name: string;
+    state?: null | string;
+    timezone: string;
+  };
+};
 
-export type AirportQuery = { __typename?: 'Query', airport: { __typename?: 'Airport', id: string, name: string, iata: string, cityName: string, cityCode: string, timezone: string, state?: string | null, elevation?: number | null, countryCode: string, countyName?: string | null } };
-
-export type DebugFlightNoficationMutationVariables = Exact<{
-  flightID: Scalars['String']['input'];
-  title: Scalars['String']['input'];
+export type DebugFlightNotificationMutationVariables = Exact<{
   body: Scalars['String']['input'];
   data?: InputMaybe<Scalars['JSON']['input']>;
+  flightID: Scalars['String']['input'];
+  title: Scalars['String']['input'];
 }>;
 
+export type DebugFlightNotificationMutation = {
+  __typename?: 'Mutation';
+  _sendFlightNotification: number;
+};
 
-export type DebugFlightNoficationMutation = { __typename?: 'Mutation', _sendFlightNotification: number };
-
-export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } };
+export type FullFlightFragmentFragment = {
+  __typename?: 'Flight';
+  Airline: {
+    __typename?: 'Airline';
+    id: string;
+    logoCompactImageURL: string;
+    name: string;
+  };
+  Destination: {
+    __typename?: 'Airport';
+    cityName: string;
+    countryCode: string;
+    iata: string;
+    id: string;
+    name: string;
+    timezone: string;
+  };
+  Origin: {
+    __typename?: 'Airport';
+    cityName: string;
+    countryCode: string;
+    iata: string;
+    id: string;
+    name: string;
+    timezone: string;
+  };
+  actualGateArrival?: any | null;
+  actualGateDeparture?: any | null;
+  aircraftTailnumber?: null | string;
+  airlineIata: string;
+  destinationBaggageClaim?: null | string;
+  destinationGate?: null | string;
+  destinationIata: string;
+  destinationTerminal?: null | string;
+  estimatedGateArrival: any;
+  estimatedGateDeparture: any;
+  flightNumber: string;
+  id: string;
+  originGate?: null | string;
+  originIata: string;
+  originTerminal?: null | string;
+  scheduledGateArrival: any;
+  scheduledGateDeparture: any;
+  status: FlightStatus;
+};
 
 export type FindFlightsQueryVariables = Exact<{
   airlineIata: Scalars['String']['input'];
-  flightNumber: Scalars['String']['input'];
-  year: Scalars['Float']['input'];
-  month: Scalars['Float']['input'];
   date: Scalars['Float']['input'];
+  flightNumber: Scalars['String']['input'];
+  month: Scalars['Float']['input'];
+  year: Scalars['Float']['input'];
 }>;
 
-
-export type FindFlightsQuery = { __typename?: 'Query', flights: Array<{ __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } }> };
+export type FindFlightsQuery = {
+  __typename?: 'Query';
+  flights: Array<{
+    __typename?: 'Flight';
+    Airline: {
+      __typename?: 'Airline';
+      id: string;
+      logoCompactImageURL: string;
+      name: string;
+    };
+    Destination: {
+      __typename?: 'Airport';
+      cityName: string;
+      countryCode: string;
+      iata: string;
+      id: string;
+      name: string;
+      timezone: string;
+    };
+    Origin: {
+      __typename?: 'Airport';
+      cityName: string;
+      countryCode: string;
+      iata: string;
+      id: string;
+      name: string;
+      timezone: string;
+    };
+    actualGateArrival?: any | null;
+    actualGateDeparture?: any | null;
+    aircraftTailnumber?: null | string;
+    airlineIata: string;
+    destinationBaggageClaim?: null | string;
+    destinationGate?: null | string;
+    destinationIata: string;
+    destinationTerminal?: null | string;
+    estimatedGateArrival: any;
+    estimatedGateDeparture: any;
+    flightNumber: string;
+    id: string;
+    originGate?: null | string;
+    originIata: string;
+    originTerminal?: null | string;
+    scheduledGateArrival: any;
+    scheduledGateDeparture: any;
+    status: FlightStatus;
+  }>;
+};
 
 export type GetFlightPromptnessQueryVariables = Exact<{
   flightID: Scalars['String']['input'];
 }>;
 
-
-export type GetFlightPromptnessQuery = { __typename?: 'Query', flightPromptness: { __typename?: 'FlightPromptness', onTimePercent: number, rating: number, averageDelayTimeMs: number } };
+export type GetFlightPromptnessQuery = {
+  __typename?: 'Query';
+  flightPromptness: {
+    __typename?: 'FlightPromptness';
+    averageDelayTimeMs: number;
+    onTimePercent: number;
+    rating: number;
+  };
+};
 
 export type GetFlightQueryVariables = Exact<{
   flightID: Scalars['String']['input'];
 }>;
 
+export type GetFlightQuery = {
+  __typename?: 'Query';
+  flight: {
+    __typename?: 'Flight';
+    Airline: {
+      __typename?: 'Airline';
+      id: string;
+      logoCompactImageURL: string;
+      name: string;
+    };
+    Destination: {
+      __typename?: 'Airport';
+      cityName: string;
+      countryCode: string;
+      iata: string;
+      id: string;
+      name: string;
+      timezone: string;
+    };
+    Origin: {
+      __typename?: 'Airport';
+      cityName: string;
+      countryCode: string;
+      iata: string;
+      id: string;
+      name: string;
+      timezone: string;
+    };
+    actualGateArrival?: any | null;
+    actualGateDeparture?: any | null;
+    aircraftTailnumber?: null | string;
+    airlineIata: string;
+    destinationBaggageClaim?: null | string;
+    destinationGate?: null | string;
+    destinationIata: string;
+    destinationTerminal?: null | string;
+    estimatedGateArrival: any;
+    estimatedGateDeparture: any;
+    flightNumber: string;
+    id: string;
+    originGate?: null | string;
+    originIata: string;
+    originTerminal?: null | string;
+    scheduledGateArrival: any;
+    scheduledGateDeparture: any;
+    status: FlightStatus;
+  };
+};
 
-export type GetFlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
+export type GetRandomFlightQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetRandomFlightQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetRandomFlightQuery = {
+  __typename?: 'Query';
+  randomFlight: {
+    __typename?: 'Flight';
+    Airline: {
+      __typename?: 'Airline';
+      id: string;
+      logoCompactImageURL: string;
+      name: string;
+    };
+    Destination: {
+      __typename?: 'Airport';
+      cityName: string;
+      countryCode: string;
+      iata: string;
+      id: string;
+      name: string;
+      timezone: string;
+    };
+    Origin: {
+      __typename?: 'Airport';
+      cityName: string;
+      countryCode: string;
+      iata: string;
+      id: string;
+      name: string;
+      timezone: string;
+    };
+    actualGateArrival?: any | null;
+    actualGateDeparture?: any | null;
+    aircraftTailnumber?: null | string;
+    airlineIata: string;
+    destinationBaggageClaim?: null | string;
+    destinationGate?: null | string;
+    destinationIata: string;
+    destinationTerminal?: null | string;
+    estimatedGateArrival: any;
+    estimatedGateDeparture: any;
+    flightNumber: string;
+    id: string;
+    originGate?: null | string;
+    originIata: string;
+    originTerminal?: null | string;
+    scheduledGateArrival: any;
+    scheduledGateDeparture: any;
+    status: FlightStatus;
+  };
+};
 
+export type GetUserActiveFlightsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type GetRandomFlightQuery = { __typename?: 'Query', randomFlight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
+export type GetUserActiveFlightsQuery = {
+  __typename?: 'Query';
+  userActiveFlights: Array<{
+    __typename?: 'UserFlight';
+    Flight: {
+      __typename?: 'Flight';
+      Airline: {
+        __typename?: 'Airline';
+        id: string;
+        logoCompactImageURL: string;
+        name: string;
+      };
+      Destination: {
+        __typename?: 'Airport';
+        cityName: string;
+        countryCode: string;
+        iata: string;
+        id: string;
+        name: string;
+        timezone: string;
+      };
+      Origin: {
+        __typename?: 'Airport';
+        cityName: string;
+        countryCode: string;
+        iata: string;
+        id: string;
+        name: string;
+        timezone: string;
+      };
+      actualGateArrival?: any | null;
+      actualGateDeparture?: any | null;
+      aircraftTailnumber?: null | string;
+      airlineIata: string;
+      destinationBaggageClaim?: null | string;
+      destinationGate?: null | string;
+      destinationIata: string;
+      destinationTerminal?: null | string;
+      estimatedGateArrival: any;
+      estimatedGateDeparture: any;
+      flightNumber: string;
+      id: string;
+      originGate?: null | string;
+      originIata: string;
+      originTerminal?: null | string;
+      scheduledGateArrival: any;
+      scheduledGateDeparture: any;
+      status: FlightStatus;
+    };
+    createdAt: any;
+    flightID: string;
+    id: string;
+    shouldAlert: boolean;
+  }>;
+};
 
-export type GetUserActiveFlightsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetUserArchivedFlightsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
-
-export type GetUserActiveFlightsQuery = { __typename?: 'Query', userActiveFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, shouldAlert: boolean, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } }> };
-
-export type GetUserArchivedFlightsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetUserArchivedFlightsQuery = { __typename?: 'Query', userArchivedFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailnumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } }> };
+export type GetUserArchivedFlightsQuery = {
+  __typename?: 'Query';
+  userArchivedFlights: Array<{
+    __typename?: 'UserFlight';
+    Flight: {
+      __typename?: 'Flight';
+      Airline: {
+        __typename?: 'Airline';
+        id: string;
+        logoCompactImageURL: string;
+        name: string;
+      };
+      Destination: {
+        __typename?: 'Airport';
+        cityName: string;
+        countryCode: string;
+        iata: string;
+        id: string;
+        name: string;
+        timezone: string;
+      };
+      Origin: {
+        __typename?: 'Airport';
+        cityName: string;
+        countryCode: string;
+        iata: string;
+        id: string;
+        name: string;
+        timezone: string;
+      };
+      actualGateArrival?: any | null;
+      actualGateDeparture?: any | null;
+      aircraftTailnumber?: null | string;
+      airlineIata: string;
+      destinationBaggageClaim?: null | string;
+      destinationGate?: null | string;
+      destinationIata: string;
+      destinationTerminal?: null | string;
+      estimatedGateArrival: any;
+      estimatedGateDeparture: any;
+      flightNumber: string;
+      id: string;
+      originGate?: null | string;
+      originIata: string;
+      originTerminal?: null | string;
+      scheduledGateArrival: any;
+      scheduledGateDeparture: any;
+      status: FlightStatus;
+    };
+    createdAt: any;
+    flightID: string;
+    id: string;
+  }>;
+};
 
 export type AddUserFlightMutationVariables = Exact<{
   flightID: Scalars['String']['input'];
 }>;
 
-
-export type AddUserFlightMutation = { __typename?: 'Mutation', addUserFlight: string };
+export type AddUserFlightMutation = {
+  __typename?: 'Mutation';
+  addUserFlight: string;
+};
 
 export type DeleteUserFlightMutationVariables = Exact<{
   flightID: Scalars['String']['input'];
 }>;
 
+export type DeleteUserFlightMutation = {
+  __typename?: 'Mutation';
+  deleteUserFlight: string;
+};
 
-export type DeleteUserFlightMutation = { __typename?: 'Mutation', deleteUserFlight: string };
+export type UserHasFlightsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type UserHasFlightsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UserHasFlightsQuery = { __typename?: 'Query', userHasFlights: boolean };
+export type UserHasFlightsQuery = {
+  __typename?: 'Query';
+  userHasFlights: boolean;
+};
 
 export type UserFlightQueryVariables = Exact<{
   flightID: Scalars['String']['input'];
 }>;
 
-
-export type UserFlightQuery = { __typename?: 'Query', userFlight?: { __typename?: 'UserFlight', id: string, shouldAlert: boolean } | null };
+export type UserFlightQuery = {
+  __typename?: 'Query';
+  userFlight?: {
+    __typename?: 'UserFlight';
+    id: string;
+    shouldAlert: boolean;
+  } | null;
+};
 
 export const FullFlightFragmentFragmentDoc = gql`
-    fragment FullFlightFragment on Flight {
-  id
-  airlineIata
-  Airline {
+  fragment FullFlightFragment on Flight {
     id
-    name
-    logoCompactImageURL
-  }
-  aircraftTailnumber
-  flightNumber
-  originIata
-  originTerminal
-  originGate
-  Origin {
-    id
-    name
-    cityName
-    countryCode
-    iata
-    timezone
-  }
-  status
-  destinationIata
-  destinationGate
-  destinationTerminal
-  destinationBaggageClaim
-  Destination {
-    id
-    name
-    cityName
-    countryCode
-    iata
-    timezone
-  }
-  scheduledGateDeparture
-  scheduledGateArrival
-  estimatedGateDeparture
-  estimatedGateArrival
-  actualGateDeparture
-  actualGateArrival
-}
-    `;
-export const AircraftDocument = gql`
-    query Aircraft($tailNumber: String!) {
-  aircraft(tailNumber: $tailNumber) {
-    id
-    iata
-    icao
-    model
     airlineIata
-    description
-    tailNumber
-    firstFlight
-    imageURL
-    createdAt
-    updatedAt
+    Airline {
+      id
+      name
+      logoCompactImageURL
+    }
+    aircraftTailnumber
+    flightNumber
+    originIata
+    originTerminal
+    originGate
+    Origin {
+      id
+      name
+      cityName
+      countryCode
+      iata
+      timezone
+    }
+    status
+    destinationIata
+    destinationGate
+    destinationTerminal
+    destinationBaggageClaim
+    Destination {
+      id
+      name
+      cityName
+      countryCode
+      iata
+      timezone
+    }
+    scheduledGateDeparture
+    scheduledGateArrival
+    estimatedGateDeparture
+    estimatedGateArrival
+    actualGateDeparture
+    actualGateArrival
   }
-}
-    `;
+`;
+export const AircraftDocument = gql`
+  query Aircraft($tailNumber: String!) {
+    aircraft(tailNumber: $tailNumber) {
+      id
+      iata
+      icao
+      model
+      airlineIata
+      description
+      tailNumber
+      firstFlight
+      imageURL
+      createdAt
+      updatedAt
+    }
+  }
+`;
 
 /**
  * __useAircraftQuery__
@@ -443,40 +824,58 @@ export const AircraftDocument = gql`
  *   },
  * });
  */
-export function useAircraftQuery(baseOptions: Apollo.QueryHookOptions<AircraftQuery, AircraftQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AircraftQuery, AircraftQueryVariables>(AircraftDocument, options);
-      }
-export function useAircraftLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AircraftQuery, AircraftQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AircraftQuery, AircraftQueryVariables>(AircraftDocument, options);
-        }
-export type AircraftQueryHookResult = ReturnType<typeof useAircraftQuery>;
-export type AircraftLazyQueryHookResult = ReturnType<typeof useAircraftLazyQuery>;
-export type AircraftQueryResult = Apollo.QueryResult<AircraftQuery, AircraftQueryVariables>;
-export function refetchAircraftQuery(variables: AircraftQueryVariables) {
-      return { query: AircraftDocument, variables: variables }
-    }
-export const AircraftPositionDocument = gql`
-    query AircraftPosition($aircraftId: Float!) {
-  aircraftPosition(aircraftID: $aircraftId) {
-    id
-    aircraftID
-    latitude
-    longitude
-    altitude
-    flightYear
-    flightMonth
-    flightDate
-    flightNumber
-    airlineIata
-    originIata
-    destinationIata
-    createdAt
-    updatedAt
-  }
+export function useAircraftQuery(
+  baseOptions: Apollo.QueryHookOptions<AircraftQuery, AircraftQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<AircraftQuery, AircraftQueryVariables>(
+    AircraftDocument,
+    options,
+  );
 }
-    `;
+export function useAircraftLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    AircraftQuery,
+    AircraftQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<AircraftQuery, AircraftQueryVariables>(
+    AircraftDocument,
+    options,
+  );
+}
+export type AircraftQueryHookResult = ReturnType<typeof useAircraftQuery>;
+export type AircraftLazyQueryHookResult = ReturnType<
+  typeof useAircraftLazyQuery
+>;
+export type AircraftQueryResult = Apollo.QueryResult<
+  AircraftQuery,
+  AircraftQueryVariables
+>;
+export function refetchAircraftQuery(variables: AircraftQueryVariables) {
+  return { query: AircraftDocument, variables: variables };
+}
+export const AircraftPositionDocument = gql`
+  query AircraftPosition($aircraftId: Float!) {
+    aircraftPosition(aircraftID: $aircraftId) {
+      id
+      aircraftID
+      latitude
+      longitude
+      altitude
+      flightYear
+      flightMonth
+      flightDate
+      flightNumber
+      airlineIata
+      originIata
+      destinationIata
+      createdAt
+      updatedAt
+    }
+  }
+`;
 
 /**
  * __useAircraftPositionQuery__
@@ -494,31 +893,56 @@ export const AircraftPositionDocument = gql`
  *   },
  * });
  */
-export function useAircraftPositionQuery(baseOptions: Apollo.QueryHookOptions<AircraftPositionQuery, AircraftPositionQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AircraftPositionQuery, AircraftPositionQueryVariables>(AircraftPositionDocument, options);
-      }
-export function useAircraftPositionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AircraftPositionQuery, AircraftPositionQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AircraftPositionQuery, AircraftPositionQueryVariables>(AircraftPositionDocument, options);
-        }
-export type AircraftPositionQueryHookResult = ReturnType<typeof useAircraftPositionQuery>;
-export type AircraftPositionLazyQueryHookResult = ReturnType<typeof useAircraftPositionLazyQuery>;
-export type AircraftPositionQueryResult = Apollo.QueryResult<AircraftPositionQuery, AircraftPositionQueryVariables>;
-export function refetchAircraftPositionQuery(variables: AircraftPositionQueryVariables) {
-      return { query: AircraftPositionDocument, variables: variables }
-    }
-export const AirlinesDocument = gql`
-    query Airlines {
-  airlines {
-    id
-    name
-    iata
-    logoCompactImageURL
-    logoCompactImageType
-  }
+export function useAircraftPositionQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    AircraftPositionQuery,
+    AircraftPositionQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<AircraftPositionQuery, AircraftPositionQueryVariables>(
+    AircraftPositionDocument,
+    options,
+  );
 }
-    `;
+export function useAircraftPositionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    AircraftPositionQuery,
+    AircraftPositionQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    AircraftPositionQuery,
+    AircraftPositionQueryVariables
+  >(AircraftPositionDocument, options);
+}
+export type AircraftPositionQueryHookResult = ReturnType<
+  typeof useAircraftPositionQuery
+>;
+export type AircraftPositionLazyQueryHookResult = ReturnType<
+  typeof useAircraftPositionLazyQuery
+>;
+export type AircraftPositionQueryResult = Apollo.QueryResult<
+  AircraftPositionQuery,
+  AircraftPositionQueryVariables
+>;
+export function refetchAircraftPositionQuery(
+  variables: AircraftPositionQueryVariables,
+) {
+  return { query: AircraftPositionDocument, variables: variables };
+}
+export const AirlinesDocument = gql`
+  query Airlines {
+    airlines {
+      id
+      name
+      iata
+      logoCompactImageURL
+      logoCompactImageType
+    }
+  }
+`;
 
 /**
  * __useAirlinesQuery__
@@ -535,33 +959,51 @@ export const AirlinesDocument = gql`
  *   },
  * });
  */
-export function useAirlinesQuery(baseOptions?: Apollo.QueryHookOptions<AirlinesQuery, AirlinesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AirlinesQuery, AirlinesQueryVariables>(AirlinesDocument, options);
-      }
-export function useAirlinesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AirlinesQuery, AirlinesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AirlinesQuery, AirlinesQueryVariables>(AirlinesDocument, options);
-        }
-export type AirlinesQueryHookResult = ReturnType<typeof useAirlinesQuery>;
-export type AirlinesLazyQueryHookResult = ReturnType<typeof useAirlinesLazyQuery>;
-export type AirlinesQueryResult = Apollo.QueryResult<AirlinesQuery, AirlinesQueryVariables>;
-export function refetchAirlinesQuery(variables?: AirlinesQueryVariables) {
-      return { query: AirlinesDocument, variables: variables }
-    }
-export const AirlineDocument = gql`
-    query Airline($iata: String!) {
-  airline(iata: $iata) {
-    id
-    name
-    iata
-    logoCompactImageURL
-    logoCompactImageType
-    logoFullImageURL
-    logoFullImageType
-  }
+export function useAirlinesQuery(
+  baseOptions?: Apollo.QueryHookOptions<AirlinesQuery, AirlinesQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<AirlinesQuery, AirlinesQueryVariables>(
+    AirlinesDocument,
+    options,
+  );
 }
-    `;
+export function useAirlinesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    AirlinesQuery,
+    AirlinesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<AirlinesQuery, AirlinesQueryVariables>(
+    AirlinesDocument,
+    options,
+  );
+}
+export type AirlinesQueryHookResult = ReturnType<typeof useAirlinesQuery>;
+export type AirlinesLazyQueryHookResult = ReturnType<
+  typeof useAirlinesLazyQuery
+>;
+export type AirlinesQueryResult = Apollo.QueryResult<
+  AirlinesQuery,
+  AirlinesQueryVariables
+>;
+export function refetchAirlinesQuery(variables?: AirlinesQueryVariables) {
+  return { query: AirlinesDocument, variables: variables };
+}
+export const AirlineDocument = gql`
+  query Airline($iata: String!) {
+    airline(iata: $iata) {
+      id
+      name
+      iata
+      logoCompactImageURL
+      logoCompactImageType
+      logoFullImageURL
+      logoFullImageType
+    }
+  }
+`;
 
 /**
  * __useAirlineQuery__
@@ -579,36 +1021,52 @@ export const AirlineDocument = gql`
  *   },
  * });
  */
-export function useAirlineQuery(baseOptions: Apollo.QueryHookOptions<AirlineQuery, AirlineQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AirlineQuery, AirlineQueryVariables>(AirlineDocument, options);
-      }
-export function useAirlineLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AirlineQuery, AirlineQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AirlineQuery, AirlineQueryVariables>(AirlineDocument, options);
-        }
+export function useAirlineQuery(
+  baseOptions: Apollo.QueryHookOptions<AirlineQuery, AirlineQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<AirlineQuery, AirlineQueryVariables>(
+    AirlineDocument,
+    options,
+  );
+}
+export function useAirlineLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    AirlineQuery,
+    AirlineQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<AirlineQuery, AirlineQueryVariables>(
+    AirlineDocument,
+    options,
+  );
+}
 export type AirlineQueryHookResult = ReturnType<typeof useAirlineQuery>;
 export type AirlineLazyQueryHookResult = ReturnType<typeof useAirlineLazyQuery>;
-export type AirlineQueryResult = Apollo.QueryResult<AirlineQuery, AirlineQueryVariables>;
+export type AirlineQueryResult = Apollo.QueryResult<
+  AirlineQuery,
+  AirlineQueryVariables
+>;
 export function refetchAirlineQuery(variables: AirlineQueryVariables) {
-      return { query: AirlineDocument, variables: variables }
-    }
-export const AirportDocument = gql`
-    query Airport($iata: String!) {
-  airport(iata: $iata) {
-    id
-    name
-    iata
-    cityName
-    cityCode
-    timezone
-    state
-    elevation
-    countryCode
-    countyName
-  }
+  return { query: AirlineDocument, variables: variables };
 }
-    `;
+export const AirportDocument = gql`
+  query Airport($iata: String!) {
+    airport(iata: $iata) {
+      id
+      name
+      iata
+      cityName
+      cityCode
+      timezone
+      state
+      elevation
+      countryCode
+      countyName
+    }
+  }
+`;
 
 /**
  * __useAirportQuery__
@@ -626,44 +1084,68 @@ export const AirportDocument = gql`
  *   },
  * });
  */
-export function useAirportQuery(baseOptions: Apollo.QueryHookOptions<AirportQuery, AirportQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AirportQuery, AirportQueryVariables>(AirportDocument, options);
-      }
-export function useAirportLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AirportQuery, AirportQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AirportQuery, AirportQueryVariables>(AirportDocument, options);
-        }
+export function useAirportQuery(
+  baseOptions: Apollo.QueryHookOptions<AirportQuery, AirportQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<AirportQuery, AirportQueryVariables>(
+    AirportDocument,
+    options,
+  );
+}
+export function useAirportLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    AirportQuery,
+    AirportQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<AirportQuery, AirportQueryVariables>(
+    AirportDocument,
+    options,
+  );
+}
 export type AirportQueryHookResult = ReturnType<typeof useAirportQuery>;
 export type AirportLazyQueryHookResult = ReturnType<typeof useAirportLazyQuery>;
-export type AirportQueryResult = Apollo.QueryResult<AirportQuery, AirportQueryVariables>;
+export type AirportQueryResult = Apollo.QueryResult<
+  AirportQuery,
+  AirportQueryVariables
+>;
 export function refetchAirportQuery(variables: AirportQueryVariables) {
-      return { query: AirportDocument, variables: variables }
-    }
-export const DebugFlightNoficationDocument = gql`
-    mutation debugFlightNofication($flightID: String!, $title: String!, $body: String!, $data: JSON) {
-  _sendFlightNotification(
-    flightID: $flightID
-    title: $title
-    body: $body
-    data: $data
-  )
+  return { query: AirportDocument, variables: variables };
 }
-    `;
-export type DebugFlightNoficationMutationFn = Apollo.MutationFunction<DebugFlightNoficationMutation, DebugFlightNoficationMutationVariables>;
+export const DebugFlightNotificationDocument = gql`
+  mutation debugFlightNotification(
+    $flightID: String!
+    $title: String!
+    $body: String!
+    $data: JSON
+  ) {
+    _sendFlightNotification(
+      flightID: $flightID
+      title: $title
+      body: $body
+      data: $data
+    )
+  }
+`;
+export type DebugFlightNotificationMutationFn = Apollo.MutationFunction<
+  DebugFlightNotificationMutation,
+  DebugFlightNotificationMutationVariables
+>;
 
 /**
- * __useDebugFlightNoficationMutation__
+ * __useDebugFlightNotificationMutation__
  *
- * To run a mutation, you first call `useDebugFlightNoficationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDebugFlightNoficationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDebugFlightNotificationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDebugFlightNotificationMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [debugFlightNoficationMutation, { data, loading, error }] = useDebugFlightNoficationMutation({
+ * const [debugFlightNotificationMutation, { data, loading, error }] = useDebugFlightNotificationMutation({
  *   variables: {
  *      flightID: // value for 'flightID'
  *      title: // value for 'title'
@@ -672,26 +1154,47 @@ export type DebugFlightNoficationMutationFn = Apollo.MutationFunction<DebugFligh
  *   },
  * });
  */
-export function useDebugFlightNoficationMutation(baseOptions?: Apollo.MutationHookOptions<DebugFlightNoficationMutation, DebugFlightNoficationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DebugFlightNoficationMutation, DebugFlightNoficationMutationVariables>(DebugFlightNoficationDocument, options);
-      }
-export type DebugFlightNoficationMutationHookResult = ReturnType<typeof useDebugFlightNoficationMutation>;
-export type DebugFlightNoficationMutationResult = Apollo.MutationResult<DebugFlightNoficationMutation>;
-export type DebugFlightNoficationMutationOptions = Apollo.BaseMutationOptions<DebugFlightNoficationMutation, DebugFlightNoficationMutationVariables>;
-export const FindFlightsDocument = gql`
-    query FindFlights($airlineIata: String!, $flightNumber: String!, $year: Float!, $month: Float!, $date: Float!) {
-  flights(
-    airlineIata: $airlineIata
-    flightNumber: $flightNumber
-    year: $year
-    month: $month
-    date: $date
-  ) {
-    ...FullFlightFragment
-  }
+export function useDebugFlightNotificationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DebugFlightNotificationMutation,
+    DebugFlightNotificationMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DebugFlightNotificationMutation,
+    DebugFlightNotificationMutationVariables
+  >(DebugFlightNotificationDocument, options);
 }
-    ${FullFlightFragmentFragmentDoc}`;
+export type DebugFlightNotificationMutationHookResult = ReturnType<
+  typeof useDebugFlightNotificationMutation
+>;
+export type DebugFlightNotificationMutationResult =
+  Apollo.MutationResult<DebugFlightNotificationMutation>;
+export type DebugFlightNotificationMutationOptions = Apollo.BaseMutationOptions<
+  DebugFlightNotificationMutation,
+  DebugFlightNotificationMutationVariables
+>;
+export const FindFlightsDocument = gql`
+  query FindFlights(
+    $airlineIata: String!
+    $flightNumber: String!
+    $year: Float!
+    $month: Float!
+    $date: Float!
+  ) {
+    flights(
+      airlineIata: $airlineIata
+      flightNumber: $flightNumber
+      year: $year
+      month: $month
+      date: $date
+    ) {
+      ...FullFlightFragment
+    }
+  }
+  ${FullFlightFragmentFragmentDoc}
+`;
 
 /**
  * __useFindFlightsQuery__
@@ -713,29 +1216,50 @@ export const FindFlightsDocument = gql`
  *   },
  * });
  */
-export function useFindFlightsQuery(baseOptions: Apollo.QueryHookOptions<FindFlightsQuery, FindFlightsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindFlightsQuery, FindFlightsQueryVariables>(FindFlightsDocument, options);
-      }
-export function useFindFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindFlightsQuery, FindFlightsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindFlightsQuery, FindFlightsQueryVariables>(FindFlightsDocument, options);
-        }
-export type FindFlightsQueryHookResult = ReturnType<typeof useFindFlightsQuery>;
-export type FindFlightsLazyQueryHookResult = ReturnType<typeof useFindFlightsLazyQuery>;
-export type FindFlightsQueryResult = Apollo.QueryResult<FindFlightsQuery, FindFlightsQueryVariables>;
-export function refetchFindFlightsQuery(variables: FindFlightsQueryVariables) {
-      return { query: FindFlightsDocument, variables: variables }
-    }
-export const GetFlightPromptnessDocument = gql`
-    query GetFlightPromptness($flightID: String!) {
-  flightPromptness(flightID: $flightID) {
-    onTimePercent
-    rating
-    averageDelayTimeMs
-  }
+export function useFindFlightsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindFlightsQuery,
+    FindFlightsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindFlightsQuery, FindFlightsQueryVariables>(
+    FindFlightsDocument,
+    options,
+  );
 }
-    `;
+export function useFindFlightsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindFlightsQuery,
+    FindFlightsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindFlightsQuery, FindFlightsQueryVariables>(
+    FindFlightsDocument,
+    options,
+  );
+}
+export type FindFlightsQueryHookResult = ReturnType<typeof useFindFlightsQuery>;
+export type FindFlightsLazyQueryHookResult = ReturnType<
+  typeof useFindFlightsLazyQuery
+>;
+export type FindFlightsQueryResult = Apollo.QueryResult<
+  FindFlightsQuery,
+  FindFlightsQueryVariables
+>;
+export function refetchFindFlightsQuery(variables: FindFlightsQueryVariables) {
+  return { query: FindFlightsDocument, variables: variables };
+}
+export const GetFlightPromptnessDocument = gql`
+  query GetFlightPromptness($flightID: String!) {
+    flightPromptness(flightID: $flightID) {
+      onTimePercent
+      rating
+      averageDelayTimeMs
+    }
+  }
+`;
 
 /**
  * __useGetFlightPromptnessQuery__
@@ -753,27 +1277,53 @@ export const GetFlightPromptnessDocument = gql`
  *   },
  * });
  */
-export function useGetFlightPromptnessQuery(baseOptions: Apollo.QueryHookOptions<GetFlightPromptnessQuery, GetFlightPromptnessQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetFlightPromptnessQuery, GetFlightPromptnessQueryVariables>(GetFlightPromptnessDocument, options);
-      }
-export function useGetFlightPromptnessLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFlightPromptnessQuery, GetFlightPromptnessQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetFlightPromptnessQuery, GetFlightPromptnessQueryVariables>(GetFlightPromptnessDocument, options);
-        }
-export type GetFlightPromptnessQueryHookResult = ReturnType<typeof useGetFlightPromptnessQuery>;
-export type GetFlightPromptnessLazyQueryHookResult = ReturnType<typeof useGetFlightPromptnessLazyQuery>;
-export type GetFlightPromptnessQueryResult = Apollo.QueryResult<GetFlightPromptnessQuery, GetFlightPromptnessQueryVariables>;
-export function refetchGetFlightPromptnessQuery(variables: GetFlightPromptnessQueryVariables) {
-      return { query: GetFlightPromptnessDocument, variables: variables }
-    }
-export const GetFlightDocument = gql`
-    query GetFlight($flightID: String!) {
-  flight(flightID: $flightID) {
-    ...FullFlightFragment
-  }
+export function useGetFlightPromptnessQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetFlightPromptnessQuery,
+    GetFlightPromptnessQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetFlightPromptnessQuery,
+    GetFlightPromptnessQueryVariables
+  >(GetFlightPromptnessDocument, options);
 }
-    ${FullFlightFragmentFragmentDoc}`;
+export function useGetFlightPromptnessLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFlightPromptnessQuery,
+    GetFlightPromptnessQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFlightPromptnessQuery,
+    GetFlightPromptnessQueryVariables
+  >(GetFlightPromptnessDocument, options);
+}
+export type GetFlightPromptnessQueryHookResult = ReturnType<
+  typeof useGetFlightPromptnessQuery
+>;
+export type GetFlightPromptnessLazyQueryHookResult = ReturnType<
+  typeof useGetFlightPromptnessLazyQuery
+>;
+export type GetFlightPromptnessQueryResult = Apollo.QueryResult<
+  GetFlightPromptnessQuery,
+  GetFlightPromptnessQueryVariables
+>;
+export function refetchGetFlightPromptnessQuery(
+  variables: GetFlightPromptnessQueryVariables,
+) {
+  return { query: GetFlightPromptnessDocument, variables: variables };
+}
+export const GetFlightDocument = gql`
+  query GetFlight($flightID: String!) {
+    flight(flightID: $flightID) {
+      ...FullFlightFragment
+    }
+  }
+  ${FullFlightFragmentFragmentDoc}
+`;
 
 /**
  * __useGetFlightQuery__
@@ -791,27 +1341,46 @@ export const GetFlightDocument = gql`
  *   },
  * });
  */
-export function useGetFlightQuery(baseOptions: Apollo.QueryHookOptions<GetFlightQuery, GetFlightQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetFlightQuery, GetFlightQueryVariables>(GetFlightDocument, options);
-      }
-export function useGetFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFlightQuery, GetFlightQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetFlightQuery, GetFlightQueryVariables>(GetFlightDocument, options);
-        }
-export type GetFlightQueryHookResult = ReturnType<typeof useGetFlightQuery>;
-export type GetFlightLazyQueryHookResult = ReturnType<typeof useGetFlightLazyQuery>;
-export type GetFlightQueryResult = Apollo.QueryResult<GetFlightQuery, GetFlightQueryVariables>;
-export function refetchGetFlightQuery(variables: GetFlightQueryVariables) {
-      return { query: GetFlightDocument, variables: variables }
-    }
-export const GetRandomFlightDocument = gql`
-    query GetRandomFlight {
-  randomFlight {
-    ...FullFlightFragment
-  }
+export function useGetFlightQuery(
+  baseOptions: Apollo.QueryHookOptions<GetFlightQuery, GetFlightQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetFlightQuery, GetFlightQueryVariables>(
+    GetFlightDocument,
+    options,
+  );
 }
-    ${FullFlightFragmentFragmentDoc}`;
+export function useGetFlightLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFlightQuery,
+    GetFlightQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetFlightQuery, GetFlightQueryVariables>(
+    GetFlightDocument,
+    options,
+  );
+}
+export type GetFlightQueryHookResult = ReturnType<typeof useGetFlightQuery>;
+export type GetFlightLazyQueryHookResult = ReturnType<
+  typeof useGetFlightLazyQuery
+>;
+export type GetFlightQueryResult = Apollo.QueryResult<
+  GetFlightQuery,
+  GetFlightQueryVariables
+>;
+export function refetchGetFlightQuery(variables: GetFlightQueryVariables) {
+  return { query: GetFlightDocument, variables: variables };
+}
+export const GetRandomFlightDocument = gql`
+  query GetRandomFlight {
+    randomFlight {
+      ...FullFlightFragment
+    }
+  }
+  ${FullFlightFragmentFragmentDoc}
+`;
 
 /**
  * __useGetRandomFlightQuery__
@@ -828,33 +1397,59 @@ export const GetRandomFlightDocument = gql`
  *   },
  * });
  */
-export function useGetRandomFlightQuery(baseOptions?: Apollo.QueryHookOptions<GetRandomFlightQuery, GetRandomFlightQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetRandomFlightQuery, GetRandomFlightQueryVariables>(GetRandomFlightDocument, options);
-      }
-export function useGetRandomFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRandomFlightQuery, GetRandomFlightQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetRandomFlightQuery, GetRandomFlightQueryVariables>(GetRandomFlightDocument, options);
-        }
-export type GetRandomFlightQueryHookResult = ReturnType<typeof useGetRandomFlightQuery>;
-export type GetRandomFlightLazyQueryHookResult = ReturnType<typeof useGetRandomFlightLazyQuery>;
-export type GetRandomFlightQueryResult = Apollo.QueryResult<GetRandomFlightQuery, GetRandomFlightQueryVariables>;
-export function refetchGetRandomFlightQuery(variables?: GetRandomFlightQueryVariables) {
-      return { query: GetRandomFlightDocument, variables: variables }
-    }
+export function useGetRandomFlightQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetRandomFlightQuery,
+    GetRandomFlightQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetRandomFlightQuery, GetRandomFlightQueryVariables>(
+    GetRandomFlightDocument,
+    options,
+  );
+}
+export function useGetRandomFlightLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRandomFlightQuery,
+    GetRandomFlightQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRandomFlightQuery,
+    GetRandomFlightQueryVariables
+  >(GetRandomFlightDocument, options);
+}
+export type GetRandomFlightQueryHookResult = ReturnType<
+  typeof useGetRandomFlightQuery
+>;
+export type GetRandomFlightLazyQueryHookResult = ReturnType<
+  typeof useGetRandomFlightLazyQuery
+>;
+export type GetRandomFlightQueryResult = Apollo.QueryResult<
+  GetRandomFlightQuery,
+  GetRandomFlightQueryVariables
+>;
+export function refetchGetRandomFlightQuery(
+  variables?: GetRandomFlightQueryVariables,
+) {
+  return { query: GetRandomFlightDocument, variables: variables };
+}
 export const GetUserActiveFlightsDocument = gql`
-    query GetUserActiveFlights {
-  userActiveFlights {
-    id
-    flightID
-    createdAt
-    shouldAlert
-    Flight {
-      ...FullFlightFragment
+  query GetUserActiveFlights {
+    userActiveFlights {
+      id
+      flightID
+      createdAt
+      shouldAlert
+      Flight {
+        ...FullFlightFragment
+      }
     }
   }
-}
-    ${FullFlightFragmentFragmentDoc}`;
+  ${FullFlightFragmentFragmentDoc}
+`;
 
 /**
  * __useGetUserActiveFlightsQuery__
@@ -871,32 +1466,58 @@ export const GetUserActiveFlightsDocument = gql`
  *   },
  * });
  */
-export function useGetUserActiveFlightsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserActiveFlightsQuery, GetUserActiveFlightsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserActiveFlightsQuery, GetUserActiveFlightsQueryVariables>(GetUserActiveFlightsDocument, options);
-      }
-export function useGetUserActiveFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserActiveFlightsQuery, GetUserActiveFlightsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserActiveFlightsQuery, GetUserActiveFlightsQueryVariables>(GetUserActiveFlightsDocument, options);
-        }
-export type GetUserActiveFlightsQueryHookResult = ReturnType<typeof useGetUserActiveFlightsQuery>;
-export type GetUserActiveFlightsLazyQueryHookResult = ReturnType<typeof useGetUserActiveFlightsLazyQuery>;
-export type GetUserActiveFlightsQueryResult = Apollo.QueryResult<GetUserActiveFlightsQuery, GetUserActiveFlightsQueryVariables>;
-export function refetchGetUserActiveFlightsQuery(variables?: GetUserActiveFlightsQueryVariables) {
-      return { query: GetUserActiveFlightsDocument, variables: variables }
-    }
+export function useGetUserActiveFlightsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetUserActiveFlightsQuery,
+    GetUserActiveFlightsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetUserActiveFlightsQuery,
+    GetUserActiveFlightsQueryVariables
+  >(GetUserActiveFlightsDocument, options);
+}
+export function useGetUserActiveFlightsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserActiveFlightsQuery,
+    GetUserActiveFlightsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserActiveFlightsQuery,
+    GetUserActiveFlightsQueryVariables
+  >(GetUserActiveFlightsDocument, options);
+}
+export type GetUserActiveFlightsQueryHookResult = ReturnType<
+  typeof useGetUserActiveFlightsQuery
+>;
+export type GetUserActiveFlightsLazyQueryHookResult = ReturnType<
+  typeof useGetUserActiveFlightsLazyQuery
+>;
+export type GetUserActiveFlightsQueryResult = Apollo.QueryResult<
+  GetUserActiveFlightsQuery,
+  GetUserActiveFlightsQueryVariables
+>;
+export function refetchGetUserActiveFlightsQuery(
+  variables?: GetUserActiveFlightsQueryVariables,
+) {
+  return { query: GetUserActiveFlightsDocument, variables: variables };
+}
 export const GetUserArchivedFlightsDocument = gql`
-    query GetUserArchivedFlights {
-  userArchivedFlights {
-    id
-    flightID
-    createdAt
-    Flight {
-      ...FullFlightFragment
+  query GetUserArchivedFlights {
+    userArchivedFlights {
+      id
+      flightID
+      createdAt
+      Flight {
+        ...FullFlightFragment
+      }
     }
   }
-}
-    ${FullFlightFragmentFragmentDoc}`;
+  ${FullFlightFragmentFragmentDoc}
+`;
 
 /**
  * __useGetUserArchivedFlightsQuery__
@@ -913,26 +1534,54 @@ export const GetUserArchivedFlightsDocument = gql`
  *   },
  * });
  */
-export function useGetUserArchivedFlightsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserArchivedFlightsQuery, GetUserArchivedFlightsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserArchivedFlightsQuery, GetUserArchivedFlightsQueryVariables>(GetUserArchivedFlightsDocument, options);
-      }
-export function useGetUserArchivedFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserArchivedFlightsQuery, GetUserArchivedFlightsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserArchivedFlightsQuery, GetUserArchivedFlightsQueryVariables>(GetUserArchivedFlightsDocument, options);
-        }
-export type GetUserArchivedFlightsQueryHookResult = ReturnType<typeof useGetUserArchivedFlightsQuery>;
-export type GetUserArchivedFlightsLazyQueryHookResult = ReturnType<typeof useGetUserArchivedFlightsLazyQuery>;
-export type GetUserArchivedFlightsQueryResult = Apollo.QueryResult<GetUserArchivedFlightsQuery, GetUserArchivedFlightsQueryVariables>;
-export function refetchGetUserArchivedFlightsQuery(variables?: GetUserArchivedFlightsQueryVariables) {
-      return { query: GetUserArchivedFlightsDocument, variables: variables }
-    }
-export const AddUserFlightDocument = gql`
-    mutation AddUserFlight($flightID: String!) {
-  addUserFlight(flightID: $flightID)
+export function useGetUserArchivedFlightsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetUserArchivedFlightsQuery,
+    GetUserArchivedFlightsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetUserArchivedFlightsQuery,
+    GetUserArchivedFlightsQueryVariables
+  >(GetUserArchivedFlightsDocument, options);
 }
-    `;
-export type AddUserFlightMutationFn = Apollo.MutationFunction<AddUserFlightMutation, AddUserFlightMutationVariables>;
+export function useGetUserArchivedFlightsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserArchivedFlightsQuery,
+    GetUserArchivedFlightsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserArchivedFlightsQuery,
+    GetUserArchivedFlightsQueryVariables
+  >(GetUserArchivedFlightsDocument, options);
+}
+export type GetUserArchivedFlightsQueryHookResult = ReturnType<
+  typeof useGetUserArchivedFlightsQuery
+>;
+export type GetUserArchivedFlightsLazyQueryHookResult = ReturnType<
+  typeof useGetUserArchivedFlightsLazyQuery
+>;
+export type GetUserArchivedFlightsQueryResult = Apollo.QueryResult<
+  GetUserArchivedFlightsQuery,
+  GetUserArchivedFlightsQueryVariables
+>;
+export function refetchGetUserArchivedFlightsQuery(
+  variables?: GetUserArchivedFlightsQueryVariables,
+) {
+  return { query: GetUserArchivedFlightsDocument, variables: variables };
+}
+export const AddUserFlightDocument = gql`
+  mutation AddUserFlight($flightID: String!) {
+    addUserFlight(flightID: $flightID)
+  }
+`;
+export type AddUserFlightMutationFn = Apollo.MutationFunction<
+  AddUserFlightMutation,
+  AddUserFlightMutationVariables
+>;
 
 /**
  * __useAddUserFlightMutation__
@@ -951,19 +1600,36 @@ export type AddUserFlightMutationFn = Apollo.MutationFunction<AddUserFlightMutat
  *   },
  * });
  */
-export function useAddUserFlightMutation(baseOptions?: Apollo.MutationHookOptions<AddUserFlightMutation, AddUserFlightMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddUserFlightMutation, AddUserFlightMutationVariables>(AddUserFlightDocument, options);
-      }
-export type AddUserFlightMutationHookResult = ReturnType<typeof useAddUserFlightMutation>;
-export type AddUserFlightMutationResult = Apollo.MutationResult<AddUserFlightMutation>;
-export type AddUserFlightMutationOptions = Apollo.BaseMutationOptions<AddUserFlightMutation, AddUserFlightMutationVariables>;
-export const DeleteUserFlightDocument = gql`
-    mutation DeleteUserFlight($flightID: String!) {
-  deleteUserFlight(flightID: $flightID)
+export function useAddUserFlightMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddUserFlightMutation,
+    AddUserFlightMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    AddUserFlightMutation,
+    AddUserFlightMutationVariables
+  >(AddUserFlightDocument, options);
 }
-    `;
-export type DeleteUserFlightMutationFn = Apollo.MutationFunction<DeleteUserFlightMutation, DeleteUserFlightMutationVariables>;
+export type AddUserFlightMutationHookResult = ReturnType<
+  typeof useAddUserFlightMutation
+>;
+export type AddUserFlightMutationResult =
+  Apollo.MutationResult<AddUserFlightMutation>;
+export type AddUserFlightMutationOptions = Apollo.BaseMutationOptions<
+  AddUserFlightMutation,
+  AddUserFlightMutationVariables
+>;
+export const DeleteUserFlightDocument = gql`
+  mutation DeleteUserFlight($flightID: String!) {
+    deleteUserFlight(flightID: $flightID)
+  }
+`;
+export type DeleteUserFlightMutationFn = Apollo.MutationFunction<
+  DeleteUserFlightMutation,
+  DeleteUserFlightMutationVariables
+>;
 
 /**
  * __useDeleteUserFlightMutation__
@@ -982,18 +1648,32 @@ export type DeleteUserFlightMutationFn = Apollo.MutationFunction<DeleteUserFligh
  *   },
  * });
  */
-export function useDeleteUserFlightMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserFlightMutation, DeleteUserFlightMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteUserFlightMutation, DeleteUserFlightMutationVariables>(DeleteUserFlightDocument, options);
-      }
-export type DeleteUserFlightMutationHookResult = ReturnType<typeof useDeleteUserFlightMutation>;
-export type DeleteUserFlightMutationResult = Apollo.MutationResult<DeleteUserFlightMutation>;
-export type DeleteUserFlightMutationOptions = Apollo.BaseMutationOptions<DeleteUserFlightMutation, DeleteUserFlightMutationVariables>;
-export const UserHasFlightsDocument = gql`
-    query UserHasFlights {
-  userHasFlights
+export function useDeleteUserFlightMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteUserFlightMutation,
+    DeleteUserFlightMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteUserFlightMutation,
+    DeleteUserFlightMutationVariables
+  >(DeleteUserFlightDocument, options);
 }
-    `;
+export type DeleteUserFlightMutationHookResult = ReturnType<
+  typeof useDeleteUserFlightMutation
+>;
+export type DeleteUserFlightMutationResult =
+  Apollo.MutationResult<DeleteUserFlightMutation>;
+export type DeleteUserFlightMutationOptions = Apollo.BaseMutationOptions<
+  DeleteUserFlightMutation,
+  DeleteUserFlightMutationVariables
+>;
+export const UserHasFlightsDocument = gql`
+  query UserHasFlights {
+    userHasFlights
+  }
+`;
 
 /**
  * __useUserHasFlightsQuery__
@@ -1010,28 +1690,53 @@ export const UserHasFlightsDocument = gql`
  *   },
  * });
  */
-export function useUserHasFlightsQuery(baseOptions?: Apollo.QueryHookOptions<UserHasFlightsQuery, UserHasFlightsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserHasFlightsQuery, UserHasFlightsQueryVariables>(UserHasFlightsDocument, options);
-      }
-export function useUserHasFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserHasFlightsQuery, UserHasFlightsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserHasFlightsQuery, UserHasFlightsQueryVariables>(UserHasFlightsDocument, options);
-        }
-export type UserHasFlightsQueryHookResult = ReturnType<typeof useUserHasFlightsQuery>;
-export type UserHasFlightsLazyQueryHookResult = ReturnType<typeof useUserHasFlightsLazyQuery>;
-export type UserHasFlightsQueryResult = Apollo.QueryResult<UserHasFlightsQuery, UserHasFlightsQueryVariables>;
-export function refetchUserHasFlightsQuery(variables?: UserHasFlightsQueryVariables) {
-      return { query: UserHasFlightsDocument, variables: variables }
-    }
-export const UserFlightDocument = gql`
-    query UserFlight($flightID: String!) {
-  userFlight(flightID: $flightID) {
-    id
-    shouldAlert
-  }
+export function useUserHasFlightsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    UserHasFlightsQuery,
+    UserHasFlightsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<UserHasFlightsQuery, UserHasFlightsQueryVariables>(
+    UserHasFlightsDocument,
+    options,
+  );
 }
-    `;
+export function useUserHasFlightsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UserHasFlightsQuery,
+    UserHasFlightsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<UserHasFlightsQuery, UserHasFlightsQueryVariables>(
+    UserHasFlightsDocument,
+    options,
+  );
+}
+export type UserHasFlightsQueryHookResult = ReturnType<
+  typeof useUserHasFlightsQuery
+>;
+export type UserHasFlightsLazyQueryHookResult = ReturnType<
+  typeof useUserHasFlightsLazyQuery
+>;
+export type UserHasFlightsQueryResult = Apollo.QueryResult<
+  UserHasFlightsQuery,
+  UserHasFlightsQueryVariables
+>;
+export function refetchUserHasFlightsQuery(
+  variables?: UserHasFlightsQueryVariables,
+) {
+  return { query: UserHasFlightsDocument, variables: variables };
+}
+export const UserFlightDocument = gql`
+  query UserFlight($flightID: String!) {
+    userFlight(flightID: $flightID) {
+      id
+      shouldAlert
+    }
+  }
+`;
 
 /**
  * __useUserFlightQuery__
@@ -1049,17 +1754,38 @@ export const UserFlightDocument = gql`
  *   },
  * });
  */
-export function useUserFlightQuery(baseOptions: Apollo.QueryHookOptions<UserFlightQuery, UserFlightQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserFlightQuery, UserFlightQueryVariables>(UserFlightDocument, options);
-      }
-export function useUserFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserFlightQuery, UserFlightQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserFlightQuery, UserFlightQueryVariables>(UserFlightDocument, options);
-        }
+export function useUserFlightQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    UserFlightQuery,
+    UserFlightQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<UserFlightQuery, UserFlightQueryVariables>(
+    UserFlightDocument,
+    options,
+  );
+}
+export function useUserFlightLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UserFlightQuery,
+    UserFlightQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<UserFlightQuery, UserFlightQueryVariables>(
+    UserFlightDocument,
+    options,
+  );
+}
 export type UserFlightQueryHookResult = ReturnType<typeof useUserFlightQuery>;
-export type UserFlightLazyQueryHookResult = ReturnType<typeof useUserFlightLazyQuery>;
-export type UserFlightQueryResult = Apollo.QueryResult<UserFlightQuery, UserFlightQueryVariables>;
+export type UserFlightLazyQueryHookResult = ReturnType<
+  typeof useUserFlightLazyQuery
+>;
+export type UserFlightQueryResult = Apollo.QueryResult<
+  UserFlightQuery,
+  UserFlightQueryVariables
+>;
 export function refetchUserFlightQuery(variables: UserFlightQueryVariables) {
-      return { query: UserFlightDocument, variables: variables }
-    }
+  return { query: UserFlightDocument, variables: variables };
+}

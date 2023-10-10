@@ -1,32 +1,40 @@
-import * as React from 'react';
-
 import type { StyleProp, ViewStyle } from 'react-native';
-import {
+
+import * as React from 'react';
+import { TextInput } from 'react-native';
+import Animated, {
+  FadeIn,
+  FadeOut,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 
+import mergeRefs from 'merge-refs';
+
+import type { SpaceKeys } from '@app/themes';
+
+import { IS_ANDROID } from '@app/lib/platform';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
-import { IS_ANDROID } from '@app/lib/platform';
-import type { SpaceKeys } from '@app/themes';
-import { TextInput } from 'react-native';
-import { CheckIcon } from '../icon.check';
-import { MaterialIcon } from '../icons.material';
+
+import { styled } from '../../lib/styled';
+import { InputPublisher } from './publisher';
+import { FaIcon } from '../icons.fontawesome';
+import { AnimatedTouchable } from '../animated.touchable';
 
 type Props = {
-  value?: string;
-  onChange?: (value: Props['value']) => void;
-  hasErrors?: boolean;
-  size?: SpaceKeys;
+  allowClear?: boolean;
+  debug?: boolean;
   disabled?: boolean;
+  hasErrors?: boolean;
+  inputStyle?: StyleProp<ViewStyle>;
+  onChange?: (value: Props['value']) => void;
   postfix?: React.ReactElement;
   prefix?: React.ReactElement;
-  inputStyle?: StyleProp<ViewStyle>;
-  allowClear?: boolean;
+  size?: SpaceKeys;
+  value?: string;
   withFeedback?: boolean;
-  debug?: boolean;
 } & Omit<
   React.ComponentProps<typeof TextInput>,
   'onChange' | 'onChangeText' | 'size'
@@ -35,24 +43,26 @@ type Props = {
 export const Input = React.forwardRef<TextInput, Props>(
   (
     {
-      value,
-      hasErrors,
-      size = 'medium',
-      withFeedback,
-      onChange,
+      allowClear,
+      defaultValue,
       disabled,
+      hasErrors,
+      inputMode,
       inputStyle,
+      onChange,
+      placeholder,
       postfix,
       prefix,
-      allowClear,
-      inputMode,
-      placeholder,
-      defaultValue,
+      size,
+      value,
+      withFeedback,
       ...props
     },
     ref,
   ) => {
     const theme = useTheme();
+    const input = React.useRef<TextInput>(null);
+    const [showClear, setShowClear] = React.useState(false);
     const isFocused = useSharedValue(false);
     const animatedStyle = useAnimatedStyle(() => {
       return {
@@ -61,30 +71,36 @@ export const Input = React.forwardRef<TextInput, Props>(
             ? theme.pallette.danger
             : isFocused.value
             ? theme.pallette.active
-            : theme.pallette.grey[50],
+            : theme.pallette.borderColor,
         ),
       };
     });
 
     const handleClear = () => {
-      vibrate('impactMedium');
-      onChange?.(undefined);
+      vibrate('effectClick');
+      input.current?.clear();
     };
 
     const handleChange = (nextValue?: string) => {
       if (!disabled) {
         onChange?.(nextValue);
       }
+
+      if (nextValue && !showClear) {
+        setShowClear(Boolean(allowClear && nextValue));
+      }
     };
 
     const handleBlur: Props['onBlur'] = (event) => {
       isFocused.value = false;
       props.onBlur?.(event);
+      setShowClear(false);
     };
 
     const handleFocus: Props['onFocus'] = (event) => {
       isFocused.value = true;
       props.onFocus?.(event);
+      setShowClear(Boolean(allowClear && event.nativeEvent.text));
     };
 
     const handleSubmit: Props['onSubmitEditing'] = (event) => {
@@ -94,32 +110,41 @@ export const Input = React.forwardRef<TextInput, Props>(
 
     return (
       <Container
+        disabled={disabled}
         size={size}
         style={[animatedStyle, props.style]}
-        disabled={disabled}
       >
         {prefix}
         <StyledInput
           {...props}
-          ref={ref}
+          //TODO: Clear button is not visible in dark mode
+          clearButtonMode={allowClear ? 'while-editing' : 'never'}
           defaultValue={defaultValue}
-          placeholder={placeholder}
-          inputMode={inputMode}
           editable={!disabled}
-          value={value}
-          onFocus={handleFocus}
+          inputMode={inputMode}
+          keyboardAppearance={theme.isDark ? 'dark' : 'light'}
           onBlur={handleBlur}
           onChangeText={handleChange}
-          clearButtonMode="while-editing"
-          placeholderTextColor={theme.pallette.grey[400]}
-          style={[inputStyle]}
+          onFocus={handleFocus}
           onSubmitEditing={handleSubmit}
+          placeholder={placeholder}
+          placeholderTextColor={theme.pallette.grey[200]}
+          ref={mergeRefs(ref, input)}
+          style={[inputStyle]}
+          value={value}
         />
         {postfix}
-        {value && withFeedback && !hasErrors && <CheckIcon />}
-        {allowClear && value && IS_ANDROID && (
-          <ClearContainer onPress={handleClear}>
-            <MaterialIcon name="close-circle" />
+        {value && withFeedback && !hasErrors && (
+          <FaIcon color={theme.pallette.successLight} name="check-circle" />
+        )}
+        {IS_ANDROID && showClear && (
+          <ClearContainer
+            activeOpacity={1}
+            entering={FadeIn.delay(1000)}
+            exiting={FadeOut}
+            onPress={handleClear}
+          >
+            <FaIcon name="circle-xmark" size={20} solid />
           </ClearContainer>
         )}
       </Container>
@@ -127,32 +152,26 @@ export const Input = React.forwardRef<TextInput, Props>(
   },
 );
 
-import { TouchableOpacity } from 'react-native';
-import Animated from 'react-native-reanimated';
-import { styled } from '../../lib/styled';
-import { InputPublisher } from './publisher';
-
 const Container = styled<
-  Pick<Props, 'size' | 'disabled'>,
+  Pick<Props, 'disabled' | 'size'>,
   typeof Animated.View
 >(Animated.View, (theme, props) => [
   theme.presets.outlinedBox,
   {
-    borderRadius: 100,
-    paddingHorizontal: theme.space.small,
-    paddingVertical: theme.space.tiny,
-    justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 100,
     flexDirection: 'row',
-    gap: theme.space.small,
     flexGrow: 1,
-    backgroundColor: theme.pallette.grey[50],
+    gap: theme.space.small,
+    justifyContent: 'center',
+    paddingHorizontal: theme.space.medium,
+    paddingVertical: theme.space.small,
   },
   props.disabled && {
     opacity: 0.5,
   },
   props.size === 'medium' && {
-    paddingVertical: theme.space.small,
+    paddingVertical: theme.space.medium,
   },
   props.size === 'tiny' && {
     paddingVertical: theme.space.tiny,
@@ -162,8 +181,8 @@ const Container = styled<
 const StyledInput = styled<Pick<Props, 'size'>, typeof TextInput>(
   TextInput,
   (theme, props) => [
+    theme.typography.presets.p1,
     {
-      fontSize: theme.typography.presets.p1.fontSize,
       flexGrow: 1,
     },
     props.size === 'large' && {
@@ -172,4 +191,10 @@ const StyledInput = styled<Pick<Props, 'size'>, typeof TextInput>(
   ],
 );
 
-const ClearContainer = styled(TouchableOpacity, () => ({}));
+const ClearContainer = styled(AnimatedTouchable, (theme) => [
+  {
+    flexDirection: 'row',
+    position: 'absolute',
+    right: theme.space.medium,
+  },
+]);

@@ -1,5 +1,9 @@
 import * as React from 'react';
 
+import { isNil } from 'lodash';
+import * as ting from '@baronha/ting';
+
+import { vibrate } from '@app/lib/haptic.feedback';
 import {
   GetUserActiveFlightsDocument,
   UserHasFlightsDocument,
@@ -7,14 +11,8 @@ import {
   useDeleteUserFlightMutation,
   useUserFlightQuery,
 } from '@app/generated/server.gql';
-import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 
-import { vibrate } from '@app/lib/haptic.feedback';
-import { useTheme } from '@app/lib/hooks/use.theme';
-import { styled } from '@app/lib/styled';
-import * as ting from '@baronha/ting';
-import { isNil } from 'lodash';
-import { FaIcon } from '../icons.fontawesome';
+import { Button } from '../button';
 
 type Props = {
   flightID: string;
@@ -30,40 +28,39 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
   });
 
   const [add] = useAddUserFlightMutation({
-    variables: {
-      flightID,
-    },
-    refetchQueries: [
-      { query: GetUserActiveFlightsDocument },
-      { query: UserHasFlightsDocument },
-    ],
     onCompleted() {
       ting.toast({
         title: 'Flight Added!',
       });
     },
-  });
-  const [remove] = useDeleteUserFlightMutation({
-    variables: {
-      flightID,
-    },
     refetchQueries: [
       { query: GetUserActiveFlightsDocument },
       { query: UserHasFlightsDocument },
     ],
+    variables: {
+      flightID,
+    },
+  });
+  const [remove] = useDeleteUserFlightMutation({
     onCompleted() {
       ting.toast({
         title: 'Flight Removed!',
       });
     },
+    refetchQueries: [
+      { query: GetUserActiveFlightsDocument },
+      { query: UserHasFlightsDocument },
+    ],
+    variables: {
+      flightID,
+    },
   });
 
-  const theme = useTheme();
   const isSaved = !isNil(userFlightResp.data?.userFlight?.id);
   const isLoading = userFlightResp.loading || loading;
-  const [label, backgroundColor, color] = isSaved
-    ? ['Saved', theme.pallette.active, theme.pallette.white]
-    : ['Save', theme.pallette.grey[100], theme.typography.color];
+  const [label, type] = isSaved
+    ? (['Saved', 'primary'] as const)
+    : (['Save', 'default'] as const);
 
   const handlePress = async () => {
     vibrate('impactHeavy');
@@ -74,46 +71,17 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
   };
 
   return (
-    <>
-      <Btn
-        isSaved={isSaved}
-        backgroundColor={backgroundColor}
-        disabled={isLoading}
-        onPress={handlePress}
-      >
-        {loading ? (
-          <ActivityIndicator size="small" color={color} />
-        ) : (
-          <>
-            <FaIcon name="bookmark" solid={isSaved} color={color} />
-            <BtnText style={[{ color }]}>{label}</BtnText>
-          </>
-        )}
-      </Btn>
-    </>
+    <Button
+      hasShadow={isSaved}
+      icon="bookmark"
+      iconProps={{ light: !isSaved }}
+      isBold={isSaved}
+      isLoading={isLoading}
+      isSolid={isSaved}
+      onPress={handlePress}
+      type={type}
+    >
+      {label}
+    </Button>
   );
 };
-
-const Btn = styled<
-  {
-    isSaved: boolean;
-    backgroundColor: string;
-  },
-  typeof TouchableOpacity
->(TouchableOpacity, (theme, props) => [
-  theme.presets.centered,
-  theme.presets.shadows[100],
-  {
-    minWidth: 75,
-    flexDirection: 'row',
-    gap: theme.space.tiny,
-    borderRadius: theme.borderRadius,
-    paddingHorizontal: theme.space.small,
-    paddingVertical: 4,
-    shadowOpacity: props.isSaved ? 0.3 : 0,
-    backgroundColor: props.backgroundColor,
-    shadowColor: props.backgroundColor,
-  },
-]);
-
-const BtnText = styled(Text, (theme) => [theme.typography.presets.p2]);

@@ -1,21 +1,22 @@
 import * as React from 'react';
-
 import { Text, View } from 'react-native';
 
-import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
-import { DOT_SEPARATOR } from '@app/constants';
-import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
-import { styled } from '@app/lib/styled';
 import moment from 'moment';
+
+import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
+
+import { styled } from '@app/lib/styled';
+import { DOT_SEPARATOR } from '@app/constants';
+import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
 
 type Props = {
   flight: Pick<
     FullFlightFragmentFragment,
-    | 'flightNumber'
     | 'Airline'
+    | 'Origin'
     | 'airlineIata'
     | 'estimatedGateDeparture'
-    | 'Origin'
+    | 'flightNumber'
   >;
 };
 
@@ -27,9 +28,7 @@ export const FlightMeta: React.FC<Props> = ({ flight }) => {
         <AirlineName>{flight.Airline.name}</AirlineName>
         <Ticket>
           <FlightNumber>
-            <FlightText style={{ fontWeight: 'bold' }}>
-              {flight.airlineIata}
-            </FlightText>
+            <FlightText>{flight.airlineIata}</FlightText>
             <FlightText>{flight.flightNumber}</FlightText>
           </FlightNumber>
           <FlightText>{DOT_SEPARATOR}</FlightText>
@@ -61,14 +60,14 @@ const FlightNumber = styled(View, () => [
 const FlightText = styled(Text, (theme) => [
   theme.typography.presets.p2,
   {
-    color: theme.typography.secondaryColor,
+    color: theme.pallette.textSecondary,
   },
 ]);
 
 const Ticket = styled(View, () => [
   {
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
   },
 ]);
 

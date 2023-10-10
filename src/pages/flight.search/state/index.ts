@@ -1,18 +1,17 @@
 import { createStore, createStoreHook } from 'tiamut';
 
 type _State = {
-  flightNumber?: string;
   airlineIata?: string;
   departureDate?: Date;
-  textSearch?: string;
+  flightNumber?: string;
   focusInput?: Exclude<keyof _State, 'focusInput'>;
+  textSearch?: string;
 };
 
 const initialState: _State = {};
 
 export const State = createStoreHook(
   createStore({
-    initialState,
     actions: {
       reset(_) {
         return initialState;
@@ -21,5 +20,6 @@ export const State = createStoreHook(
         return { ...state, ...nextState };
       },
     },
+    initialState,
   }),
 );

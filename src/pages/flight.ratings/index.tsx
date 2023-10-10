@@ -1,17 +1,19 @@
-import * as React from 'react';
+import type { RouteProp } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+import * as React from 'react';
 import { ScrollView, View } from 'react-native';
+
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import type { FlightStackParams } from '@app/stacks/flight.stack';
-import { LoadingContainer } from '@app/components/loading.container';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { PageContainer } from '@app/components/page.container';
-import { PageHeader } from '@app/components/page.header';
-import type { RouteProp } from '@react-navigation/native';
+import type { FlightStackParams } from '@app/navigation/flight.stack';
+
 import { styled } from '@app/lib/styled';
-import { useGetFlightQuery } from '@app/generated/server.gql';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { PageHeader } from '@app/components/page.header';
+import { useGetFlightQuery } from '@app/generated/server.gql';
+import { PageContainer } from '@app/components/page.container';
+import { LoadingContainer } from '@app/components/loading.container';
 
 type Navigation = NativeStackNavigationProp<FlightStackParams, 'Ratings'>;
 type Route = RouteProp<FlightStackParams, 'Ratings'>;
@@ -35,17 +37,17 @@ export const FlightRatingsPage: React.FC = () => {
   return (
     <PageContainer>
       <ScrollView
-        stickyHeaderIndices={[0]}
         contentContainerStyle={{ flexGrow: 1 }}
+        stickyHeaderIndices={[0]}
       >
         <PageHeader
-          withBack
-          withoutInsets
           onPressBack={handleBack}
           title={
             flight.data &&
             `${flight.data.flight.airlineIata}${flight.data.flight.flightNumber} Ratings`
           }
+          withBack
+          withoutInsets
         />
         <Content>
           <LoadingContainer>

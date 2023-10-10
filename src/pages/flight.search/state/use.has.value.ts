@@ -11,6 +11,6 @@ export function useHasValue<
   K extends keyof ReturnType<(typeof State)['getState']>,
 >(key: K): boolean {
   return State.useSelect(
-    (state) => !['', undefined, null].includes(state[key] as any),
+    (state) => !['', null, undefined].includes(state[key] as any),
   );
 }

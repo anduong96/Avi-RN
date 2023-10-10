@@ -1,17 +1,17 @@
-import * as React from 'react';
-
 import type { StyleProp, ViewStyle } from 'react-native';
 
+import * as React from 'react';
 import { View } from 'react-native';
+
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = React.PropsWithChildren<
   (
     | {
-        width: number;
+        size: 'large' | 'medium' | 'small' | 'tiny';
       }
     | {
-        size: 'tiny' | 'small' | 'medium' | 'large';
+        width: number;
       }
   ) & { style?: StyleProp<ViewStyle> }
 >;

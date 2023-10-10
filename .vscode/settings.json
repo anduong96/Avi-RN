@@ -1,29 +1,33 @@
 {
   "cSpell.words": [
+    "baronha",
+    "chrono",
     "Codegen",
+    "codepush",
+    "flywithavi",
+    "fontawesome",
     "gorhom",
     "notifee",
     "Pressable",
     "Signin",
-    "tanstack"
+    "Swipeable",
+    "tanstack",
+    "tiamut",
+    "tinycolor",
+    "xlight",
+    "xmark"
   ],
   "yaml.schemas": {
     "https://unpkg.com/graphql-config@4.0.1/config-schema.json": "graphql.config.yml",
     "https://json.schemastore.org/github-workflow.json": "file:///Users/aduong/Git/tailwind-react-native/.github/workflows/deploy.yaml"
   },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always"
+  },
+  "eslint.validate": ["typescript"],
+  "eslint.format.enable": true,
+  // "editor.formatOnSaveMode": "file",
+  // "editor.formatOnSave": true,
   "editor.acceptSuggestionOnEnter": "smart",
-  "typescript.implementationsCodeLens.enabled": true,
-  "editor.tabCompletion": "on",
-  "sqltools.connections": [
-    {
-      "previewLimit": 50,
-      "server": "localhost",
-      "port": 5432,
-      "driver": "PostgreSQL",
-      "name": "Local",
-      "group": "Dev",
-      "database": "avi",
-      "username": "local"
-    }
-  ]
+  "editor.tabCompletion": "on"
 }

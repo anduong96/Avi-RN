@@ -1,32 +1,38 @@
-import * as React from 'react';
-
-import { BottomSheetFooter, BottomSheetModal } from '@gorhom/bottom-sheet';
-import { Content, Header, Title } from './styles';
-
-import { Backdrop } from './backdrop';
 import type BottomSheet from '@gorhom/bottom-sheet';
+
+import * as React from 'react';
+import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import {
+  BottomSheetFooter,
+  BottomSheetModal,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet';
+
+import { Backdrop } from './backdrop';
+import { styled } from '../../lib/styled';
+
 type Props = {
-  height?: string | number;
-  visible?: boolean;
   children: React.ReactElement | React.ReactElement[];
-  withCloseBtn?: boolean;
-  title?: string | React.ReactElement;
   footer?: React.ReactElement;
+  height?: number | string;
+  title?: React.ReactElement | string;
+  visible?: boolean;
+  withCloseBtn?: boolean;
   withoutWrappers?: boolean;
 } & Omit<
   React.ComponentProps<typeof BottomSheet>,
-  'snapPoints' | 'children' | 'index' | 'backdropComponent' | 'ref'
+  'backdropComponent' | 'children' | 'index' | 'ref' | 'snapPoints'
 >;
 
 export const SimpleBottomSheet: React.FC<Props> = ({
-  height = '50%',
-  visible,
   children,
-  title,
   footer,
+  height = '50%',
   onClose,
+  title,
+  visible,
   withoutWrappers,
   ...props
 }) => {
@@ -48,11 +54,9 @@ export const SimpleBottomSheet: React.FC<Props> = ({
     <BottomSheetModal
       enablePanDownToClose
       {...props}
-      onDismiss={onClose}
-      ref={ref}
-      index={1}
-      snapPoints={snapPoints}
-      onChange={handleChange}
+      backdropComponent={(backdropProps) => (
+        <Backdrop {...backdropProps} onClose={onClose} />
+      )}
       footerComponent={
         footer &&
         ((p) => (
@@ -61,9 +65,11 @@ export const SimpleBottomSheet: React.FC<Props> = ({
           </BottomSheetFooter>
         ))
       }
-      backdropComponent={(backdropProps) => (
-        <Backdrop {...backdropProps} onClose={onClose} />
-      )}
+      index={1}
+      onChange={handleChange}
+      onDismiss={onClose}
+      ref={ref}
+      snapPoints={snapPoints}
     >
       {withoutWrappers ? (
         children
@@ -80,3 +86,14 @@ export const SimpleBottomSheet: React.FC<Props> = ({
     </BottomSheetModal>
   );
 };
+
+const Content = styled(BottomSheetView, {});
+
+const Header = styled(View, {
+  padding: 10,
+});
+
+const Title = styled(Text, {
+  fontSize: 20,
+  textAlign: 'center',
+});

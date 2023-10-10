@@ -1,30 +1,34 @@
-import * as React from 'react';
+import type { RouteProp } from '@react-navigation/native';
 
+import * as React from 'react';
 import { ScrollView, View } from 'react-native';
 
-import { AlertFlightButton } from '@app/components/button.alerts.flight';
-import { DebugNoficationFlightBtn } from '@app/components/button.debug.notif.flight';
+import moment from 'moment';
+import { useRoute } from '@react-navigation/native';
+
+import type { FlightStackParams } from '@app/navigation/flight.stack';
+
+import { ENV } from '@app/env';
+import { styled } from '@app/lib/styled';
+import { Card } from '@app/components/card';
+import { WINDOW_HEIGHT } from '@app/lib/platform';
+import { useTheme } from '@app/lib/hooks/use.theme';
+import { CloseBtn } from '@app/components/btn.close';
+import { useGetFlightQuery } from '@app/generated/server.gql';
+import { PageContainer } from '@app/components/page.container';
+import { LoadingOverlay } from '@app/components/loading.overlay';
+import { VerticalDivider } from '@app/components/divider.vertical';
+import { FlightPageTopHeader } from '@app/pages/flight/top.header';
 import { SaveFlightButton } from '@app/components/button.save.flight';
 import { ShareFlightButton } from '@app/components/button.share.flight';
-import { VerticalDivider } from '@app/components/divider.vertical';
-import { LoadingOverlay } from '@app/components/loading.overlay';
-import { PageContainer } from '@app/components/page.container';
-import { ENV } from '@app/env';
-import { useGetFlightQuery } from '@app/generated/server.gql';
-import { useTheme } from '@app/lib/hooks/use.theme';
-import { styled } from '@app/lib/styled';
-import { FlightPageDistanceSeparator } from '@app/pages/flight/distance.separator';
+import { AlertFlightButton } from '@app/components/button.alerts.flight';
 import { FlightPageLocationSection } from '@app/pages/flight/location.section';
-import { FlightPageTopHeader } from '@app/pages/flight/top.header';
-import type { FlightStackParams } from '@app/stacks/flight.stack';
-import { BlurView } from '@react-native-community/blur';
-import type { RouteProp } from '@react-navigation/native';
-import { useRoute } from '@react-navigation/native';
-import moment from 'moment';
+import { FlightPageDistanceSeparator } from '@app/pages/flight/distance.separator';
+import { DebugNotificationFlightBtn } from '@app/components/button.debug.notif.flight';
+
 import { AircraftCard } from './aircraft';
 import { ExitToHomeBtn } from './exit.to.home.btn';
 import { PromptnessCompact } from './promptness.compact';
-import { WINDOW_HEIGHT } from '@app/lib/platform';
 
 type Route = RouteProp<FlightStackParams, 'Flight'>;
 
@@ -42,28 +46,30 @@ export const FlightPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <LoadingOverlay isLoading={flightResponse.loading} />
+      <LoadingOverlay isDark isLoading={flightResponse.loading} />
+      <Close>
+        <CloseBtn />
+      </Close>
       {flight && (
         <ScrollView
-          showsVerticalScrollIndicator={false}
-          stickyHeaderIndices={[0]}
           contentContainerStyle={{
             flexGrow: 1,
             gap: theme.space.medium,
-            paddingBottom: WINDOW_HEIGHT * 0.1,
+            paddingBottom: WINDOW_HEIGHT * 0.3,
           }}
+          showsVerticalScrollIndicator={false}
         >
-          <Header blurType="xlight">
+          <Header>
             <FlightPageTopHeader flight={flight} />
             <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
               contentContainerStyle={{
-                paddingHorizontal: theme.space.medium,
-                paddingVertical: theme.space.small,
                 alignItems: 'center',
                 gap: theme.space.small,
+                paddingHorizontal: theme.space.medium,
+                paddingVertical: theme.space.small,
               }}
+              horizontal
+              showsHorizontalScrollIndicator={false}
             >
               <SaveFlightButton flightID={flightID} />
               <VerticalDivider />
@@ -72,23 +78,23 @@ export const FlightPage: React.FC = () => {
               {ENV.APP_ENV !== 'production' && (
                 <>
                   <VerticalDivider />
-                  <DebugNoficationFlightBtn flightID={flightID} />
+                  <DebugNotificationFlightBtn flightID={flightID} />
                 </>
               )}
             </ScrollView>
           </Header>
           <Content>
-            <Meta>
+            <Card hasShadow>
               <FlightPageLocationSection
-                type="origin"
-                airport={flight.Origin}
-                timezone={flight.Origin.timezone}
-                airportIata={flight.originIata}
-                terminal={flight.originTerminal}
-                gate={flight.originGate}
-                estimatedMovementTime={flight.estimatedGateDeparture}
-                scheduledMovementTime={flight.scheduledGateDeparture}
                 actualMovementTime={flight.actualGateDeparture}
+                airport={flight.Origin}
+                airportIata={flight.originIata}
+                estimatedMovementTime={flight.estimatedGateDeparture}
+                gate={flight.originGate}
+                scheduledMovementTime={flight.scheduledGateDeparture}
+                terminal={flight.originTerminal}
+                timezone={flight.Origin.timezone}
+                type="origin"
               />
 
               <FlightPageDistanceSeparator
@@ -97,18 +103,18 @@ export const FlightPage: React.FC = () => {
                 )}
               />
               <FlightPageLocationSection
-                type="destination"
-                airport={flight.Destination}
-                timezone={flight.Destination.timezone}
-                airportIata={flight.destinationIata}
-                terminal={flight.destinationTerminal}
-                gate={flight.destinationGate}
-                estimatedMovementTime={flight.estimatedGateArrival}
-                scheduledMovementTime={flight.scheduledGateArrival}
                 actualMovementTime={flight.actualGateArrival}
+                airport={flight.Destination}
+                airportIata={flight.destinationIata}
                 baggageClaim={flight.destinationBaggageClaim}
+                estimatedMovementTime={flight.estimatedGateArrival}
+                gate={flight.destinationGate}
+                scheduledMovementTime={flight.scheduledGateArrival}
+                terminal={flight.destinationTerminal}
+                timezone={flight.Destination.timezone}
+                type="destination"
               />
-            </Meta>
+            </Card>
             <PromptnessCompact flightID={flightID} />
             {flight.aircraftTailnumber && (
               <AircraftCard tailNumber={flight.aircraftTailnumber} />
@@ -124,25 +130,25 @@ export const FlightPage: React.FC = () => {
 const Content = styled(View, (theme) => [
   {
     flexGrow: 1,
-    paddingHorizontal: theme.space.small,
     gap: theme.space.medium,
+    paddingHorizontal: theme.space.medium,
   },
 ]);
 
-const Meta = styled(View, (theme) => [
-  theme.presets.shadows[100],
+const Header = styled(View, (theme) => [
   {
-    gap: theme.space.large,
     backgroundColor: theme.pallette.background,
-    padding: theme.space.medium,
-    borderRadius: theme.borderRadius,
+    gap: theme.space.small,
+    paddingBottom: theme.space.small,
+    paddingTop: theme.space.medium,
   },
 ]);
 
-const Header = styled(BlurView, (theme) => [
+const Close = styled(View, (theme) => [
   {
-    paddingTop: theme.space.medium,
-    paddingBottom: 0,
-    gap: theme.space.small,
+    position: 'absolute',
+    right: theme.space.medium,
+    top: theme.space.medium,
+    zIndex: 1,
   },
 ]);

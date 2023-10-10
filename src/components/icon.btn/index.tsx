@@ -1,31 +1,45 @@
+import type { StyleProp, TouchableOpacityProps, ViewStyle } from 'react-native';
+
 import * as React from 'react';
+import { TouchableOpacity } from 'react-native';
 
-import type { StyleProp, ViewStyle } from 'react-native';
+import { styled } from '@app/lib/styled';
 
-import { Container } from './styles';
 import { FaIcon } from '../icons.fontawesome';
-import { useTheme } from '@app/lib/hooks/use.theme';
 
 export type Props = {
-  icon: string;
-  onPress?: () => void;
-  style?: StyleProp<ViewStyle>;
-  size?: number;
   color?: string;
-};
+  icon: string;
+  size?: number;
+  style?: StyleProp<ViewStyle>;
+} & Omit<React.ComponentProps<typeof FaIcon>, 'name'> &
+  Pick<TouchableOpacityProps, 'activeOpacity' | 'onPress' | 'onPressIn'>;
 
 export const IconBtn: React.FC<Props> = ({
+  activeOpacity,
+  color,
   icon,
   onPress,
+  onPressIn,
+  size,
   style,
-  size = 30,
-  color,
+  ...props
 }) => {
-  const theme = useTheme();
-
   return (
-    <Container style={style} onPress={onPress}>
-      <FaIcon name={icon} size={size} color={color || theme.pallette.active} />
+    <Container
+      activeOpacity={activeOpacity}
+      onPress={onPress}
+      onPressIn={onPressIn}
+      style={style}
+    >
+      <FaIcon color={color} name={icon} size={size} solid {...props} />
     </Container>
   );
 };
+
+const Container = styled(TouchableOpacity, (theme) => [
+  {
+    borderRadius: theme.roundRadius,
+    padding: theme.space.tiny,
+  },
+]);

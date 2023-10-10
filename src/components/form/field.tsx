@@ -1,52 +1,47 @@
-import * as React from 'react';
-
-import {
-  ErrorText,
-  FieldContainer,
-  FieldContent,
-  FieldMeta,
-  Header,
-  HintText,
-  Label,
-  OptionalText,
-} from './styles';
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
-
-import { Field } from 'rc-field-form';
-import type { FieldProps } from 'rc-field-form/es/Field';
 import type { FormInstance } from 'rc-field-form';
 import type { Meta } from 'rc-field-form/es/interface';
-import type { StringOrElement } from '@app/types/string.or.component';
-import { StringRenderer } from '../string.renderer';
+import type { FieldProps } from 'rc-field-form/es/Field';
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
+
+import * as React from 'react';
+import { Text, View } from 'react-native';
+
 import { isEmpty } from 'lodash';
+import { Field } from 'rc-field-form';
+
+import type { StringOrElement } from '@app/types/string.or.component';
+
 import { useTheme } from '@app/lib/hooks/use.theme';
 
+import { styled } from '../../lib/styled';
+import { StringRenderer } from '../string.renderer';
+
 type Props = Omit<FieldProps, 'children'> & {
-  align?: 'left' | 'right' | 'center';
-  label?: StringOrElement;
-  hint?: string;
+  align?: 'center' | 'left' | 'right';
+  children?:
+    | ((form: FormInstance, meta: Meta, control: unknown) => React.ReactNode)
+    | React.ReactElement;
   hideError?: true;
-  style?: StyleProp<ViewStyle>;
+  hint?: string;
+  isOptional?: boolean;
+  label?: StringOrElement;
   labelStyle?: StyleProp<TextStyle>;
   noStyle?: boolean;
-  isOptional?: boolean;
   noWarn?: boolean;
-  children?:
-    | React.ReactElement
-    | ((form: FormInstance, meta: Meta, control: unknown) => React.ReactNode);
+  style?: StyleProp<ViewStyle>;
 };
 
 export const FormField: React.FC<Props> = ({
-  name,
-  label,
   children,
-  noStyle,
   hideError,
-  isOptional,
-  style,
-  labelStyle,
   hint,
+  isOptional,
+  label,
+  labelStyle,
+  name,
+  noStyle,
   rules,
+  style,
   ...restProps
 }) => {
   const theme = useTheme();
@@ -97,13 +92,14 @@ export const FormField: React.FC<Props> = ({
               {label && (
                 <Header>
                   <StringRenderer
-                    value={label}
                     Container={Label}
                     style={[
                       labelStyle,
                       hasErrors && { color: theme.pallette.danger },
                     ]}
-                  />
+                  >
+                    {label}
+                  </StringRenderer>
                   {isNotRequired && <OptionalText>optional</OptionalText>}
                 </Header>
               )}
@@ -116,3 +112,40 @@ export const FormField: React.FC<Props> = ({
     </Field>
   );
 };
+
+const FieldContainer = styled(View, (theme) => ({
+  marginBottom: theme.space.medium,
+}));
+
+const FieldContent = styled(View, {});
+const FieldMeta = styled(View, {
+  paddingVertical: 5,
+});
+const ErrorText = styled(Text, (theme) => ({
+  color: theme.pallette.danger,
+}));
+
+const HintText = styled(Text, (theme) => [
+  theme.typography.presets.small,
+  {
+    color: theme.pallette.grey[500],
+  },
+]);
+
+const Label = styled(Text, (theme) => ({
+  color: theme.pallette.text,
+}));
+
+const OptionalText = styled(Text, (theme) => ({
+  color: theme.pallette.textSecondary,
+  fontSize: theme.typography.presets.small.fontSize,
+  fontWeight: '400',
+  marginBottom: 1,
+  marginLeft: theme.space.tiny,
+}));
+
+const Header = styled(View, (theme) => ({
+  alignItems: 'flex-end',
+  flexDirection: 'row',
+  marginBottom: theme.space.tiny,
+}));

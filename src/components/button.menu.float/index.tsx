@@ -1,45 +1,47 @@
-import * as React from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 
+import * as React from 'react';
+import { Modal, Text, TouchableOpacity, View } from 'react-native';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import Animated, {
   SlideInDown,
   useAnimatedStyle,
   useDerivedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { Btn, ModalBg, OptionItem, OptionItemText, Options } from './styles';
-import type { StyleProp, ViewStyle } from 'react-native';
 
-import { HorizontalDivider } from '../divider.horizontal';
-import { List } from '../list';
-import { MaterialIcon } from '../icons.material';
-import { Modal } from 'react-native';
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import { RotateUpsidedown } from './animation';
+import { BlurView } from '@react-native-community/blur';
+
+import { styled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
+import { List } from '../list';
+import { FaIcon } from '../icons.fontawesome';
+import { RotateUpsideDown } from './animation';
+import { HorizontalDivider } from '../divider.horizontal';
 type Option = {
-  icon?: string | React.ReactElement;
-  title: string;
-  subtitle?: string;
-  onPress?: () => void;
   closeOnPress?: boolean;
   disabled?: boolean;
+  icon?: React.ReactElement | string;
+  onPress?: () => void;
+  subtitle?: string;
+  title: string;
 };
 
 type Props = {
-  position?: 'bottomLeft' | 'bottomRight';
-  style?: StyleProp<ViewStyle>;
   btnColor?: string;
   iconColor?: string;
   options: Option[];
+  position?: 'bottomLeft' | 'bottomRight';
+  style?: StyleProp<ViewStyle>;
 };
 
 export const FloatingMenuButton: React.FC<Props> = ({
-  position = 'bottomRight',
-  options,
-  style,
   btnColor,
   iconColor,
+  options,
+  position = 'bottomRight',
+  style,
 }) => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = React.useState(false);
@@ -77,31 +79,31 @@ export const FloatingMenuButton: React.FC<Props> = ({
         style={[{ backgroundColor: btnColor || theme.pallette.primary }, style]}
       >
         <Animated.View style={[iconStyle]}>
-          <MaterialIcon
-            size={45}
-            name="menu-up"
+          <FaIcon
             color={iconColor || theme.pallette.white}
+            name="menu-up"
+            size={45}
           />
         </Animated.View>
       </Btn>
       <Modal animationType="fade" transparent visible={isOpen}>
         <ModalBg onTouchStart={() => setIsOpen(false)} />
-        <Options entering={SlideInDown} blurType="xlight">
+        <Options blurType="xlight" entering={SlideInDown}>
           <List
             data={options}
-            separator={() => (
-              <HorizontalDivider color={theme.pallette.grey[400]} />
-            )}
             renderItem={(item) => (
               <OptionItem
-                disabled={item.disabled}
                 activeOpacity={item.disabled ? 1 : 0.5}
+                disabled={item.disabled}
                 onPress={() => handleItemPress(item)}
               >
                 <OptionItemText disabled={item.disabled}>
                   {item.title}
                 </OptionItemText>
               </OptionItem>
+            )}
+            separator={() => (
+              <HorizontalDivider color={theme.pallette.grey[400]} />
             )}
           />
         </Options>
@@ -110,11 +112,11 @@ export const FloatingMenuButton: React.FC<Props> = ({
           position={position}
           style={[{ backgroundColor: btnColor || theme.pallette.primary }]}
         >
-          <Animated.View entering={RotateUpsidedown}>
-            <MaterialIcon
-              size={45}
-              name="menu-up"
+          <Animated.View entering={RotateUpsideDown}>
+            <FaIcon
               color={iconColor || theme.pallette.white}
+              name="menu-up"
+              size={45}
             />
           </Animated.View>
         </Btn>
@@ -122,3 +124,70 @@ export const FloatingMenuButton: React.FC<Props> = ({
     </>
   );
 };
+
+const Btn = styled<
+  { position: 'bottomLeft' | 'bottomRight' },
+  typeof TouchableOpacity
+>(TouchableOpacity, (theme, props) => [
+  theme.presets.centered,
+  theme.presets.shadows[100],
+  {
+    aspectRatio: 1,
+    borderRadius: 60,
+    position: 'absolute',
+    shadowOffset: {
+      height: 5,
+      width: 5,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
+    width: 60,
+    zIndex: 1,
+  },
+  props.position === 'bottomLeft' && {
+    bottom: theme.insets.bottom,
+    left: theme.insets.left + theme.space.medium,
+  },
+  props.position === 'bottomRight' && {
+    bottom: theme.insets.bottom,
+    right: theme.insets.right + theme.space.medium,
+  },
+]);
+
+const ModalBg = styled(View, (theme) => [
+  {
+    backgroundColor: theme.pallette.black,
+    bottom: 0,
+    left: 0,
+    opacity: 0.4,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
+]);
+
+const Options = styled(Animated.createAnimatedComponent(BlurView), (theme) => [
+  {
+    borderRadius: theme.borderRadius,
+    bottom: theme.insets.bottom + theme.space.medium + 60,
+    position: 'absolute',
+    right: theme.space.medium,
+  },
+]);
+
+const OptionItem = styled(TouchableOpacity, (theme) => [
+  {
+    padding: theme.space.medium,
+  },
+]);
+
+const OptionItemText = styled<{ disabled?: boolean }, typeof Text>(
+  Text,
+  (theme) => [
+    theme.typography.presets.p1,
+    {
+      color: theme.pallette.text,
+      textAlign: 'left',
+    },
+  ],
+);

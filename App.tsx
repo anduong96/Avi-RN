@@ -1,30 +1,33 @@
 import './src/lib/dates';
-import './src/lib/log.box';
 import './src/lib/logger';
+import './src/lib/log.box';
+
+import type { NavigationContainerRef } from '@react-navigation/native';
 
 import * as React from 'react';
-import * as Sentry from '@sentry/react-native';
-
-import { Analytics } from '@app/lib/analytics';
-import { ApolloProvider } from '@apollo/client';
-import { AppNavigator } from '@app/stacks';
-import { BackgroundProcesses } from '@app/components/background.processes';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { default as CodePush } from 'react-native-code-push';
-import { ForceUpdateShield } from '@app/components/force.update';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { LINKING_CONFIG } from '@app/linking';
-import type { MainStackParam } from '@app/stacks';
-import { NavigationContainer } from '@react-navigation/native';
-import type { NavigationContainerRef } from '@react-navigation/native';
-import { NestServerApolloClient } from '@app/apollo/nest.server';
-import { PortalProvider } from '@gorhom/portal';
-import { PushNotificationSheet } from '@app/components/sheet.push.notification';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useAppStateListener } from '@app/lib/hooks/use.app.state';
-import { useColorScheme } from '@app/lib/hooks/use.color.scheme';
-import { useNotificationHandling } from '@app/lib/startup/push.notification';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+import * as Sentry from '@sentry/react-native';
+import { ApolloProvider } from '@apollo/client';
+import { PortalProvider } from '@gorhom/portal';
+import { NavigationContainer } from '@react-navigation/native';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+
+import type { MainStackParam } from '@app/navigation';
+
+import { LINKING_CONFIG } from '@app/linking';
+import { Analytics } from '@app/lib/analytics';
+import { AppNavigator } from '@app/navigation';
 import { useStartupPrep } from '@app/lib/startup';
+import { NestServerApolloClient } from '@app/apollo/nest.server';
+import { ForceUpdateShield } from '@app/components/force.update';
+import { useColorScheme } from '@app/lib/hooks/use.color.scheme';
+import { useAppStateListener } from '@app/lib/hooks/use.app.state';
+import { BackgroundProcesses } from '@app/components/background.processes';
+import { useNotificationHandling } from '@app/lib/startup/push.notification';
+import { PushNotificationSheet } from '@app/components/sheet.push.notification';
 
 type NavigationRef = NavigationContainerRef<MainStackParam>;
 
@@ -39,7 +42,6 @@ const Entry: React.FC = () => {
 
   return (
     <NavigationContainer<MainStackParam>
-      ref={navigationRef}
       linking={LINKING_CONFIG}
       onReady={() => {
         routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name;
@@ -54,6 +56,7 @@ const Entry: React.FC = () => {
 
         routeNameRef.current = currentRouteName;
       }}
+      ref={navigationRef}
     >
       <ApolloProvider client={NestServerApolloClient}>
         <PortalProvider>

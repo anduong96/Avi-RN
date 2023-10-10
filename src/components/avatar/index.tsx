@@ -1,92 +1,41 @@
 import * as React from 'react';
+import { View } from 'react-native';
 
-import { Container, InitialsText } from './styles';
-import type { StyleProp, ViewStyle } from 'react-native';
+import { styled } from '@app/lib/styled';
+import { userState } from '@app/state/user';
 
-import { ActivityIndicator } from 'react-native';
-import FastImage from 'react-native-fast-image';
-import { MaterialIcon } from '../icons.material';
-import { compact } from 'lodash';
-import { useTheme } from '@app/lib/hooks/use.theme';
+import { FaIcon } from '../icons.fontawesome';
 
 type Props = {
-  imageUri?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
+  hasShadow?: boolean;
   size?: number;
-  type?: 'fill' | 'outlined';
-  onPress?: () => void;
-  backgroundColor?: string;
-  textColor?: string;
-  style?: StyleProp<ViewStyle>;
-  loading?: boolean;
-  renderContent?: () => React.ReactElement | undefined | null;
 };
 
-export const Avatar: React.FC<Props> = ({
-  imageUri,
-  firstName,
-  lastName,
-  size = 100,
-  type = 'fill',
-  backgroundColor,
-  textColor,
-  style,
-  loading,
-  renderContent,
-}) => {
-  const theme = useTheme();
-  const [bgColor, color] =
-    type === 'fill'
-      ? [theme.pallette.grey[100], theme.pallette.white]
-      : [theme.pallette.background, theme.typography.color];
-
-  const Content = () => {
-    const custom = renderContent?.();
-
-    if (custom) {
-      return custom;
-    } else if (loading) {
-      return <ActivityIndicator />;
-    } else if (imageUri) {
-      return (
-        <FastImage
-          source={{ uri: imageUri }}
-          style={{ borderRadius: size, width: size, height: size }}
-        />
-      );
-    } else if (!firstName && !lastName) {
-      return <MaterialIcon size={Math.max(0, size / 2)} name="account" />;
-    } else {
-      return (
-        <InitialsText
-          style={[
-            {
-              fontSize: size * 0.5,
-              color: textColor || color,
-            },
-          ]}
-        >
-          {compact([firstName?.[0], lastName?.[0]]).join('') || '?'}
-        </InitialsText>
-      );
-    }
-  };
+export const Avatar: React.FC<Props> = ({ hasShadow, size }) => {
+  const colors = userState.useSelect((state) => state.colors);
 
   return (
-    <Container
-      size={size}
-      type={type}
-      backgroundColor={backgroundColor}
-      style={[
-        {
-          backgroundColor: backgroundColor || bgColor,
-          borderColor: backgroundColor || bgColor,
-        },
-        style,
-      ]}
-    >
-      <Content />
+    <Container color={colors.neon} hasShadow={hasShadow}>
+      <FaIcon color={colors.pastel} name="user-astronaut" size={size} />
     </Container>
   );
 };
+
+const Container = styled<
+  Pick<Props, 'hasShadow'> & { color: string },
+  typeof View
+>(View, (theme, props) => [
+  theme.presets.centered,
+  props.hasShadow && theme.presets.shadows[200],
+  {
+    aspectRatio: 1,
+    backgroundColor: props.color,
+    borderRadius: theme.roundRadius,
+    padding: theme.space.medium,
+    shadowColor: props.color,
+    shadowOffset: {
+      height: 10,
+      width: 10,
+    },
+  },
+]);

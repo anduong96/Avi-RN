@@ -1,25 +1,25 @@
-import * as Sentry from '@sentry/react-native';
-
 import { Alert, BackHandler } from 'react-native';
 import {
   setJSExceptionHandler,
   setNativeExceptionHandler,
 } from 'react-native-exception-handler';
 
+import * as Sentry from '@sentry/react-native';
+
 import { ENV } from '@app/env';
 
 Sentry.init({
-  enabled: !__DEV__,
+  attachScreenshot: true,
   debug: false,
   dsn: ENV.SENTRY_DSN,
-  tracesSampleRate: 1.0,
-  attachScreenshot: true,
+  enabled: !__DEV__,
   integrations: [
     new Sentry.ReactNativeTracing({
       routingInstrumentation: new Sentry.ReactNavigationInstrumentation(),
       tracePropagationTargets: [/^\//],
     }),
   ],
+  tracesSampleRate: 1.0,
 });
 
 setJSExceptionHandler((error, isFatal) => {
@@ -34,10 +34,10 @@ setJSExceptionHandler((error, isFatal) => {
         `,
       [
         {
-          text: 'Close',
           onPress: () => {
             BackHandler.exitApp();
           },
+          text: 'Close',
         },
       ],
     );

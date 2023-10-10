@@ -1,13 +1,15 @@
-import * as React from 'react';
+import type { ViewStyle } from 'react-native';
 
-import { Container, Content } from './styles';
-import { FadeIn, FadeOut } from 'react-native-reanimated';
-import type { View, ViewStyle } from 'react-native';
+import * as React from 'react';
+import { Pressable, View } from 'react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { Portal } from '@gorhom/portal';
-import { Pressable } from 'react-native';
-import { useIsDarkMode } from '@app/lib/hooks/use.color.scheme';
+import { BlurView } from '@react-native-community/blur';
+
+import { styled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { useIsDarkMode } from '@app/lib/hooks/use.color.scheme';
 
 type Props = {
   children: React.ReactElement;
@@ -24,8 +26,8 @@ export const Tooltip: React.FC<Props> = ({ children, content }) => {
   const handleDisplay = () => {
     ref.current?.measureInWindow((x, y, width, _height) => {
       setStyle({
-        top: y,
         left: x + width + theme.space.medium,
+        top: y,
       });
     });
 
@@ -39,15 +41,15 @@ export const Tooltip: React.FC<Props> = ({ children, content }) => {
 
   return (
     <>
-      <Pressable ref={ref} onPress={handleDisplay}>
+      <Pressable onPress={handleDisplay} ref={ref}>
         {children}
       </Pressable>
       <Portal>
         {visible && (
           <Container
+            blurType={isDark ? 'dark' : 'xlight'}
             entering={FadeIn.duration(200)}
             exiting={FadeOut.duration(200)}
-            blurType={isDark ? 'dark' : 'xlight'}
             onTouchStart={handleHide}
           >
             <Content style={[style]}>{content}</Content>
@@ -57,3 +59,19 @@ export const Tooltip: React.FC<Props> = ({ children, content }) => {
     </>
   );
 };
+
+const Container = styled(Animated.createAnimatedComponent(BlurView), () => ({
+  bottom: 0,
+  left: 0,
+  position: 'absolute',
+  right: 0,
+  top: 0,
+}));
+
+const Content = styled(View, (theme) => ({
+  backgroundColor: theme.pallette.background,
+  borderRadius: theme.borderRadius,
+  padding: theme.space.medium,
+  ...theme.presets.shadows[200],
+  maxWidth: 200,
+}));

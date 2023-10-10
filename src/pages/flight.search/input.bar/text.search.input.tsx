@@ -1,12 +1,15 @@
+import * as React from 'react';
+
 import { Input } from '@app/components/input';
 import { vibrate } from '@app/lib/haptic.feedback';
-import * as React from 'react';
+
 import { State } from '../state';
 
 export const TextSearchInput: React.FC = () => {
-  const handleChangeText = (value?: string) => {
+  const value = State.useSelect((state) => state.textSearch);
+  const handleChangeText = (textSearch?: string) => {
     State.actions.setState({
-      textSearch: value,
+      textSearch,
     });
   };
 
@@ -32,15 +35,16 @@ export const TextSearchInput: React.FC = () => {
   return (
     <Input
       allowClear
-      autoFocus
-      placeholder="Search"
-      returnKeyType="next"
+      autoCapitalize="none"
       autoComplete="off"
       autoCorrect={false}
-      autoCapitalize="none"
-      onFocus={handleFocus}
+      autoFocus
       onBlur={handleBlur}
       onChange={handleChangeText}
+      onFocus={handleFocus}
+      placeholder="i.e. AA100"
+      returnKeyType="next"
+      value={value}
     />
   );
 };

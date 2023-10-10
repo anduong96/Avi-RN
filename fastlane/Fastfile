@@ -252,6 +252,7 @@ platform :ios do
     begin
       suffix_name(suffix: "D")
       prepare_icons(platform: :ios, lane: :develop)
+      sh('npm', 'run', 'localhost')
       sh "cd .. && npx react-native run-ios --scheme #{options[:scheme] || lane_context["IOS_SCHEME"]} #{options[:device] ? "--device" : "--simulator #{options[:simulator] || '"iPhone 14"'}"}"
     ensure
       suffix_name(suffix: nil)

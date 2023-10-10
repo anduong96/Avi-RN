@@ -1,10 +1,13 @@
+import type { TextInput } from 'react-native';
+
+import * as React from 'react';
+
+import moment from 'moment';
+
 import { Input } from '@app/components/input';
 import { vibrate } from '@app/lib/haptic.feedback';
-import moment from 'moment';
-import * as React from 'react';
-import type { TextInput } from 'react-native';
+
 import { State } from '../state';
-import { FaIcon } from '@app/components/icons.fontawesome';
 
 export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
   const inputValue = State.useSelect((state) =>
@@ -38,18 +41,17 @@ export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
   return (
     <Input
       allowClear
-      ref={ref}
-      value={inputValue}
-      returnKeyType="search"
-      placeholder="Flight Date"
+      autoCapitalize="none"
       autoComplete="off"
       autoCorrect={false}
-      autoCapitalize="none"
-      onFocus={handleFocus}
+      blurOnSubmit
       onBlur={handleBlur}
       onChange={handleChange}
-      prefix={<FaIcon name="calendar" size={12} light />}
-      blurOnSubmit
+      onFocus={handleFocus}
+      placeholder="Flight Date"
+      ref={ref}
+      returnKeyType="search"
+      value={inputValue}
     />
   );
 });

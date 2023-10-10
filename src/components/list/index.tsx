@@ -1,37 +1,39 @@
-import * as React from 'react';
-
 import type { StyleProp, ViewProps, ViewStyle } from 'react-native';
 
-import { Container } from './styles';
+import * as React from 'react';
+import { View } from 'react-native';
+
 import { isEmpty } from 'lodash';
+
+import { styled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props<T> = {
+  EmptyComponent?: React.FC | React.ReactElement;
+  align?: 'center' | 'left' | 'right';
   data?: T[];
   gap?: number;
   horizontal?: boolean;
-  wrap?: boolean;
-  style?: StyleProp<ViewStyle>;
-  EmptyComponent?: React.FC | React.ReactElement;
-  separator?: () => React.ReactElement;
-  keyExtractor?: (item: T, index: number) => string | number;
+  keyExtractor?: (item: T, index: number) => number | string;
   renderItem: (item: T, index: number) => React.ReactElement | null | undefined;
+  separator?: () => React.ReactElement;
+  style?: StyleProp<ViewStyle>;
   type?: 'clear' | 'fill' | 'outline';
-  align?: 'left' | 'center' | 'right';
+  wrap?: boolean;
 } & Pick<ViewProps, 'onLayout'>;
 
 export function List<T>({
-  data = [],
-  horizontal,
-  style,
-  wrap,
-  type = 'clear',
-  align,
-  gap,
   EmptyComponent,
-  separator,
+  align,
+  data = [],
+  gap,
+  horizontal,
   keyExtractor,
   renderItem,
+  separator,
+  style,
+  type = 'clear',
+  wrap,
   ...props
 }: Props<T>) {
   const theme = useTheme();
@@ -73,3 +75,5 @@ export function List<T>({
     </Container>
   );
 }
+
+const Container = styled(View, () => ({}));

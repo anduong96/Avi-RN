@@ -1,25 +1,29 @@
 import * as React from 'react';
 
-import { FaIcon } from '../icons.fontawesome';
-import { FlightPushSubState } from '@app/state/flight.push.sub';
-import { Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { styled } from '@app/lib/styled';
-import { useTheme } from '@app/lib/hooks/use.theme';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { FlightPushSubState } from '@app/state/flight.push.sub';
+import { FlightStatus, useGetFlightQuery } from '@app/generated/server.gql';
+
+import { Button } from '../button';
 
 type Props = {
   flightID: string;
 };
 
 export const AlertFlightButton: React.FC<Props> = ({ flightID }) => {
-  const theme = useTheme();
+  const flight = useGetFlightQuery({
+    variables: {
+      flightID,
+    },
+  });
+  const isLoading = flight.loading;
+  const isDisabled = flight.data?.flight.status === FlightStatus.ARCHIVED;
   const isEnabled = FlightPushSubState.useSelect(
     (s) => s.subscriptions[flightID]?.pushEnabled ?? false,
   );
-  const [color, bgColor, icon] = isEnabled
-    ? [theme.pallette.white, theme.pallette.active, 'bell-on']
-    : [theme.typography.color, theme.pallette.grey[100], 'bell'];
+  const [type, icon] = isEnabled
+    ? (['primary', 'bell-on'] as const)
+    : (['default', 'bell'] as const);
 
   const handleToggle = () => {
     vibrate('impactLight');
@@ -29,31 +33,18 @@ export const AlertFlightButton: React.FC<Props> = ({ flightID }) => {
   };
 
   return (
-    <Btn
+    <Button
+      disabled={isDisabled}
+      hasShadow={isEnabled}
+      icon={icon}
+      iconProps={{ solid: isEnabled }}
+      isBold={isEnabled}
+      isLoading={isLoading}
+      isSolid={isEnabled}
       onPress={handleToggle}
-      style={{
-        backgroundColor: bgColor,
-        shadowColor: bgColor,
-        shadowOpacity: isEnabled ? 0.3 : 0,
-      }}
+      type={type}
     >
-      <FaIcon name={icon} color={color} solid={isEnabled} />
-      <BtnText style={{ color }}>Alerts</BtnText>
-    </Btn>
+      Alerts
+    </Button>
   );
 };
-
-const Btn = styled(TouchableOpacity, (theme) => [
-  theme.presets.centered,
-  theme.presets.shadows[100],
-  {
-    flexDirection: 'row',
-    gap: theme.space.tiny,
-    backgroundColor: theme.pallette.grey[100],
-    borderRadius: theme.borderRadius,
-    paddingHorizontal: theme.space.small,
-    paddingVertical: 4,
-  },
-]);
-
-const BtnText = styled(Text, (theme) => [theme.typography.presets.p2]);

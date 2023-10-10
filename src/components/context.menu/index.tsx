@@ -1,47 +1,49 @@
-import * as React from 'react';
-
-import { Pressable, View } from 'react-native';
-
-import { ContextMenuPortal } from './portal';
-import HapticFeedback from 'react-native-haptic-feedback';
 import type { LayoutRectangle } from 'react-native';
-import { MenuContext } from './context';
-import type { OptionItem } from './types';
-import type { StringOrElement } from '@app/types/string.or.component';
+
+import * as React from 'react';
+import { Pressable, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
+import HapticFeedback from 'react-native-haptic-feedback';
+
+import type { StringOrElement } from '@app/types/string.or.component';
+
+import type { OptionItem } from './types';
+
+import { MenuContext } from './context';
+import { ContextMenuPortal } from './portal';
 
 type Margins = {
+  bottom: number;
   left: number;
   right: number;
-  bottom: number;
   top: number;
 };
 
 type Props = React.PropsWithChildren<{
-  title?: StringOrElement;
-  items: OptionItem[];
   enabled?: boolean;
-  margins?: Partial<Margins> | (() => Partial<Margins>);
+  items: OptionItem[];
+  margins?: (() => Partial<Margins>) | Partial<Margins>;
   onPress?: () => void;
+  title?: StringOrElement;
   useLongPress?: boolean;
 }>;
 
 export const ContextMenu: React.FC<Props> = ({
-  title,
-  items,
   children,
+  enabled,
+  items,
   margins,
   onPress,
-  enabled,
+  title,
   useLongPress = true,
 }) => {
   const container = React.useRef<View>(null);
   const [showPortal, setShowPortal] = React.useState(false);
   const childrenDim = useSharedValue<LayoutRectangle>({
+    height: 0,
+    width: 0,
     x: 0,
     y: 0,
-    width: 0,
-    height: 0,
   });
 
   /**
@@ -57,13 +59,13 @@ export const ContextMenu: React.FC<Props> = ({
     const givenMargins = typeof margins === 'function' ? margins() : margins;
     container.current?.measureInWindow((x, y, width, height) => {
       const dimensions = {
+        height,
+        width,
         x,
         y,
-        width,
-        height,
       };
 
-      const { top = 0, bottom = 0, left = 0, right = 0 } = givenMargins ?? {};
+      const { bottom = 0, left = 0, right = 0, top = 0 } = givenMargins ?? {};
       dimensions.y += top;
       dimensions.y -= bottom;
       dimensions.x += left;
@@ -93,12 +95,12 @@ export const ContextMenu: React.FC<Props> = ({
   };
 
   return (
-    <MenuContext.Provider value={{ items, title, children, childrenDim }}>
+    <MenuContext.Provider value={{ children, childrenDim, items, title }}>
       <View ref={container}>
         <Pressable
-          onPress={handleNormalPress}
-          onLongPress={handleLongPress}
           delayLongPress={500}
+          onLongPress={handleLongPress}
+          onPress={handleNormalPress}
         >
           {children}
         </Pressable>

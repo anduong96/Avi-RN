@@ -1,8 +1,11 @@
-import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
+import type { TextInput } from 'react-native';
+
+import * as React from 'react';
+
 import { Input } from '@app/components/input';
 import { vibrate } from '@app/lib/haptic.feedback';
-import * as React from 'react';
-import type { TextInput } from 'react-native';
+import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
+
 import { State } from '../state';
 import { useValue } from '../state/use.value';
 
@@ -17,8 +20,8 @@ export const AirlineInput = React.forwardRef<TextInput>((_, ref) => {
   const handleFocus = () => {
     vibrate('impactMedium');
     State.actions.setState({
-      textSearch: airlineIata,
       focusInput: 'airlineIata',
+      textSearch: airlineIata,
     });
   };
 
@@ -33,18 +36,18 @@ export const AirlineInput = React.forwardRef<TextInput>((_, ref) => {
   return (
     <Input
       allowClear
-      ref={ref}
-      prefix={<AirlineLogoAvatar size={15} airlineIata={airlineIata!} />}
-      value={inputValue}
-      returnKeyType="next"
-      placeholder="Airline"
+      autoCapitalize="none"
       autoComplete="off"
       autoCorrect={false}
-      autoCapitalize="none"
-      onFocus={handleFocus}
+      blurOnSubmit
       onBlur={handleBlur}
       onChange={changeChange}
-      blurOnSubmit
+      onFocus={handleFocus}
+      placeholder="Airline"
+      prefix={<AirlineLogoAvatar airlineIata={airlineIata!} size={15} />}
+      ref={ref}
+      returnKeyType="next"
+      value={inputValue}
     />
   );
 });

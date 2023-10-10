@@ -1,20 +1,20 @@
-import * as React from 'react';
-
-import Carousel from 'react-native-reanimated-carousel';
-import type { ICarouselInstance } from 'react-native-reanimated-carousel';
 import type { ViewStyle } from 'react-native';
-import { WINDOW_WIDTH } from '@app/lib/platform';
+import type { ICarouselInstance } from 'react-native-reanimated-carousel';
+
+import * as React from 'react';
 import { interpolate } from 'react-native-reanimated';
+import Carousel from 'react-native-reanimated-carousel';
+
+import { WINDOW_WIDTH } from '@app/lib/platform';
 
 type Props<T> = {
   data?: T[];
   itemHeight: number;
   renderItem: (item: T, index: number) => React.ReactElement;
-  pullToRefresh?: () => void;
 };
 
 const List = <T,>(
-  { data = [], itemHeight = 120, renderItem, pullToRefresh }: Props<T>,
+  { data = [], itemHeight = 120, renderItem }: Props<T>,
   ref: React.ForwardedRef<ICarouselInstance>,
 ) => {
   const ITEM_WIDTH = WINDOW_WIDTH;
@@ -49,20 +49,19 @@ const List = <T,>(
 
   return (
     <Carousel
-      vertical
-      ref={ref}
-      scrollAnimationDuration={500}
-      loop={false}
-      style={{
-        justifyContent: 'center',
-        flexGrow: 1,
-      }}
       customAnimation={animationStyle}
-      pullToRefresh={pullToRefresh}
-      width={ITEM_WIDTH}
-      height={ITEM_HEIGHT}
       data={data}
+      height={ITEM_HEIGHT}
+      loop={false}
+      ref={ref}
       renderItem={({ index, item }) => renderItem(item, index)}
+      scrollAnimationDuration={500}
+      style={{
+        flexGrow: 1,
+        justifyContent: 'center',
+      }}
+      vertical
+      width={ITEM_WIDTH}
     />
   );
 };

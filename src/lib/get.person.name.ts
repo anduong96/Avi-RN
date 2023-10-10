@@ -12,7 +12,7 @@ import { compact } from 'lodash';
  * @returns A string
  */
 export function getPersonName(
-  person: { firstName?: string | null; lastName?: string | null },
+  person: { firstName?: null | string; lastName?: null | string },
   fullName?: boolean,
 ) {
   return compact([

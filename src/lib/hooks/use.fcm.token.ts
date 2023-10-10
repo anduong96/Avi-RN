@@ -1,4 +1,5 @@
 import message from '@react-native-firebase/messaging';
+
 import { useAwaitedMount } from './use.awaited.mount';
 
 /**

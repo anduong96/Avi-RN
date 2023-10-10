@@ -1,6 +1,8 @@
-import { useSubscription } from '@app/lib/hooks/use.subscription';
-import { InputPublisher } from './publisher';
 import type * as React from 'react';
+
+import { useSubscription } from '@app/lib/hooks/use.subscription';
+
+import { InputPublisher } from './publisher';
 
 export function useKeyboardSubmitEvent(
   onTrigger: (value?: any) => void,

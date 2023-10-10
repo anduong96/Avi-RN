@@ -1,5 +1,7 @@
-import * as React from 'react';
+import type { LayoutChangeEvent } from 'react-native';
 
+import * as React from 'react';
+import { View } from 'react-native';
 import Animated, {
   Extrapolation,
   interpolate,
@@ -8,17 +10,14 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 
-import type { LayoutChangeEvent } from 'react-native';
-import { View } from 'react-native';
-
 type Props = {
-  y: Animated.SharedValue<number>;
-  index: number;
-  distance: number;
   children: React.ReactElement;
+  distance: number;
+  index: number;
+  y: Animated.SharedValue<number>;
 };
 
-export const ListItem: React.FC<Props> = ({ y, index, distance, children }) => {
+export const ListItem: React.FC<Props> = ({ children, distance, index, y }) => {
   const cardHeight = useSharedValue(0);
   const position = useDerivedValue(
     () => index * cardHeight.value - y.value,
@@ -68,9 +67,9 @@ export const ListItem: React.FC<Props> = ({ y, index, distance, children }) => {
       style={[
         style,
         {
-          width: '100%',
-          marginVertical: distance,
           alignSelf: 'center',
+          marginVertical: distance,
+          width: '100%',
         },
       ]}
     >

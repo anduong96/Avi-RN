@@ -2,19 +2,20 @@ declare module '@env';
 
 declare module 'react-native-markdown-package' {
   import type { Linking } from 'react-native';
+
   import { Component } from 'react';
 
   class Markdown extends Component<{
-    enableLightBox?: boolean;
-    navigator?: unknown;
-    imageParam?: unknown;
-    onLink?: (url: string) => ReturnType<(typeof Linking)['openURL']>;
     bgImage?: unknown;
-    onImageOpen?: unknown;
+    children: string;
+    enableLightBox?: boolean;
+    imageParam?: unknown;
+    navigator?: unknown;
     onImageClose?: unknown;
+    onImageOpen?: unknown;
+    onLink?: (url: string) => ReturnType<(typeof Linking)['openURL']>;
     rules?: unknown;
     styles?: unknown;
-    children: string;
   }> {}
 
   export = Markdown;

@@ -1,4 +1,5 @@
 import type { User } from '@app/generated/server.gql';
+
 import { logger } from '../logger';
 
 export abstract class AnalyticPlugin {
@@ -8,27 +9,27 @@ export abstract class AnalyticPlugin {
     this.identify?.(user);
   }
 
+  error?(
+    error: Error,
+    context?: Record<string, unknown>,
+    user?: User,
+  ): Promise<void> | void;
+
+  protected identify?(user?: User): Promise<void> | void;
+
   isEnabled?(): boolean;
 
-  track?(
-    eventName: string,
-    attributes?: Record<string, unknown>,
-    user?: User,
-  ): void | Promise<void>;
+  registerPush?(): Promise<void> | void;
 
   screen?(
     screenName: string,
     attributes?: Record<string, unknown>,
     user?: User,
-  ): void | Promise<void>;
+  ): Promise<void> | void;
 
-  protected identify?(user?: User): void | Promise<void>;
-
-  registerPush?(): void | Promise<void>;
-
-  error?(
-    error: Error,
-    context?: Record<string, unknown>,
+  track?(
+    eventName: string,
+    attributes?: Record<string, unknown>,
     user?: User,
-  ): void | Promise<void>;
+  ): Promise<void> | void;
 }

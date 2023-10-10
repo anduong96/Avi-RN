@@ -1,4 +1,5 @@
 import device from 'react-native-device-info';
+
 import { logger } from '../logger';
 
 export async function handleBuildInfo() {

@@ -1,12 +1,7 @@
-import { styled } from '@app/lib/styled';
-import * as React from 'react';
+import type { StyleProp, ViewProps } from 'react-native';
 
-import {
-  ActivityIndicator,
-  View,
-  type StyleProp,
-  type ViewProps,
-} from 'react-native';
+import * as React from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
@@ -14,9 +9,11 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { styled } from '@app/lib/styled';
+
 type Props = {
-  loading?: boolean;
   children: () => React.ReactElement;
+  loading?: boolean;
   style?: StyleProp<ViewProps>;
 };
 
@@ -62,12 +59,12 @@ const Spinner = styled(Animated.View, (theme) => [
   theme.presets.centered,
   {
     backgroundColor: theme.pallette.background,
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
     bottom: 0,
     left: 0,
+    position: 'absolute',
     right: 0,
+    top: 0,
+    zIndex: 1,
   },
 ]);
 

@@ -1,4 +1,11 @@
+import type moment from 'moment';
+
 import * as React from 'react';
+import { FlatList } from 'react-native';
+
+import { BottomSheetSectionList } from '@gorhom/bottom-sheet';
+
+import type { ComponentProps } from '@app/types/component.props';
 
 import { CellType, generateCalendar } from './generate.calendar';
 import {
@@ -12,30 +19,25 @@ import {
   YearText,
 } from './styles';
 
-import { BottomSheetSectionList } from '@gorhom/bottom-sheet';
-import type { ComponentProps } from '@app/types/component.props';
-import { FlatList } from 'react-native';
-import type moment from 'moment';
-
 type Props = ComponentProps<
   Pick<
     React.ComponentProps<typeof BottomSheetSectionList>,
-    'ListHeaderComponent' | 'ListFooterComponent'
+    'ListFooterComponent' | 'ListHeaderComponent'
   > & {
     onRenderDay?: (date: moment.Moment) => React.ReactElement;
   }
 >;
 
 export const BottomSheetCalendar: React.FC<Props> = ({
-  style,
   onRenderDay,
+  style,
   ...props
 }) => {
   const months = React.useMemo(
     () =>
       generateCalendar(new Date(), 12).map((item) => ({
-        month: item.month,
         data: [item.dates],
+        month: item.month,
       })),
     [],
   );
@@ -45,23 +47,12 @@ export const BottomSheetCalendar: React.FC<Props> = ({
       {...props}
       contentContainerStyle={[style]}
       initialNumToRender={3}
-      sections={months}
-      stickySectionHeadersEnabled
-      stickyHeaderIndices={[0]}
-      renderSectionHeader={(item) => {
-        return (
-          <MonthHeader blurType="xlight">
-            <MonthText>{item.section.month.format('MMMM')}</MonthText>
-            <YearText>{item.section.month.format('YYYY')}</YearText>
-          </MonthHeader>
-        );
-      }}
       renderItem={({ section }) => {
         return (
           <Month>
             <FlatList
-              numColumns={7}
               data={section.data[0]}
+              numColumns={7}
               renderItem={({ item: day }) => {
                 if (day.type === CellType.FILLER) {
                   return <Day />;
@@ -85,6 +76,17 @@ export const BottomSheetCalendar: React.FC<Props> = ({
           </Month>
         );
       }}
+      renderSectionHeader={(item) => {
+        return (
+          <MonthHeader blurType="xlight">
+            <MonthText>{item.section.month.format('MMMM')}</MonthText>
+            <YearText>{item.section.month.format('YYYY')}</YearText>
+          </MonthHeader>
+        );
+      }}
+      sections={months}
+      stickyHeaderIndices={[0]}
+      stickySectionHeadersEnabled
     />
   );
 };

@@ -1,39 +1,37 @@
 import * as React from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome6Pro';
+
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
-  size?: number;
   color?: string;
   disabled?: boolean;
-  isActive?: boolean;
+  size?: number;
 } & Pick<
   Icon['props'],
-  | 'style'
-  | 'light'
-  | 'thin'
   | 'brand'
   | 'duotone'
+  | 'light'
+  | 'name'
   | 'sharpSolid'
   | 'solid'
-  | 'name'
+  | 'style'
+  | 'thin'
 >;
 
 export const FaIcon: React.FC<Props> = ({
-  size = 15,
   color,
   disabled,
-  isActive,
+  size = 15,
   ...props
 }) => {
   const theme = useTheme();
   const iconColor = disabled
     ? theme.pallette.grey[200]
-    : isActive
-    ? theme.pallette.active
-    : color || theme.pallette.grey[600];
+    : color || theme.pallette.grey[900];
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  return <Icon light {...props} size={size} color={iconColor} />;
+  return <Icon solid {...props} color={iconColor} size={size} />;
 };

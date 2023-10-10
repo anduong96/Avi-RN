@@ -1,39 +1,40 @@
-import { APP_LINK, DOM_LINK, FLIGHT_URL, WEB_LINK } from './lib/deep.link';
-
 import type { LinkingOptions } from '@react-navigation/native';
-import type { MainStackParam } from './stacks';
+
+import type { MainStackParam } from './navigation';
+
+import { APP_LINK, DOM_LINK, FLIGHT_URL, WEB_LINK } from './lib/deep.link';
 
 function buildPath(...parts: string[]) {
   return parts.join('/');
 }
 
 export const LINKING_CONFIG: LinkingOptions<MainStackParam> = {
-  prefixes: [APP_LINK, WEB_LINK, DOM_LINK],
   config: {
     initialRouteName: 'Home',
     screens: {
-      Home: 'home',
-      Profile: 'profile',
-      Settings: 'settings',
-      PrivacyPolicies: 'privacy',
-      TermsOfService: 'terms',
       FlightSearch: buildPath('flights', 'search'),
       FlightStack: {
         screens: {
-          Archived: {
-            path: buildPath('flights', 'archived'),
+          Course: {
+            path: buildPath(FLIGHT_URL, 'course'),
           },
           Flight: {
             path: buildPath(FLIGHT_URL),
-          },
-          Course: {
-            path: buildPath(FLIGHT_URL, 'course'),
           },
           Ratings: {
             path: buildPath(FLIGHT_URL, 'ratings'),
           },
         },
       },
+      FlightsArchive: {
+        path: buildPath('flights', 'archived'),
+      },
+      Home: 'home',
+      PrivacyPolicies: 'privacy',
+      Profile: 'profile',
+      Settings: 'settings',
+      TermsOfService: 'terms',
     },
   },
+  prefixes: [APP_LINK, WEB_LINK, DOM_LINK],
 };

@@ -1,7 +1,8 @@
-import * as React from 'react';
-
-import { Text } from 'react-native';
 import type { TextProps } from 'react-native';
+
+import * as React from 'react';
+import { Text } from 'react-native';
+
 import moment from 'moment';
 
 type Props = Omit<TextProps, 'children'> & {

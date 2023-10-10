@@ -1,20 +1,25 @@
+import type { TextInput } from 'react-native';
+
+import * as React from 'react';
+import { View } from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
+
+import type { MainStack } from '@app/navigation';
+import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
+
+import { styled } from '@app/lib/styled';
 import { RandomFlightBtn } from '@app/components/button.random.flight';
 import { useKeyboardSubmitEvent } from '@app/components/input/use.keyboard.submit';
-import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
-import { styled } from '@app/lib/styled';
-import type { MainStack } from '@app/stacks';
-import { useNavigation } from '@react-navigation/native';
-import * as React from 'react';
-import type { TextInput } from 'react-native';
-import { View } from 'react-native';
+
 import { useTopic } from '../publisher';
-import { useFocusedInput } from '../state/use.focused.input';
-import { useHasValue } from '../state/use.has.value';
 import { AirlineInput } from './airline.input';
-import { DepartureDateInput } from './departure.date.input';
-import { FlightNumberInput } from './flight.number.input';
-import { FocusedContainer } from './focused.container';
+import { useHasValue } from '../state/use.has.value';
 import { TextSearchInput } from './text.search.input';
+import { FocusedContainer } from './focused.container';
+import { FlightNumberInput } from './flight.number.input';
+import { DepartureDateInput } from './departure.date.input';
+import { useFocusedInput } from '../state/use.focused.input';
 
 export const InputBar: React.FC = () => {
   const navigation = useNavigation<MainStack<'FlightSearch'>>();
@@ -45,11 +50,11 @@ export const InputBar: React.FC = () => {
 
   const handleRandomFlight = (flight: FullFlightFragmentFragment) => {
     navigation.push('FlightStack', {
-      screen: 'Flight',
       params: {
         flightID: flight.id,
         isFromSearch: true,
       },
+      screen: 'Flight',
     });
   };
 
@@ -80,7 +85,10 @@ export const InputBar: React.FC = () => {
 const Container = styled(View, (theme) => [
   {
     flexDirection: 'row',
+    flexShrink: 0,
+    flexWrap: 'nowrap',
     gap: theme.space.tiny,
+    overflow: 'scroll',
     paddingHorizontal: theme.space.medium,
   },
 ]);

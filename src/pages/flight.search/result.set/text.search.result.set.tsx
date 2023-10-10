@@ -1,32 +1,36 @@
-import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
-import { HorizontalDivider } from '@app/components/divider.horizontal';
-import { HighlightedText } from '@app/components/highlight.text';
-import { FaIcon } from '@app/components/icons.fontawesome';
-import { useKeyboardSubmitEvent } from '@app/components/input/use.keyboard.submit';
-import { ListItem } from '@app/components/list.item';
+import * as React from 'react';
+import Animated from 'react-native-reanimated';
+import { FlatList, Text, TouchableOpacity } from 'react-native';
+
 import type { AirlinesQuery } from '@app/generated/server.gql';
+
+import { styled } from '@app/lib/styled';
+import { Result } from '@app/components/result';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { ListItem } from '@app/components/list.item';
+import { FaIcon } from '@app/components/icons.fontawesome';
 import { parseFlightIata } from '@app/lib/parse.flight.iata';
-import { styled } from '@app/lib/styled';
-import * as React from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
-import { Publisher } from '../publisher';
+import { HighlightedText } from '@app/components/highlight.text';
+import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
+import { useKeyboardSubmitEvent } from '@app/components/input/use.keyboard.submit';
+
 import { State } from '../state';
-import { useFocusedInput } from '../state/use.focused.input';
+import { Publisher } from '../publisher';
 import { useValue } from '../state/use.value';
 import { useAirlineSearch } from '../use.airline.search';
+import { useFocusedInput } from '../state/use.focused.input';
 
 export const TextSearchResultSet: React.FC = () => {
   const theme = useTheme();
   const focused = useFocusedInput();
   const textSearch = useValue('textSearch', '');
   const isFocusOnAirlineIata = focused === 'airlineIata';
-  const result = useAirlineSearch(textSearch);
-  const currentFlightNumber = useValue('flightNumber');
   const flightNumber = !isFocusOnAirlineIata
-    ? parseFlightIata(textSearch)?.flightNumber
+    ? parseFlightIata(textSearch)?.flightNumber.slice(0, 4)
     : undefined;
+  const result = useAirlineSearch(textSearch, flightNumber);
+  const currentFlightNumber = useValue('flightNumber');
 
   const handleSelection = React.useCallback(
     (airline: AirlinesQuery['airlines'][number]) => {
@@ -36,9 +40,9 @@ export const TextSearchResultSet: React.FC = () => {
       }
 
       State.actions.setState({
-        textSearch: undefined,
         airlineIata: airline.iata,
         flightNumber: flightNumber || currentFlightNumber,
+        textSearch: undefined,
       });
 
       if (!isFocusOnAirlineIata) {
@@ -59,27 +63,17 @@ export const TextSearchResultSet: React.FC = () => {
 
   return (
     <FlatList
+      ListEmptyComponent={() => (
+        <Animated.View>
+          <Result hero={<EmptyHero>😐</EmptyHero>} title="No results" />
+        </Animated.View>
+      )}
       data={result}
       keyExtractor={(item) => item.item.id}
-      ItemSeparatorComponent={() => <HorizontalDivider />}
-      renderItem={({ item, index }) => {
+      renderItem={({ index, item }) => {
         return (
           <TouchableOpacity onPress={() => handleSelection(item.item)}>
             <ListItem
-              padding="small"
-              style={[
-                index === 0 && {
-                  backgroundColor: theme.pallette.grey[100],
-                },
-              ]}
-              icon={
-                <AirlineLogoAvatar size={35} airlineIata={item.item.iata} />
-              }
-              title={
-                <ItemTitle matchKey="name" matches={item.matches}>
-                  {item.item.name}
-                </ItemTitle>
-              }
               description={
                 <ItemDescription matchKey="iata" matches={item.matches}>
                   {`${item.item.iata}${flightNumber ?? ''}`}
@@ -88,12 +82,26 @@ export const TextSearchResultSet: React.FC = () => {
               extra={
                 index === 0 && (
                   <FaIcon
-                    light
-                    name="arrow-right-long"
                     color={theme.pallette.active}
+                    name="arrow-right-long"
+                    size={20}
                   />
                 )
               }
+              icon={
+                <AirlineLogoAvatar airlineIata={item.item.iata} size={35} />
+              }
+              style={[
+                index === 0 && {
+                  backgroundColor: theme.pallette.grey[50],
+                },
+              ]}
+              title={
+                <ItemTitle matchKey="name" matches={item.matches}>
+                  {item.item.name}
+                </ItemTitle>
+              }
+              verticalPadding="medium"
             />
           </TouchableOpacity>
         );
@@ -103,15 +111,17 @@ export const TextSearchResultSet: React.FC = () => {
 };
 
 const ItemTitle = styled(HighlightedText, (theme) => [
-  theme.typography.presets.p1,
+  theme.typography.presets.h4,
   {
-    color: theme.typography.color,
+    color: theme.pallette.text,
   },
 ]);
 
 const ItemDescription = styled(HighlightedText, (theme) => [
   theme.typography.presets.small,
   {
-    color: theme.typography.secondaryColor,
+    color: theme.pallette.textSecondary,
   },
 ]);
+
+const EmptyHero = styled(Text, (theme) => [theme.typography.presets.massive]);

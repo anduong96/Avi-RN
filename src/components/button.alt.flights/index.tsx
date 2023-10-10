@@ -1,8 +1,9 @@
 import * as React from 'react';
-
-import { MaterialIcon } from '../icons.material';
 import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import { styled } from '@app/lib/styled';
 
 type Props = {
@@ -12,7 +13,8 @@ type Props = {
 export const AltFlightsButton: React.FC<Props> = () => {
   return (
     <Btn>
-      <MaterialIcon name="electric-switch-closed" />
+      {/* @ts-ignore */}
+      <Icon name="electric-switch-closed" />
       <BtnText>Alternative Flights</BtnText>
     </Btn>
   );
@@ -21,10 +23,10 @@ export const AltFlightsButton: React.FC<Props> = () => {
 const Btn = styled(TouchableOpacity, (theme) => [
   theme.presets.centered,
   {
-    flexDirection: 'row',
-    gap: theme.space.tiny,
     backgroundColor: theme.pallette.grey[100],
     borderRadius: theme.borderRadius,
+    flexDirection: 'row',
+    gap: theme.space.tiny,
     paddingHorizontal: theme.space.small,
     paddingVertical: 4,
   },

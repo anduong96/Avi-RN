@@ -1,22 +1,22 @@
-import * as React from 'react';
-
 import type { StyleProp, ViewStyle } from 'react-native';
 
-import { StyleSheet } from 'react-native';
+import * as React from 'react';
 import { View } from 'react-native';
+import { StyleSheet } from 'react-native';
+
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
+  color?: string;
   size: number;
   style?: StyleProp<ViewStyle>;
-  color?: string;
   type?: 'fill' | 'outline';
 };
 
 export const Circle: React.FC<Props> = ({
+  color,
   size,
   style,
-  color,
   type = 'fill',
 }) => {
   const theme = useTheme();
@@ -26,12 +26,12 @@ export const Circle: React.FC<Props> = ({
       style={[
         type === 'fill' && { backgroundColor: color },
         type === 'outline' && {
-          borderWidth: StyleSheet.hairlineWidth,
-          borderColor: color,
           backgroundColor: theme.pallette.background,
+          borderColor: color,
           borderStyle: 'solid',
+          borderWidth: StyleSheet.hairlineWidth,
         },
-        { width: size, height: size, borderRadius: size },
+        { borderRadius: size, height: size, width: size },
         style,
       ]}
     />

@@ -17,8 +17,8 @@ export function parseFlightIata(iataString: string) {
   const [_, iata, flightNumber] = iataString.match(regex) ?? [];
   if (iata && flightNumber) {
     return {
-      iata,
       flightNumber,
+      iata,
     };
   }
 

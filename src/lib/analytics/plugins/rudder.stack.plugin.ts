@@ -1,16 +1,35 @@
-import { AnalyticPlugin } from '../types';
 import DeviceInfo from 'react-native-device-info';
-import { ENV } from '@app/env';
+
 import { isNil } from 'lodash';
 import rudderClient from '@rudderstack/rudder-sdk-react-native';
 
+import { ENV } from '@app/env';
+
+import { AnalyticPlugin } from '../types';
+
 export class RudderstackPlugin extends AnalyticPlugin {
-  isEnabled() {
-    return !isNil(ENV.RUDDER_STACK_KEY);
+  identify(): void {
+    rudderClient.identify(
+      this.user.id,
+      {
+        batteryLevel: DeviceInfo.getBatteryLevelSync(),
+        carrier: DeviceInfo.getCarrierSync(),
+        device: DeviceInfo.getDeviceSync(),
+        deviceId: DeviceInfo.getDeviceId(),
+        deviceName: DeviceInfo.getDeviceNameSync(),
+        disk: DeviceInfo.getFreeDiskStorageSync(),
+        displayName: this.user.fullName,
+        email: this.user.email,
+        fingerPrint: DeviceInfo.getFingerprintSync(),
+        ipAddress: DeviceInfo.getIpAddressSync(),
+        profileURL: this.user.profileImageURL,
+      },
+      {},
+    );
   }
 
-  track(eventName: string, attributes?: Record<string, unknown>): void {
-    rudderClient.track(eventName, attributes);
+  isEnabled() {
+    return !isNil(ENV.RUDDER_STACK_KEY);
   }
 
   screen(
@@ -20,23 +39,7 @@ export class RudderstackPlugin extends AnalyticPlugin {
     rudderClient.screen(screenName, attributes);
   }
 
-  identify(): void {
-    rudderClient.identify(
-      this.user.id,
-      {
-        email: this.user.email,
-        profileURL: this.user.profileImageURL,
-        displayName: this.user.fullName,
-        batteryLevel: DeviceInfo.getBatteryLevelSync(),
-        carrier: DeviceInfo.getCarrierSync(),
-        deviceName: DeviceInfo.getDeviceNameSync(),
-        deviceId: DeviceInfo.getDeviceId(),
-        device: DeviceInfo.getDeviceSync(),
-        fingerPrint: DeviceInfo.getFingerprintSync(),
-        disk: DeviceInfo.getFreeDiskStorageSync(),
-        ipAddress: DeviceInfo.getIpAddressSync(),
-      },
-      {},
-    );
+  track(eventName: string, attributes?: Record<string, unknown>): void {
+    rudderClient.track(eventName, attributes);
   }
 }

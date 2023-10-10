@@ -1,38 +1,39 @@
 import * as React from 'react';
-
 import { Text, View } from 'react-native';
 
-import { FaIcon } from '@app/components/icons.fontawesome';
-import type { AirportQuery } from '@app/generated/server.gql';
-import { useTheme } from '@app/lib/hooks/use.theme';
-import { styled } from '@app/lib/styled';
 import moment from 'moment';
 
+import type { AirportQuery } from '@app/generated/server.gql';
+
+import { styled } from '@app/lib/styled';
+import { useTheme } from '@app/lib/hooks/use.theme';
+import { FaIcon } from '@app/components/icons.fontawesome';
+
 type Props = {
-  airportIata: string;
-  terminal?: string | null;
-  gate?: string | null;
-  type: 'origin' | 'destination';
-  baggageClaim?: string | null;
-  timezone: string;
-  estimatedMovementTime: Date;
-  scheduledMovementTime: Date;
   actualMovementTime?: Date | null;
-  airport: Pick<AirportQuery['airport'], 'name' | 'iata'>;
+  airport: Pick<AirportQuery['airport'], 'iata' | 'name'>;
+  airportIata: string;
+  baggageClaim?: null | string;
+  estimatedMovementTime: Date;
+  gate?: null | string;
+  scheduledMovementTime: Date;
+  terminal?: null | string;
+  timezone: string;
+  type: 'destination' | 'origin';
 };
 
 const FILLER = '--' as const;
 
 export const FlightPageLocationSection: React.FC<Props> = ({
-  terminal,
-  gate,
-  type,
-  airport,
-  timezone,
-  estimatedMovementTime,
-  scheduledMovementTime,
   actualMovementTime,
+  airport,
   baggageClaim,
+  estimatedMovementTime,
+  gate,
+  scheduledMovementTime,
+  terminal,
+  timezone,
+  type,
 }) => {
   const theme = useTheme();
   const usableTime = actualMovementTime || estimatedMovementTime;
@@ -56,7 +57,7 @@ export const FlightPageLocationSection: React.FC<Props> = ({
       <Meta>
         <Time>
           <DirectionalIconContainer>
-            <FaIcon solid size={22} name={icon} color={timeColor} />
+            <FaIcon color={timeColor} name={icon} size={22} solid />
           </DirectionalIconContainer>
           <TimeText style={[{ color: timeColor }]}>
             {movementTime.format('h:mm A')}
@@ -79,9 +80,9 @@ export const FlightPageLocationSection: React.FC<Props> = ({
 const Container = styled(View, (theme) => [
   {
     flexDirection: 'row',
+    gap: theme.space.large,
     maxWidth: '100%',
     overflow: 'hidden',
-    gap: theme.space.large,
   },
 ]);
 
@@ -93,9 +94,9 @@ const Airport = styled(View, () => [
   },
 ]);
 
-const AirportIata = styled(Text, () => [
+const AirportIata = styled(Text, (theme) => [
+  theme.typography.presets.h1,
   {
-    fontSize: 50,
     lineHeight: 55,
   },
 ]);
@@ -103,7 +104,7 @@ const AirportIata = styled(Text, () => [
 const AirportName = styled(Text, (theme) => [
   theme.typography.presets.small,
   {
-    color: theme.pallette.grey[700],
+    color: theme.pallette.text,
   },
 ]);
 
@@ -119,30 +120,30 @@ const MetaText = styled<{ isFiller?: boolean }, typeof Text>(
   (theme, props) => [
     theme.typography.presets.p2,
     {
+      color: theme.pallette.text,
       fontWeight: 'bold',
       textAlign: 'right',
-      color: theme.pallette.grey[700],
     },
     props.isFiller && {
-      color: theme.pallette.grey[400],
+      color: theme.pallette.textSecondary,
     },
   ],
 );
 
 const Time = styled(View, (theme) => [
   {
+    alignItems: 'center',
     flexDirection: 'row',
     gap: theme.space.tiny,
-    alignItems: 'center',
   },
 ]);
 
 const TimeText = styled(Text, () => [
   {
-    fontWeight: 'bold',
     fontSize: 22,
-    width: 100,
+    fontWeight: 'bold',
     textAlign: 'right',
+    width: 100,
   },
 ]);
 

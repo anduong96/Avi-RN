@@ -1,18 +1,19 @@
 import * as React from 'react';
-
 import { Linking, Modal } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
+import checkStoreVersion from 'react-native-store-version';
+
+import { isNil } from 'lodash';
+import Lottie from 'lottie-react-native';
+import { useThrottleCallback } from '@react-hook/throttle';
+
+import { ENV } from '@app/env';
+import { useAppActive } from '@app/lib/hooks/use.app.state';
 
 import { Button } from '../button';
-import { CodepushShield } from '../code.push';
-import DeviceInfo from 'react-native-device-info';
-import { ENV } from '@app/env';
-import Lottie from 'lottie-react-native';
-import { PageContainer } from '../page.container';
 import { Result } from '../result';
-import checkStoreVersion from 'react-native-store-version';
-import { isNil } from 'lodash';
-import { useAppActive } from '@app/lib/hooks/use.app.state';
-import { useThrottleCallback } from '@react-hook/throttle';
+import { CodepushShield } from '../code.push';
+import { PageContainer } from '../page.container';
 
 const IOS_STORE_URL =
   'https://apps.apple.com/us/app/avi-book-flights-travel-fly/id1672456122';
@@ -23,9 +24,9 @@ export const ForceUpdateShield: React.FC = () => {
 
   const checkVersion = useThrottleCallback(async () => {
     const { result } = await checkStoreVersion({
-      version: DeviceInfo.getVersion(),
-      iosStoreURL: IOS_STORE_URL,
       country: 'us',
+      iosStoreURL: IOS_STORE_URL,
+      version: DeviceInfo.getVersion(),
     });
 
     setHasUpdate(result === 'new');
@@ -43,35 +44,35 @@ export const ForceUpdateShield: React.FC = () => {
 
   return (
     <Modal
-      visible={hasUpdate ?? false}
       animationType="slide"
       presentationStyle="fullScreen"
+      visible={hasUpdate ?? false}
     >
       <PageContainer centered>
         <Result
-          hero={
-            <Lottie
-              duration={2000}
-              speed={0.5}
-              resizeMode="contain"
-              style={{ width: 500, aspectRatio: 1 }}
-              source={{
-                uri: 'https://assets10.lottiefiles.com/packages/lf20_dbdmdrse.json',
-              }}
-            />
-          }
-          title="Its time to update"
-          subtitle="New features important features available to improve your experience"
           actions={[
             <Button
-              shadow
               fullWidth
-              size="large"
+              hasShadow
               onPress={() => Linking.openURL(IOS_STORE_URL)}
+              size="large"
             >
               Update now
             </Button>,
           ]}
+          hero={
+            <Lottie
+              duration={2000}
+              resizeMode="contain"
+              source={{
+                uri: 'https://assets10.lottiefiles.com/packages/lf20_dbdmdrse.json',
+              }}
+              speed={0.5}
+              style={{ aspectRatio: 1, width: 500 }}
+            />
+          }
+          subtitle="New features important features available to improve your experience"
+          title="Its time to update"
         />
       </PageContainer>
     </Modal>

@@ -1,27 +1,29 @@
 import type Fuse from 'fuse.js';
-import * as React from 'react';
 import type { StyleProp, TextStyle } from 'react-native';
+
+import * as React from 'react';
 import { Text } from 'react-native';
+
 import { splitMatches } from './split.matches';
 
 type Props = {
-  matchKey: string;
-  matches?: readonly Fuse.FuseResultMatch[];
   children: string;
-  style?: StyleProp<TextStyle>;
+  matchKey: string;
   matchStyle?: StyleProp<TextStyle>;
+  matches?: readonly Fuse.FuseResultMatch[];
+  style?: StyleProp<TextStyle>;
 };
 export const HighlightedText: React.FC<Props> = ({
-  matches = [],
-  matchKey,
   children,
-  style,
+  matchKey,
   matchStyle,
+  matches = [],
+  style,
 }) => {
   const parts = splitMatches({
-    text: children,
-    matches,
     matchKey,
+    matches,
+    text: children,
   });
 
   return (

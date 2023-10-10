@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { Text } from 'react-native';
 
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
-import { Text } from 'react-native';
+
 import { styled } from '@app/lib/styled';
 
 type Props = {

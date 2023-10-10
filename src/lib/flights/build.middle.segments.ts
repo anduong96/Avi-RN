@@ -6,8 +6,8 @@ type Params = {
       GeneralFlightSegmentFragment,
       | 'arrivalDate'
       | 'departureDate'
-      | 'originIata'
       | 'destinationIata'
+      | 'originIata'
       | 'stops'
     >
   >;

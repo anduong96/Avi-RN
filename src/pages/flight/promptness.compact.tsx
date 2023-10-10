@@ -1,13 +1,15 @@
 import * as React from 'react';
-
 import { Text, View } from 'react-native';
 
-import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
-import { LoadingOverlay } from '@app/components/loading.overlay';
-import { VerticalDivider } from '@app/components/divider.vertical';
-import { isNil } from 'lodash';
 import moment from 'moment';
+import { isNil } from 'lodash';
+
+import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
+
 import { styled } from '@app/lib/styled';
+import { Card } from '@app/components/card';
+import { Statistic } from '@app/components/statistic';
+import { VerticalDivider } from '@app/components/divider.vertical';
 import { useGetFlightPromptnessQuery } from '@app/generated/server.gql';
 
 type Props = {
@@ -24,67 +26,78 @@ export const PromptnessCompact: React.FC<Props> = ({ flightID }) => {
 
   const data = response.data?.flightPromptness;
   const hasData = !isNil(data);
-  const { onTimePercent = 0, averageDelayTimeMs = 0 } = data ?? {};
+  const { averageDelayTimeMs = 0, onTimePercent = 0 } = data ?? {};
 
-  return (
-    <Container>
-      <LoadingOverlay isLoading={response.loading} />
+  const getContent = () => {
+    if (!onTimePercent && !averageDelayTimeMs) {
+      return (
+        <Content>
+          <InfoText>
+            ⚠️ Delay information is not available for this flight.
+          </InfoText>
+        </Content>
+      );
+    }
+
+    return (
       <Content>
-        <Item>
-          <ItemTitle>Delay Chance</ItemTitle>
-          <ItemValue>{hasData ? `${100 - onTimePercent}%` : 'N/A'}</ItemValue>
-        </Item>
+        <Item
+          align="center"
+          label="Delay Chance"
+          value={hasData ? `${100 - onTimePercent}%` : 'N/A'}
+        />
         <VerticalDivider />
-        <Item>
-          <ItemTitle>Delay Average</ItemTitle>
-          <ItemValue>
-            {hasData
+        <Item
+          align="center"
+          label="Delay Average"
+          value={
+            hasData
               ? `${moment.duration(averageDelayTimeMs).minutes()} min`
-              : 'N/A'}
-          </ItemValue>
-        </Item>
+              : 'N/A'
+          }
+        />
       </Content>
-    </Container>
-  );
+    );
+  };
+
+  return <Card isLoading={response.loading}>{getContent()}</Card>;
 };
 
-const Container = styled(View, (theme) => [
-  theme.presets.shadows[100],
-  theme.presets.centered,
-  {
-    padding: theme.space.medium,
-    borderRadius: theme.borderRadius,
-    backgroundColor: theme.pallette.background,
-    gap: theme.space.medium,
-  },
-]);
-
-const Item = styled(View, (theme) => [
-  theme.presets.centered,
-  {
-    flexGrow: 1,
-    flexBasis: 1,
-    gap: theme.space.small,
-  },
-]);
-
-const ItemTitle = styled(Text, (theme) => [
+const InfoText = styled(Text, (theme) => [
   theme.typography.presets.p1,
   {
-    color: theme.pallette.grey[700],
+    color: theme.pallette.textSecondary,
   },
 ]);
 
-const ItemValue = styled(Text, (theme) => [
-  theme.typography.presets.h1,
-  {
-    color: theme.typography.color,
-  },
-]);
+const Item = styled(
+  Statistic,
+  (theme) => [
+    theme.presets.centered,
+    {
+      flexBasis: 1,
+      flexGrow: 1,
+    },
+  ],
+  (theme) => ({
+    labelStyle: [
+      theme.typography.presets.p2,
+      {
+        color: theme.pallette.textSecondary,
+      },
+    ],
+    valueStyle: [
+      theme.typography.presets.h2,
+      {
+        lineHeight: 50,
+      },
+    ],
+  }),
+);
 
 const Content = styled(View, () => [
   {
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
   },
 ]);

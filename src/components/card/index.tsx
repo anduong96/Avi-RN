@@ -1,57 +1,85 @@
-import * as React from 'react';
-
 import type { StyleProp, ViewStyle } from 'react-native';
 
-import type { SpaceKeys } from '@app/themes';
+import * as React from 'react';
 import { View } from 'react-native';
-import { useTheme } from '@app/lib/hooks/use.theme';
+
+import { isNil } from 'lodash';
+
+import type { SpaceKeys } from '@app/themes';
+
+import { styled } from '@app/lib/styled';
+
+import { LoadingOverlay } from '../loading.overlay';
 
 type Props = React.PropsWithChildren<{
-  direction?: 'row' | 'column';
-  padding?: SpaceKeys;
+  direction?: 'column' | 'row';
   gap?: SpaceKeys;
-  margin?: SpaceKeys;
-  style?: StyleProp<ViewStyle>;
-  outlined?: boolean;
   hasShadow?: boolean;
   isCentered?: boolean;
+  isLoading?: boolean;
+  isOutlined?: boolean;
+  margin?: SpaceKeys;
+  padding?: SpaceKeys;
+  style?: StyleProp<ViewStyle>;
 }>;
 
 export const Card: React.FC<Props> = ({
   children,
-  padding,
-  margin,
-  gap,
-  style,
-  outlined,
-  hasShadow,
   direction,
+  gap,
+  hasShadow,
   isCentered,
+  isLoading,
+  isOutlined,
+  margin,
+  padding,
+  style,
 }) => {
-  const theme = useTheme();
-
-  const getSize = (key?: SpaceKeys) => {
-    return key ? theme.space[key] : 0;
-  };
-
   return (
-    <View
-      style={[
-        direction === 'row' && { flexDirection: 'row' },
-        outlined && theme.presets.outlinedBox,
-        hasShadow && [theme.presets.shadows[100]],
-        isCentered && theme.presets.centered,
-        {
-          padding: getSize(padding),
-          gap: getSize(gap),
-          margin: getSize(margin),
-          backgroundColor: theme.pallette.white,
-          borderRadius: theme.borderRadius,
-        },
-        style,
-      ]}
+    <Container
+      direction={direction}
+      gap={gap}
+      hasShadow={hasShadow}
+      isCentered={isCentered}
+      isOutlined={isOutlined}
+      margin={margin}
+      padding={padding}
+      style={[style]}
     >
+      <LoadingOverlay isDark isLoading={isLoading} type="solid" />
       {children}
-    </View>
+    </Container>
   );
 };
+
+const Container = styled<
+  Pick<
+    Props,
+    | 'direction'
+    | 'gap'
+    | 'hasShadow'
+    | 'isCentered'
+    | 'isOutlined'
+    | 'margin'
+    | 'padding'
+  >,
+  typeof View
+>(View, (theme, props) => [
+  props.isCentered && theme.presets.centered,
+  props.hasShadow && theme.presets.shadows[200],
+  {
+    backgroundColor: theme.pallette.card,
+    borderRadius: theme.borderRadius,
+    gap: theme.space.medium,
+    padding: theme.space.medium,
+  },
+  props.padding && {
+    padding: theme.space[props.padding],
+  },
+  props.margin && {
+    margin: theme.space[props.margin],
+  },
+  !isNil(props.gap) && {
+    gap: theme.space[props.gap],
+  },
+]);

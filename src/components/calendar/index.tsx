@@ -1,39 +1,60 @@
 import * as React from 'react';
+import { Text, View } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
 
-import { CellType, generateCalendar } from './generate.calendar';
-import {
-  Day,
-  DayText,
-  Month,
-  MonthHeader,
-  MonthText,
-  Weekday,
-  WeekdayText,
-  YearText,
-} from './styles';
+import moment from 'moment';
+import { isNil } from 'lodash';
 
 import type { ComponentProps } from '@app/types/component.props';
-import { FlatList } from 'react-native';
-import type moment from 'moment';
+
+import { styled } from '@app/lib/styled';
+import { vibrate } from '@app/lib/haptic.feedback';
+
+import { CellType, generateCalendar } from './generate.calendar';
 
 type Props = ComponentProps<
   Omit<
     React.ComponentProps<typeof FlatList>,
-    'initialNumToRender' | 'data' | 'renderItem' | 'keyExtractor' | 'getItem'
+    'data' | 'getItem' | 'initialNumToRender' | 'keyExtractor' | 'renderItem'
   > & {
+    highlightToday?: boolean;
+    maxDate?: moment.MomentInput;
+    minDate?: moment.MomentInput;
     onRenderDay?: (date: moment.Moment) => React.ReactElement;
+    onSelectDay?: (date: moment.Moment) => void;
+    value?: moment.MomentInput;
   }
 >;
 
-export const Calendar: React.FC<Props> = ({ style, onRenderDay, ...props }) => {
-  const months = React.useMemo(() => generateCalendar(new Date(), 12), []);
+export const Calendar: React.FC<Props> = ({
+  highlightToday,
+  maxDate = moment().add(12, 'months'),
+  minDate = moment(),
+  onRenderDay,
+  onSelectDay,
+  style,
+  value,
+}) => {
+  const hasValue = !isNil(value);
+  const today = moment();
+  const months = React.useMemo(
+    () =>
+      generateCalendar(
+        moment(minDate).toDate(),
+        Math.ceil(moment(maxDate).diff(minDate, 'months')),
+      ),
+    [maxDate, minDate],
+  );
+
+  const handleSelect = (date: moment.Moment) => {
+    vibrate('impactMedium');
+    onSelectDay?.(date);
+  };
 
   return (
     <FlatList
-      {...props}
-      style={[style]}
-      initialNumToRender={3}
       data={months}
+      initialNumToRender={3}
       renderItem={({ item }) => {
         return (
           <Month>
@@ -42,8 +63,8 @@ export const Calendar: React.FC<Props> = ({ style, onRenderDay, ...props }) => {
               <YearText>{item.month.format('YYYY')}</YearText>
             </MonthHeader>
             <FlatList
-              numColumns={7}
               data={item.dates}
+              numColumns={7}
               renderItem={({ item: day }) => {
                 if (day.type === CellType.FILLER) {
                   return <Day />;
@@ -54,11 +75,20 @@ export const Calendar: React.FC<Props> = ({ style, onRenderDay, ...props }) => {
                     </Weekday>
                   );
                 }
-
+                const isToday = highlightToday && day.date.isSame(today, 'day');
+                const isActive = hasValue && day.date.isSame(value, 'day');
                 return (
-                  <Day>
+                  <Day
+                    isActive={isActive}
+                    onPress={() => handleSelect(day.date)}
+                  >
                     {onRenderDay?.(day.date) ?? (
-                      <DayText>{day.date.format('D')}</DayText>
+                      <>
+                        <DayText isActive={isActive}>
+                          {day.date.format('D')}
+                        </DayText>
+                        {isToday && <Dot />}
+                      </>
                     )}
                   </Day>
                 );
@@ -67,6 +97,87 @@ export const Calendar: React.FC<Props> = ({ style, onRenderDay, ...props }) => {
           </Month>
         );
       }}
+      showsVerticalScrollIndicator={false}
+      style={[style]}
     />
   );
 };
+
+const Day = styled<{ isActive?: boolean }, typeof TouchableOpacity>(
+  TouchableOpacity,
+  (theme, props) => [
+    theme.presets.centered,
+    {
+      aspectRatio: 1,
+      borderColor: theme.pallette.transparent,
+      borderRadius: theme.borderRadius,
+      borderWidth: theme.borderWidth,
+      flexBasis: 1,
+      flexGrow: 1,
+      margin: theme.borderWidth,
+    },
+    props.isActive && {
+      borderColor: theme.pallette.active,
+    },
+  ],
+);
+
+const DayText = styled<{ isActive?: boolean }, typeof Text>(
+  Text,
+  (theme, props) => [
+    theme.typography.presets.h3,
+
+    props.isActive && {
+      fontWeight: 'bold',
+    },
+  ],
+);
+
+const Month = styled(View, (theme) => [
+  {
+    paddingBottom: theme.space.large,
+    width: '100%',
+  },
+]);
+
+const Weekday = styled(View, (theme) => [
+  theme.presets.centered,
+  {
+    flexBasis: 1,
+    flexGrow: 1,
+    paddingVertical: theme.space.tiny,
+  },
+]);
+
+const WeekdayText = styled(Text, (theme) => [
+  theme.typography.presets.small,
+  {
+    textAlign: 'center',
+  },
+]);
+
+const YearText = styled(Text, (theme) => [theme.typography.presets.h3]);
+
+const MonthText = styled(Text, (theme) => [
+  theme.typography.presets.h3,
+  { fontWeight: 'bold' },
+]);
+
+const MonthHeader = styled(View, (theme) => [
+  {
+    flexDirection: 'row',
+    gap: theme.space.tiny,
+    padding: theme.space.small,
+  },
+]);
+
+const Dot = styled(View, (theme) => [
+  {
+    aspectRatio: 1,
+    backgroundColor: theme.pallette.primary,
+    borderRadius: theme.roundRadius,
+    bottom: 5,
+    position: 'absolute',
+    width: 5,
+  },
+]);

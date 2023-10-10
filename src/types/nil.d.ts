@@ -1,1 +1,1 @@
-export type Nil = undefined | null;
+export type Nil = null | undefined;

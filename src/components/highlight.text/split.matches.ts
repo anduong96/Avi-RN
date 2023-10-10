@@ -6,9 +6,9 @@ type Entry = {
 };
 
 export function splitMatches(params: {
-  text: string;
   matchKey: string;
   matches: readonly Fuse.FuseResultMatch[];
+  text: string;
 }) {
   let lastIndex = 0;
   const result: Entry[] = [];

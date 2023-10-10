@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { useColorScheme } from 'react-native';
 
 import { DARK_THEME } from '../../themes/dark.theme';
 import { LIGHT_THEME } from '../../themes/light.theme';
-import { useColorScheme } from 'react-native';
 
 /**
  * It returns a theme object based on the current color scheme

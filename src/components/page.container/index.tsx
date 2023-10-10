@@ -1,19 +1,17 @@
 import * as React from 'react';
+import { View } from 'react-native';
 
-import type { StyleProp, View, ViewStyle } from 'react-native';
-
-import { Container } from './styles';
+import { styled } from '@app/lib/styled';
 
 type Props = React.PropsWithChildren<{
-  style?: StyleProp<ViewStyle>;
   centered?: boolean;
 }> &
   React.ComponentProps<typeof View>;
 
 export const PageContainer: React.FC<Props> = ({
+  centered,
   children,
   style,
-  centered,
   ...props
 }) => {
   return (
@@ -22,3 +20,16 @@ export const PageContainer: React.FC<Props> = ({
     </Container>
   );
 };
+
+const Container = styled<{ centered?: boolean }, typeof View>(
+  View,
+  (theme, props) => [
+    props.centered && theme.presets.centered,
+    {
+      backgroundColor: theme.pallette.background,
+      display: 'flex',
+      flexGrow: 1,
+      overflow: 'hidden',
+    },
+  ],
+);

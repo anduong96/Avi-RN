@@ -1,1 +1,1 @@
-export type StringOrElement = string | React.ReactElement;
+export type StringOrElement = React.ReactElement | string;

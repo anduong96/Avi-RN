@@ -6,9 +6,9 @@ export type Place = {
 };
 
 export type FlightSearchSlice = {
-  origin: Place;
-  destination: Place;
   departureDate: string;
+  destination: Place;
+  origin: Place;
 };
 
 export type FlightSearchTraveler = {

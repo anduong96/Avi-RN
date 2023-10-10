@@ -11,11 +11,11 @@ const httpLink = createHttpLink({
 
 export const CmsServerApolloClient = new ApolloClient({
   cache: new InMemoryCache(),
-  link: ApolloLink.from([httpLink]),
   defaultOptions: {
     watchQuery: {
-      pollInterval: 10 * 1000 * 60,
       initialFetchPolicy: 'cache-first',
+      pollInterval: 10 * 1000 * 60,
     },
   },
+  link: ApolloLink.from([httpLink]),
 });

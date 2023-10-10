@@ -1,25 +1,31 @@
-import * as React from 'react';
-
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
+
+import * as React from 'react';
 
 import { isNil } from 'lodash';
 
-type Props = {
-  Container: React.ComponentType<any>;
-  style?: StyleProp<ViewStyle | TextStyle>;
-  value: React.PropsWithChildren['children'];
-};
+type Props<T extends React.ComponentType> = {
+  Container: T;
+  children: React.PropsWithChildren['children'];
+  style?: StyleProp<TextStyle | ViewStyle>;
+} & React.ComponentProps<T>;
 
-export const StringRenderer: React.FC<Props> = ({
-  value,
+export function StringRenderer<T extends React.ComponentType>({
   Container,
+  children,
   style,
-}) => {
-  if (isNil(value)) {
+  ...props
+}: Props<T>) {
+  if (isNil(children)) {
     return null;
-  } else if (React.isValidElement(value)) {
-    return value;
+  } else if (React.isValidElement(children)) {
+    return children;
   }
 
-  return <Container style={style}>{String(value)}</Container>;
-};
+  return (
+    // @ts-ignore
+    <Container {...(props ?? {})} style={style}>
+      {String(children)}
+    </Container>
+  );
+}

@@ -1,17 +1,19 @@
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import * as React from 'react';
-
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, { SlideInDown } from 'react-native-reanimated';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import { FaIcon } from '@app/components/icons.fontawesome';
-import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
-import { useUserFlightQuery } from '@app/generated/server.gql';
-import { vibrate } from '@app/lib/haptic.feedback';
-import { styled } from '@app/lib/styled';
-import type { FlightStackParams } from '@app/stacks/flight.stack';
 import { BlurView } from '@react-native-community/blur';
 import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+import type { FlightStackParams } from '@app/navigation/flight.stack';
+import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
+
+import { styled } from '@app/lib/styled';
+import { vibrate } from '@app/lib/haptic.feedback';
+import { FaIcon } from '@app/components/icons.fontawesome';
+import { useUserFlightQuery } from '@app/generated/server.gql';
 
 type Navigation = NativeStackNavigationProp<FlightStackParams, 'Flight'>;
 
@@ -39,8 +41,8 @@ export const ExitToHomeBtn: React.FC<Props> = ({ flightID }) => {
   return (
     <Container>
       <Btn entering={SlideInDown} onPress={handleExit}>
-        <BlurView blurType="xlight" style={[StyleSheet.absoluteFillObject]} />
-        <FaIcon solid name="xmark" size={30} />
+        <BlurView blurType="dark" style={[StyleSheet.absoluteFillObject]} />
+        <FaIcon name="xmark" size={30} solid />
       </Btn>
     </Container>
   );
@@ -49,9 +51,9 @@ export const ExitToHomeBtn: React.FC<Props> = ({ flightID }) => {
 const Container = styled(View, (theme) => [
   theme.presets.centered,
   {
+    bottom: theme.insets.bottom,
     position: 'absolute',
     width: '100%',
-    bottom: theme.insets.bottom,
   },
 ]);
 
@@ -60,13 +62,13 @@ const Btn = styled(
   (theme) => [
     theme.presets.centered,
     {
-      shadowOpacity: 0.8,
-      zIndex: 1,
-      overflow: 'hidden',
-      width: 50,
+      aspectRatio: 1,
       borderRadius: 70,
       height: undefined,
-      aspectRatio: 1,
+      overflow: 'hidden',
+      shadowOpacity: 0.8,
+      width: 50,
+      zIndex: 1,
     },
   ],
 );

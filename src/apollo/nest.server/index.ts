@@ -1,18 +1,18 @@
+import { onError } from '@apollo/client/link/error';
+import { firebase } from '@react-native-firebase/auth';
+import { setContext } from '@apollo/client/link/context';
+import { MMKVStorageWrapper, persistCache } from 'apollo3-cache-persist';
 import {
   ApolloClient,
   ApolloLink,
   InMemoryCache,
   createHttpLink,
 } from '@apollo/client';
-import { MMKVStorageWrapper, persistCache } from 'apollo3-cache-persist';
 
-import { Analytics } from '@app/lib/analytics';
 import { ENV } from '@app/env';
-import { firebase } from '@react-native-firebase/auth';
 import { logger } from '@app/lib/logger';
-import { onError } from '@apollo/client/link/error';
-import { setContext } from '@apollo/client/link/context';
 import { storage } from '@app/lib/storage';
+import { Analytics } from '@app/lib/analytics';
 
 const gqlLogger = logger.extend('[Apollo GraphQL]');
 const httpLink = createHttpLink({ uri: `${ENV.SERVER}/graphql` });
@@ -46,23 +46,23 @@ persistCache({
   cache,
   storage: new MMKVStorageWrapper({
     getItem: async (key) => storage.getString(key),
-    setItem: async (key, value): Promise<undefined> => {
-      storage.set(key, value);
-    },
     removeItem: async (key): Promise<undefined> => {
       storage.delete(key);
+    },
+    setItem: async (key, value): Promise<undefined> => {
+      storage.set(key, value);
     },
   }),
 });
 
 export const NestServerApolloClient = new ApolloClient({
   cache,
-  link: ApolloLink.from([errorLink, authLink, httpLink]),
   defaultOptions: {
     watchQuery: {
-      pollInterval: 10 * 1000 * 60,
       fetchPolicy:
         ENV.APP_ENV === 'development' ? 'cache-and-network' : 'cache-first',
+      pollInterval: 10 * 1000 * 60,
     },
   },
+  link: ApolloLink.from([errorLink, authLink, httpLink]),
 });

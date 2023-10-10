@@ -1,37 +1,37 @@
-import * as React from 'react';
-
-import { ActivityIndicator, FlatList } from 'react-native';
-import {
-  Container,
-  Header,
-  Item,
-  ItemHintText,
-  ItemIcon,
-  ItemLabelText,
-  ItemMeta,
-  Title,
-} from './styles';
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native';
 
-import type Animated from 'react-native-reanimated';
-import { HorizontalDivider } from '../divider.horizontal';
-import type { MenuContextMeta } from './context';
-import type { OptionItem } from './types';
-import { StringRenderer } from '../string.renderer';
+import * as React from 'react';
+import Animated from 'react-native-reanimated';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  Pressable,
+  Text,
+  View,
+} from 'react-native';
+
+import { styled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
+import type { OptionItem } from './types';
+import type { MenuContextMeta } from './context';
+
+import { StringRenderer } from '../string.renderer';
+import { HorizontalDivider } from '../divider.horizontal';
+
 type Props = {
-  style?: StyleProp<Animated.AnimateStyle<StyleProp<ViewStyle>>>;
-  onLayout: (event: LayoutChangeEvent) => void;
   onClose: () => void;
-} & Pick<MenuContextMeta, 'title' | 'items'>;
+  onLayout: (event: LayoutChangeEvent) => void;
+  style?: StyleProp<Animated.AnimateStyle<StyleProp<ViewStyle>>>;
+} & Pick<MenuContextMeta, 'items' | 'title'>;
 
 export const ContextMenu: React.FC<Props> = ({
-  style,
   items,
-  title,
-  onLayout,
   onClose,
+  onLayout,
+  style,
+  title,
 }) => {
   const theme = useTheme();
 
@@ -41,24 +41,23 @@ export const ContextMenu: React.FC<Props> = ({
   };
 
   return (
-    <Container style={[style]} onLayout={onLayout}>
+    <Container onLayout={onLayout} style={[style]}>
       <FlatList
-        data={items}
-        scrollEnabled={false}
-        keyExtractor={(item, index) => item.label + index}
+        ItemSeparatorComponent={() => <HorizontalDivider />}
         ListHeaderComponent={
           <>
             {title && (
               <>
                 <Header>
-                  <StringRenderer value={title} Container={Title} />
+                  <StringRenderer Container={Title}>{title}</StringRenderer>
                 </Header>
                 <HorizontalDivider />
               </>
             )}
           </>
         }
-        ItemSeparatorComponent={() => <HorizontalDivider />}
+        data={items}
+        keyExtractor={(item, index) => item.label + index}
         renderItem={({ item }) => (
           <Item
             onPress={() => handleSelect(item)}
@@ -77,7 +76,51 @@ export const ContextMenu: React.FC<Props> = ({
             </ItemIcon>
           </Item>
         )}
+        scrollEnabled={false}
       />
     </Container>
   );
 };
+
+const Title = styled(Text, (theme) => [
+  theme.typography.presets.p2,
+  {
+    color: theme.pallette.textSecondary,
+  },
+]);
+
+const Item = styled(Pressable, (theme) => ({
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  maxWidth: Dimensions.get('window').width,
+  minWidth: 130,
+  padding: theme.space.small,
+}));
+
+const ItemLabelText = styled(Text, (theme) => ({
+  ...theme.typography.presets.p2,
+}));
+
+const ItemHintText = styled(Text, (theme) => ({
+  ...theme.typography.presets.small,
+  color: theme.pallette.textSecondary,
+}));
+
+const ItemIcon = styled(View, () => ({}));
+
+const ItemMeta = styled(View, () => ({
+  flexGrow: 1,
+}));
+
+const Container = styled(Animated.View, (theme) => ({
+  backgroundColor: theme.pallette.grey[100],
+  borderRadius: theme.borderRadius,
+  justifyContent: 'center',
+  overflow: 'hidden',
+  zIndex: 1,
+}));
+
+const Header = styled(View, (theme) => ({
+  padding: theme.space.small,
+  ...theme.presets.centered,
+}));

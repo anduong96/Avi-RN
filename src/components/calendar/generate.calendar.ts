@@ -32,25 +32,25 @@ export function generateCalendar(
       type: CellType.FILLER,
     }));
     const headers = Array.from({ length: weekLength }).map((_, index) => ({
-      type: CellType.HEADER,
       label: weekdays[index],
+      type: CellType.HEADER,
     }));
 
     return {
-      month: startOfMonth,
       dates: [...headers, ...startFillers, ...dates, ...endFillers] as Array<
         | {
-            type: CellType.DATE;
             date: moment.Moment;
+            type: CellType.DATE;
+          }
+        | {
+            label: string;
+            type: CellType.HEADER;
           }
         | {
             type: CellType.FILLER;
           }
-        | {
-            type: CellType.HEADER;
-            label: string;
-          }
       >,
+      month: startOfMonth,
     };
   });
 }

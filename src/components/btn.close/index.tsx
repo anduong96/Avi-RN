@@ -1,24 +1,67 @@
-import * as React from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 
-import { Container } from './styles';
-import { FaIcon } from '../icons.fontawesome';
+import * as React from 'react';
+import { TouchableOpacity } from 'react-native';
+
+import { styled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useExitPage } from '@app/lib/hooks/use.exit.page';
+
+import { FaIcon } from '../icons.fontawesome';
 
 type Props = {
-  size?: number;
-  onPress?: () => void;
   disabled?: boolean;
+  onPress?: () => void;
+  size?: number;
+  style?: StyleProp<ViewStyle>;
+  withFeedback?: boolean;
 };
 
-export const CloseBtn: React.FC<Props> = ({ size = 30, onPress, disabled }) => {
+export const CloseBtn: React.FC<Props> = ({
+  disabled,
+  onPress,
+  size = 30,
+  style,
+  withFeedback = true,
+}) => {
+  const exit = useExitPage();
+
   const handlePress = () => {
-    vibrate('impactMedium');
-    onPress?.();
+    if (withFeedback) {
+      vibrate('effectClick');
+    }
+
+    if (onPress) {
+      onPress();
+    } else {
+      exit();
+    }
   };
 
   return (
-    <Container onPress={handlePress} size={size} disabled={disabled}>
+    <Container
+      disabled={disabled}
+      onPress={handlePress}
+      size={size}
+      style={style}
+    >
       <FaIcon name="times" />
     </Container>
   );
 };
+
+const Container = styled<{ size: number }, typeof TouchableOpacity>(
+  TouchableOpacity,
+  (theme, props) => [
+    theme.presets.centered,
+    {
+      aspectRatio: 1,
+      backgroundColor: theme.pallette.background,
+      borderColor: theme.pallette.borderColor,
+      borderRadius: props.size,
+      borderWidth: theme.borderWidth,
+      height: undefined,
+      width: props.size,
+    },
+  ],
+);

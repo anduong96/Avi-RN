@@ -1,23 +1,15 @@
 import * as React from 'react';
+import { Text, View } from 'react-native';
 
-import {
-  AirportCity,
-  AirportIata,
-  DividerContainer,
-  FlightPoint,
-  Movement,
-  MovementIconContainer,
-  MovementText,
-} from '../flight.card/styles';
+import moment from 'moment';
 
 import type { FindFlightsQuery } from '@app/generated/server.gql';
-import { useTheme } from '@app/lib/hooks/use.theme';
-import { styled } from '@app/lib/styled';
-import moment from 'moment';
-import { View } from 'react-native';
-import { DividerDashed } from '../divider.dashed';
-import { FaIcon } from '../icons.fontawesome';
 
+import { styled } from '@app/lib/styled';
+import { useTheme } from '@app/lib/hooks/use.theme';
+
+import { FaIcon } from '../icons.fontawesome';
+import { DividerDashed } from '../divider.dashed';
 type Props = {
   flight: FindFlightsQuery['flights'][number];
 };
@@ -47,20 +39,18 @@ export const FlightCardCompact: React.FC<Props> = ({ flight }) => {
         <Movement>
           <MovementIconContainer>
             <FaIcon
-              solid
-              size={20}
-              name="circle-arrow-up-right"
               color={theme.pallette.successLight}
+              name="circle-arrow-up-right"
+              size={20}
+              solid
             />
           </MovementIconContainer>
-          <MovementText>{departure.format('LT')}</MovementText>
+          <MovementText color={theme.pallette.successLight}>
+            {departure.format('LT')}
+          </MovementText>
         </Movement>
         <Actions>
-          <FaIcon
-            size={12}
-            name="chevron-right"
-            color={theme.pallette.active}
-          />
+          <FaIcon color={theme.pallette.active} name="arrow-right" size={30} />
         </Actions>
       </Footer>
     </Container>
@@ -68,13 +58,13 @@ export const FlightCardCompact: React.FC<Props> = ({ flight }) => {
 };
 
 const Container = styled(View, (theme) => [
-  theme.presets.shadows[100],
+  theme.presets.shadows[200],
   {
-    gap: theme.space.medium,
-    backgroundColor: theme.pallette.background,
+    backgroundColor: theme.pallette.card,
     borderRadius: theme.borderRadius,
-    paddingVertical: theme.space.small,
+    gap: theme.space.medium,
     paddingHorizontal: theme.space.medium,
+    paddingVertical: theme.space.medium,
   },
 ]);
 
@@ -88,16 +78,63 @@ const Main = styled(View, (theme) => [
 
 const Footer = styled(View, (theme) => [
   {
-    flexDirection: 'row',
     alignItems: 'center',
+    flexDirection: 'row',
     gap: theme.space.medium,
+  },
+]);
+
+const FlightPoint = styled<{ type: 'destination' | 'origin' }, typeof View>(
+  View,
+  (_, props) => [
+    props.type === 'destination' && {
+      alignItems: 'flex-end',
+    },
+  ],
+);
+
+const AirportIata = styled(Text, (theme) => [theme.typography.presets.h1]);
+
+const AirportCity = styled(Text, (theme) => [
+  theme.typography.presets.p2,
+  {
+    color: theme.pallette.textSecondary,
   },
 ]);
 
 const Actions = styled(View, () => [
   {
+    flexDirection: 'row',
     flexGrow: 1,
     justifyContent: 'flex-end',
-    flexDirection: 'row',
   },
 ]);
+
+const MovementText = styled<{ color: string }, typeof Text>(
+  Text,
+  (theme, props) => [
+    theme.typography.presets.h3,
+    {
+      color: props.color || theme.pallette.text,
+      fontWeight: 'bold',
+    },
+  ],
+);
+
+const DividerContainer = styled(View, (theme) => [
+  {
+    flexGrow: 1,
+    overflow: 'hidden',
+    paddingTop: theme.typography.presets.h1.fontSize / 2,
+  },
+]);
+
+const Movement = styled(View, (theme) => [
+  theme.presets.centered,
+  {
+    flexDirection: 'row',
+    gap: theme.space.tiny,
+  },
+]);
+
+const MovementIconContainer = styled(View, () => [{}]);

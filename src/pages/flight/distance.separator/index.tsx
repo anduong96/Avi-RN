@@ -1,10 +1,10 @@
 import * as React from 'react';
-
 import { Text, View } from 'react-native';
 
-import { DividerDashed } from '@app/components/divider.dashed';
 import moment from 'moment';
+
 import { styled } from '@app/lib/styled';
+import { DividerDashed } from '@app/components/divider.dashed';
 
 type Props = {
   duration: number;
@@ -36,28 +36,27 @@ const Content = styled(View, (theme) => [theme.presets.centered]);
 
 const Divider = styled(DividerDashed, () => [
   {
-    width: '100%',
-    position: 'absolute',
     alignSelf: 'center',
+    position: 'absolute',
+    width: '100%',
   },
 ]);
 
 const TextContainer = styled(View, (theme) => [
   theme.presets.centered,
   {
-    backgroundColor: theme.pallette.grey[100],
+    backgroundColor: theme.pallette.borderColor,
+    borderRadius: theme.borderRadius,
+    flexDirection: 'row',
+    gap: theme.space.tiny,
     paddingHorizontal: theme.space.medium,
     paddingVertical: 2,
-    borderRadius: theme.borderRadius,
-    gap: theme.space.tiny,
-    flexDirection: 'row',
   },
 ]);
 
 const StyledText = styled(Text, (theme) => [
   theme.typography.presets.p1,
   {
-    color: theme.pallette.grey[800],
     fontWeight: 'bold',
   },
 ]);

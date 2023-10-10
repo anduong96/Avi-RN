@@ -1,9 +1,9 @@
 import * as React from 'react';
-
 import { View } from 'react-native';
 
-import { type FullFlightFragmentFragment } from '@app/generated/server.gql';
 import { styled } from '@app/lib/styled';
+import { type FullFlightFragmentFragment } from '@app/generated/server.gql';
+
 import { FlightMeta } from './flight.meta';
 
 type Props = {
@@ -22,11 +22,11 @@ export const FlightPageTopHeader: React.FC<Props> = ({ flight }) => {
 
 const Container = styled(View, (theme) => [
   {
-    paddingHorizontal: theme.space.medium,
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexGrow: 1,
     flexDirection: 'row',
+    flexGrow: 1,
+    justifyContent: 'flex-start',
+    paddingHorizontal: theme.space.medium,
   },
 ]);
 

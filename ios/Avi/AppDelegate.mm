@@ -1,6 +1,5 @@
 #import "AppDelegate.h"
 #import "RNBootSplash.h" // <- add the header import
-#import <Crisp/Crisp-Swift.h>
 #import <CodePush/CodePush.h>
 #import <Firebase.h>
 
@@ -13,7 +12,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [FIRApp configure];
-  [CrispSDK configureWithWebsiteID:@"979950b7-1f8e-4eb5-adf7-a798edf33d9c"];
   self.moduleName = @"avi";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.

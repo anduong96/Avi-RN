@@ -1,18 +1,17 @@
-import * as React from 'react';
+import type { BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
 
+import * as React from 'react';
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
 
-import type { BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
-
 export const Backdrop: React.FC<
   BottomSheetBackdropProps & {
     onClose?: () => void;
   }
-> = ({ animatedIndex, style, onClose }) => {
+> = ({ animatedIndex, onClose, style }) => {
   const containerAnimatedStyle = useAnimatedStyle(() => ({
     display: animatedIndex.value === 0 ? 'none' : 'flex',
     opacity: interpolate(

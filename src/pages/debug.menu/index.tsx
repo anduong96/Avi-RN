@@ -1,15 +1,15 @@
 import * as React from 'react';
-
 import { Text, View } from 'react-native';
-
 import DeviceInfo from 'react-native-device-info';
-import { ENV } from '@app/env';
-import { PageContainer } from '@app/components/page.container';
-import { PageHeader } from '@app/components/page.header';
+
 import { TouchableOpacity } from '@gorhom/bottom-sheet';
 import messaging from '@react-native-firebase/messaging';
+
+import { ENV } from '@app/env';
 import { styled } from '@app/lib/styled';
+import { PageHeader } from '@app/components/page.header';
 import { useFcmToken } from '@app/lib/hooks/use.fcm.token';
+import { PageContainer } from '@app/components/page.container';
 
 export const DebugMenuPage: React.FC = () => {
   const fcmToken = useFcmToken();
@@ -33,7 +33,7 @@ export const DebugMenuPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <PageHeader withoutInsets title="Debug" />
+      <PageHeader title="Debug" withoutInsets />
       <Content>
         <Text>Bundle: {DeviceInfo.getBundleId()}</Text>
         <Text selectable>FCM: {fcmToken ?? ''}</Text>
@@ -50,7 +50,7 @@ export const DebugMenuPage: React.FC = () => {
 
 const Content = styled(View, (theme) => [
   {
-    padding: theme.space.medium,
     gap: theme.space.small,
+    padding: theme.space.medium,
   },
 ]);

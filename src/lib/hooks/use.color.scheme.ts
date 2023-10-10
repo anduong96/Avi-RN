@@ -1,6 +1,7 @@
-import { GlobalState } from '@app/state/global';
 import React from 'react';
 import { useColorScheme as useRnColorScheme } from 'react-native';
+
+import { GlobalState } from '@app/state/global';
 
 /**
  * UseColorScheme() is a React hook that sets the global state isDarkMode to true if the device is in

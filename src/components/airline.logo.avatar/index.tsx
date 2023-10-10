@@ -1,10 +1,14 @@
 import * as React from 'react';
-
-import { useAirlinesQuery } from '@app/generated/server.gql';
-import { styled } from '@app/lib/styled';
-import type { StyleProp, ViewStyle } from 'react-native';
-import { View } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { type StyleProp, type ViewStyle } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+
+import { styled } from '@app/lib/styled';
+import { useAirlinesQuery } from '@app/generated/server.gql';
 
 type Props = {
   airlineIata: string;
@@ -14,46 +18,55 @@ type Props = {
 
 export const AirlineLogoAvatar: React.FC<Props> = ({
   airlineIata,
-  style,
   size = 50,
+  style,
 }) => {
   const request = useAirlinesQuery();
   const airlines = request.data?.airlines;
+  const isVisible = useSharedValue(false);
   const match = React.useMemo(
     () => airlines?.find((airline) => airline.iata === airlineIata),
     [airlines, airlineIata],
   );
+  const containerStyle = useAnimatedStyle(() => ({
+    opacity: withTiming(isVisible.value ? 1 : 0),
+  }));
+
+  const handleLoad = () => {
+    isVisible.value = true;
+  };
 
   return (
-    <Container style={[style]} size={size}>
+    <Container size={size} style={[style, containerStyle]}>
       <Logo
         defaultSource={require('@app/assets/airline.png')}
+        onError={handleLoad}
+        onLoad={handleLoad}
         resizeMode={FastImage.resizeMode.contain}
         source={{
-          uri: match?.logoCompactImageURL,
           priority: FastImage.priority.high,
+          uri: match?.logoCompactImageURL,
         }}
       />
     </Container>
   );
 };
 
-const Container = styled<Required<Pick<Props, 'size'>>, typeof View>(
-  View,
+const Container = styled<Required<Pick<Props, 'size'>>, typeof Animated.View>(
+  Animated.View,
   (theme, props) => [
     theme.presets.centered,
     {
-      backgroundColor: theme.pallette.grey[50],
-      overflow: 'hidden',
-      padding: props.size / 10,
-      height: props.size,
       aspectRatio: 1,
       borderRadius: props.size,
+      height: props.size,
+      overflow: 'hidden',
+      padding: props.size / 10,
     },
   ],
 );
 
 const Logo = styled(FastImage, () => ({
-  width: '100%',
   height: '100%',
+  width: '100%',
 }));

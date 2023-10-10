@@ -1,9 +1,9 @@
 export type OptionItem = {
-  label: string;
-  isDanger?: boolean;
+  disabled?: boolean;
   hint?: string;
   icon?: React.ReactElement;
-  disabled?: boolean;
+  isDanger?: boolean;
+  label: string;
   loading?: boolean;
-  onPress?: (fromItem?: boolean) => void | Promise<void>;
+  onPress?: (fromItem?: boolean) => Promise<void> | void;
 };

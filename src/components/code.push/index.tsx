@@ -1,29 +1,25 @@
 import * as React from 'react';
-import * as Sentry from '@sentry/react-native';
-
-import {
-  Progress,
-  ProgressBar,
-  ProgressBarInner,
-  ProgressText,
-} from './styles';
-import {
+import codepush from 'react-native-code-push';
+import { Modal, Text, View } from 'react-native';
+import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   withTiming,
 } from 'react-native-reanimated';
 
-import { Button } from '../button';
-import { ENV } from '@app/env';
-import Lottie from 'lottie-react-native';
-import { Modal } from 'react-native';
-import { PageContainer } from '../page.container';
-import { Result } from '../result';
-import codepush from 'react-native-code-push';
-import { logger } from '@app/lib/logger';
 import { round } from 'lodash';
-import { useAppActive } from '@app/lib/hooks/use.app.state';
+import Lottie from 'lottie-react-native';
+import * as Sentry from '@sentry/react-native';
 import { useThrottleCallback } from '@react-hook/throttle';
+
+import { ENV } from '@app/env';
+import { logger } from '@app/lib/logger';
+import { styled } from '@app/lib/styled';
+import { useAppActive } from '@app/lib/hooks/use.app.state';
+
+import { Button } from '../button';
+import { Result } from '../result';
+import { PageContainer } from '../page.container';
 
 export const CodepushShield: React.FC = () => {
   const [progress, setProgress] = React.useState<number>(0);
@@ -66,10 +62,10 @@ export const CodepushShield: React.FC = () => {
     if (progress === 1) {
       return (
         <Button
-          shadow
           fullWidth
-          size="large"
+          hasShadow
           onPress={() => codepush.restartApp()}
+          size="large"
         >
           Restart now
         </Button>
@@ -94,28 +90,60 @@ export const CodepushShield: React.FC = () => {
 
   return (
     <Modal
-      visible={hasUpdate}
       animationType="slide"
       presentationStyle="fullScreen"
+      visible={hasUpdate}
     >
       <PageContainer centered>
         <Result
+          actions={[<ActionItem />]}
           hero={
             <Lottie
               duration={2000}
-              speed={0.5}
               resizeMode="contain"
-              style={{ width: 500, aspectRatio: 1 }}
               source={{
                 uri: 'https://assets10.lottiefiles.com/packages/lf20_dbdmdrse.json',
               }}
+              speed={0.5}
+              style={{ aspectRatio: 1, width: 500 }}
             />
           }
-          title="Installing update"
           subtitle="We are continually thinking of ways to improve your experience."
-          actions={[<ActionItem />]}
+          title="Installing update"
         />
       </PageContainer>
     </Modal>
   );
 };
+
+export const ProgressBar = styled(View, (theme) => [
+  {
+    backgroundColor: theme.pallette.grey[200],
+    borderRadius: 30,
+    flexDirection: 'row',
+    height: 25,
+    overflow: 'hidden',
+    width: '100%',
+  },
+]);
+
+export const ProgressBarInner = styled(Animated.View, (theme) => [
+  {
+    backgroundColor: theme.pallette.active,
+  },
+]);
+
+export const Progress = styled(View, (theme) => [
+  theme.presets.centered,
+  {
+    gap: theme.space.tiny,
+    width: '100%',
+  },
+]);
+
+export const ProgressText = styled(Text, (theme) => [
+  theme.typography.presets.small,
+  {
+    color: theme.pallette.textSecondary,
+  },
+]);

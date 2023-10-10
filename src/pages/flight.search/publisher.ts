@@ -1,6 +1,7 @@
-import { useSubscription } from '@app/lib/hooks/use.subscription';
-import { TopicPublisher } from '@app/lib/topic.publisher';
 import type React from 'react';
+
+import { TopicPublisher } from '@app/lib/topic.publisher';
+import { useSubscription } from '@app/lib/hooks/use.subscription';
 
 type Topics = {
   Selected: undefined;

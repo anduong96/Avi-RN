@@ -1,13 +1,16 @@
-import * as React from 'react';
-
+import type { EdgeInsets } from 'react-native-safe-area-context';
 import type { ImageStyle, StyleProp, TextStyle, ViewStyle } from 'react-native';
 
-import type { EdgeInsets } from 'react-native-safe-area-context';
-import type { Theme } from '../../themes';
+import * as React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { compact, merge } from 'lodash';
+
+import type { Theme } from '../../themes';
+
 import { useTheme } from '../hooks/use.theme';
 
-type Styles = ViewStyle | TextStyle | ImageStyle;
+type Styles = ImageStyle | TextStyle | ViewStyle;
 type CustomTheme = Theme & { insets: EdgeInsets };
 
 /**
@@ -19,36 +22,49 @@ type CustomTheme = Theme & { insets: EdgeInsets };
  */
 export function styled<
   D,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   C extends React.ComponentType<any> | (new (props: any) => any),
 >(
   Component: C,
   style?:
-    | StyleProp<Styles>
     | ((
         theme: CustomTheme,
         props: React.ComponentProps<C> & D,
-      ) => StyleProp<Styles>),
-  initProps?:
-    | Partial<React.ComponentProps<C>>
-    | ((theme: CustomTheme) => Partial<React.ComponentProps<C>>),
+      ) => StyleProp<Styles>)
+    | StyleProp<Styles>,
+  finalProps?:
+    | ((
+        theme: CustomTheme,
+        props: React.ComponentProps<C> & D,
+      ) =>
+        | Array<Partial<React.ComponentProps<C>>>
+        | Partial<React.ComponentProps<C>>)
+    | Array<Partial<React.ComponentProps<C>>>
+    | Partial<React.ComponentProps<C>>,
 ) {
   type P = React.ComponentProps<C> & D;
-  return React.forwardRef((props: P, ref) => {
+  return React.forwardRef<C, P>((props, ref) => {
     const theme = useTheme();
     const insets = useSafeAreaInsets();
     const combinedTheme = { ...theme, insets };
     const isStyleFn = typeof style === 'function';
-    const isPropFn = typeof initProps === 'function';
+    const isPropFn = typeof finalProps === 'function';
     const resolvedStyle = isStyleFn ? style(combinedTheme, props) : style;
-    const defaultPropsResolved = isPropFn
-      ? initProps(combinedTheme)
-      : initProps;
+    const resolvedProps = isPropFn
+      ? finalProps(combinedTheme, props)
+      : finalProps;
+    const resolvedPropsObj = Array.isArray(resolvedProps)
+      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-expect-error
+        merge(...compact(resolvedProps))
+      : resolvedProps;
 
     return (
-      // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       <Component
-        {...(defaultPropsResolved ?? {})}
         {...props}
+        {...resolvedPropsObj}
         ref={ref}
         style={[resolvedStyle, props.style]}
       />

@@ -1,17 +1,16 @@
 import Smartlook, { Properties } from 'react-native-smartlook-analytics';
 
-import { AnalyticPlugin } from '../types';
-import { ENV } from '@app/env';
-import type { User } from '@app/generated/server.gql';
 import { isNil } from 'lodash';
+
+import type { User } from '@app/generated/server.gql';
+
+import { ENV } from '@app/env';
+
+import { AnalyticPlugin } from '../types';
 
 export class SmartlookPlugin extends AnalyticPlugin {
   constructor(protected readonly user: User) {
     super(user);
-  }
-
-  isEnabled() {
-    return !isNil(ENV.SMARTLOOK_KEY);
   }
 
   private sendEvent<T extends object>(event: string, payload: T = {} as any) {
@@ -28,6 +27,10 @@ export class SmartlookPlugin extends AnalyticPlugin {
   identify() {
     Smartlook.instance.user.setIdentifier(this.user.id);
     this.user.fullName && Smartlook.instance.user.setName(this.user.fullName);
+  }
+
+  isEnabled() {
+    return !isNil(ENV.SMARTLOOK_KEY);
   }
 
   screen(screenName: string, attributes?: object) {

@@ -1,19 +1,19 @@
 import * as React from 'react';
-
-import { View, type StyleProp, type ViewStyle } from 'react-native';
+import { type StyleProp, View, type ViewStyle } from 'react-native';
 
 import type { SpaceKeys } from '@app/themes';
+
 import { styled } from '@app/lib/styled';
 
 type Props = {
   color?: string;
-  style?: StyleProp<ViewStyle>;
   size?: SpaceKeys;
+  style?: StyleProp<ViewStyle>;
 };
 
-export const HorizontalDivider: React.FC<Props> = ({ style, color, size }) => {
+export const HorizontalDivider: React.FC<Props> = ({ color, size, style }) => {
   return (
-    <Container style={[style]} size={size}>
+    <Container size={size} style={[style]}>
       <Line color={color} />
     </Container>
   );
@@ -23,9 +23,9 @@ const Container = styled<Pick<Props, 'size'>, typeof View>(
   View,
   (theme, props) => [
     {
-      paddingHorizontal: theme.space.medium,
       flexDirection: 'column',
       justifyContent: 'center',
+      paddingHorizontal: theme.space.medium,
     },
     props.size === 'medium' && {
       height: theme.space.medium,
@@ -38,7 +38,7 @@ const Container = styled<Pick<Props, 'size'>, typeof View>(
 
 const Line = styled<Pick<Props, 'color'>, typeof View>(View, (theme, props) => [
   {
+    backgroundColor: props.color || theme.pallette.grey[200],
     height: theme.borderWidth,
-    backgroundColor: props.color || theme.pallette.borderColor,
   },
 ]);

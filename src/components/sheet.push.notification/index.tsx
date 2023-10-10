@@ -1,23 +1,27 @@
 import * as React from 'react';
+import { Text, View } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
+import tinycolor from 'tinycolor2';
+import messaging from '@react-native-firebase/messaging';
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 
-import { BlurredSheetBackdrop } from '../sheet.backdrop.blurred';
-import { FaIcon } from '../icons.fontawesome';
+import { delay } from '@app/lib/delay';
+import { styled } from '@app/lib/styled';
+import { Shake } from '@app/lib/animated/shake';
 import { GlobalState } from '@app/state/global';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
-import { delay } from '@app/lib/delay';
-import messaging from '@react-native-firebase/messaging';
-import { styled } from '@app/lib/styled';
-import { useAppActive } from '@app/lib/hooks/use.app.state';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '@app/lib/hooks/use.theme';
-import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
+import { useAppActive } from '@app/lib/hooks/use.app.state';
+import { useUserHasFlightsQuery } from '@app/generated/server.gql';
+
+import { Button } from '../button';
+import { ListItem } from '../list.item';
+import { BlurredSheetBackdrop } from '../sheet.backdrop.blurred';
 
 export const PushNotificationSheet: React.FC = () => {
-  const iconSize = 45;
   const insets = useSafeAreaInsets();
   const theme = useTheme();
   const sheet = React.useRef<BottomSheetModal>(null);
@@ -38,6 +42,8 @@ export const PushNotificationSheet: React.FC = () => {
       delay(3 * 1000).then(() => {
         sheet.current?.present();
       });
+    } else {
+      sheet.current?.dismiss();
     }
   }, [isActive, hasFlights, isPushAsked]);
 
@@ -54,13 +60,13 @@ export const PushNotificationSheet: React.FC = () => {
   const handleEnable = async () => {
     GlobalState.actions.setIsPushAsked();
 
-    vibrate('impactMedium');
+    vibrate('effectClick');
     setLoading(true);
     const responseStatus = await messaging().requestPermission({
-      announcement: true,
-      sound: true,
       alert: true,
+      announcement: true,
       carPlay: true,
+      sound: true,
     });
     setLoading(false);
     GlobalState.actions.setState({
@@ -75,60 +81,46 @@ export const PushNotificationSheet: React.FC = () => {
 
   return (
     <BottomSheetModal
-      ref={sheet}
       backdropComponent={BlurredSheetBackdrop}
-      snapPoints={snapPoints}
-      handleIndicatorStyle={{ display: 'none' }}
+      backgroundStyle={{ backgroundColor: theme.pallette.background }}
       containerStyle={[isPushAsked && { opacity: 0 }]}
+      handleIndicatorStyle={{ display: 'none' }}
+      ref={sheet}
+      snapPoints={snapPoints}
     >
       <Container>
         <Header>
-          <Title>Flight Alerts</Title>
+          <Title>Notifications</Title>
         </Header>
         <Content>
-          <Section>
-            <SectionIcon>
-              <FaIcon
-                type="fa"
-                name="bell"
-                size={iconSize}
-                color={theme.pallette.active}
-              />
-            </SectionIcon>
-            <SectionMeta>
-              <SectionTitle>Flight activities</SectionTitle>
-              <SectionDesc>
-                Important information about your flights such as delay
-              </SectionDesc>
-            </SectionMeta>
-          </Section>
-          <Section>
-            <SectionIcon>
-              <FaIcon
-                type="fa"
-                name="bolt"
-                size={iconSize}
-                color={theme.pallette.warnLight}
-              />
-            </SectionIcon>
-            <SectionMeta>
-              <SectionTitle>Lightning Fast</SectionTitle>
-              <SectionDesc>
-                Instantaneous alert at the moment it happens
-              </SectionDesc>
-            </SectionMeta>
-          </Section>
+          <Item
+            description="Important information about your flights such as delay"
+            icon={
+              <Animated.View entering={Shake()}>
+                <Icon>🔔</Icon>
+              </Animated.View>
+            }
+            title="Flight Activities"
+          />
+          <Item
+            description="Instantaneous alert at the moment it happens"
+            icon={<Icon>⚡</Icon>}
+            title="Lightning Fast"
+          />
         </Content>
         <Footer>
-          <EnableBtn onPress={handleEnable} disabled={loading}>
-            {loading ? (
-              <ActivityIndicator color={theme.pallette.white} />
-            ) : (
-              <EnableBtnText>Enable</EnableBtnText>
-            )}
+          <EnableBtn
+            isBold
+            isLoading={loading}
+            isSolid
+            onPress={handleEnable}
+            size="large"
+            type="primary"
+          >
+            Enable
           </EnableBtn>
-          <DismissBtn onPress={handleDismiss} disabled={loading}>
-            <DismissBtnText>not now</DismissBtnText>
+          <DismissBtn disabled={loading} isBold isSolid onPress={handleDismiss}>
+            not now
           </DismissBtn>
         </Footer>
       </Container>
@@ -138,10 +130,10 @@ export const PushNotificationSheet: React.FC = () => {
 
 const Container = styled(BottomSheetView, (theme) => [
   {
-    padding: theme.space.medium,
-    gap: theme.space.large,
-    paddingBottom: theme.insets.bottom,
     flexGrow: 1,
+    gap: theme.space.large,
+    padding: theme.space.medium,
+    paddingBottom: theme.insets.bottom,
   },
 ]);
 
@@ -150,8 +142,8 @@ const Header = styled(View, (theme) => [theme.presets.centered]);
 const Content = styled(View, (theme) => [
   theme.presets.centered,
   {
-    gap: theme.space.medium,
     flexGrow: 1,
+    gap: theme.space.medium,
   },
 ]);
 
@@ -164,79 +156,41 @@ const Footer = styled(View, (theme) => [
 
 const Title = styled(Text, (theme) => [theme.typography.presets.h1]);
 
-const EnableBtn = styled(TouchableOpacity, (theme) => [
+const EnableBtn = styled(Button, (theme) => [
   theme.presets.shadows[100],
-  theme.presets.centered,
   {
-    minWidth: 150,
-    shadowOpacity: 0.3,
-    flexDirection: 'row',
-    paddingVertical: 20,
-    paddingHorizontal: 40,
-    gap: theme.space.small,
-    backgroundColor: theme.pallette.black,
-    borderRadius: 100,
+    shadowColor: tinycolor(theme.pallette.primary).darken(30).toHexString(),
+    shadowOpacity: 1,
   },
 ]);
 
-const EnableBtnText = styled(Text, (theme) => [
-  theme.typography.presets.p1,
+const DismissBtn = styled(Button, (theme) => [
   {
-    color: theme.pallette.white,
-    fontWeight: 'bold',
+    backgroundColor: theme.pallette.transparent,
   },
 ]);
 
-const DismissBtn = styled(TouchableOpacity, (theme) => [
-  {
-    paddingBottom: theme.space.small,
-  },
-]);
+const Item = styled(
+  ListItem,
+  () => [
+    {
+      flexWrap: 'wrap',
+      justifyContent: 'flex-start',
+      paddingHorizontal: 0,
+      paddingVertical: 0,
+      width: '100%',
+    },
+  ],
+  (theme) => [
+    {
+      titleStyle: [theme.typography.presets.h3],
+    },
+  ],
+);
 
-const DismissBtnText = styled(Text, (theme) => [
-  theme.typography.presets.p1,
+const Icon = styled(Text, (theme) => [
+  theme.typography.presets.h1,
   {
-    color: theme.typography.color,
-    fontWeight: 'bold',
-  },
-]);
-
-const Section = styled(View, (theme) => [
-  {
-    flexDirection: 'row',
-    gap: theme.space.small,
-  },
-]);
-
-const SectionMeta = styled(View, (theme) => [
-  {
-    flexGrow: 1,
-    flexShrink: 1,
-    overflow: 'hidden',
-    gap: theme.space.tiny,
-  },
-]);
-
-const SectionIcon = styled(View, () => [
-  {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 75,
-    height: undefined,
-    aspectRatio: 1,
-  },
-]);
-
-const SectionTitle = styled(Text, (theme) => [
-  theme.typography.presets.p1,
-  {
-    fontWeight: 'bold',
-  },
-]);
-
-const SectionDesc = styled(Text, (theme) => [
-  theme.typography.presets.p1,
-  {
-    flexShrink: 1,
+    textAlign: 'center',
   },
 ]);

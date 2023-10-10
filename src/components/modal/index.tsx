@@ -1,42 +1,48 @@
-import * as React from 'react';
-
-import { Content } from './styles';
-import { ModalHeader } from '../modal.header';
 import type { ModalProps } from 'react-native';
-import { Modal as RnModal } from 'react-native';
+
+import * as React from 'react';
+import { Modal as RnModal, View } from 'react-native';
+
 import type { StringOrElement } from '@app/types/string.or.component';
 
+import { styled } from '../../lib/styled';
+import { ModalHeader } from '../modal.header';
+
 type Props = {
-  withCloseBtn?: boolean;
-  children: React.ReactElement | Array<React.ReactElement | false>;
-  title?: StringOrElement;
-  subtitle?: StringOrElement;
-  onClose?: () => void;
+  children: Array<React.ReactElement | false> | React.ReactElement;
   external?: React.ReactElement;
+  onClose?: () => void;
+  subtitle?: StringOrElement;
+  title?: StringOrElement;
+  withCloseBtn?: boolean;
 } & Omit<ModalProps, 'onRequestClose'>;
 
 export const Modal: React.FC<Props> = ({
-  title,
-  subtitle,
   children,
   external,
   onClose,
+  subtitle,
+  title,
   ...props
 }) => {
   return (
     <RnModal
       {...props}
+      animationType="slide"
       onRequestClose={onClose}
       presentationStyle="pageSheet"
-      animationType="slide"
     >
       <ModalHeader
-        title={title}
-        subtitle={subtitle}
         onClose={() => onClose?.()}
+        subtitle={subtitle}
+        title={title}
       />
       <Content>{children}</Content>
       {external}
     </RnModal>
   );
 };
+
+export const Content = styled(View, {
+  flexGrow: 1,
+});

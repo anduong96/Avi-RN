@@ -1,8 +1,8 @@
-import * as React from 'react';
-
 import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native';
 
+import * as React from 'react';
 import { View } from 'react-native';
+
 import { styled } from '@app/lib/styled';
 
 type Props = {
@@ -12,13 +12,13 @@ type Props = {
 };
 
 export const DividerDashed: React.FC<Props> = ({
-  style,
-  isVertical = false,
   dashSize = 2,
+  isVertical = false,
+  style,
 }) => {
   const [layout, setLayout] = React.useState<LayoutRectangle>({
-    width: 0,
     height: 0,
+    width: 0,
     x: 0,
     y: 0,
   });
@@ -32,14 +32,14 @@ export const DividerDashed: React.FC<Props> = ({
       onLayout={(e) => setLayout(e.nativeEvent.layout)}
       style={[
         {
-          justifyContent: 'space-evenly',
           flexDirection: isVertical ? 'column' : 'row',
+          justifyContent: 'space-evenly',
         },
         style,
       ]}
     >
       {Array.from({ length: count }).map((_, i) => (
-        <Dash key={i.toString()} isVertical={isVertical} size={dashSize} />
+        <Dash isVertical={isVertical} key={i.toString()} size={dashSize} />
       ))}
     </Container>
   );
@@ -47,19 +47,19 @@ export const DividerDashed: React.FC<Props> = ({
 
 const Container = styled(View, () => [{}]);
 
-const Dash = styled<{ size: number; isVertical: boolean }, typeof View>(
+const Dash = styled<{ isVertical: boolean; size: number }, typeof View>(
   View,
   (theme, props) => [
     {
-      backgroundColor: theme.pallette.grey[300],
+      backgroundColor: theme.pallette.borderColor,
     },
     props.isVertical && {
       height: props.size,
       width: 1,
     },
     !props.isVertical && {
-      width: props.size,
       height: 1,
+      width: props.size,
     },
   ],
 );

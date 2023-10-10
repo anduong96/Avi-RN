@@ -1,31 +1,33 @@
 import * as React from 'react';
-
 import DatePicker from 'react-native-date-picker';
-import { InputBtn } from '../input.btn';
-import type { SpaceKeys } from '@app/themes';
+
 import moment from 'moment';
 
+import type { SpaceKeys } from '@app/themes';
+
+import { InputBtn } from '../input.btn';
+
 type Props = {
-  value?: moment.MomentInput;
+  disabled?: boolean;
+  hasErrors?: boolean;
+  maxDate?: Date;
+  minDate?: Date;
   onChange?: (value: Props['value']) => void;
   placeholder?: string;
-  hasErrors?: boolean;
-  minDate?: Date;
-  maxDate?: Date;
   size?: SpaceKeys;
+  value?: moment.MomentInput;
   withFeedback?: boolean;
-  disabled?: boolean;
 };
 
 export const DatePickerCompactBtn: React.FC<Props> = ({
-  value,
+  disabled,
   hasErrors,
+  maxDate,
+  minDate,
   onChange,
   placeholder,
-  minDate,
-  maxDate,
   size,
-  disabled,
+  value,
 }) => {
   const [modalVisible, setModalVisible] = React.useState(false);
 
@@ -41,25 +43,25 @@ export const DatePickerCompactBtn: React.FC<Props> = ({
   return (
     <>
       <InputBtn
-        size={size}
-        placeholder={placeholder}
-        value={value ? moment(value).format('L') : undefined}
-        onPress={() => setModalVisible(true)}
-        hasError={hasErrors}
-        withFeedback
         disabled={disabled}
+        hasError={hasErrors}
+        onPress={() => setModalVisible(true)}
+        placeholder={placeholder}
+        size={size}
+        value={value ? moment(value).format('L') : undefined}
+        withFeedback
       />
       <DatePicker
-        modal
-        theme="light"
         androidVariant="iosClone"
-        mode="date"
+        date={moment(value ?? moment().subtract(18, 'years')).toDate()}
         maximumDate={maxDate}
         minimumDate={minDate}
-        date={moment(value ?? moment().subtract(18, 'years')).toDate()}
-        open={modalVisible}
+        modal
+        mode="date"
         onCancel={handleClose}
         onConfirm={handleConfirm}
+        open={modalVisible}
+        theme="light"
       />
     </>
   );

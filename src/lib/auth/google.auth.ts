@@ -1,10 +1,10 @@
-import { ENV } from '@app/env';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { NestServerApolloClient } from '@app/apollo/nest.server';
 import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
+import { ENV } from '@app/env';
+import { NestServerApolloClient } from '@app/apollo/nest.server';
 
 GoogleSignin.configure({
-  webClientId: ENV.GOOGLE_WEB_CLIENT_ID,
   offlineAccess: false,
   scopes: [
     // 'https://www.googleapis.com/auth/userinfo.profile',
@@ -13,6 +13,7 @@ GoogleSignin.configure({
     // 'https://www.googleapis.com/auth/user.birthday.read',
     // 'https://www.googleapis.com/auth/user.phonenumbers.read',
   ],
+  webClientId: ENV.GOOGLE_WEB_CLIENT_ID,
 });
 
 export async function signInWithGoogle() {

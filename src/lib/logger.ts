@@ -1,16 +1,16 @@
 import { logger as RnLogger } from 'react-native-logs';
 
 export const logger = RnLogger.createLogger<
-  'debug' | 'info' | 'warn' | 'error'
+  'debug' | 'error' | 'info' | 'warn'
 >({
-  printLevel: true,
-  printDate: true,
   levels: {
     debug: 0,
+    error: 3,
     info: 1,
     warn: 2,
-    error: 3,
   },
+  printDate: true,
+  printLevel: true,
 });
 
 // logger.patchConsole();

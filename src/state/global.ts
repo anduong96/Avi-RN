@@ -1,30 +1,32 @@
+import { AppState } from 'react-native';
+
+import messaging from '@react-native-firebase/messaging';
 import { createStore, createStoreHook, withShallow } from 'tiamut';
 
-import { AppState } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
-import { withLocalStorage } from './plugins/perserve.local.plugin';
+import { withLocalStorage } from './plugins/preserve.local.plugin';
 
 const initialState = {
-  isReady: false,
+  appState: AppState.currentState,
+  hasOnboard: false,
   isAuth: false,
   isDarkMode: false,
   isFinishStartup: false,
   isPushAsked: false,
-  hasOnboarded: false,
-  appState: AppState.currentState,
+  isReady: false,
   pushPermission: messaging.AuthorizationStatus.NOT_DETERMINED,
 };
 
 export const GlobalState = createStoreHook(
   createStore(
     withShallow({
-      initialState,
       actions: {
-        setState(state, nextState: Partial<typeof initialState>) {
-          return {
-            ...state,
-            ...nextState,
-          };
+        authenticate(state) {
+          state.isAuth = true;
+          return state;
+        },
+        setHasOnboard(state, value: boolean) {
+          state.hasOnboard = value;
+          return state;
         },
         setIsDarkMode(state, value: boolean) {
           state.isDarkMode = value;
@@ -38,15 +40,14 @@ export const GlobalState = createStoreHook(
           state.isFinishStartup = true;
           return state;
         },
-        setHasOnboarded(state, value: boolean) {
-          state.hasOnboarded = value;
-          return state;
-        },
-        authenticate(state) {
-          state.isAuth = true;
-          return state;
+        setState(state, nextState: Partial<typeof initialState>) {
+          return {
+            ...state,
+            ...nextState,
+          };
         },
       },
+      initialState,
     }),
   ),
 );

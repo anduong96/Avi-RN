@@ -1,9 +1,12 @@
+import type { TextInput } from 'react-native';
+
+import * as React from 'react';
+
+import { isIos } from '@app/lib/is.ios';
 import { Input } from '@app/components/input';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { isIos } from '@app/lib/is.ios';
 import { removeNonNumericCharacters } from '@app/lib/remove.non.numeric';
-import * as React from 'react';
-import type { TextInput } from 'react-native';
+
 import { State } from '../state';
 import { useValue } from '../state/use.value';
 
@@ -18,8 +21,8 @@ export const FlightNumberInput = React.forwardRef<TextInput>((_, ref) => {
   const handleFocus = () => {
     vibrate('impactMedium');
     State.actions.setState({
-      textSearch: flightNumber,
       focusInput: 'flightNumber',
+      textSearch: flightNumber,
     });
   };
 
@@ -38,18 +41,18 @@ export const FlightNumberInput = React.forwardRef<TextInput>((_, ref) => {
   return (
     <Input
       allowClear
-      ref={ref}
-      maxLength={4}
-      keyboardType={isIos ? 'numbers-and-punctuation' : 'default'}
-      value={inputValue}
-      returnKeyType="next"
-      placeholder="Flight Number"
+      autoCapitalize="none"
       autoComplete="off"
       autoCorrect={false}
-      autoCapitalize="none"
-      onFocus={handleFocus}
+      keyboardType={isIos ? 'numbers-and-punctuation' : 'default'}
+      maxLength={4}
       onBlur={handleBlur}
       onChange={handleChange}
+      onFocus={handleFocus}
+      placeholder="Flight Number"
+      ref={ref}
+      returnKeyType="next"
+      value={inputValue}
     />
   );
 });

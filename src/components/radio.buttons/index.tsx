@@ -1,34 +1,36 @@
 import * as React from 'react';
-
-import { Container, Option, OptionIndicator, OptionText } from './styles';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import RNReactNativeHapticFeedback, {
   HapticFeedbackTypes,
 } from 'react-native-haptic-feedback';
 
-import { ActivityIndicator } from 'react-native';
-import type { LabelOption } from '@app/types/label.option';
-import { MaterialIcon } from '../icons.material';
 import { isEmpty } from 'lodash';
+
+import type { LabelOption } from '@app/types/label.option';
+
+import { styled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
+
+import { FaIcon } from '../icons.fontawesome';
 
 type Props<T> = {
   allowUncheck?: boolean;
+  hasErrors?: boolean;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  onChange?: (value?: T) => void;
   options?: LabelOption<T>[];
   value?: T;
-  onChange?: (value?: T) => void;
-  hasErrors?: boolean;
-  isLoading?: boolean;
-  isDisabled?: boolean;
 };
 
 export function RadioButtons<T>({
-  value,
-  options,
   allowUncheck,
   hasErrors,
-  onChange,
-  isLoading,
   isDisabled,
+  isLoading,
+  onChange,
+  options,
+  value,
 }: Props<T>) {
   const theme = useTheme();
 
@@ -59,19 +61,15 @@ export function RadioButtons<T>({
         const isActive = opt.value === value;
         return (
           <Option
-            disabled={isDisabled}
             activeOpacity={isActive ? 1 : 0.8}
-            key={index}
+            disabled={isDisabled}
             hasErrors={hasErrors}
+            key={index}
             onPress={() => handleSelect(opt.value)}
           >
-            <OptionIndicator isActive={isActive} hasErrors={hasErrors}>
+            <OptionIndicator hasErrors={hasErrors} isActive={isActive}>
               {isActive && (
-                <MaterialIcon
-                  color={theme.pallette.white}
-                  name="check"
-                  size={10}
-                />
+                <FaIcon color={theme.pallette.white} name="check" size={10} />
               )}
             </OptionIndicator>
             <OptionText>{opt.label}</OptionText>
@@ -81,3 +79,70 @@ export function RadioButtons<T>({
     </Container>
   );
 }
+
+const Container = styled(View, (theme) => [
+  {
+    flexDirection: 'row',
+    gap: theme.space.small,
+  },
+]);
+
+const Option = styled<
+  { hasErrors?: boolean; isActive?: boolean },
+  typeof TouchableOpacity
+>(TouchableOpacity, (theme, props) => [
+  theme.presets.outlinedBox,
+  {
+    alignItems: 'center',
+    flexBasis: 1,
+    flexDirection: 'row',
+    flexGrow: 1,
+    gap: theme.space.medium,
+    padding: theme.space.medium,
+  },
+  props.isActive && {
+    borderColor: theme.pallette.successLight,
+  },
+  props.hasErrors && {
+    borderColor: theme.pallette.danger,
+  },
+]);
+
+const OptionText = styled(Text, (theme) => [
+  {
+    color: theme.pallette.text,
+    flexGrow: 1,
+    fontSize: theme.typography.presets.p1.fontSize,
+  },
+]);
+
+const OptionIndicator = styled<
+  { hasErrors?: boolean; isActive?: boolean },
+  typeof View
+>(View, (theme, props) => [
+  theme.presets.centered,
+  {
+    aspectRatio: 1,
+    borderRadius: 30,
+    borderWidth: 1,
+    height: undefined,
+    position: 'absolute',
+    right: theme.space.medium,
+    width: 20,
+  },
+  props.isActive && [
+    theme.presets.shadows[100],
+    {
+      backgroundColor: theme.pallette.successLight,
+      borderColor: theme.pallette.successLight,
+      shadowColor: theme.pallette.successLight,
+      shadowOpacity: 0.8,
+    },
+  ],
+  !props.isActive && {
+    borderColor: theme.pallette.grey[200],
+  },
+  props.hasErrors && {
+    borderColor: theme.pallette.danger,
+  },
+]);

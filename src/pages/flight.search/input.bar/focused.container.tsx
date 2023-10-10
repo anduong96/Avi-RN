@@ -1,21 +1,21 @@
-import { styled } from '@app/lib/styled';
 import * as React from 'react';
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
-  withTiming,
 } from 'react-native-reanimated';
 
+import { styled } from '@app/lib/styled';
+
 type Props = {
-  isFocused: boolean;
   children: React.ReactElement;
+  isFocused: boolean;
 };
 
-export const FocusedContainer: React.FC<Props> = ({ isFocused, children }) => {
+export const FocusedContainer: React.FC<Props> = ({ children, isFocused }) => {
   const isFocusedDerived = useDerivedValue(() => isFocused, [isFocused]);
   const animatedStyle = useAnimatedStyle(() => ({
-    flexGrow: withTiming(isFocusedDerived.value ? 1 : 0),
     flexDirection: 'row',
+    flexGrow: isFocusedDerived.value ? 1 : 0,
     justifyContent: 'flex-start',
   }));
 

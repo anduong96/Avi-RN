@@ -1,9 +1,10 @@
 import * as React from 'react';
 
 import { FlightPushSubState } from '@app/state/flight.push.sub';
-import { findArrayDifferences } from '../array/find.difference';
-import { logger } from '../logger';
 import { useGetUserActiveFlightsQuery } from '@app/generated/server.gql';
+
+import { logger } from '../logger';
+import { findArrayDifferences } from '../array/find.difference';
 
 export function useFlightPushSub() {
   const isReady = FlightPushSubState.useSelect((s) => s.isReady);

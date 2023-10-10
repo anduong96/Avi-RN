@@ -1,13 +1,17 @@
-import { FlightCardCompact } from '@app/components/flight.card.compact';
-import type { FindFlightsQuery } from '@app/generated/server.gql';
-import { useFindFlightsQuery } from '@app/generated/server.gql';
 import * as React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
-import { useValue } from '../state/use.value';
+
+import { useNavigation } from '@react-navigation/native';
+
+import type { MainStack } from '@app/navigation';
+import type { FindFlightsQuery } from '@app/generated/server.gql';
+
 import { styled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { useNavigation } from '@react-navigation/native';
-import type { MainStack } from '@app/stacks';
+import { useFindFlightsQuery } from '@app/generated/server.gql';
+import { FlightCardCompact } from '@app/components/flight.card.compact';
+
+import { useValue } from '../state/use.value';
 
 export const FlightsResultSet: React.FC = () => {
   const navigation = useNavigation<MainStack<'FlightSearch'>>();
@@ -17,31 +21,26 @@ export const FlightsResultSet: React.FC = () => {
   const result = useFindFlightsQuery({
     variables: {
       airlineIata,
-      flightNumber,
-      year: departureDate.getFullYear(),
-      month: departureDate.getMonth(),
       date: departureDate.getDate(),
+      flightNumber,
+      month: departureDate.getMonth(),
+      year: departureDate.getFullYear(),
     },
   });
 
   const handlePress = (item: FindFlightsQuery['flights'][number]) => {
     vibrate('impactLight');
     navigation.push('FlightStack', {
-      screen: 'Flight',
       params: {
         flightID: item.id,
         isFromSearch: true,
       },
+      screen: 'Flight',
     });
   };
 
   return (
     <FlatList
-      data={result.data?.flights}
-      keyExtractor={(item) => item.id}
-      refreshing={result.loading}
-      onRefresh={() => result.refetch()}
-      style={{ flexGrow: 1 }}
       ListEmptyComponent={() =>
         result.called &&
         !result.loading &&
@@ -51,6 +50,10 @@ export const FlightsResultSet: React.FC = () => {
           </Empty>
         )
       }
+      data={result.data?.flights}
+      keyExtractor={(item) => item.id}
+      onRefresh={() => result.refetch()}
+      refreshing={result.loading}
       renderItem={({ item }) => (
         <Item onPress={() => handlePress(item)}>
           <FlightCardCompact flight={item} />
@@ -64,10 +67,10 @@ const Empty = styled(View, (theme) => [
   theme.presets.centered,
   theme.presets.shadows[100],
   {
-    padding: theme.space.large,
     backgroundColor: theme.pallette.grey[100],
-    margin: theme.space.medium,
     borderRadius: theme.borderRadius,
+    margin: theme.space.medium,
+    padding: theme.space.large,
   },
 ]);
 

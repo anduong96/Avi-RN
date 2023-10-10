@@ -1,45 +1,42 @@
-import * as React from 'react';
-
-import {
-  ActionItem,
-  Actions,
-  Container,
-  Content,
-  Hero,
-  Meta,
-  SubtitleText,
-  TitleText,
-} from './styles';
 import type { StyleProp, ViewStyle } from 'react-native';
 
-import type { Button } from '../button';
-import type { StringOrElement } from '@app/types/string.or.component';
-import { StringRenderer } from '../string.renderer';
+import * as React from 'react';
+import { Text, View } from 'react-native';
+
 import { isEmpty } from 'lodash';
 
+import type { StringOrElement } from '@app/types/string.or.component';
+
+import { styled } from '@app/lib/styled';
+
+import { Button } from '../button';
+import { StringRenderer } from '../string.renderer';
+
 type Props = {
-  title?: StringOrElement;
-  subtitle?: StringOrElement;
-  actions?: Array<React.ReactElement | React.ComponentProps<typeof Button>>;
-  style?: StyleProp<ViewStyle>;
+  actions?: Array<React.ComponentProps<typeof Button> | React.ReactElement>;
   hero?: React.ReactElement;
+  style?: StyleProp<ViewStyle>;
+  subtitle?: StringOrElement;
+  title?: StringOrElement;
 };
 
 export const Result: React.FC<Props> = ({
-  title,
-  subtitle,
   actions,
-  style,
   hero,
+  style,
+  subtitle,
+  title,
 }) => {
   return (
     <Container style={[style]}>
       {hero && <Hero>{hero}</Hero>}
       <Content>
         <Meta>
-          {title && <StringRenderer value={title} Container={TitleText} />}
+          {title && (
+            <StringRenderer Container={TitleText}>{title}</StringRenderer>
+          )}
           {subtitle && (
-            <StringRenderer value={subtitle} Container={SubtitleText} />
+            <StringRenderer Container={SubtitleText}>{subtitle}</StringRenderer>
           )}
         </Meta>
         {!isEmpty(actions) && (
@@ -58,3 +55,59 @@ export const Result: React.FC<Props> = ({
     </Container>
   );
 };
+
+const Container = styled(View, (theme) => [
+  theme.presets.centered,
+  {
+    gap: theme.space.medium,
+    height: '100%',
+    padding: theme.space.medium,
+  },
+]);
+
+const Meta = styled(View, (theme) => ({
+  gap: theme.space.small,
+}));
+
+const Actions = styled(View, (theme) => [
+  theme.presets.centered,
+  {
+    gap: theme.space.medium,
+    marginTop: theme.space.large,
+  },
+]);
+
+const TitleText = styled(Text, (theme) => [
+  theme.typography.presets.h1,
+  {
+    fontWeight: 'bold',
+    lineHeight: 30,
+    textAlign: 'center',
+  },
+]);
+
+const SubtitleText = styled(Text, (theme) => [
+  theme.typography.presets.p1,
+  {
+    color: theme.pallette.textSecondary,
+    textAlign: 'center',
+  },
+]);
+
+const ActionItem = styled(Button, () => ({}));
+
+const Hero = styled(View, (theme) => [
+  theme.presets.centered,
+  {
+    flexBasis: 1,
+    flexGrow: 1,
+    padding: theme.space.medium,
+  },
+]);
+
+const Content = styled(View, () => [
+  {
+    flexBasis: 1,
+    flexGrow: 1,
+  },
+]);

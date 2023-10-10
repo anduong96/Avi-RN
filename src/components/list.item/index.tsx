@@ -1,59 +1,49 @@
-import * as React from 'react';
-
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
-import type { StringOrElement } from '@app/types/string.or.component';
-import { StringRenderer } from '../string.renderer';
-import { useTheme } from '@app/lib/hooks/use.theme';
+import * as React from 'react';
 import { Text, View } from 'react-native';
+
+import type { SpaceKeys } from '@app/themes';
+import type { StringOrElement } from '@app/types/string.or.component';
+
 import { styled } from '@app/lib/styled';
 
+import { StringRenderer } from '../string.renderer';
+
 type Props = {
-  icon?: React.ReactElement | null;
-  title: StringOrElement;
   description?: StringOrElement;
-  style?: StyleProp<ViewStyle>;
-  extra?: React.ReactNode | null | boolean;
-  padding?: 'medium' | 'small';
-  titleStyle?: StyleProp<TextStyle>;
   descriptionStyle?: StyleProp<TextStyle>;
-  shadow?: boolean;
+  extra?: React.ReactNode | boolean | null;
+  hasShadow?: boolean;
+  icon?: React.ReactElement | null;
+  style?: StyleProp<ViewStyle>;
+  title: StringOrElement;
+  titleStyle?: StyleProp<TextStyle>;
+  verticalPadding?: SpaceKeys;
 };
 
 export const ListItem: React.FC<Props> = ({
-  icon,
-  title,
   description,
-  style,
-  extra,
-  padding,
-  titleStyle,
-  shadow,
   descriptionStyle,
+  extra,
+  hasShadow,
+  icon,
+  style,
+  title,
+  titleStyle,
+  verticalPadding,
 }) => {
-  const theme = useTheme();
-
   return (
-    <Container
-      style={[
-        style,
-        padding === 'medium' && { padding: theme.space.medium },
-        padding === 'small' && { padding: theme.space.small },
-      ]}
-    >
-      <Body shadow={shadow}>
+    <Container style={[style]} verticalPadding={verticalPadding}>
+      <Body hasShadow={hasShadow}>
         <IconContainer>{icon}</IconContainer>
         <Content>
-          <StringRenderer
-            value={title}
-            Container={TitleText}
-            style={titleStyle}
-          />
-          <StringRenderer
-            value={description}
-            Container={DescriptionText}
-            style={descriptionStyle}
-          />
+          <StringRenderer Container={TitleText} style={titleStyle}>
+            {title}
+          </StringRenderer>
+          <StringRenderer Container={DescriptionText} style={descriptionStyle}>
+            {description}
+          </StringRenderer>
         </Content>
         {extra}
       </Body>
@@ -61,50 +51,58 @@ export const ListItem: React.FC<Props> = ({
   );
 };
 
-const Container = styled(View, (theme) => [
-  {
-    paddingHorizontal: theme.space.medium,
-  },
-]);
+const Container = styled<Pick<Props, 'verticalPadding'>, typeof View>(
+  View,
+  (theme, props) => [
+    {
+      paddingHorizontal: theme.space.large,
+    },
+    props.verticalPadding && {
+      paddingVertical: theme.space[props.verticalPadding],
+    },
+  ],
+);
 
 const IconContainer = styled(View, (theme) => [
   theme.presets.centered,
   {
-    width: 20,
-    height: undefined,
     aspectRatio: 1,
+    height: undefined,
+    minWidth: 20,
   },
 ]);
 
-const Content = styled(View, () => ({
+const Content = styled(View, (theme) => ({
+  alignItems: 'flex-start',
   flexGrow: 1,
-  gap: 2,
+  flexShrink: 1,
+  gap: theme.space.tiny,
 }));
 
-const TitleText = styled(Text, (theme) => [theme.typography.presets.p1]);
+const TitleText = styled(Text, (theme) => [theme.typography.presets.h3]);
 
 const DescriptionText = styled(Text, (theme) => [
-  theme.typography.presets.small,
+  theme.typography.presets.p1,
   {
-    color: theme.typography.secondaryColor,
+    color: theme.pallette.textSecondary,
   },
 ]);
 
-const Body = styled<Pick<Props, 'shadow'>, typeof View>(
+const Body = styled<Pick<Props, 'hasShadow'>, typeof View>(
   View,
   (theme, props) => [
     {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
       alignItems: 'center',
+      flexDirection: 'row',
       gap: theme.space.medium,
+      justifyContent: 'space-between',
     },
-    props.shadow && [
+    props.hasShadow && [
       theme.presets.shadows[100],
       {
-        padding: theme.space.medium,
-        borderRadius: theme.borderRadius,
         backgroundColor: theme.pallette.background,
+        borderRadius: theme.borderRadius,
+        padding: theme.space.medium,
       },
     ],
   ],

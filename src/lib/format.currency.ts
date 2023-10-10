@@ -7,15 +7,15 @@ import type { Money } from '@app/generated/server.gql';
 export function formatCurrency(
   amount: number | string,
   options?: {
-    currency?: string | null;
+    currency?: null | string;
     withDecimal?: boolean;
   },
 ) {
   const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
     currency: options?.currency ?? 'USD',
-    minimumFractionDigits: options?.withDecimal ? 2 : 0,
     maximumFractionDigits: options?.withDecimal ? 2 : 0,
+    minimumFractionDigits: options?.withDecimal ? 2 : 0,
+    style: 'currency',
   });
 
   return formatter.format(Number(amount));

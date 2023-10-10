@@ -25,6 +25,7 @@ export type Aircraft = {
   airlineIata: Scalars['String']['output'];
   createdAt: Scalars['DateTimeISO']['output'];
   description?: Maybe<Scalars['String']['output']>;
+  firstFlight: Scalars['DateTimeISO']['output'];
   iata?: Maybe<Scalars['String']['output']>;
   icao: Scalars['String']['output'];
   id: Scalars['Int']['output'];
@@ -259,7 +260,7 @@ export type AircraftQueryVariables = Exact<{
 }>;
 
 
-export type AircraftQuery = { __typename?: 'Query', aircraft?: { __typename?: 'Aircraft', id: number, iata?: string | null, icao: string, model: string, airlineIata: string, description?: string | null, tailNumber: string, imageURL?: string | null, createdAt: any, updatedAt: any } | null };
+export type AircraftQuery = { __typename?: 'Query', aircraft?: { __typename?: 'Aircraft', id: number, iata?: string | null, icao: string, model: string, airlineIata: string, description?: string | null, tailNumber: string, firstFlight: any, imageURL?: string | null, createdAt: any, updatedAt: any } | null };
 
 export type AircraftPositionQueryVariables = Exact<{
   aircraftId: Scalars['Float']['input'];
@@ -418,6 +419,7 @@ export const AircraftDocument = gql`
     airlineIata
     description
     tailNumber
+    firstFlight
     imageURL
     createdAt
     updatedAt

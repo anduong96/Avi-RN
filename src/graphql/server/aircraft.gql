@@ -7,6 +7,7 @@ query Aircraft($tailNumber: String!) {
     airlineIata
     description
     tailNumber
+    firstFlight
     imageURL
     createdAt
     updatedAt

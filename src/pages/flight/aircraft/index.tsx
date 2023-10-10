@@ -3,6 +3,7 @@ import { Statistic } from '@app/components/statistic';
 import { useAircraftQuery } from '@app/generated/server.gql';
 import { styled } from '@app/lib/styled';
 import { BlurView } from '@react-native-community/blur';
+import moment from 'moment';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -37,6 +38,12 @@ export const AircraftCard: React.FC<Props> = ({ tailNumber }) => {
           <Meta blurType="xlight">
             <StatItem label="Tail Number" value={aircraft.tailNumber} />
             <StatItem label="Model" value={aircraft.model} />
+            <StatItem
+              label="Age"
+              value={moment
+                .duration(moment().diff(aircraft.firstFlight))
+                .humanize()}
+            />
           </Meta>
         </>
       )}

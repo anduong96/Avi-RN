@@ -106,6 +106,7 @@ export const FlightPage: React.FC = () => {
                 estimatedMovementTime={flight.estimatedGateArrival}
                 scheduledMovementTime={flight.scheduledGateArrival}
                 actualMovementTime={flight.actualGateArrival}
+                baggageClaim={flight.destinationBaggageClaim}
               />
             </Meta>
             <PromptnessCompact flightID={flightID} />

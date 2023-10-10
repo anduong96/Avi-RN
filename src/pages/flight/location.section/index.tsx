@@ -13,6 +13,7 @@ type Props = {
   terminal?: string | null;
   gate?: string | null;
   type: 'origin' | 'destination';
+  baggageClaim?: string | null;
   timezone: string;
   estimatedMovementTime: Date;
   scheduledMovementTime: Date;
@@ -20,19 +21,25 @@ type Props = {
   airport: Pick<AirportQuery['airport'], 'name' | 'iata'>;
 };
 
+const FILLER = '--' as const;
+
 export const FlightPageLocationSection: React.FC<Props> = ({
-  terminal = '--',
-  gate = '--',
+  terminal,
+  gate,
   type,
   airport,
   timezone,
   estimatedMovementTime,
   scheduledMovementTime,
   actualMovementTime,
+  baggageClaim,
 }) => {
   const theme = useTheme();
   const usableTime = actualMovementTime || estimatedMovementTime;
   const movementTime = moment.utc(usableTime).tz(timezone);
+  const gateText = gate || FILLER;
+  const terminalText = terminal || FILLER;
+  const baggageText = baggageClaim || FILLER;
   const timeColor = moment(usableTime).isSameOrBefore(scheduledMovementTime)
     ? theme.pallette.successLight
     : theme.pallette.warn;
@@ -55,9 +62,14 @@ export const FlightPageLocationSection: React.FC<Props> = ({
             {movementTime.format('h:mm A')}
           </TimeText>
         </Time>
-        <View>
-          <MetaText>Terminal {terminal || '--'}</MetaText>
-          <MetaText>Gate {gate || '--'}</MetaText>
+        <View style={[{ gap: 3 }]}>
+          <MetaText isFiller={!terminal}>Terminal {terminalText}</MetaText>
+          <MetaText isFiller={!gate}>Gate {gateText}</MetaText>
+          {type === 'destination' && (
+            <MetaText isFiller={!baggageClaim}>
+              Baggage Belt {baggageText}
+            </MetaText>
+          )}
         </View>
       </Meta>
     </Container>
@@ -102,14 +114,20 @@ const Meta = styled(View, (theme) => [
   },
 ]);
 
-const MetaText = styled(Text, (theme) => [
-  theme.typography.presets.p1,
-  {
-    fontWeight: 'bold',
-    textAlign: 'right',
-    color: theme.pallette.grey[700],
-  },
-]);
+const MetaText = styled<{ isFiller?: boolean }, typeof Text>(
+  Text,
+  (theme, props) => [
+    theme.typography.presets.p2,
+    {
+      fontWeight: 'bold',
+      textAlign: 'right',
+      color: theme.pallette.grey[700],
+    },
+    props.isFiller && {
+      color: theme.pallette.grey[400],
+    },
+  ],
+);
 
 const Time = styled(View, (theme) => [
   {

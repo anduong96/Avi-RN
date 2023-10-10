@@ -1,15 +1,15 @@
 import * as React from 'react';
 
-import { TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Animated, { SlideInDown } from 'react-native-reanimated';
 
 import { FaIcon } from '@app/components/icons.fontawesome';
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 import { useUserFlightQuery } from '@app/generated/server.gql';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { useTheme } from '@app/lib/hooks/use.theme';
 import { styled } from '@app/lib/styled';
 import type { FlightStackParams } from '@app/stacks/flight.stack';
+import { BlurView } from '@react-native-community/blur';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -20,7 +20,6 @@ type Props = {
 };
 
 export const ExitToHomeBtn: React.FC<Props> = ({ flightID }) => {
-  const theme = useTheme();
   const navigation = useNavigation<Navigation>();
   const response = useUserFlightQuery({
     variables: {
@@ -40,7 +39,8 @@ export const ExitToHomeBtn: React.FC<Props> = ({ flightID }) => {
   return (
     <Container>
       <Btn entering={SlideInDown} onPress={handleExit}>
-        <FaIcon solid name="house" size={30} color={theme.pallette.white} />
+        <BlurView blurType="xlight" style={[StyleSheet.absoluteFillObject]} />
+        <FaIcon solid name="xmark" size={30} />
       </Btn>
     </Container>
   );
@@ -59,11 +59,11 @@ const Btn = styled(
   Animated.createAnimatedComponent(TouchableOpacity),
   (theme) => [
     theme.presets.centered,
-    theme.presets.shadows[200],
     {
+      shadowOpacity: 0.8,
       zIndex: 1,
-      backgroundColor: theme.pallette.primary,
-      width: 70,
+      overflow: 'hidden',
+      width: 50,
       borderRadius: 70,
       height: undefined,
       aspectRatio: 1,

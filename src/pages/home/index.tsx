@@ -265,7 +265,7 @@ const DeleteFlightBtn = styled(TouchableOpacity, () => []);
 const DeleteFlightBtnText = styled(Text, (theme) => [
   theme.typography.presets.p1,
   {
-    color: theme.pallette.dangerLight,
+    color: theme.pallette.danger,
     fontWeight: 'bold',
   },
 ]);

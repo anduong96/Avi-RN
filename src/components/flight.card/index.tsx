@@ -49,13 +49,13 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
         <Movement>
           <MovementIconContainer>
             <FaIcon
-              color={theme.pallette.successLight}
+              color={theme.pallette.success}
               name="circle-arrow-up-right"
               size={20}
               solid
             />
           </MovementIconContainer>
-          <MovementText color={theme.pallette.successLight}>
+          <MovementText color={theme.pallette.success}>
             {departure.format('LT')}
           </MovementText>
         </Movement>

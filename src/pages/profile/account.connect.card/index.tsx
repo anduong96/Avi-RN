@@ -131,7 +131,7 @@ const Status = styled(
     },
   ],
   {
-    entering: FadeIn,
+    entering: FadeIn.delay(100),
     hasShadow: true,
   },
 );

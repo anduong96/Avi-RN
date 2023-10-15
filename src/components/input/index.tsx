@@ -135,7 +135,7 @@ export const Input = React.forwardRef<TextInput, Props>(
         />
         {postfix}
         {value && withFeedback && !hasErrors && (
-          <FaIcon color={theme.pallette.successLight} name="check-circle" />
+          <FaIcon color={theme.pallette.success} name="check-circle" />
         )}
         {IS_ANDROID && showClear && (
           <ClearContainer

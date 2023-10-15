@@ -101,7 +101,7 @@ const Option = styled<
     padding: theme.space.medium,
   },
   props.isActive && {
-    borderColor: theme.pallette.successLight,
+    borderColor: theme.pallette.success,
   },
   props.hasErrors && {
     borderColor: theme.pallette.danger,
@@ -133,9 +133,9 @@ const OptionIndicator = styled<
   props.isActive && [
     theme.presets.shadows[100],
     {
-      backgroundColor: theme.pallette.successLight,
-      borderColor: theme.pallette.successLight,
-      shadowColor: theme.pallette.successLight,
+      backgroundColor: theme.pallette.success,
+      borderColor: theme.pallette.success,
+      shadowColor: theme.pallette.success,
       shadowOpacity: 0.8,
     },
   ],

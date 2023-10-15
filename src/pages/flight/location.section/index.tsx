@@ -42,7 +42,7 @@ export const FlightPageLocationSection: React.FC<Props> = ({
   const terminalText = terminal || FILLER;
   const baggageText = baggageClaim || FILLER;
   const timeColor = moment(usableTime).isSameOrBefore(scheduledMovementTime)
-    ? theme.pallette.successLight
+    ? theme.pallette.success
     : theme.pallette.warn;
 
   const icon =

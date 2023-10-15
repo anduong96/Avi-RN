@@ -2,7 +2,6 @@ import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 import { ENV } from '@app/env';
-import { NestServerApolloClient } from '@app/apollo/nest.server';
 
 GoogleSignin.configure({
   offlineAccess: false,
@@ -30,9 +29,4 @@ export async function signInWithGoogle() {
 
   // Sign-in the user with the credential
   return auth().signInWithCredential(googleCredential);
-}
-
-export async function signOut() {
-  await auth().signOut();
-  await NestServerApolloClient.cache.reset();
 }

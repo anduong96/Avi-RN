@@ -1,12 +1,7 @@
-import type { TextStyle } from 'react-native';
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import * as React from 'react';
-import {
-  type StyleProp,
-  Text,
-  TouchableOpacity,
-  type ViewStyle,
-} from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 
 import { isNil } from 'lodash';
 import tinycolor from 'tinycolor2';
@@ -38,7 +33,7 @@ type Props = React.PropsWithChildren<{
   type?: 'active' | 'default' | 'primary';
 }>;
 
-export const Button = React.forwardRef<unknown, Props>(
+export const Button = React.forwardRef<typeof TouchableOpacity, Props>(
   (
     {
       children,
@@ -85,7 +80,7 @@ export const Button = React.forwardRef<unknown, Props>(
       ? theme.pallette.primary
       : type === 'active'
       ? theme.pallette.active
-      : theme.pallette.text;
+      : color ?? theme.pallette.text;
 
     return (
       <Container
@@ -175,7 +170,7 @@ const Container = styled<
   },
   props.size === 'small' && {
     paddingHorizontal: theme.space.small,
-    paddingVertical: theme.space.tiny,
+    paddingVertical: 0,
   },
   props.size === 'large' && {
     paddingHorizontal: theme.space.xLarge,

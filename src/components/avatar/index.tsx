@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 import { styled } from '@app/lib/styled';
 import { userState } from '@app/state/user';
@@ -23,8 +23,8 @@ export const Avatar: React.FC<Props> = ({ hasShadow, size }) => {
 
 const Container = styled<
   Pick<Props, 'hasShadow'> & { color: string },
-  typeof View
->(View, (theme, props) => [
+  typeof Animated.View
+>(Animated.View, (theme, props) => [
   theme.presets.centered,
   props.hasShadow && theme.presets.shadows[200],
   {
@@ -33,9 +33,5 @@ const Container = styled<
     borderRadius: theme.roundRadius,
     padding: theme.space.medium,
     shadowColor: props.color,
-    shadowOffset: {
-      height: 10,
-      width: 10,
-    },
   },
 ]);

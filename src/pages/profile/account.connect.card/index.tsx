@@ -7,7 +7,6 @@ import { styled } from '@app/lib/styled';
 import { useUser } from '@app/state/user';
 import { Card } from '@app/components/card';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { Typography } from '@app/components/typography';
 import { StatusIcon } from '@app/components/icon.status';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { signInWithApple } from '@app/lib/auth/apple.auth';
@@ -52,7 +51,6 @@ export const AccountConnectCard: React.FC = () => {
   return (
     <Card gap="medium">
       <LoadingOverlay isDark isLoading={isLoading} type="blur" />
-      <Typography type="h2">Connect</Typography>
       <Content>
         <AppleBtn
           disabled={isAppleConnected}

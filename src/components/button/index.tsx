@@ -1,7 +1,12 @@
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import * as React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native';
+import {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { isNil } from 'lodash';
 import tinycolor from 'tinycolor2';
@@ -12,6 +17,7 @@ import { useTheme } from '@app/lib/hooks/use.theme';
 import { FaIcon } from '../icons.fontawesome';
 import { LoadingOverlay } from '../loading.overlay';
 import { StringRenderer } from '../string.renderer';
+import { AnimatedTouchable } from '../animated.touchable';
 
 type Props = React.PropsWithChildren<{
   color?: string;
@@ -33,7 +39,7 @@ type Props = React.PropsWithChildren<{
   type?: 'active' | 'default' | 'primary';
 }>;
 
-export const Button = React.forwardRef<typeof TouchableOpacity, Props>(
+export const Button = React.forwardRef<typeof AnimatedTouchable, Props>(
   (
     {
       children,
@@ -58,6 +64,16 @@ export const Button = React.forwardRef<typeof TouchableOpacity, Props>(
     ref,
   ) => {
     const theme = useTheme();
+    const isPressed = useSharedValue(false);
+    const pressedStyled = useAnimatedStyle(() => ({
+      transform: [
+        {
+          scale: withTiming(isPressed.value ? 0.9 : 1, {
+            duration: 100,
+          }),
+        },
+      ],
+    }));
     const displayColor =
       color ||
       (!isSolid
@@ -82,6 +98,14 @@ export const Button = React.forwardRef<typeof TouchableOpacity, Props>(
       ? theme.pallette.active
       : color ?? theme.pallette.text;
 
+    const handlePressIn = () => {
+      isPressed.value = true;
+    };
+
+    const handlePressOut = () => {
+      isPressed.value = false;
+    };
+
     return (
       <Container
         color={displayColor}
@@ -91,13 +115,15 @@ export const Button = React.forwardRef<typeof TouchableOpacity, Props>(
         hasShadow={hasShadow}
         isSolid={isSolid}
         onPress={onPress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
         ref={ref}
         size={size}
-        style={[style]}
+        style={[pressedStyled, style]}
         type={type}
       >
         <LoadingOverlay
-          isDark
+          isDark={theme.isDark}
           isLoading={isLoading}
           size="small"
           type="solid"
@@ -128,8 +154,8 @@ const Container = styled<
     Props,
     'color' | 'fullWidth' | 'gap' | 'hasShadow' | 'isSolid' | 'size' | 'type'
   >,
-  typeof TouchableOpacity
->(TouchableOpacity, (theme, props) => [
+  typeof AnimatedTouchable
+>(AnimatedTouchable, (theme, props) => [
   !props.disabled &&
     props.isSolid &&
     props.hasShadow &&
@@ -145,7 +171,10 @@ const Container = styled<
     paddingVertical: theme.space.small,
   },
   !props.isSolid && {
-    borderColor: props.color,
+    borderColor:
+      props.color === theme.pallette.transparent
+        ? theme.pallette.grey[200]
+        : props.color,
   },
   props.isSolid && {
     backgroundColor: props.color,

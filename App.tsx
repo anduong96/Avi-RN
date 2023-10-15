@@ -11,7 +11,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import * as Sentry from '@sentry/react-native';
 import { ApolloProvider } from '@apollo/client';
-import { PortalProvider } from '@gorhom/portal';
+import { PortalHost, PortalProvider } from '@gorhom/portal';
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
@@ -21,6 +21,7 @@ import { LINKING_CONFIG } from '@app/linking';
 import { Analytics } from '@app/lib/analytics';
 import { AppNavigator } from '@app/navigation';
 import { useStartupPrep } from '@app/lib/startup';
+import { APP_PORTAL_HOST } from '@app/lib/portal';
 import { NestServerApolloClient } from '@app/apollo/nest.server';
 import { ForceUpdateShield } from '@app/components/force.update';
 import { useColorScheme } from '@app/lib/hooks/use.color.scheme';
@@ -41,33 +42,35 @@ const Entry: React.FC = () => {
   const navigationRef = React.useRef<NavigationRef>(null);
 
   return (
-    <NavigationContainer<MainStackParam>
-      linking={LINKING_CONFIG}
-      onReady={() => {
-        routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name;
-      }}
-      onStateChange={async () => {
-        const previousRouteName = routeNameRef.current;
-        const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
+    <PortalProvider>
+      <NavigationContainer<MainStackParam>
+        linking={LINKING_CONFIG}
+        onReady={() => {
+          routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name;
+        }}
+        onStateChange={async () => {
+          const previousRouteName = routeNameRef.current;
+          const currentRouteName =
+            navigationRef.current?.getCurrentRoute()?.name;
 
-        if (previousRouteName !== currentRouteName && currentRouteName) {
-          Analytics.screen(currentRouteName);
-        }
+          if (previousRouteName !== currentRouteName && currentRouteName) {
+            Analytics.screen(currentRouteName);
+          }
 
-        routeNameRef.current = currentRouteName;
-      }}
-      ref={navigationRef}
-    >
-      <ApolloProvider client={NestServerApolloClient}>
-        <PortalProvider>
+          routeNameRef.current = currentRouteName;
+        }}
+        ref={navigationRef}
+      >
+        <ApolloProvider client={NestServerApolloClient}>
+          <PortalHost name={APP_PORTAL_HOST} />
           <BottomSheetModalProvider>
             <AppNavigator />
             <PushNotificationSheet />
             <BackgroundProcesses />
           </BottomSheetModalProvider>
-        </PortalProvider>
-      </ApolloProvider>
-    </NavigationContainer>
+        </ApolloProvider>
+      </NavigationContainer>
+    </PortalProvider>
   );
 };
 

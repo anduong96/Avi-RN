@@ -5,4 +5,5 @@ import { NestServerApolloClient } from '@app/apollo/nest.server';
 export async function signOut() {
   await auth().signOut();
   await NestServerApolloClient.cache.reset();
+  await auth().signInAnonymously();
 }

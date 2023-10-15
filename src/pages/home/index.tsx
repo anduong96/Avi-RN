@@ -1,8 +1,8 @@
 import type { ScrollViewProps } from 'react-native';
 
 import * as React from 'react';
+import { RefreshControl, ScrollView, Text, View } from 'react-native';
 import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler';
-import { Alert, RefreshControl, ScrollView, Text, View } from 'react-native';
 import Animated, {
   FadeInDown,
   SlideInLeft,
@@ -13,9 +13,11 @@ import { isEmpty } from 'lodash';
 import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
 
 import { styled } from '@app/lib/styled';
+import { Button } from '@app/components/button';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { FlightCard } from '@app/components/flight.card';
 import { FaIcon } from '@app/components/icons.fontawesome';
+import { usePrompt } from '@app/components/prompt/use.prompt';
 import { PageContainer } from '@app/components/page.container';
 import { useRootNavigation } from '@app/navigation/use.root.navigation';
 import {
@@ -30,6 +32,7 @@ import { BottomTabs } from './bottom.tabs';
 import { AddFlightBtn } from './add.flight.btn';
 
 export const HomePage: React.FC = () => {
+  const prompt = usePrompt();
   const flights = useGetUserActiveFlightsQuery();
   const archived = useGetUserArchivedFlightsQuery();
   const rootNav = useRootNavigation();
@@ -65,28 +68,15 @@ export const HomePage: React.FC = () => {
 
   const handleRemoveFlight = (flightID: string) => {
     vibrate('impactHeavy');
-    Alert.alert(
-      'Are you sure?',
-      undefined,
-      [
-        {
-          text: 'Cancel',
-        },
-        {
-          onPress: () => {
-            removeFlight({
-              variables: {
-                flightID,
-              },
-            });
+    prompt({
+      onAccept: async () => {
+        await removeFlight({
+          variables: {
+            flightID,
           },
-          text: 'Proceed',
-        },
-      ],
-      {
-        userInterfaceStyle: 'dark',
+        });
       },
-    );
+    });
   };
 
   const handleOpenFlight = (flightID: string) => {
@@ -126,11 +116,11 @@ export const HomePage: React.FC = () => {
               <View />
               <ListActions>
                 <ArchivedFlightsBtn
+                  icon="rectangle-history"
                   isVisible={!isEmpty(archivedFlights)}
                   onPress={handleOpenArchivedFlights}
                 >
-                  <ArchiveIcon name="rectangle-history" />
-                  <ArchivedFlightsBtnText>Archive</ArchivedFlightsBtnText>
+                  Archive
                 </ArchivedFlightsBtn>
               </ListActions>
             </ListHeader>
@@ -230,35 +220,9 @@ const Content = styled(View, (theme) => [
   },
 ]);
 
-const ArchivedFlightsBtn = styled<
-  {
-    isVisible: boolean;
-  },
-  typeof TouchableOpacity
->(TouchableOpacity, (theme, props) => [
-  theme.presets.centered,
-  !props.isVisible && {
-    opacity: 0,
-  },
-  {
-    backgroundColor: theme.pallette.background,
-    borderColor: theme.pallette.borderColor,
-    borderRadius: theme.roundRadius,
-    borderWidth: theme.borderWidth,
-    flexDirection: 'row',
-    gap: theme.space.tiny,
-    paddingHorizontal: theme.space.medium,
-    paddingVertical: theme.space.small,
-  },
-]);
-
-const ArchivedFlightsBtnText = styled(Text, (theme) => [
-  theme.typography.presets.small,
-]);
-
-const ArchiveIcon = styled(FaIcon, undefined, (theme) => ({
-  size: theme.typography.presets.p1.fontSize,
-}));
+const ArchivedFlightsBtn = styled<{ isVisible: boolean }, typeof Button>(
+  Button,
+);
 
 const DeleteFlightBtn = styled(TouchableOpacity, () => []);
 

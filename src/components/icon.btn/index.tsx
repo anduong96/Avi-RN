@@ -7,7 +7,7 @@ import { styled } from '@app/lib/styled';
 
 import { FaIcon } from '../icons.fontawesome';
 
-export type Props = {
+type Props = {
   color?: string;
   icon: string;
   size?: number;

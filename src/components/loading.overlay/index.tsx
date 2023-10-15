@@ -11,6 +11,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { BlurView } from '@react-native-community/blur';
 
 import { styled } from '@app/lib/styled';
+import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
   isDark?: boolean;
@@ -27,18 +28,20 @@ export const LoadingOverlay: React.FC<Props> = ({
   style,
   type = 'solid',
 }) => {
+  const theme = useTheme();
+  const _isDark = isDark ?? theme.isDark;
   if (!isLoading) {
     return null;
   }
 
   return (
-    <Container exiting={FadeOut} isDark={isDark} style={[style]} type={type}>
+    <Container exiting={FadeOut} isDark={_isDark} style={[style]} type={type}>
       <Content entering={FadeIn.delay(750)}>
         {isLoading && type === 'blur' && (
           <BlurView blurType="dark" style={[StyleSheet.absoluteFill]} />
         )}
 
-        <ActivityIndicator color={isDark ? 'white' : 'black'} size={size} />
+        <ActivityIndicator color={_isDark ? 'white' : 'black'} size={size} />
       </Content>
     </Container>
   );
@@ -48,6 +51,7 @@ const Container = styled<Pick<Props, 'isDark' | 'type'>, typeof Animated.View>(
   Animated.View,
   (theme, props) => [
     {
+      borderRadius: theme.borderRadius,
       bottom: 0,
       left: 0,
       position: 'absolute',

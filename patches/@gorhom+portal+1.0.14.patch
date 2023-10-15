@@ -1,0 +1,21 @@
+diff --git a/node_modules/@gorhom/portal/src/components/portalHost/PortalHost.tsx b/node_modules/@gorhom/portal/src/components/portalHost/PortalHost.tsx
+index 62a2103..6575551 100644
+--- a/node_modules/@gorhom/portal/src/components/portalHost/PortalHost.tsx
++++ b/node_modules/@gorhom/portal/src/components/portalHost/PortalHost.tsx
+@@ -20,7 +20,15 @@ const PortalHostComponent = ({ name }: PortalHostProps) => {
+   //#endregion
+ 
+   //#region render
+-  return <>{state.map(item => item.node)}</>;
++  return (
++    <>
++      {state.map((item, index) => (
++        <React.Fragment key={`${item.name}-${index}`}>
++          {item.node}
++        </React.Fragment>
++      ))}
++    </>
++  );
+   //#endregion
+ };
+ 

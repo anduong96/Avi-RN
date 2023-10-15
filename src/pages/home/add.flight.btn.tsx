@@ -1,12 +1,6 @@
 import * as React from 'react';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
 
 import tinycolor from 'tinycolor2';
-import LottieView from 'lottie-react-native';
 
 import { styled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
@@ -16,11 +10,6 @@ import { useRootNavigation } from '@app/navigation/use.root.navigation';
 
 export const AddFlightBtn: React.FC = () => {
   const navigation = useRootNavigation();
-  const sparkle = React.useRef<LottieView>(null);
-  const leaving = useSharedValue(false);
-  const sparkleStyle = useAnimatedStyle(() => ({
-    opacity: withTiming(leaving.value ? 1 : 0),
-  }));
 
   const handlePress = () => {
     vibrate('effectClick');
@@ -29,40 +18,12 @@ export const AddFlightBtn: React.FC = () => {
     }, 300);
   };
 
-  const handlePressIn = () => {
-    leaving.value = true;
-    sparkle.current?.play();
-    setTimeout(() => {
-      leaving.value = false;
-      sparkle.current?.pause();
-    }, 600);
-  };
-
   return (
-    <Btn activeOpacity={1} onPress={handlePress} onPressIn={handlePressIn}>
+    <Btn activeOpacity={1} onPress={handlePress}>
       <Icon name="plus" size={30} />
-      <Sparkle
-        loop
-        ref={sparkle}
-        source={{
-          uri: 'https://lottie.host/348d2762-87e6-48a4-bd5d-49aa070a1adf/uW3fTeQdiB.json',
-        }}
-        speed={2}
-        style={[sparkleStyle]}
-      />
     </Btn>
   );
 };
-
-const Sparkle = styled(Animated.createAnimatedComponent(LottieView), () => [
-  {
-    bottom: -30,
-    left: -30,
-    position: 'absolute',
-    right: -30,
-    top: -30,
-  },
-]);
 
 const Btn = styled(AnimatedTouchable, (theme) => [
   theme.presets.shadows[100],

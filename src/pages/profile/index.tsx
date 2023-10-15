@@ -3,32 +3,27 @@ import { ScrollView, View } from 'react-native';
 
 import { styled } from '@app/lib/styled';
 import { Avatar } from '@app/components/avatar';
-import { Button } from '@app/components/button';
-import { signOut } from '@app/lib/auth/sign.out';
-import { vibrate } from '@app/lib/haptic.feedback';
 import { CloseBtn } from '@app/components/btn.close';
 import { Typography } from '@app/components/typography';
 import { useExitPage } from '@app/lib/hooks/use.exit.page';
 import { PageContainer } from '@app/components/page.container';
 import { SpaceVertical } from '@app/components/space.vertical';
 
+import { SignOutBtn } from './sign.out.btn';
 import { AccountConnectCard } from './account.connect.card';
 
 export const ProfilePage: React.FC = () => {
   const exit = useExitPage();
 
-  const handleSignOut = () => {
-    vibrate('effectClick');
-    signOut();
-  };
-
   return (
     <PageContainer>
-      <SignOutBtn onPress={handleSignOut}>Sign Out</SignOutBtn>
       <RightActions>
         <CloseBtn onPress={exit} />
       </RightActions>
       <Content>
+        <SignOut>
+          <SignOutBtn />
+        </SignOut>
         <AvatarContainer>
           <Avatar hasShadow size={75} />
         </AvatarContainer>
@@ -54,6 +49,7 @@ const RightActions = styled(View, (theme) => [
     position: 'absolute',
     right: theme.space.medium,
     top: theme.space.medium,
+    zIndex: 1,
   },
 ]);
 
@@ -75,16 +71,10 @@ const SectionTitle = styled(Typography, undefined, {
   type: 'h2',
 });
 
-const SignOutBtn = styled(
-  Button,
-  (theme) => [
-    {
-      margin: theme.space.medium,
-      position: 'absolute',
-    },
-  ],
-  (theme) => ({
-    color: theme.pallette.danger,
-    size: 'small' as const,
-  }),
-);
+const SignOut = styled(View, () => [
+  {
+    alignItems: 'flex-start',
+    flexBasis: 1,
+    minHeight: 50,
+  },
+]);

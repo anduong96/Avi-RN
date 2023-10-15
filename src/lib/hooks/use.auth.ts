@@ -3,18 +3,20 @@ import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import auth from '@react-native-firebase/auth';
 import { createStore, createStoreHook } from 'tiamut';
 
+type User = FirebaseAuthTypes.User | null;
+
 const store = createStoreHook(
   createStore({
     actions: {
-      setUser(_, user: FirebaseAuthTypes.User | null) {
+      setUser(_, user: User) {
         return user;
       },
     },
-    initialState: null as FirebaseAuthTypes.User | null,
+    initialState: null as User,
   }),
 );
 
-auth().onUserChanged(async (firebaseUser) => {
+auth().onAuthStateChanged(async (firebaseUser) => {
   store.actions.setUser(firebaseUser);
 });
 

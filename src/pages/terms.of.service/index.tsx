@@ -34,6 +34,7 @@ export const TermsOfServicePage: React.FC = () => {
       <Markdown
         flatListProps={{
           contentContainerStyle: {
+            backgroundColor: theme.pallette.background,
             padding: theme.space.medium,
             paddingBottom: WINDOW_HEIGHT * 0.5,
           },

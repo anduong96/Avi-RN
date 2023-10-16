@@ -59,6 +59,7 @@ const Item = styled<{ isActive?: boolean }, typeof IconBtn>(
     },
   ],
   (theme, props) => ({
+    activeOpacity: props.isActive ? 1 : undefined,
     color: props.isActive
       ? theme.pallette.active
       : theme.pallette.textSecondary,

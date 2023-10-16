@@ -45,7 +45,7 @@ export const CloseBtn: React.FC<Props> = ({
       size={size}
       style={style}
     >
-      <FaIcon name="times" />
+      <FaIcon name="times" size={15} />
     </Container>
   );
 };

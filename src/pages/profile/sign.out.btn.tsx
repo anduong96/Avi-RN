@@ -18,12 +18,15 @@ export const SignOutBtn: React.FC = () => {
 
   const handleSignOut = () => {
     prompt({
+      acceptStatus: 'danger',
+      description: '',
       onAccept: async () => {
         setIsLoading(true);
         vibrate('effectClick');
         await signOut();
         setIsLoading(false);
       },
+      title: 'Are you sure?',
     });
   };
 

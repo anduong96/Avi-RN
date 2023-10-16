@@ -16,14 +16,15 @@ export function StringRenderer<T extends React.ComponentType>({
   style,
   ...props
 }: Props<T>) {
-  if (isNil(children)) {
+  if (isNil(children) || children === '') {
     return null;
   } else if (React.isValidElement(children)) {
     return children;
   }
 
   return (
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     <Container {...(props ?? {})} style={style}>
       {String(children)}
     </Container>

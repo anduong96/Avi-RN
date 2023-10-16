@@ -87,13 +87,21 @@ export const Prompt: React.FC<Props> = ({
 
 const Container = styled(
   Animated.createAnimatedComponent(BlurView),
-  (theme) => [theme.presets.centered, StyleSheet.absoluteFillObject],
+  (theme) => [
+    theme.presets.centered,
+    StyleSheet.absoluteFillObject,
+    {
+      padding: theme.space.large,
+    },
+  ],
 );
 
 const Menu = styled(View, (theme) => [
   {
     borderRadius: theme.space.medium,
+    maxWidth: 400,
     overflow: 'hidden',
+    width: '100%',
   },
 ]);
 
@@ -112,15 +120,21 @@ const Actions = styled(View, (theme) => [
   },
 ]);
 
-const OptionBtn = styled(TouchableOpacity, (theme) => [
-  theme.presets.centered,
+const OptionBtn = styled(
+  TouchableOpacity,
+  (theme) => [
+    theme.presets.centered,
+    {
+      backgroundColor: theme.pallette.background,
+      flexBasis: 1,
+      flexGrow: 1,
+      padding: theme.space.medium,
+    },
+  ],
   {
-    backgroundColor: theme.pallette.background,
-    flexBasis: 1,
-    flexGrow: 1,
-    padding: theme.space.medium,
+    activeOpacity: 0.8,
   },
-]);
+);
 
 const OptionText = styled(Typography, undefined, {
   type: 'p2',

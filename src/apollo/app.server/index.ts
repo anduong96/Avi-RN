@@ -55,7 +55,7 @@ persistCache({
   }),
 });
 
-export const NestServerApolloClient = new ApolloClient({
+export const AppServerApolloClient = new ApolloClient({
   cache,
   defaultOptions: {
     watchQuery: {

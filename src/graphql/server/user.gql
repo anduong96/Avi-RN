@@ -1,0 +1,14 @@
+query User {
+  user {
+    id
+    displayName
+    createdAt
+    updatedAt
+    avatarURL
+    lastSignInAt
+  }
+}
+
+mutation SyncUser {
+  syncUser
+}

@@ -5,6 +5,8 @@ import { firebase } from '@react-native-firebase/auth';
 
 import { generateColors } from '@app/lib/generate.color';
 import { getAvatarIcon } from '@app/lib/get.avatar.icon';
+import { SyncUserDocument } from '@app/generated/server.gql';
+import { AppServerApolloClient } from '@app/apollo/app.server';
 
 type State = {
   avatar: string;
@@ -34,6 +36,9 @@ export const userState = createStoreHook(
 firebase.auth().onAuthStateChanged((nextUser) => {
   if (nextUser) {
     userState.actions.setUser(nextUser);
+    AppServerApolloClient.mutate({
+      mutation: SyncUserDocument,
+    });
   }
 });
 

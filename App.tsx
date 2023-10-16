@@ -1,6 +1,7 @@
 import './src/lib/dates';
 import './src/lib/logger';
 import './src/lib/log.box';
+import './src/lib/analytics/start.up';
 
 import type { NavigationContainerRef } from '@react-navigation/native';
 
@@ -22,7 +23,7 @@ import { Analytics } from '@app/lib/analytics';
 import { AppNavigator } from '@app/navigation';
 import { useStartupPrep } from '@app/lib/startup';
 import { APP_PORTAL_HOST } from '@app/lib/portal';
-import { NestServerApolloClient } from '@app/apollo/nest.server';
+import { AppServerApolloClient } from '@app/apollo/app.server';
 import { ForceUpdateShield } from '@app/components/force.update';
 import { useColorScheme } from '@app/lib/hooks/use.color.scheme';
 import { useAppStateListener } from '@app/lib/hooks/use.app.state';
@@ -61,7 +62,7 @@ const Entry: React.FC = () => {
         }}
         ref={navigationRef}
       >
-        <ApolloProvider client={NestServerApolloClient}>
+        <ApolloProvider client={AppServerApolloClient}>
           <PortalHost name={APP_PORTAL_HOST} />
           <BottomSheetModalProvider>
             <AppNavigator />

@@ -1,9 +1,9 @@
 import auth from '@react-native-firebase/auth';
 
-import { NestServerApolloClient } from '@app/apollo/nest.server';
+import { AppServerApolloClient } from '@app/apollo/app.server';
 
 export async function signOut() {
   await auth().signOut();
-  await NestServerApolloClient.cache.reset();
+  await AppServerApolloClient.cache.reset();
   await auth().signInAnonymously();
 }

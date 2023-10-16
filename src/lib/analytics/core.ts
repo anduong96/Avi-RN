@@ -1,7 +1,7 @@
 import { compact } from 'lodash';
 import { tryNice } from 'try-nice';
 
-import type { User } from '@app/generated/server.gql';
+import type { User } from '@app/types/user';
 
 import { ENV } from '@app/env';
 
@@ -32,7 +32,7 @@ export class Analytics {
   }
 
   static identify(user: User) {
-    this.logger.debug('Identify', user.id);
+    this.logger.debug('Identify', user.uid);
     this.user = user;
     this.plugins = this.options.map((Plugin) => new Plugin(user));
   }

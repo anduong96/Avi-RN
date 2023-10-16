@@ -2,40 +2,27 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    }
-  | T;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  Boolean: { input: boolean; output: boolean };
-  Date: { input: any; output: any };
-  DateTime: { input: Date; output: Date };
-  Float: { input: number; output: number };
-  Hex: { input: any; output: any };
-  ID: { input: string; output: string };
-  Int: { input: number; output: number };
-  Json: { input: any; output: any };
-  Long: { input: any; output: any };
-  RGBAHue: { input: any; output: any };
-  RGBATransparency: { input: any; output: any };
-  RichTextAST: { input: any; output: any };
-  String: { input: string; output: string };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
+  DateTime: { input: Date; output: Date; }
+  Hex: { input: any; output: any; }
+  Json: { input: any; output: any; }
+  Long: { input: any; output: any; }
+  RGBAHue: { input: any; output: any; }
+  RGBATransparency: { input: any; output: any; }
+  RichTextAST: { input: any; output: any; }
 };
 
 export type Aggregate = {
@@ -87,16 +74,19 @@ export type Asset = Node & {
   width?: Maybe<Scalars['Float']['output']>;
 };
 
+
 /** Asset system model */
 export type AssetCreatedAtArgs = {
   variation?: SystemDateTimeFieldVariation;
 };
+
 
 /** Asset system model */
 export type AssetCreatedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
+
 
 /** Asset system model */
 export type AssetDocumentInStagesArgs = {
@@ -105,6 +95,7 @@ export type AssetDocumentInStagesArgs = {
   stages?: Array<Stage>;
 };
 
+
 /** Asset system model */
 export type AssetHistoryArgs = {
   limit?: Scalars['Int']['input'];
@@ -112,22 +103,26 @@ export type AssetHistoryArgs = {
   stageOverride?: InputMaybe<Stage>;
 };
 
+
 /** Asset system model */
 export type AssetLocalizationsArgs = {
   includeCurrent?: Scalars['Boolean']['input'];
   locales?: Array<Locale>;
 };
 
+
 /** Asset system model */
 export type AssetPublishedAtArgs = {
   variation?: SystemDateTimeFieldVariation;
 };
+
 
 /** Asset system model */
 export type AssetPublishedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
+
 
 /** Asset system model */
 export type AssetScheduledInArgs = {
@@ -141,16 +136,19 @@ export type AssetScheduledInArgs = {
   where?: InputMaybe<ScheduledOperationWhereInput>;
 };
 
+
 /** Asset system model */
 export type AssetUpdatedAtArgs = {
   variation?: SystemDateTimeFieldVariation;
 };
+
 
 /** Asset system model */
 export type AssetUpdatedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
+
 
 /** Asset system model */
 export type AssetUrlArgs = {
@@ -234,14 +232,14 @@ export type AssetEdge = {
 
 /** Identifies documents */
 export type AssetManyWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<AssetWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<AssetWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<AssetWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -256,9 +254,7 @@ export type AssetManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
   documentInStages_every?: InputMaybe<AssetWhereStageInput>;
   documentInStages_none?: InputMaybe<AssetWhereStageInput>;
@@ -296,9 +292,7 @@ export type AssetManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
@@ -317,9 +311,7 @@ export type AssetManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedBy?: InputMaybe<UserWhereInput>;
 };
 
@@ -343,11 +335,10 @@ export const AssetOrderByInput = {
   updatedAt_ASC: 'updatedAt_ASC',
   updatedAt_DESC: 'updatedAt_DESC',
   width_ASC: 'width_ASC',
-  width_DESC: 'width_DESC',
+  width_DESC: 'width_DESC'
 } as const;
 
-export type AssetOrderByInput =
-  (typeof AssetOrderByInput)[keyof typeof AssetOrderByInput];
+export type AssetOrderByInput = typeof AssetOrderByInput[keyof typeof AssetOrderByInput];
 /** Transformations for Assets */
 export type AssetTransformationInput = {
   document?: InputMaybe<DocumentTransformationInput>;
@@ -493,14 +484,14 @@ export type AssetWhereComparatorInput = {
 
 /** Identifies documents */
 export type AssetWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<AssetWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<AssetWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<AssetWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -515,9 +506,7 @@ export type AssetWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
   documentInStages_every?: InputMaybe<AssetWhereStageInput>;
   documentInStages_none?: InputMaybe<AssetWhereStageInput>;
@@ -627,9 +616,7 @@ export type AssetWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
@@ -663,9 +650,7 @@ export type AssetWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedBy?: InputMaybe<UserWhereInput>;
   width?: InputMaybe<Scalars['Float']['input']>;
   /** All values greater than the given value. */
@@ -750,11 +735,10 @@ export const DocumentFileTypes = {
   txt: 'txt',
   webp: 'webp',
   xls: 'xls',
-  xlsx: 'xlsx',
+  xlsx: 'xlsx'
 } as const;
 
-export type DocumentFileTypes =
-  (typeof DocumentFileTypes)[keyof typeof DocumentFileTypes];
+export type DocumentFileTypes = typeof DocumentFileTypes[keyof typeof DocumentFileTypes];
 export type DocumentOutputInput = {
   /**
    * Transforms a document into a desired file type.
@@ -808,10 +792,10 @@ export const ImageFit = {
   /** Resizes the image to fit within the parameters, but as opposed to 'fit:clip' will not scale the image if the image is smaller than the output size. */
   max: 'max',
   /** Resizes the image to fit the specified parameters exactly by scaling the image to the desired size. The aspect ratio of the image is not respected and the image can be distorted using this method. */
-  scale: 'scale',
+  scale: 'scale'
 } as const;
 
-export type ImageFit = (typeof ImageFit)[keyof typeof ImageFit];
+export type ImageFit = typeof ImageFit[keyof typeof ImageFit];
 export type ImageResizeInput = {
   /** The default value for the fit parameter is fit:clip. */
   fit?: InputMaybe<ImageFit>;
@@ -858,14 +842,17 @@ export type Legal = Node & {
   updatedBy?: Maybe<User>;
 };
 
+
 export type LegalCreatedAtArgs = {
   variation?: SystemDateTimeFieldVariation;
 };
+
 
 export type LegalCreatedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
+
 
 export type LegalDocumentInStagesArgs = {
   includeCurrent?: Scalars['Boolean']['input'];
@@ -873,25 +860,30 @@ export type LegalDocumentInStagesArgs = {
   stages?: Array<Stage>;
 };
 
+
 export type LegalHistoryArgs = {
   limit?: Scalars['Int']['input'];
   skip?: Scalars['Int']['input'];
   stageOverride?: InputMaybe<Stage>;
 };
 
+
 export type LegalLocalizationsArgs = {
   includeCurrent?: Scalars['Boolean']['input'];
   locales?: Array<Locale>;
 };
 
+
 export type LegalPublishedAtArgs = {
   variation?: SystemDateTimeFieldVariation;
 };
+
 
 export type LegalPublishedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
+
 
 export type LegalScheduledInArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -904,9 +896,11 @@ export type LegalScheduledInArgs = {
   where?: InputMaybe<ScheduledOperationWhereInput>;
 };
 
+
 export type LegalUpdatedAtArgs = {
   variation?: SystemDateTimeFieldVariation;
 };
+
 
 export type LegalUpdatedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
@@ -984,14 +978,14 @@ export type LegalEdge = {
 
 /** Identifies documents */
 export type LegalManyWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<LegalWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<LegalWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<LegalWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1006,9 +1000,7 @@ export type LegalManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
   documentInStages_every?: InputMaybe<LegalWhereStageInput>;
   documentInStages_none?: InputMaybe<LegalWhereStageInput>;
@@ -1046,9 +1038,7 @@ export type LegalManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
@@ -1067,9 +1057,7 @@ export type LegalManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedBy?: InputMaybe<UserWhereInput>;
 };
 
@@ -1083,11 +1071,10 @@ export const LegalOrderByInput = {
   title_ASC: 'title_ASC',
   title_DESC: 'title_DESC',
   updatedAt_ASC: 'updatedAt_ASC',
-  updatedAt_DESC: 'updatedAt_DESC',
+  updatedAt_DESC: 'updatedAt_DESC'
 } as const;
 
-export type LegalOrderByInput =
-  (typeof LegalOrderByInput)[keyof typeof LegalOrderByInput];
+export type LegalOrderByInput = typeof LegalOrderByInput[keyof typeof LegalOrderByInput];
 export type LegalUpdateInput = {
   /** content input for default locale (en) */
   content?: InputMaybe<Scalars['RichTextAST']['input']>;
@@ -1215,14 +1202,14 @@ export type LegalWhereComparatorInput = {
 
 /** Identifies documents */
 export type LegalWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<LegalWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<LegalWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<LegalWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1237,9 +1224,7 @@ export type LegalWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
   documentInStages_every?: InputMaybe<LegalWhereStageInput>;
   documentInStages_none?: InputMaybe<LegalWhereStageInput>;
@@ -1277,9 +1262,7 @@ export type LegalWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
@@ -1317,9 +1300,7 @@ export type LegalWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedBy?: InputMaybe<UserWhereInput>;
 };
 
@@ -1345,10 +1326,10 @@ export type LegalWhereUniqueInput = {
 /** Locale system enumeration */
 export const Locale = {
   /** System locale */
-  en: 'en',
+  en: 'en'
 } as const;
 
-export type Locale = (typeof Locale)[keyof typeof Locale];
+export type Locale = typeof Locale[keyof typeof Locale];
 /** Representing a geolocation point with latitude and longitude */
 export type Location = {
   __typename?: 'Location';
@@ -1356,6 +1337,7 @@ export type Location = {
   latitude: Scalars['Float']['output'];
   longitude: Scalars['Float']['output'];
 };
+
 
 /** Representing a geolocation point with latitude and longitude */
 export type LocationDistanceArgs = {
@@ -1515,33 +1497,41 @@ export type Mutation = {
   upsertOnboard?: Maybe<Onboard>;
 };
 
+
 export type MutationCreateAssetArgs = {
   data: AssetCreateInput;
 };
+
 
 export type MutationCreateLegalArgs = {
   data: LegalCreateInput;
 };
 
+
 export type MutationCreateOnboardArgs = {
   data: OnboardCreateInput;
 };
+
 
 export type MutationCreateScheduledReleaseArgs = {
   data: ScheduledReleaseCreateInput;
 };
 
+
 export type MutationDeleteAssetArgs = {
   where: AssetWhereUniqueInput;
 };
+
 
 export type MutationDeleteLegalArgs = {
   where: LegalWhereUniqueInput;
 };
 
+
 export type MutationDeleteManyAssetsArgs = {
   where?: InputMaybe<AssetManyWhereInput>;
 };
+
 
 export type MutationDeleteManyAssetsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1552,9 +1542,11 @@ export type MutationDeleteManyAssetsConnectionArgs = {
   where?: InputMaybe<AssetManyWhereInput>;
 };
 
+
 export type MutationDeleteManyLegalsArgs = {
   where?: InputMaybe<LegalManyWhereInput>;
 };
+
 
 export type MutationDeleteManyLegalsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1565,9 +1557,11 @@ export type MutationDeleteManyLegalsConnectionArgs = {
   where?: InputMaybe<LegalManyWhereInput>;
 };
 
+
 export type MutationDeleteManyOnboardsArgs = {
   where?: InputMaybe<OnboardManyWhereInput>;
 };
+
 
 export type MutationDeleteManyOnboardsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1578,17 +1572,21 @@ export type MutationDeleteManyOnboardsConnectionArgs = {
   where?: InputMaybe<OnboardManyWhereInput>;
 };
 
+
 export type MutationDeleteOnboardArgs = {
   where: OnboardWhereUniqueInput;
 };
+
 
 export type MutationDeleteScheduledOperationArgs = {
   where: ScheduledOperationWhereUniqueInput;
 };
 
+
 export type MutationDeleteScheduledReleaseArgs = {
   where: ScheduledReleaseWhereUniqueInput;
 };
+
 
 export type MutationPublishAssetArgs = {
   locales?: InputMaybe<Array<Locale>>;
@@ -1598,6 +1596,7 @@ export type MutationPublishAssetArgs = {
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 export type MutationPublishLegalArgs = {
   locales?: InputMaybe<Array<Locale>>;
   publishBase?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1606,6 +1605,7 @@ export type MutationPublishLegalArgs = {
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 export type MutationPublishManyAssetsArgs = {
   locales?: InputMaybe<Array<Locale>>;
   publishBase?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1613,6 +1613,7 @@ export type MutationPublishManyAssetsArgs = {
   where?: InputMaybe<AssetManyWhereInput>;
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
+
 
 export type MutationPublishManyAssetsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1628,6 +1629,7 @@ export type MutationPublishManyAssetsConnectionArgs = {
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 export type MutationPublishManyLegalsArgs = {
   locales?: InputMaybe<Array<Locale>>;
   publishBase?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1635,6 +1637,7 @@ export type MutationPublishManyLegalsArgs = {
   where?: InputMaybe<LegalManyWhereInput>;
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
+
 
 export type MutationPublishManyLegalsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1650,6 +1653,7 @@ export type MutationPublishManyLegalsConnectionArgs = {
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 export type MutationPublishManyOnboardsArgs = {
   locales?: InputMaybe<Array<Locale>>;
   publishBase?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1657,6 +1661,7 @@ export type MutationPublishManyOnboardsArgs = {
   where?: InputMaybe<OnboardManyWhereInput>;
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
+
 
 export type MutationPublishManyOnboardsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1672,6 +1677,7 @@ export type MutationPublishManyOnboardsConnectionArgs = {
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 export type MutationPublishOnboardArgs = {
   locales?: InputMaybe<Array<Locale>>;
   publishBase?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1679,6 +1685,7 @@ export type MutationPublishOnboardArgs = {
   where: OnboardWhereUniqueInput;
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
+
 
 export type MutationSchedulePublishAssetArgs = {
   locales?: InputMaybe<Array<Locale>>;
@@ -1690,6 +1697,7 @@ export type MutationSchedulePublishAssetArgs = {
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 export type MutationSchedulePublishLegalArgs = {
   locales?: InputMaybe<Array<Locale>>;
   publishBase?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1699,6 +1707,7 @@ export type MutationSchedulePublishLegalArgs = {
   where: LegalWhereUniqueInput;
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
+
 
 export type MutationSchedulePublishOnboardArgs = {
   locales?: InputMaybe<Array<Locale>>;
@@ -1710,6 +1719,7 @@ export type MutationSchedulePublishOnboardArgs = {
   withDefaultLocale?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 export type MutationScheduleUnpublishAssetArgs = {
   from?: Array<Stage>;
   locales?: InputMaybe<Array<Locale>>;
@@ -1718,6 +1728,7 @@ export type MutationScheduleUnpublishAssetArgs = {
   unpublishBase?: InputMaybe<Scalars['Boolean']['input']>;
   where: AssetWhereUniqueInput;
 };
+
 
 export type MutationScheduleUnpublishLegalArgs = {
   from?: Array<Stage>;
@@ -1728,6 +1739,7 @@ export type MutationScheduleUnpublishLegalArgs = {
   where: LegalWhereUniqueInput;
 };
 
+
 export type MutationScheduleUnpublishOnboardArgs = {
   from?: Array<Stage>;
   locales?: InputMaybe<Array<Locale>>;
@@ -1737,12 +1749,14 @@ export type MutationScheduleUnpublishOnboardArgs = {
   where: OnboardWhereUniqueInput;
 };
 
+
 export type MutationUnpublishAssetArgs = {
   from?: Array<Stage>;
   locales?: InputMaybe<Array<Locale>>;
   unpublishBase?: InputMaybe<Scalars['Boolean']['input']>;
   where: AssetWhereUniqueInput;
 };
+
 
 export type MutationUnpublishLegalArgs = {
   from?: Array<Stage>;
@@ -1751,12 +1765,14 @@ export type MutationUnpublishLegalArgs = {
   where: LegalWhereUniqueInput;
 };
 
+
 export type MutationUnpublishManyAssetsArgs = {
   from?: Array<Stage>;
   locales?: InputMaybe<Array<Locale>>;
   unpublishBase?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<AssetManyWhereInput>;
 };
+
 
 export type MutationUnpublishManyAssetsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1771,12 +1787,14 @@ export type MutationUnpublishManyAssetsConnectionArgs = {
   where?: InputMaybe<AssetManyWhereInput>;
 };
 
+
 export type MutationUnpublishManyLegalsArgs = {
   from?: Array<Stage>;
   locales?: InputMaybe<Array<Locale>>;
   unpublishBase?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<LegalManyWhereInput>;
 };
+
 
 export type MutationUnpublishManyLegalsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1791,12 +1809,14 @@ export type MutationUnpublishManyLegalsConnectionArgs = {
   where?: InputMaybe<LegalManyWhereInput>;
 };
 
+
 export type MutationUnpublishManyOnboardsArgs = {
   from?: Array<Stage>;
   locales?: InputMaybe<Array<Locale>>;
   unpublishBase?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<OnboardManyWhereInput>;
 };
+
 
 export type MutationUnpublishManyOnboardsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1811,6 +1831,7 @@ export type MutationUnpublishManyOnboardsConnectionArgs = {
   where?: InputMaybe<OnboardManyWhereInput>;
 };
 
+
 export type MutationUnpublishOnboardArgs = {
   from?: Array<Stage>;
   locales?: InputMaybe<Array<Locale>>;
@@ -1818,20 +1839,24 @@ export type MutationUnpublishOnboardArgs = {
   where: OnboardWhereUniqueInput;
 };
 
+
 export type MutationUpdateAssetArgs = {
   data: AssetUpdateInput;
   where: AssetWhereUniqueInput;
 };
+
 
 export type MutationUpdateLegalArgs = {
   data: LegalUpdateInput;
   where: LegalWhereUniqueInput;
 };
 
+
 export type MutationUpdateManyAssetsArgs = {
   data: AssetUpdateManyInput;
   where?: InputMaybe<AssetManyWhereInput>;
 };
+
 
 export type MutationUpdateManyAssetsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1843,10 +1868,12 @@ export type MutationUpdateManyAssetsConnectionArgs = {
   where?: InputMaybe<AssetManyWhereInput>;
 };
 
+
 export type MutationUpdateManyLegalsArgs = {
   data: LegalUpdateManyInput;
   where?: InputMaybe<LegalManyWhereInput>;
 };
+
 
 export type MutationUpdateManyLegalsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1858,10 +1885,12 @@ export type MutationUpdateManyLegalsConnectionArgs = {
   where?: InputMaybe<LegalManyWhereInput>;
 };
 
+
 export type MutationUpdateManyOnboardsArgs = {
   data: OnboardUpdateManyInput;
   where?: InputMaybe<OnboardManyWhereInput>;
 };
+
 
 export type MutationUpdateManyOnboardsConnectionArgs = {
   after?: InputMaybe<Scalars['ID']['input']>;
@@ -1873,25 +1902,30 @@ export type MutationUpdateManyOnboardsConnectionArgs = {
   where?: InputMaybe<OnboardManyWhereInput>;
 };
 
+
 export type MutationUpdateOnboardArgs = {
   data: OnboardUpdateInput;
   where: OnboardWhereUniqueInput;
 };
+
 
 export type MutationUpdateScheduledReleaseArgs = {
   data: ScheduledReleaseUpdateInput;
   where: ScheduledReleaseWhereUniqueInput;
 };
 
+
 export type MutationUpsertAssetArgs = {
   upsert: AssetUpsertInput;
   where: AssetWhereUniqueInput;
 };
 
+
 export type MutationUpsertLegalArgs = {
   upsert: LegalUpsertInput;
   where: LegalWhereUniqueInput;
 };
+
 
 export type MutationUpsertOnboardArgs = {
   upsert: OnboardUpsertInput;
@@ -1938,14 +1972,17 @@ export type Onboard = Node & {
   updatedBy?: Maybe<User>;
 };
 
+
 export type OnboardCreatedAtArgs = {
   variation?: SystemDateTimeFieldVariation;
 };
+
 
 export type OnboardCreatedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
+
 
 export type OnboardDocumentInStagesArgs = {
   includeCurrent?: Scalars['Boolean']['input'];
@@ -1953,25 +1990,30 @@ export type OnboardDocumentInStagesArgs = {
   stages?: Array<Stage>;
 };
 
+
 export type OnboardHistoryArgs = {
   limit?: Scalars['Int']['input'];
   skip?: Scalars['Int']['input'];
   stageOverride?: InputMaybe<Stage>;
 };
 
+
 export type OnboardLocalizationsArgs = {
   includeCurrent?: Scalars['Boolean']['input'];
   locales?: Array<Locale>;
 };
 
+
 export type OnboardPublishedAtArgs = {
   variation?: SystemDateTimeFieldVariation;
 };
+
 
 export type OnboardPublishedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
+
 
 export type OnboardScheduledInArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -1984,9 +2026,11 @@ export type OnboardScheduledInArgs = {
   where?: InputMaybe<ScheduledOperationWhereInput>;
 };
 
+
 export type OnboardUpdatedAtArgs = {
   variation?: SystemDateTimeFieldVariation;
 };
+
 
 export type OnboardUpdatedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2065,14 +2109,14 @@ export type OnboardEdge = {
 
 /** Identifies documents */
 export type OnboardManyWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<OnboardWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<OnboardWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<OnboardWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -2087,9 +2131,7 @@ export type OnboardManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
   documentInStages_every?: InputMaybe<OnboardWhereStageInput>;
   documentInStages_none?: InputMaybe<OnboardWhereStageInput>;
@@ -2136,9 +2178,7 @@ export type OnboardManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
@@ -2157,9 +2197,7 @@ export type OnboardManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedBy?: InputMaybe<UserWhereInput>;
 };
 
@@ -2175,11 +2213,10 @@ export const OnboardOrderByInput = {
   title_ASC: 'title_ASC',
   title_DESC: 'title_DESC',
   updatedAt_ASC: 'updatedAt_ASC',
-  updatedAt_DESC: 'updatedAt_DESC',
+  updatedAt_DESC: 'updatedAt_DESC'
 } as const;
 
-export type OnboardOrderByInput =
-  (typeof OnboardOrderByInput)[keyof typeof OnboardOrderByInput];
+export type OnboardOrderByInput = typeof OnboardOrderByInput[keyof typeof OnboardOrderByInput];
 export type OnboardUpdateInput = {
   /** Manage document localizations */
   localizations?: InputMaybe<OnboardUpdateLocalizationsInput>;
@@ -2306,14 +2343,14 @@ export type OnboardWhereComparatorInput = {
 
 /** Identifies documents */
 export type OnboardWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<OnboardWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<OnboardWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<OnboardWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -2328,9 +2365,7 @@ export type OnboardWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
   documentInStages_every?: InputMaybe<OnboardWhereStageInput>;
   documentInStages_none?: InputMaybe<OnboardWhereStageInput>;
@@ -2377,9 +2412,7 @@ export type OnboardWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
@@ -2436,9 +2469,7 @@ export type OnboardWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedBy?: InputMaybe<UserWhereInput>;
 };
 
@@ -2531,15 +2562,18 @@ export type Query = {
   usersConnection: UserConnection;
 };
 
+
 export type QueryAssetArgs = {
   locales?: Array<Locale>;
   stage?: Stage;
   where: AssetWhereUniqueInput;
 };
 
+
 export type QueryAssetVersionArgs = {
   where: VersionWhereInput;
 };
+
 
 export type QueryAssetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -2553,6 +2587,7 @@ export type QueryAssetsArgs = {
   where?: InputMaybe<AssetWhereInput>;
 };
 
+
 export type QueryAssetsConnectionArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -2565,15 +2600,18 @@ export type QueryAssetsConnectionArgs = {
   where?: InputMaybe<AssetWhereInput>;
 };
 
+
 export type QueryLegalArgs = {
   locales?: Array<Locale>;
   stage?: Stage;
   where: LegalWhereUniqueInput;
 };
 
+
 export type QueryLegalVersionArgs = {
   where: VersionWhereInput;
 };
+
 
 export type QueryLegalsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -2587,6 +2625,7 @@ export type QueryLegalsArgs = {
   where?: InputMaybe<LegalWhereInput>;
 };
 
+
 export type QueryLegalsConnectionArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -2599,11 +2638,13 @@ export type QueryLegalsConnectionArgs = {
   where?: InputMaybe<LegalWhereInput>;
 };
 
+
 export type QueryNodeArgs = {
   id: Scalars['ID']['input'];
   locales?: Array<Locale>;
   stage?: Stage;
 };
+
 
 export type QueryOnboardArgs = {
   locales?: Array<Locale>;
@@ -2611,9 +2652,11 @@ export type QueryOnboardArgs = {
   where: OnboardWhereUniqueInput;
 };
 
+
 export type QueryOnboardVersionArgs = {
   where: VersionWhereInput;
 };
+
 
 export type QueryOnboardsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -2627,6 +2670,7 @@ export type QueryOnboardsArgs = {
   where?: InputMaybe<OnboardWhereInput>;
 };
 
+
 export type QueryOnboardsConnectionArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -2639,11 +2683,13 @@ export type QueryOnboardsConnectionArgs = {
   where?: InputMaybe<OnboardWhereInput>;
 };
 
+
 export type QueryScheduledOperationArgs = {
   locales?: Array<Locale>;
   stage?: Stage;
   where: ScheduledOperationWhereUniqueInput;
 };
+
 
 export type QueryScheduledOperationsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -2657,6 +2703,7 @@ export type QueryScheduledOperationsArgs = {
   where?: InputMaybe<ScheduledOperationWhereInput>;
 };
 
+
 export type QueryScheduledOperationsConnectionArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -2669,11 +2716,13 @@ export type QueryScheduledOperationsConnectionArgs = {
   where?: InputMaybe<ScheduledOperationWhereInput>;
 };
 
+
 export type QueryScheduledReleaseArgs = {
   locales?: Array<Locale>;
   stage?: Stage;
   where: ScheduledReleaseWhereUniqueInput;
 };
+
 
 export type QueryScheduledReleasesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -2687,6 +2736,7 @@ export type QueryScheduledReleasesArgs = {
   where?: InputMaybe<ScheduledReleaseWhereInput>;
 };
 
+
 export type QueryScheduledReleasesConnectionArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -2699,11 +2749,13 @@ export type QueryScheduledReleasesConnectionArgs = {
   where?: InputMaybe<ScheduledReleaseWhereInput>;
 };
 
+
 export type QueryUserArgs = {
   locales?: Array<Locale>;
   stage?: Stage;
   where: UserWhereUniqueInput;
 };
+
 
 export type QueryUsersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -2716,6 +2768,7 @@ export type QueryUsersArgs = {
   stage?: Stage;
   where?: InputMaybe<UserWhereInput>;
 };
+
 
 export type QueryUsersConnectionArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -2793,6 +2846,7 @@ export type ScheduledOperation = Node & {
   updatedBy?: Maybe<User>;
 };
 
+
 /** Scheduled Operation system model */
 export type ScheduledOperationAffectedDocumentsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -2804,11 +2858,13 @@ export type ScheduledOperationAffectedDocumentsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
 };
 
+
 /** Scheduled Operation system model */
 export type ScheduledOperationCreatedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
+
 
 /** Scheduled Operation system model */
 export type ScheduledOperationDocumentInStagesArgs = {
@@ -2817,17 +2873,20 @@ export type ScheduledOperationDocumentInStagesArgs = {
   stages?: Array<Stage>;
 };
 
+
 /** Scheduled Operation system model */
 export type ScheduledOperationPublishedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
 
+
 /** Scheduled Operation system model */
 export type ScheduledOperationReleaseArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
+
 
 /** Scheduled Operation system model */
 export type ScheduledOperationUpdatedByArgs = {
@@ -2875,14 +2934,14 @@ export type ScheduledOperationEdge = {
 
 /** Identifies documents */
 export type ScheduledOperationManyWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<ScheduledOperationWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<ScheduledOperationWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<ScheduledOperationWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -2897,9 +2956,7 @@ export type ScheduledOperationManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   /** All values containing the given string. */
@@ -2915,9 +2972,7 @@ export type ScheduledOperationManyWhereInput = {
   /** All values not ending with the given string */
   description_not_ends_with?: InputMaybe<Scalars['String']['input']>;
   /** All values that are not contained in given list. */
-  description_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
+  description_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   /** All values not starting with the given string. */
   description_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
@@ -2936,9 +2991,7 @@ export type ScheduledOperationManyWhereInput = {
   /** All values not ending with the given string */
   errorMessage_not_ends_with?: InputMaybe<Scalars['String']['input']>;
   /** All values that are not contained in given list. */
-  errorMessage_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
+  errorMessage_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   /** All values not starting with the given string. */
   errorMessage_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
@@ -2976,9 +3029,7 @@ export type ScheduledOperationManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   /** All values containing the given json path. */
   rawPayload_json_path_exists?: InputMaybe<Scalars['String']['input']>;
@@ -3011,9 +3062,7 @@ export type ScheduledOperationManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedBy?: InputMaybe<UserWhereInput>;
 };
 
@@ -3031,22 +3080,20 @@ export const ScheduledOperationOrderByInput = {
   status_ASC: 'status_ASC',
   status_DESC: 'status_DESC',
   updatedAt_ASC: 'updatedAt_ASC',
-  updatedAt_DESC: 'updatedAt_DESC',
+  updatedAt_DESC: 'updatedAt_DESC'
 } as const;
 
-export type ScheduledOperationOrderByInput =
-  (typeof ScheduledOperationOrderByInput)[keyof typeof ScheduledOperationOrderByInput];
+export type ScheduledOperationOrderByInput = typeof ScheduledOperationOrderByInput[keyof typeof ScheduledOperationOrderByInput];
 /** System Scheduled Operation Status */
 export const ScheduledOperationStatus = {
   CANCELED: 'CANCELED',
   COMPLETED: 'COMPLETED',
   FAILED: 'FAILED',
   IN_PROGRESS: 'IN_PROGRESS',
-  PENDING: 'PENDING',
+  PENDING: 'PENDING'
 } as const;
 
-export type ScheduledOperationStatus =
-  (typeof ScheduledOperationStatus)[keyof typeof ScheduledOperationStatus];
+export type ScheduledOperationStatus = typeof ScheduledOperationStatus[keyof typeof ScheduledOperationStatus];
 export type ScheduledOperationUpdateManyInlineInput = {
   /** Connect multiple existing ScheduledOperation documents */
   connect?: InputMaybe<Array<ScheduledOperationConnectInput>>;
@@ -3065,14 +3112,14 @@ export type ScheduledOperationUpdateOneInlineInput = {
 
 /** Identifies documents */
 export type ScheduledOperationWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<ScheduledOperationWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<ScheduledOperationWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<ScheduledOperationWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -3087,9 +3134,7 @@ export type ScheduledOperationWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   /** All values containing the given string. */
@@ -3105,9 +3150,7 @@ export type ScheduledOperationWhereInput = {
   /** All values not ending with the given string */
   description_not_ends_with?: InputMaybe<Scalars['String']['input']>;
   /** All values that are not contained in given list. */
-  description_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
+  description_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   /** All values not starting with the given string. */
   description_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
@@ -3126,9 +3169,7 @@ export type ScheduledOperationWhereInput = {
   /** All values not ending with the given string */
   errorMessage_not_ends_with?: InputMaybe<Scalars['String']['input']>;
   /** All values that are not contained in given list. */
-  errorMessage_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
+  errorMessage_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   /** All values not starting with the given string. */
   errorMessage_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
@@ -3166,9 +3207,7 @@ export type ScheduledOperationWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   /** All values containing the given json path. */
   rawPayload_json_path_exists?: InputMaybe<Scalars['String']['input']>;
@@ -3201,9 +3240,7 @@ export type ScheduledOperationWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedBy?: InputMaybe<UserWhereInput>;
 };
 
@@ -3251,11 +3288,13 @@ export type ScheduledRelease = Node & {
   updatedBy?: Maybe<User>;
 };
 
+
 /** Scheduled Release system model */
 export type ScheduledReleaseCreatedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
+
 
 /** Scheduled Release system model */
 export type ScheduledReleaseDocumentInStagesArgs = {
@@ -3263,6 +3302,7 @@ export type ScheduledReleaseDocumentInStagesArgs = {
   inheritLocale?: Scalars['Boolean']['input'];
   stages?: Array<Stage>;
 };
+
 
 /** Scheduled Release system model */
 export type ScheduledReleaseOperationsArgs = {
@@ -3277,11 +3317,13 @@ export type ScheduledReleaseOperationsArgs = {
   where?: InputMaybe<ScheduledOperationWhereInput>;
 };
 
+
 /** Scheduled Release system model */
 export type ScheduledReleasePublishedByArgs = {
   forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
   locales?: InputMaybe<Array<Locale>>;
 };
+
 
 /** Scheduled Release system model */
 export type ScheduledReleaseUpdatedByArgs = {
@@ -3341,14 +3383,14 @@ export type ScheduledReleaseEdge = {
 
 /** Identifies documents */
 export type ScheduledReleaseManyWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<ScheduledReleaseWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<ScheduledReleaseWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<ScheduledReleaseWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -3363,9 +3405,7 @@ export type ScheduledReleaseManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   /** All values containing the given string. */
@@ -3381,9 +3421,7 @@ export type ScheduledReleaseManyWhereInput = {
   /** All values not ending with the given string */
   description_not_ends_with?: InputMaybe<Scalars['String']['input']>;
   /** All values that are not contained in given list. */
-  description_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
+  description_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   /** All values not starting with the given string. */
   description_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
@@ -3402,9 +3440,7 @@ export type ScheduledReleaseManyWhereInput = {
   /** All values not ending with the given string */
   errorMessage_not_ends_with?: InputMaybe<Scalars['String']['input']>;
   /** All values that are not contained in given list. */
-  errorMessage_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
+  errorMessage_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   /** All values not starting with the given string. */
   errorMessage_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
@@ -3451,9 +3487,7 @@ export type ScheduledReleaseManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
@@ -3469,9 +3503,7 @@ export type ScheduledReleaseManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   releaseAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  releaseAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  releaseAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   status?: InputMaybe<ScheduledReleaseStatus>;
   /** All values that are contained in given list. */
   status_in?: InputMaybe<Array<InputMaybe<ScheduledReleaseStatus>>>;
@@ -3512,9 +3544,7 @@ export type ScheduledReleaseManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedBy?: InputMaybe<UserWhereInput>;
 };
 
@@ -3540,21 +3570,19 @@ export const ScheduledReleaseOrderByInput = {
   title_ASC: 'title_ASC',
   title_DESC: 'title_DESC',
   updatedAt_ASC: 'updatedAt_ASC',
-  updatedAt_DESC: 'updatedAt_DESC',
+  updatedAt_DESC: 'updatedAt_DESC'
 } as const;
 
-export type ScheduledReleaseOrderByInput =
-  (typeof ScheduledReleaseOrderByInput)[keyof typeof ScheduledReleaseOrderByInput];
+export type ScheduledReleaseOrderByInput = typeof ScheduledReleaseOrderByInput[keyof typeof ScheduledReleaseOrderByInput];
 /** System Scheduled Release Status */
 export const ScheduledReleaseStatus = {
   COMPLETED: 'COMPLETED',
   FAILED: 'FAILED',
   IN_PROGRESS: 'IN_PROGRESS',
-  PENDING: 'PENDING',
+  PENDING: 'PENDING'
 } as const;
 
-export type ScheduledReleaseStatus =
-  (typeof ScheduledReleaseStatus)[keyof typeof ScheduledReleaseStatus];
+export type ScheduledReleaseStatus = typeof ScheduledReleaseStatus[keyof typeof ScheduledReleaseStatus];
 export type ScheduledReleaseUpdateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   errorMessage?: InputMaybe<Scalars['String']['input']>;
@@ -3633,14 +3661,14 @@ export type ScheduledReleaseUpsertWithNestedWhereUniqueInput = {
 
 /** Identifies documents */
 export type ScheduledReleaseWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<ScheduledReleaseWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<ScheduledReleaseWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<ScheduledReleaseWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -3655,9 +3683,7 @@ export type ScheduledReleaseWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   createdBy?: InputMaybe<UserWhereInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   /** All values containing the given string. */
@@ -3673,9 +3699,7 @@ export type ScheduledReleaseWhereInput = {
   /** All values not ending with the given string */
   description_not_ends_with?: InputMaybe<Scalars['String']['input']>;
   /** All values that are not contained in given list. */
-  description_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
+  description_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   /** All values not starting with the given string. */
   description_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
@@ -3694,9 +3718,7 @@ export type ScheduledReleaseWhereInput = {
   /** All values not ending with the given string */
   errorMessage_not_ends_with?: InputMaybe<Scalars['String']['input']>;
   /** All values that are not contained in given list. */
-  errorMessage_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
+  errorMessage_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   /** All values not starting with the given string. */
   errorMessage_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
@@ -3743,9 +3765,7 @@ export type ScheduledReleaseWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   publishedBy?: InputMaybe<UserWhereInput>;
   releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
@@ -3761,9 +3781,7 @@ export type ScheduledReleaseWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   releaseAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  releaseAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  releaseAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   status?: InputMaybe<ScheduledReleaseStatus>;
   /** All values that are contained in given list. */
   status_in?: InputMaybe<Array<InputMaybe<ScheduledReleaseStatus>>>;
@@ -3804,9 +3822,7 @@ export type ScheduledReleaseWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedBy?: InputMaybe<UserWhereInput>;
 };
 
@@ -3820,18 +3836,17 @@ export const Stage = {
   /** The Draft is the default stage for all your content. */
   DRAFT: 'DRAFT',
   /** The Published stage is where you can publish your content to. */
-  PUBLISHED: 'PUBLISHED',
+  PUBLISHED: 'PUBLISHED'
 } as const;
 
-export type Stage = (typeof Stage)[keyof typeof Stage];
+export type Stage = typeof Stage[keyof typeof Stage];
 export const SystemDateTimeFieldVariation = {
   BASE: 'BASE',
   COMBINED: 'COMBINED',
-  LOCALIZATION: 'LOCALIZATION',
+  LOCALIZATION: 'LOCALIZATION'
 } as const;
 
-export type SystemDateTimeFieldVariation =
-  (typeof SystemDateTimeFieldVariation)[keyof typeof SystemDateTimeFieldVariation];
+export type SystemDateTimeFieldVariation = typeof SystemDateTimeFieldVariation[keyof typeof SystemDateTimeFieldVariation];
 export type UnpublishLocaleInput = {
   /** Locales to unpublish */
   locale: Locale;
@@ -3863,6 +3878,7 @@ export type User = Node & {
   /** The time the document was updated */
   updatedAt: Scalars['DateTime']['output'];
 };
+
 
 /** User system model */
 export type UserDocumentInStagesArgs = {
@@ -3913,20 +3929,20 @@ export const UserKind = {
   MEMBER: 'MEMBER',
   PAT: 'PAT',
   PUBLIC: 'PUBLIC',
-  WEBHOOK: 'WEBHOOK',
+  WEBHOOK: 'WEBHOOK'
 } as const;
 
-export type UserKind = (typeof UserKind)[keyof typeof UserKind];
+export type UserKind = typeof UserKind[keyof typeof UserKind];
 /** Identifies documents */
 export type UserManyWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<UserWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<UserWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<UserWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -3941,9 +3957,7 @@ export type UserManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   documentInStages_every?: InputMaybe<UserWhereStageInput>;
   documentInStages_none?: InputMaybe<UserWhereStageInput>;
   documentInStages_some?: InputMaybe<UserWhereStageInput>;
@@ -4028,9 +4042,7 @@ export type UserManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -4045,9 +4057,7 @@ export type UserManyWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
 };
 
 export const UserOrderByInput = {
@@ -4066,11 +4076,10 @@ export const UserOrderByInput = {
   publishedAt_ASC: 'publishedAt_ASC',
   publishedAt_DESC: 'publishedAt_DESC',
   updatedAt_ASC: 'updatedAt_ASC',
-  updatedAt_DESC: 'updatedAt_DESC',
+  updatedAt_DESC: 'updatedAt_DESC'
 } as const;
 
-export type UserOrderByInput =
-  (typeof UserOrderByInput)[keyof typeof UserOrderByInput];
+export type UserOrderByInput = typeof UserOrderByInput[keyof typeof UserOrderByInput];
 export type UserUpdateManyInlineInput = {
   /** Connect multiple existing User documents */
   connect?: InputMaybe<Array<UserConnectInput>>;
@@ -4095,14 +4104,14 @@ export type UserWhereComparatorInput = {
 
 /** Identifies documents */
 export type UserWhereInput = {
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
   /** Logical AND on all given filters. */
   AND?: InputMaybe<Array<UserWhereInput>>;
   /** Logical NOT on all given filters combined by AND. */
   NOT?: InputMaybe<Array<UserWhereInput>>;
   /** Logical OR on all given filters. */
   OR?: InputMaybe<Array<UserWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -4117,9 +4126,7 @@ export type UserWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   documentInStages_every?: InputMaybe<UserWhereStageInput>;
   documentInStages_none?: InputMaybe<UserWhereStageInput>;
   documentInStages_some?: InputMaybe<UserWhereStageInput>;
@@ -4204,9 +4211,7 @@ export type UserWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -4221,9 +4226,7 @@ export type UserWhereInput = {
   /** Any other value that exists and is not equal to the given value. */
   updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['DateTime']['input']>>
-  >;
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
 };
 
 /** The document in stages filter allows specifying a stage entry to cross compare the same document between different stages */
@@ -4291,10 +4294,10 @@ export const _FilterKind = {
   union_every: 'union_every',
   union_none: 'union_none',
   union_single: 'union_single',
-  union_some: 'union_some',
+  union_some: 'union_some'
 } as const;
 
-export type _FilterKind = (typeof _FilterKind)[keyof typeof _FilterKind];
+export type _FilterKind = typeof _FilterKind[keyof typeof _FilterKind];
 export const _MutationInputFieldKind = {
   enum: 'enum',
   relation: 'relation',
@@ -4302,11 +4305,10 @@ export const _MutationInputFieldKind = {
   richTextWithEmbeds: 'richTextWithEmbeds',
   scalar: 'scalar',
   union: 'union',
-  virtual: 'virtual',
+  virtual: 'virtual'
 } as const;
 
-export type _MutationInputFieldKind =
-  (typeof _MutationInputFieldKind)[keyof typeof _MutationInputFieldKind];
+export type _MutationInputFieldKind = typeof _MutationInputFieldKind[keyof typeof _MutationInputFieldKind];
 export const _MutationKind = {
   create: 'create',
   delete: 'delete',
@@ -4319,105 +4321,74 @@ export const _MutationKind = {
   unpublishMany: 'unpublishMany',
   update: 'update',
   updateMany: 'updateMany',
-  upsert: 'upsert',
+  upsert: 'upsert'
 } as const;
 
-export type _MutationKind = (typeof _MutationKind)[keyof typeof _MutationKind];
+export type _MutationKind = typeof _MutationKind[keyof typeof _MutationKind];
 export const _OrderDirection = {
   asc: 'asc',
-  desc: 'desc',
+  desc: 'desc'
 } as const;
 
-export type _OrderDirection =
-  (typeof _OrderDirection)[keyof typeof _OrderDirection];
+export type _OrderDirection = typeof _OrderDirection[keyof typeof _OrderDirection];
 export const _RelationInputCardinality = {
   many: 'many',
-  one: 'one',
+  one: 'one'
 } as const;
 
-export type _RelationInputCardinality =
-  (typeof _RelationInputCardinality)[keyof typeof _RelationInputCardinality];
+export type _RelationInputCardinality = typeof _RelationInputCardinality[keyof typeof _RelationInputCardinality];
 export const _RelationInputKind = {
   create: 'create',
-  update: 'update',
+  update: 'update'
 } as const;
 
-export type _RelationInputKind =
-  (typeof _RelationInputKind)[keyof typeof _RelationInputKind];
+export type _RelationInputKind = typeof _RelationInputKind[keyof typeof _RelationInputKind];
 export const _RelationKind = {
   regular: 'regular',
-  union: 'union',
+  union: 'union'
 } as const;
 
-export type _RelationKind = (typeof _RelationKind)[keyof typeof _RelationKind];
+export type _RelationKind = typeof _RelationKind[keyof typeof _RelationKind];
 export const _SystemDateTimeFieldVariation = {
   base: 'base',
   combined: 'combined',
-  localization: 'localization',
+  localization: 'localization'
 } as const;
 
-export type _SystemDateTimeFieldVariation =
-  (typeof _SystemDateTimeFieldVariation)[keyof typeof _SystemDateTimeFieldVariation];
-export type LegalFragmentFragment = {
-  __typename?: 'Legal';
-  content: { __typename?: 'RichText'; markdown: string };
-  publishedAt?: Date | null;
-  title: string;
-};
+export type _SystemDateTimeFieldVariation = typeof _SystemDateTimeFieldVariation[keyof typeof _SystemDateTimeFieldVariation];
+export type LegalFragmentFragment = { __typename?: 'Legal', title: string, publishedAt?: Date | null, content: { __typename?: 'RichText', markdown: string } };
 
-export type PrivacyPolicyQueryVariables = Exact<{ [key: string]: never }>;
+export type PrivacyPolicyQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type PrivacyPolicyQuery = {
-  __typename?: 'Query';
-  legal?: {
-    __typename?: 'Legal';
-    content: { __typename?: 'RichText'; markdown: string };
-    publishedAt?: Date | null;
-    title: string;
-  } | null;
-};
 
-export type TermsAndConditionsQueryVariables = Exact<{ [key: string]: never }>;
+export type PrivacyPolicyQuery = { __typename?: 'Query', legal?: { __typename?: 'Legal', title: string, publishedAt?: Date | null, content: { __typename?: 'RichText', markdown: string } } | null };
 
-export type TermsAndConditionsQuery = {
-  __typename?: 'Query';
-  legal?: {
-    __typename?: 'Legal';
-    content: { __typename?: 'RichText'; markdown: string };
-    publishedAt?: Date | null;
-    title: string;
-  } | null;
-};
+export type TermsAndConditionsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type OnboardQueryVariables = Exact<{ [key: string]: never }>;
 
-export type OnboardQuery = {
-  __typename?: 'Query';
-  onboards: Array<{
-    __typename?: 'Onboard';
-    lottie?: any | null;
-    subtitle: string;
-    title: string;
-  }>;
-};
+export type TermsAndConditionsQuery = { __typename?: 'Query', legal?: { __typename?: 'Legal', title: string, publishedAt?: Date | null, content: { __typename?: 'RichText', markdown: string } } | null };
+
+export type OnboardQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OnboardQuery = { __typename?: 'Query', onboards: Array<{ __typename?: 'Onboard', title: string, subtitle: string, lottie?: any | null }> };
 
 export const LegalFragmentFragmentDoc = gql`
-  fragment LegalFragment on Legal {
-    title
-    publishedAt
-    content {
-      markdown
-    }
+    fragment LegalFragment on Legal {
+  title
+  publishedAt
+  content {
+    markdown
   }
-`;
+}
+    `;
 export const PrivacyPolicyDocument = gql`
-  query PrivacyPolicy {
-    legal(where: { id: "clg9gskh61n190bl9i3bfmn9q" }) {
-      ...LegalFragment
-    }
+    query PrivacyPolicy {
+  legal(where: {id: "clg9gskh61n190bl9i3bfmn9q"}) {
+    ...LegalFragment
   }
-  ${LegalFragmentFragmentDoc}
-`;
+}
+    ${LegalFragmentFragmentDoc}`;
 
 /**
  * __usePrivacyPolicyQuery__
@@ -4434,53 +4405,27 @@ export const PrivacyPolicyDocument = gql`
  *   },
  * });
  */
-export function usePrivacyPolicyQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    PrivacyPolicyQuery,
-    PrivacyPolicyQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<PrivacyPolicyQuery, PrivacyPolicyQueryVariables>(
-    PrivacyPolicyDocument,
-    options,
-  );
-}
-export function usePrivacyPolicyLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    PrivacyPolicyQuery,
-    PrivacyPolicyQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<PrivacyPolicyQuery, PrivacyPolicyQueryVariables>(
-    PrivacyPolicyDocument,
-    options,
-  );
-}
-export type PrivacyPolicyQueryHookResult = ReturnType<
-  typeof usePrivacyPolicyQuery
->;
-export type PrivacyPolicyLazyQueryHookResult = ReturnType<
-  typeof usePrivacyPolicyLazyQuery
->;
-export type PrivacyPolicyQueryResult = Apollo.QueryResult<
-  PrivacyPolicyQuery,
-  PrivacyPolicyQueryVariables
->;
-export function refetchPrivacyPolicyQuery(
-  variables?: PrivacyPolicyQueryVariables,
-) {
-  return { query: PrivacyPolicyDocument, variables: variables };
-}
-export const TermsAndConditionsDocument = gql`
-  query TermsAndConditions {
-    legal(where: { id: "clg9gtz9g1mp30bk6lfmg9g0x" }) {
-      ...LegalFragment
+export function usePrivacyPolicyQuery(baseOptions?: Apollo.QueryHookOptions<PrivacyPolicyQuery, PrivacyPolicyQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PrivacyPolicyQuery, PrivacyPolicyQueryVariables>(PrivacyPolicyDocument, options);
+      }
+export function usePrivacyPolicyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PrivacyPolicyQuery, PrivacyPolicyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PrivacyPolicyQuery, PrivacyPolicyQueryVariables>(PrivacyPolicyDocument, options);
+        }
+export type PrivacyPolicyQueryHookResult = ReturnType<typeof usePrivacyPolicyQuery>;
+export type PrivacyPolicyLazyQueryHookResult = ReturnType<typeof usePrivacyPolicyLazyQuery>;
+export type PrivacyPolicyQueryResult = Apollo.QueryResult<PrivacyPolicyQuery, PrivacyPolicyQueryVariables>;
+export function refetchPrivacyPolicyQuery(variables?: PrivacyPolicyQueryVariables) {
+      return { query: PrivacyPolicyDocument, variables: variables }
     }
+export const TermsAndConditionsDocument = gql`
+    query TermsAndConditions {
+  legal(where: {id: "clg9gtz9g1mp30bk6lfmg9g0x"}) {
+    ...LegalFragment
   }
-  ${LegalFragmentFragmentDoc}
-`;
+}
+    ${LegalFragmentFragmentDoc}`;
 
 /**
  * __useTermsAndConditionsQuery__
@@ -4497,54 +4442,29 @@ export const TermsAndConditionsDocument = gql`
  *   },
  * });
  */
-export function useTermsAndConditionsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    TermsAndConditionsQuery,
-    TermsAndConditionsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    TermsAndConditionsQuery,
-    TermsAndConditionsQueryVariables
-  >(TermsAndConditionsDocument, options);
-}
-export function useTermsAndConditionsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TermsAndConditionsQuery,
-    TermsAndConditionsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    TermsAndConditionsQuery,
-    TermsAndConditionsQueryVariables
-  >(TermsAndConditionsDocument, options);
-}
-export type TermsAndConditionsQueryHookResult = ReturnType<
-  typeof useTermsAndConditionsQuery
->;
-export type TermsAndConditionsLazyQueryHookResult = ReturnType<
-  typeof useTermsAndConditionsLazyQuery
->;
-export type TermsAndConditionsQueryResult = Apollo.QueryResult<
-  TermsAndConditionsQuery,
-  TermsAndConditionsQueryVariables
->;
-export function refetchTermsAndConditionsQuery(
-  variables?: TermsAndConditionsQueryVariables,
-) {
-  return { query: TermsAndConditionsDocument, variables: variables };
-}
-export const OnboardDocument = gql`
-  query Onboard {
-    onboards(orderBy: id_ASC) {
-      title
-      subtitle
-      lottie
+export function useTermsAndConditionsQuery(baseOptions?: Apollo.QueryHookOptions<TermsAndConditionsQuery, TermsAndConditionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TermsAndConditionsQuery, TermsAndConditionsQueryVariables>(TermsAndConditionsDocument, options);
+      }
+export function useTermsAndConditionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TermsAndConditionsQuery, TermsAndConditionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TermsAndConditionsQuery, TermsAndConditionsQueryVariables>(TermsAndConditionsDocument, options);
+        }
+export type TermsAndConditionsQueryHookResult = ReturnType<typeof useTermsAndConditionsQuery>;
+export type TermsAndConditionsLazyQueryHookResult = ReturnType<typeof useTermsAndConditionsLazyQuery>;
+export type TermsAndConditionsQueryResult = Apollo.QueryResult<TermsAndConditionsQuery, TermsAndConditionsQueryVariables>;
+export function refetchTermsAndConditionsQuery(variables?: TermsAndConditionsQueryVariables) {
+      return { query: TermsAndConditionsDocument, variables: variables }
     }
+export const OnboardDocument = gql`
+    query Onboard {
+  onboards(orderBy: id_ASC) {
+    title
+    subtitle
+    lottie
   }
-`;
+}
+    `;
 
 /**
  * __useOnboardQuery__
@@ -4561,33 +4481,17 @@ export const OnboardDocument = gql`
  *   },
  * });
  */
-export function useOnboardQuery(
-  baseOptions?: Apollo.QueryHookOptions<OnboardQuery, OnboardQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<OnboardQuery, OnboardQueryVariables>(
-    OnboardDocument,
-    options,
-  );
-}
-export function useOnboardLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    OnboardQuery,
-    OnboardQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<OnboardQuery, OnboardQueryVariables>(
-    OnboardDocument,
-    options,
-  );
-}
+export function useOnboardQuery(baseOptions?: Apollo.QueryHookOptions<OnboardQuery, OnboardQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OnboardQuery, OnboardQueryVariables>(OnboardDocument, options);
+      }
+export function useOnboardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OnboardQuery, OnboardQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OnboardQuery, OnboardQueryVariables>(OnboardDocument, options);
+        }
 export type OnboardQueryHookResult = ReturnType<typeof useOnboardQuery>;
 export type OnboardLazyQueryHookResult = ReturnType<typeof useOnboardLazyQuery>;
-export type OnboardQueryResult = Apollo.QueryResult<
-  OnboardQuery,
-  OnboardQueryVariables
->;
+export type OnboardQueryResult = Apollo.QueryResult<OnboardQuery, OnboardQueryVariables>;
 export function refetchOnboardQuery(variables?: OnboardQueryVariables) {
-  return { query: OnboardDocument, variables: variables };
-}
+      return { query: OnboardDocument, variables: variables }
+    }

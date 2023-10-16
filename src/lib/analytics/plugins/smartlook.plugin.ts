@@ -2,7 +2,7 @@ import Smartlook, { Properties } from 'react-native-smartlook-analytics';
 
 import { isNil } from 'lodash';
 
-import type { User } from '@app/generated/server.gql';
+import type { User } from '@app/types/user';
 
 import { ENV } from '@app/env';
 
@@ -25,8 +25,9 @@ export class SmartlookPlugin extends AnalyticPlugin {
   }
 
   identify() {
-    Smartlook.instance.user.setIdentifier(this.user.id);
-    this.user.fullName && Smartlook.instance.user.setName(this.user.fullName);
+    Smartlook.instance.user.setIdentifier(this.user.uid);
+    this.user.displayName &&
+      Smartlook.instance.user.setName(this.user.displayName);
   }
 
   isEnabled() {

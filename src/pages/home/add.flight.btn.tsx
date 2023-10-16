@@ -12,14 +12,14 @@ export const AddFlightBtn: React.FC = () => {
   const navigation = useRootNavigation();
 
   const handlePress = () => {
-    vibrate('effectClick');
+    vibrate('effectHeavyClick');
     setTimeout(() => {
       navigation.push('FlightSearch');
     }, 300);
   };
 
   return (
-    <Btn activeOpacity={1} onPress={handlePress}>
+    <Btn activeOpacity={0.8} onPress={handlePress}>
       <Icon name="plus" size={30} />
     </Btn>
   );

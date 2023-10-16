@@ -21,11 +21,19 @@ export const LegalCard: React.FC = () => {
   return (
     <Card>
       <TouchableOpacity onPress={() => navigation.push('TermsOfService')}>
-        <ListItem extra={Extra} title="Terms of Service" />
+        <ListItem
+          extra={Extra}
+          icon={<FaIcon name="book-section" />}
+          title="Terms of Service"
+        />
       </TouchableOpacity>
       <HorizontalDivider />
       <TouchableOpacity onPress={() => navigation.push('PrivacyPolicies')}>
-        <ListItem extra={Extra} title="Privacy Policy" />
+        <ListItem
+          extra={Extra}
+          icon={<FaIcon name="book-user" />}
+          title="Privacy Policy"
+        />
       </TouchableOpacity>
     </Card>
   );

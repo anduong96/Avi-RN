@@ -23,7 +23,7 @@ type Props = {
 export const FaIcon: React.FC<Props> = ({
   color,
   disabled,
-  size = 15,
+  size = 20,
   ...props
 }) => {
   const theme = useTheme();

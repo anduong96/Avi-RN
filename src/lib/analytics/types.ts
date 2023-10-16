@@ -1,4 +1,4 @@
-import type { User } from '@app/generated/server.gql';
+import type { User } from '@app/types/user';
 
 import { logger } from '../logger';
 

@@ -1,6 +1,6 @@
 import analytics from '@react-native-firebase/analytics';
 
-import type { User } from '@app/generated/server.gql';
+import type { User } from '@app/types/user';
 
 import { ENV } from '@app/env';
 
@@ -12,7 +12,7 @@ export class FirebasePlugin extends AnalyticPlugin {
   }
 
   identify() {
-    analytics().setUserId(this.user.id);
+    analytics().setUserId(this.user.uid);
   }
 
   isEnabled() {

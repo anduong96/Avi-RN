@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { styled } from '@app/lib/styled';
 import { Card } from '@app/components/card';

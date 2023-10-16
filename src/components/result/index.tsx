@@ -45,7 +45,8 @@ export const Result: React.FC<Props> = ({
               React.isValidElement(item) ? (
                 React.cloneElement(item, { key: index })
               ) : (
-                //@ts-ignore
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
                 <ActionItem key={index} {...item} />
               ),
             )}

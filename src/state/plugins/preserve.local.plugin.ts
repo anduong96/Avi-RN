@@ -26,7 +26,8 @@ export function withLocalStorage<
   );
 
   logger.debug(key, 'restored state', parsed);
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   store.actions.setState({ ...parsed, isReady: true });
 
   return store;

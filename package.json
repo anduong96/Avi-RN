@@ -8,7 +8,7 @@
     "ios:device": "fastlane ios develop device:true",
     "start": "npm run localhost && react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "npm run lint -- --fix",
     "codegen": "graphql-codegen",
     "clean": "node scripts/clean.js",

@@ -59,9 +59,11 @@ export const FormField: React.FC<Props> = ({
             ? children(form, meta, control)
             : React.isValidElement(children)
             ? React.cloneElement(children, {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
                 hasErrors,
                 ...control,
-              } as any)
+              })
             : null;
 
         if (noStyle) {

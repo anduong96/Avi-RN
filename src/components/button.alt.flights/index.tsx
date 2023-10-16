@@ -13,7 +13,8 @@ type Props = {
 export const AltFlightsButton: React.FC<Props> = () => {
   return (
     <Btn>
-      {/* @ts-ignore */}
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-expect-error */}
       <Icon name="electric-switch-closed" />
       <BtnText>Alternative Flights</BtnText>
     </Btn>

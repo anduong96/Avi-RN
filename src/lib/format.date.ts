@@ -26,7 +26,7 @@ export function formatDisplayDate(v?: Date | string) {
 }
 
 export function formatRelativeDay(v: moment.MomentInput) {
-  var fromNow = moment(v).fromNow();
+  const fromNow = moment(v).fromNow();
 
   // ensure the date is displayed with today and yesterday
   return moment(v).calendar(null, {

@@ -6,7 +6,7 @@ import { FormField } from './field';
 
 type FormType = React.FC<
   Omit<React.ComponentProps<typeof RcForm>, 'component' | 'onFinish'> & {
-    onFinish: (payload: any) => void;
+    onFinish: (payload: unknown) => void;
   }
 > & {
   Field: typeof FormField;

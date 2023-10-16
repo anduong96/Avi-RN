@@ -58,20 +58,21 @@ export class Analytics {
   private static publish<
     E extends keyof AnalyticPlugin,
     P extends AnalyticPlugin[E],
-    //TODO: proper typesscipt
-    //@ts-ignore
+    //TODO: proper typescript
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
   >(event: E, ...params: Parameters<P>) {
     if (ENV.APP_ENV !== 'production') {
       return;
     }
 
     this.plugins.forEach((plugin) =>
-      //@ts-ignore
       tryNice(
         () =>
           plugin.isEnabled?.() &&
           typeof plugin[event] === 'function' &&
-          //@ts-ignore
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
           plugin[event]?.(...params, this.user),
       ),
     );

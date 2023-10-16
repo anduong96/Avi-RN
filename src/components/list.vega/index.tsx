@@ -1,14 +1,12 @@
+import type { FlatListProps } from 'react-native';
 import type { FlashListProps } from '@shopify/flash-list';
-import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 
 import * as React from 'react';
-import Animated, { useSharedValue } from 'react-native-reanimated';
+import { useSharedValue } from 'react-native-reanimated';
 
 import { FlashList } from '@shopify/flash-list';
 
 import { ListItem } from './item';
-
-const List = Animated.createAnimatedComponent(FlashList);
 
 type Props<T> = Omit<
   FlashListProps<T>,
@@ -25,18 +23,18 @@ type Props<T> = Omit<
   renderItem: (item: T, index: number) => React.ReactElement;
 };
 
-function _VegaList<T = unknown>(
+export function _VegaList<T = unknown>(
   { data, distance = 0, keyExtractor, renderItem, ...props }: Props<T>,
-  ref?: any,
+  ref?: React.RefObject<FlashList<T>>,
 ) {
   const y = useSharedValue(0);
 
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const handleScroll: FlatListProps<T>['onScroll'] = (event) => {
     y.value = event.nativeEvent.contentOffset.y;
   };
 
   return (
-    <List
+    <FlashList
       ref={ref}
       showsVerticalScrollIndicator={false}
       {...props}
@@ -60,7 +58,3 @@ function _VegaList<T = unknown>(
     />
   );
 }
-
-export const VegaList = React.forwardRef(_VegaList) as <T>(
-  props: Props<T> & { ref?: React.MutableRefObject<FlashList<T> | undefined> },
-) => ReturnType<typeof _VegaList>;

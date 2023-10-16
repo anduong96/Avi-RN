@@ -1,3 +1,6 @@
+import type { ParamListBase } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import { useNavigation } from '@react-navigation/native';
 
 import type { MainStack } from '.';
@@ -5,6 +8,7 @@ import type { MainStack } from '.';
 import { ROOT_NAVIGATOR_ID } from './_constants';
 
 export function useRootNavigation() {
-  const navigation = useNavigation();
-  return navigation.getParent<MainStack>(ROOT_NAVIGATOR_ID as any);
+  type Navigation = NativeStackNavigationProp<ParamListBase, string, string>;
+  const navigation = useNavigation<Navigation>();
+  return navigation.getParent<MainStack>(ROOT_NAVIGATOR_ID);
 }

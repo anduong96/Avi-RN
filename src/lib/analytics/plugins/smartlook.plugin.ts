@@ -13,7 +13,7 @@ export class SmartlookPlugin extends AnalyticPlugin {
     super(user);
   }
 
-  private sendEvent<T extends object>(event: string, payload: T = {} as any) {
+  private sendEvent<T extends object>(event: string, payload: T = {} as T) {
     const props = new Properties();
     for (const [key, value] of Object.entries(payload)) {
       if (!isNil(value)) {

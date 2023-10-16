@@ -66,7 +66,8 @@ export function List<T>({
         React.isValidElement(EmptyComponent) ? (
           EmptyComponent
         ) : (
-          // @ts-ignore
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
           <EmptyComponent />
         )
       ) : (

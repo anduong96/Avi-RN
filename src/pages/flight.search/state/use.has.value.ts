@@ -1,3 +1,5 @@
+import { isNil } from 'lodash';
+
 import { State } from '.';
 
 /**
@@ -10,7 +12,5 @@ import { State } from '.';
 export function useHasValue<
   K extends keyof ReturnType<(typeof State)['getState']>,
 >(key: K): boolean {
-  return State.useSelect(
-    (state) => !['', null, undefined].includes(state[key] as any),
-  );
+  return State.useSelect((state) => !isNil(state[key]) && state[key] !== '');
 }

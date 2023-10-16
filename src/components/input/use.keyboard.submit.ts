@@ -5,7 +5,7 @@ import { useSubscription } from '@app/lib/hooks/use.subscription';
 import { InputPublisher } from './publisher';
 
 export function useKeyboardSubmitEvent(
-  onTrigger: (value?: any) => void,
+  onTrigger: (value?: unknown) => void,
   deps: React.DependencyList,
 ) {
   return useSubscription(

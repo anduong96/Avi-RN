@@ -14,7 +14,7 @@ export const VerticalDivider: React.FC<Props> = ({ style }) => {
 };
 
 export const Container = styled(View, (theme) => ({
-  backgroundColor: theme.pallette.borderColor,
+  backgroundColor: theme.pallette.dividerColor,
   height: '50%',
   width: theme.borderWidth,
 }));

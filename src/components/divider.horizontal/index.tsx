@@ -37,7 +37,7 @@ const Container = styled<Pick<Props, 'size'>, typeof View>(
 
 const Line = styled<Pick<Props, 'color'>, typeof View>(View, (theme, props) => [
   {
-    backgroundColor: props.color || theme.pallette.borderColor,
+    backgroundColor: props.color || theme.pallette.dividerColor,
     height: theme.borderWidth,
   },
 ]);

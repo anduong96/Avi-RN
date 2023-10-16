@@ -173,7 +173,7 @@ const Container = styled<
   !props.isSolid && {
     borderColor:
       props.color === theme.pallette.transparent
-        ? theme.pallette.grey[200]
+        ? theme.pallette.borderColor
         : props.color,
   },
   props.isSolid && {

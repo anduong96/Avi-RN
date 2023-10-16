@@ -130,7 +130,7 @@ const Divider = styled<{ type: 'horizontal' | 'vertical' }, typeof View>(
   View,
   (theme, props) => [
     {
-      backgroundColor: theme.pallette.grey[200],
+      backgroundColor: theme.pallette.dividerColor,
     },
     props.type === 'horizontal' && {
       height: 1,

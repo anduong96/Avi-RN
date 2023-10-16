@@ -15,6 +15,7 @@ type Props = {
   descriptionStyle?: StyleProp<TextStyle>;
   extra?: React.ReactNode | boolean | null;
   hasShadow?: boolean;
+  horizontalPadding?: SpaceKeys;
   icon?: React.ReactElement | null;
   style?: StyleProp<ViewStyle>;
   title: StringOrElement;
@@ -27,6 +28,7 @@ export const ListItem: React.FC<Props> = ({
   descriptionStyle,
   extra,
   hasShadow,
+  horizontalPadding,
   icon,
   style,
   title,
@@ -34,9 +36,13 @@ export const ListItem: React.FC<Props> = ({
   verticalPadding,
 }) => {
   return (
-    <Container style={[style]} verticalPadding={verticalPadding}>
+    <Container
+      horizontalPadding={horizontalPadding}
+      style={[style]}
+      verticalPadding={verticalPadding}
+    >
       <Body hasShadow={hasShadow}>
-        <IconContainer>{icon}</IconContainer>
+        {icon && <IconContainer>{icon}</IconContainer>}
         <Content>
           <StringRenderer Container={TitleText} style={titleStyle}>
             {title}
@@ -51,17 +57,17 @@ export const ListItem: React.FC<Props> = ({
   );
 };
 
-const Container = styled<Pick<Props, 'verticalPadding'>, typeof View>(
-  View,
-  (theme, props) => [
-    {
-      paddingHorizontal: theme.space.large,
-    },
-    props.verticalPadding && {
-      paddingVertical: theme.space[props.verticalPadding],
-    },
-  ],
-);
+const Container = styled<
+  Pick<Props, 'horizontalPadding' | 'verticalPadding'>,
+  typeof View
+>(View, (theme, props) => [
+  props.horizontalPadding && {
+    paddingHorizontal: theme.space[props.horizontalPadding],
+  },
+  props.verticalPadding && {
+    paddingVertical: theme.space[props.verticalPadding],
+  },
+]);
 
 const IconContainer = styled(View, (theme) => [
   theme.presets.centered,
@@ -72,17 +78,17 @@ const IconContainer = styled(View, (theme) => [
   },
 ]);
 
-const Content = styled(View, (theme) => ({
+const Content = styled(View, () => ({
   alignItems: 'flex-start',
   flexGrow: 1,
   flexShrink: 1,
-  gap: theme.space.tiny,
+  gap: 2,
 }));
 
 const TitleText = styled(Text, (theme) => [theme.typography.presets.h3]);
 
 const DescriptionText = styled(Text, (theme) => [
-  theme.typography.presets.p1,
+  theme.typography.presets.p2,
   {
     color: theme.pallette.textSecondary,
   },
@@ -94,6 +100,7 @@ const Body = styled<Pick<Props, 'hasShadow'>, typeof View>(
     {
       alignItems: 'center',
       flexDirection: 'row',
+      flexGrow: 1,
       gap: theme.space.medium,
       justifyContent: 'space-between',
     },

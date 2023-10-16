@@ -25,7 +25,6 @@ const Container = styled<Pick<Props, 'size'>, typeof View>(
     {
       flexDirection: 'column',
       justifyContent: 'center',
-      paddingHorizontal: theme.space.medium,
     },
     props.size === 'medium' && {
       height: theme.space.medium,
@@ -38,7 +37,7 @@ const Container = styled<Pick<Props, 'size'>, typeof View>(
 
 const Line = styled<Pick<Props, 'color'>, typeof View>(View, (theme, props) => [
   {
-    backgroundColor: props.color || theme.pallette.grey[200],
+    backgroundColor: props.color || theme.pallette.borderColor,
     height: theme.borderWidth,
   },
 ]);

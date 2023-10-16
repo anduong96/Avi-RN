@@ -14,6 +14,7 @@ type Props = {
   subtitle?: StringOrElement;
   title?: StringOrElement;
   withClose?: boolean;
+  withPadding?: boolean;
   withTopInset?: boolean;
 };
 
@@ -22,13 +23,14 @@ export const ModalHeader: React.FC<Props> = ({
   subtitle,
   title,
   withClose = true,
+  withPadding = true,
   withTopInset = false,
 }) => {
   const exit = useExitPage();
 
   return (
     <Container withTopInset={withTopInset}>
-      <Meta>
+      <Meta withPadding={withPadding}>
         <StringRenderer Container={TitleText}>{title}</StringRenderer>
         <StringRenderer Container={SubtitleText}>{subtitle}</StringRenderer>
       </Meta>
@@ -37,7 +39,7 @@ export const ModalHeader: React.FC<Props> = ({
   );
 };
 
-const Container = styled<{ withTopInset?: boolean }, typeof View>(
+const Container = styled<Pick<Props, 'withTopInset'>, typeof View>(
   View,
   (theme, props) => [
     {
@@ -50,11 +52,18 @@ const Container = styled<{ withTopInset?: boolean }, typeof View>(
   ],
 );
 
-const Meta = styled(View, (theme) => ({
-  flexGrow: 1,
-  padding: theme.space.medium,
-  paddingTop: 0,
-}));
+const Meta = styled<Pick<Props, 'withPadding'>, typeof View>(
+  View,
+  (theme, props) => [
+    {
+      flexGrow: 1,
+      paddingTop: 0,
+    },
+    props.withPadding && {
+      padding: theme.space.medium,
+    },
+  ],
+);
 
 const TitleText = styled(Text, (theme) => ({
   ...theme.typography.presets.h2,

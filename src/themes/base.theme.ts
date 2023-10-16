@@ -28,7 +28,7 @@ const pallette = {
   active: '#0171E3',
   background: blackColor.clone().lighten(5).toHexString(),
   black,
-  borderColor: grey[200],
+  borderColor: grey[100],
   card: grey[50],
   danger: '#FF4444',
   disabled: grey[400],

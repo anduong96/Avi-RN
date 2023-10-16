@@ -1,41 +1,24 @@
+import type { MarkdownProps } from 'react-native-marked';
+
 import * as React from 'react';
-import { Linking, StyleSheet } from 'react-native';
-import RnMarkdown from 'react-native-markdown-package';
+import RnMarkdown from 'react-native-marked';
 
-type Props = {
-  value: string;
+import { styled } from '@app/lib/styled';
+
+type Props = Pick<MarkdownProps, 'flatListProps' | 'value'>;
+
+export const Markdown: React.FC<Props> = ({ flatListProps, value }) => {
+  return <StyledMarkedDown flatListProps={flatListProps} value={value} />;
 };
 
-export const Markdown: React.FC<Props> = ({ value }) => {
-  const handleLink = async (url: string) => {
-    if (await Linking.canOpenURL(url)) {
-      Linking.openURL(url);
-    }
-  };
-
-  return (
-    <RnMarkdown onLink={handleLink} styles={styles}>
-      {value}
-    </RnMarkdown>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    flex: 1,
-    justifyContent: 'center',
-    margin: 10,
-    padding: 20,
+const StyledMarkedDown = styled(RnMarkdown, undefined, (theme) => ({
+  theme: {
+    colors: {
+      background: theme.pallette.background,
+      border: theme.pallette.borderColor,
+      code: theme.pallette.textSecondary,
+      link: theme.pallette.active,
+      text: theme.pallette.text,
+    },
   },
-  instructions: {
-    color: '#333333',
-    marginBottom: 5,
-    textAlign: 'center',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-  },
-});
+}));

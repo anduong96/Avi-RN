@@ -1,17 +1,18 @@
 import * as React from 'react';
-import { ActivityIndicator, ScrollView } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
 import moment from 'moment';
+import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
 
-import { styled } from '@app/lib/styled';
 import { Markdown } from '@app/components/markdown';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { ModalHeader } from '@app/components/modal.header';
 import { CmsServerApolloClient } from '@app/apollo/cms.server';
 import { PageContainer } from '@app/components/page.container';
-import { SpaceVertical } from '@app/components/space.vertical';
 import { useTermsAndConditionsQuery } from '@app/generated/cms.gql';
 
 export const TermsOfServicePage: React.FC = () => {
+  const theme = useTheme();
   const terms = useTermsAndConditionsQuery({
     client: CmsServerApolloClient,
   });
@@ -30,15 +31,16 @@ export const TermsOfServicePage: React.FC = () => {
         subtitle={moment(terms.data.legal.publishedAt).format('ll')}
         title={terms.data.legal.title}
       />
-      <Content>
-        <Markdown value={terms.data.legal.content.markdown} />
-        <SpaceVertical height={200} />
-      </Content>
+      <Markdown
+        flatListProps={{
+          contentContainerStyle: {
+            padding: theme.space.medium,
+            paddingBottom: WINDOW_HEIGHT * 0.5,
+          },
+          scrollsToTop: true,
+        }}
+        value={terms.data.legal.content.markdown}
+      />
     </PageContainer>
   );
 };
-
-const Content = styled(ScrollView, (theme) => ({
-  padding: theme.space.medium,
-  paddingTop: 0,
-}));

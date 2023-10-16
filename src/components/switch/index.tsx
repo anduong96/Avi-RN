@@ -1,57 +1,71 @@
 import * as React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
+
+import { startCase } from 'lodash';
+
+import { styled } from '@app/lib/styled';
 
 export type Props = {
+  disabled?: boolean;
   onChange?: (value: Props['value']) => void;
-  options: Array<{ label: string; value: string }>;
+  options: Array<{ label: string; value: string }> | Array<string>;
   value?: string;
 };
 
-export const SwitchButton: React.FC<Props> = ({ onChange, options, value }) => {
+export const SwitchButton: React.FC<Props> = ({
+  disabled,
+  onChange,
+  options,
+  value,
+}) => {
   return (
-    <View style={[styles.container]}>
-      {options.map((opt) => {
-        const isActive = opt.value === value;
+    <Container isDisabled={disabled}>
+      {options.map((item) => {
+        const [itemValue, itemLabel] =
+          typeof item === 'string'
+            ? [item, startCase(item)]
+            : [item.value, item.label];
+        const isActive = value === itemValue;
+
         return (
-          <TouchableOpacity
-            activeOpacity={1}
-            key={opt.value}
-            onPress={() => !isActive && onChange?.(opt.value)}
-            style={[styles.item, isActive && styles.activeItem]}
+          <Option
+            disabled={disabled}
+            key={itemValue}
+            onPress={() => onChange?.(itemValue)}
           >
-            <Text style={[isActive ? styles.activeItemText : styles.itemText]}>
-              {opt.label}
-            </Text>
-          </TouchableOpacity>
+            <Label isActive={isActive}>{itemLabel}</Label>
+          </Option>
         );
       })}
-    </View>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  activeItem: {
-    backgroundColor: '#555555',
+const Container = styled<{ isDisabled?: boolean }, typeof View>(
+  View,
+  (_theme, props) => [
+    {
+      flexDirection: 'row',
+    },
+    props.isDisabled && {
+      opacity: 0.9,
+    },
+  ],
+);
+
+const Option = styled(TouchableOpacity, (theme) => [
+  {
+    paddingHorizontal: theme.space.small,
   },
-  activeItemText: {
-    color: '#fff',
-  },
-  container: {
-    borderRadius: 4,
-    display: 'flex',
-    flexDirection: 'row',
-    overflow: 'hidden',
-  },
-  item: {
-    backgroundColor: '#EEEEEF',
-    display: 'flex',
-    flexBasis: 1,
-    flexDirection: 'row',
-    flexGrow: 1,
-    justifyContent: 'center',
-    padding: 5,
-  },
-  itemText: {
-    color: '#000',
-  },
-});
+]);
+
+const Label = styled<{ isActive?: boolean }, typeof Text>(
+  Text,
+  (theme, props) => [
+    theme.typography.presets.p1,
+    props.isActive && {
+      color: theme.pallette.active,
+      fontWeight: 'bold',
+    },
+  ],
+);

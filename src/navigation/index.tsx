@@ -7,7 +7,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { HomePage } from '@app/pages/home';
 import { ProfilePage } from '@app/pages/profile';
-import { SettingsPage } from '@app/pages/settings';
 import { DebugMenuPage } from '@app/pages/debug.menu';
 import { useBootApp } from '@app/lib/hooks/use.boot.app';
 import { FlightSearchPage } from '@app/pages/flight.search';
@@ -28,11 +27,10 @@ export type MainStackParam = {
   Home: undefined;
   PrivacyPolicies: undefined;
   Profile: undefined;
-  Settings: undefined;
   TermsOfService: undefined;
 };
 
-export type MainStack<T extends keyof MainStackParam = any> =
+export type MainStack<T extends keyof MainStackParam = 'Home'> =
   NativeStackNavigationProp<MainStackParam, T>;
 
 const Stack = createNativeStackNavigator<MainStackParam>();
@@ -52,7 +50,6 @@ export const AppNavigator: React.FC = () => {
         <Stack.Screen component={FlightSearchPage} name="FlightSearch" />
         <Stack.Screen component={DebugMenuPage} name="Debug" />
         <Stack.Screen component={ProfilePage} name="Profile" />
-        <Stack.Screen component={SettingsPage} name="Settings" />
         <Stack.Screen component={PrivacyPoliciesPage} name="PrivacyPolicies" />
         <Stack.Screen component={TermsOfServicePage} name="TermsOfService" />
         <Stack.Screen component={ArchivedFlightsPage} name="FlightsArchive" />

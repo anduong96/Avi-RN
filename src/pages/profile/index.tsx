@@ -3,13 +3,16 @@ import { ScrollView, View } from 'react-native';
 
 import { styled } from '@app/lib/styled';
 import { Avatar } from '@app/components/avatar';
+import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { CloseBtn } from '@app/components/btn.close';
 import { Typography } from '@app/components/typography';
 import { useExitPage } from '@app/lib/hooks/use.exit.page';
 import { PageContainer } from '@app/components/page.container';
 import { SpaceVertical } from '@app/components/space.vertical';
 
+import { LegalCard } from './legal.card';
 import { SignOutBtn } from './sign.out.btn';
+import { SettingsCard } from './settings.card';
 import { AccountConnectCard } from './account.connect.card';
 
 export const ProfilePage: React.FC = () => {
@@ -20,7 +23,7 @@ export const ProfilePage: React.FC = () => {
       <RightActions>
         <CloseBtn onPress={exit} />
       </RightActions>
-      <Content>
+      <Content showsVerticalScrollIndicator={false}>
         <SignOut>
           <SignOutBtn />
         </SignOut>
@@ -31,6 +34,14 @@ export const ProfilePage: React.FC = () => {
         <Section>
           <SectionTitle>Connect</SectionTitle>
           <AccountConnectCard />
+        </Section>
+        <Section>
+          <SectionTitle>Settings</SectionTitle>
+          <SettingsCard />
+        </Section>
+        <Section>
+          <SectionTitle>Legal</SectionTitle>
+          <LegalCard />
         </Section>
       </Content>
     </PageContainer>
@@ -58,6 +69,7 @@ const Content = styled(ScrollView, undefined, (theme) => ({
     flexGrow: 1,
     gap: theme.space.large,
     padding: theme.space.medium,
+    paddingBottom: WINDOW_HEIGHT * 0.5,
   },
 }));
 
@@ -68,7 +80,7 @@ const Section = styled(View, (theme) => [
 ]);
 
 const SectionTitle = styled(Typography, undefined, {
-  type: 'h2',
+  type: 'h3',
 });
 
 const SignOut = styled(View, () => [

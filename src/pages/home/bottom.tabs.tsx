@@ -25,8 +25,6 @@ export const BottomTabs: React.FC = () => {
       <Rounded>
         <BlurredBackground />
       </Rounded>
-
-      <Item icon="gear" onPress={() => handleNavigation('Settings')} />
       <Item
         icon="house-blank"
         isActive
@@ -50,11 +48,14 @@ const Container = styled(View, (theme) => [
 
 const Item = styled<{ isActive?: boolean }, typeof IconBtn>(
   IconBtn,
-  (theme) => [
+  (theme, props) => [
     {
       borderRadius: theme.roundRadius,
       paddingHorizontal: theme.space.medium,
       paddingVertical: theme.space.medium,
+    },
+    props.isActive && {
+      backgroundColor: theme.pallette.background,
     },
   ],
   (theme, props) => ({

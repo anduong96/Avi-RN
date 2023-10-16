@@ -390,11 +390,6 @@ export type UserFlightQueryVariables = Exact<{
 
 export type UserFlightQuery = { __typename?: 'Query', userFlight?: { __typename?: 'UserFlight', id: string, shouldAlert: boolean } | null };
 
-export type UserQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, displayName?: string | null, createdAt: any, updatedAt: any, avatarURL?: string | null, lastSignInAt: any } };
-
 export type SyncUserMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1096,48 +1091,6 @@ export type UserFlightLazyQueryHookResult = ReturnType<typeof useUserFlightLazyQ
 export type UserFlightQueryResult = Apollo.QueryResult<UserFlightQuery, UserFlightQueryVariables>;
 export function refetchUserFlightQuery(variables: UserFlightQueryVariables) {
       return { query: UserFlightDocument, variables: variables }
-    }
-export const UserDocument = gql`
-    query User {
-  user {
-    id
-    displayName
-    createdAt
-    updatedAt
-    avatarURL
-    lastSignInAt
-  }
-}
-    `;
-
-/**
- * __useUserQuery__
- *
- * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUserQuery({
- *   variables: {
- *   },
- * });
- */
-export function useUserQuery(baseOptions?: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-      }
-export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-        }
-export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
-export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
-export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
-export function refetchUserQuery(variables?: UserQueryVariables) {
-      return { query: UserDocument, variables: variables }
     }
 export const SyncUserDocument = gql`
     mutation SyncUser {

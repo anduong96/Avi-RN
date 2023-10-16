@@ -37,8 +37,6 @@ export const ArchivedFlightsPage: React.FC = () => {
       <FlatList
         data={response.data?.userArchivedFlights}
         keyExtractor={(item) => item.id}
-        onRefresh={() => response.refetch()}
-        refreshing={response.loading}
         renderItem={(entry) => {
           return (
             <ListItem

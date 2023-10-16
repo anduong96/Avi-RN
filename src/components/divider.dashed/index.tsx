@@ -51,7 +51,7 @@ const Dash = styled<{ isVertical: boolean; size: number }, typeof View>(
   View,
   (theme, props) => [
     {
-      backgroundColor: theme.pallette.dividerColor,
+      backgroundColor: theme.pallette.borderColor,
     },
     props.isVertical && {
       height: props.size,

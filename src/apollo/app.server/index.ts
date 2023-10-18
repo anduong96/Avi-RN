@@ -26,11 +26,14 @@ const authLink = setContext(async (_, { headers }) => {
   };
 });
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
+const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach((error) => {
       Analytics.error(error);
-      gqlLogger.error('Unexpected Error', error);
+      gqlLogger.error(
+        `Unexpected Error from ${operation.operationName}`,
+        error,
+      );
     });
   }
 

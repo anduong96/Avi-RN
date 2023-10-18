@@ -36,6 +36,9 @@ export const userState = createStoreHook(
 firebase.auth().onAuthStateChanged((nextUser) => {
   if (nextUser) {
     userState.actions.setUser(nextUser);
+  }
+
+  if (!nextUser?.isAnonymous) {
     AppServerApolloClient.mutate({
       mutation: SyncUserDocument,
     });

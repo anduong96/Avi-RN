@@ -5,6 +5,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:perfectionist/recommended-natural',
   ],
+  ignorePatterns: ['**/*.js', 'generated/**/*'],
   overrides: [
     {
       files: ['*.ts', '*.tsx'],

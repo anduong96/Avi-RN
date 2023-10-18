@@ -40,6 +40,7 @@ export const HomePage: React.FC = () => {
   const [showScrollTop, setShowScrollTop] = React.useState(false);
   const activeFlights = flights.data?.userActiveFlights;
   const archivedFlights = archived.data?.userArchivedFlights;
+  const hasArchivedFlights = !isEmpty(archivedFlights);
 
   const [removeFlight] = useDeleteUserFlightMutation({
     refetchQueries: [
@@ -117,7 +118,7 @@ export const HomePage: React.FC = () => {
               <ListActions>
                 <ArchivedFlightsBtn
                   icon="rectangle-history"
-                  isVisible={!isEmpty(archivedFlights)}
+                  disabled={!hasArchivedFlights}
                   onPress={handleOpenArchivedFlights}
                 >
                   Archive
@@ -220,9 +221,11 @@ const Content = styled(View, (theme) => [
   },
 ]);
 
-const ArchivedFlightsBtn = styled<{ isVisible: boolean }, typeof Button>(
-  Button,
-);
+const ArchivedFlightsBtn = styled(Button, (_, props) => [
+  {
+    opacity: props.disabled ? 0 : 1,
+  },
+]);
 
 const DeleteFlightBtn = styled(TouchableOpacity, () => []);
 

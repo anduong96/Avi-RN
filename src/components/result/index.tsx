@@ -60,7 +60,7 @@ export const Result: React.FC<Props> = ({
 const Container = styled(View, (theme) => [
   theme.presets.centered,
   {
-    gap: theme.space.medium,
+    gap: theme.space.large,
     height: '100%',
     padding: theme.space.medium,
   },
@@ -82,7 +82,6 @@ const TitleText = styled(Text, (theme) => [
   theme.typography.presets.h1,
   {
     fontWeight: 'bold',
-    lineHeight: 30,
     textAlign: 'center',
   },
 ]);

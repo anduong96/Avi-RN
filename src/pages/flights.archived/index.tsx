@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 import Animated, { SlideInLeft } from 'react-native-reanimated';
 
 import { styled } from '@app/lib/styled';
@@ -36,6 +36,8 @@ export const ArchivedFlightsPage: React.FC = () => {
       />
       <FlatList
         data={response.data?.userArchivedFlights}
+        refreshing={response.loading}
+        onRefresh={response.refetch}
         keyExtractor={(item) => item.id}
         renderItem={(entry) => {
           return (

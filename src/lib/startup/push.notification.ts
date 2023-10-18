@@ -36,7 +36,11 @@ export function useNotificationHandling() {
         return;
       }
 
-      const urlToOpen = event?.notification.data?.url as string;
+      const urlToOpen =
+        typeof event?.notification.data?.url === 'string'
+          ? event.notification.data.url
+          : undefined;
+
       if (urlToOpen) {
         const canOpen = await Linking.canOpenURL(urlToOpen);
         if (canOpen) {
@@ -70,12 +74,18 @@ messaging().onMessage((data) => {
     title: data.notification.title,
   };
 
-  if (data.data?.fcm_options?.image) {
-    const imageUrl = data.data?.fcm_options?.image;
+  const fcmOptions = data.data?.fcm_options;
+  const isFcmObject = typeof fcmOptions === 'object';
+  const fcmImage =
+    isFcmObject && 'image' in fcmOptions && typeof fcmOptions.image === 'string'
+      ? fcmOptions.image
+      : undefined;
+
+  if (fcmImage) {
     payload.ios = {
       attachments: [
         {
-          url: imageUrl,
+          url: fcmImage,
         },
       ],
     };

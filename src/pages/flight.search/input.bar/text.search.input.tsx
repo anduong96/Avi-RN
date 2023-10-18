@@ -18,12 +18,6 @@ export const TextSearchInput: React.FC = () => {
     State.actions.setState({ focusInput: 'textSearch' });
   };
 
-  const handleBlur = () => {
-    State.actions.setState({
-      focusInput: undefined,
-    });
-  };
-
   React.useEffect(() => {
     return () => {
       State.actions.setState({
@@ -39,7 +33,6 @@ export const TextSearchInput: React.FC = () => {
       autoComplete="off"
       autoCorrect={false}
       autoFocus
-      onBlur={handleBlur}
       onChange={handleChangeText}
       onFocus={handleFocus}
       placeholder="i.e. AA100"

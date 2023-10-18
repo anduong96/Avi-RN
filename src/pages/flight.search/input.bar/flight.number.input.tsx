@@ -26,12 +26,6 @@ export const FlightNumberInput = React.forwardRef<TextInput>((_, ref) => {
     });
   };
 
-  const handleBlur = () => {
-    State.actions.setState({
-      focusInput: undefined,
-    });
-  };
-
   const handleChange = (value?: string) => {
     State.actions.setState({
       textSearch: removeNonNumericCharacters(value),
@@ -46,7 +40,6 @@ export const FlightNumberInput = React.forwardRef<TextInput>((_, ref) => {
       autoCorrect={false}
       keyboardType={isIos ? 'numbers-and-punctuation' : 'default'}
       maxLength={4}
-      onBlur={handleBlur}
       onChange={handleChange}
       onFocus={handleFocus}
       placeholder="Flight Number"

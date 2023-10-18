@@ -32,12 +32,6 @@ export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
     });
   };
 
-  const handleBlur = () => {
-    State.actions.setState({
-      focusInput: undefined,
-    });
-  };
-
   return (
     <Input
       allowClear
@@ -45,7 +39,6 @@ export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
       autoComplete="off"
       autoCorrect={false}
       blurOnSubmit
-      onBlur={handleBlur}
       onChange={handleChange}
       onFocus={handleFocus}
       placeholder="Flight Date"

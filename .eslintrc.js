@@ -1,6 +1,5 @@
 module.exports = {
   extends: [
-    '@react-native',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
     'plugin:perfectionist/recommended-natural',
@@ -17,7 +16,14 @@ module.exports = {
     },
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'jest', 'prettier', 'perfectionist'],
+  plugins: [
+    'react',
+    'react-native',
+    '@typescript-eslint',
+    'jest',
+    'prettier',
+    'perfectionist',
+  ],
   root: true,
   rules: {
     '@typescript-eslint/consistent-type-imports': 'error',
@@ -51,8 +57,5 @@ module.exports = {
         type: 'line-length',
       },
     ],
-    'react/no-unstable-nested-components': 'off',
-    'react/react-in-jsx-scope': 'off',
-    'react-native/no-inline-styles': 'off',
   },
 };

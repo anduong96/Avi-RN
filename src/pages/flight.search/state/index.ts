@@ -13,11 +13,14 @@ const initialState: _State = {};
 export const State = createStoreHook(
   createStore({
     actions: {
-      reset(_) {
+      reset() {
         return initialState;
       },
       setState(state, nextState: Partial<_State>) {
-        return { ...state, ...nextState };
+        return {
+          ...state,
+          ...nextState,
+        };
       },
     },
     initialState,

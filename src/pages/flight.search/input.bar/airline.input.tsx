@@ -25,10 +25,6 @@ export const AirlineInput = React.forwardRef<TextInput>((_, ref) => {
     });
   };
 
-  const handleBlur = () => {
-    State.actions.setState({ focusInput: undefined });
-  };
-
   const changeChange = (value?: string) => {
     State.actions.setState({ textSearch: value });
   };
@@ -40,7 +36,6 @@ export const AirlineInput = React.forwardRef<TextInput>((_, ref) => {
       autoComplete="off"
       autoCorrect={false}
       blurOnSubmit
-      onBlur={handleBlur}
       onChange={changeChange}
       onFocus={handleFocus}
       placeholder="Airline"

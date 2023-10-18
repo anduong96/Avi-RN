@@ -5,6 +5,7 @@ import { FlatList, Text, TouchableOpacity } from 'react-native';
 import type { AirlinesQuery } from '@app/generated/server.gql';
 
 import { styled } from '@app/lib/styled';
+import { logger } from '@app/lib/logger';
 import { Result } from '@app/components/result';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
@@ -35,9 +36,7 @@ export const TextSearchResultSet: React.FC = () => {
   const handleSelection = React.useCallback(
     (airline: AirlinesQuery['airlines'][number]) => {
       vibrate('impactMedium');
-      if (isFocusOnAirlineIata) {
-        Publisher.broadcast('Selected', undefined);
-      }
+      logger.debug('Airline Selected', airline);
 
       State.actions.setState({
         airlineIata: airline.iata,
@@ -72,7 +71,7 @@ export const TextSearchResultSet: React.FC = () => {
       keyExtractor={(item) => item.item.id}
       renderItem={({ index, item }) => {
         return (
-          <TouchableOpacity onPress={() => handleSelection(item.item)}>
+          <Item index={index} onPress={() => handleSelection(item.item)}>
             <ListItem
               description={
                 <ItemDescription matchKey="iata" matches={item.matches}>
@@ -88,14 +87,10 @@ export const TextSearchResultSet: React.FC = () => {
                   />
                 )
               }
+              horizontalPadding="medium"
               icon={
                 <AirlineLogoAvatar airlineIata={item.item.iata} size={35} />
               }
-              style={[
-                index === 0 && {
-                  backgroundColor: theme.pallette.grey[50],
-                },
-              ]}
               title={
                 <ItemTitle matchKey="name" matches={item.matches}>
                   {item.item.name}
@@ -103,7 +98,7 @@ export const TextSearchResultSet: React.FC = () => {
               }
               verticalPadding="medium"
             />
-          </TouchableOpacity>
+          </Item>
         );
       }}
     />
@@ -125,3 +120,12 @@ const ItemDescription = styled(HighlightedText, (theme) => [
 ]);
 
 const EmptyHero = styled(Text, (theme) => [theme.typography.presets.massive]);
+
+const Item = styled<{ index: number }, typeof TouchableOpacity>(
+  TouchableOpacity,
+  (theme, props) => [
+    props.index === 0 && {
+      backgroundColor: theme.pallette.grey[50],
+    },
+  ],
+);

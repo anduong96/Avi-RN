@@ -53,7 +53,7 @@ export const Input = React.forwardRef<TextInput, Props>(
       placeholder,
       postfix,
       prefix,
-      size,
+      size = 'medium',
       value,
       withFeedback,
       ...props
@@ -117,7 +117,7 @@ export const Input = React.forwardRef<TextInput, Props>(
         {prefix}
         <StyledInput
           {...props}
-          //TODO: Clear button is not visible in dark mode
+          size={size}
           clearButtonMode={allowClear ? 'while-editing' : 'never'}
           defaultValue={defaultValue}
           editable={!disabled}
@@ -129,6 +129,7 @@ export const Input = React.forwardRef<TextInput, Props>(
           onSubmitEditing={handleSubmit}
           placeholder={placeholder}
           placeholderTextColor={theme.pallette.grey[200]}
+          // @ts-expect-error
           ref={mergeRefs(ref, input)}
           style={[inputStyle]}
           value={value}
@@ -159,7 +160,7 @@ const Container = styled<
   theme.presets.outlinedBox,
   {
     alignItems: 'center',
-    borderRadius: 100,
+    borderRadius: theme.roundRadius,
     flexDirection: 'row',
     flexGrow: 1,
     gap: theme.space.small,
@@ -170,9 +171,6 @@ const Container = styled<
   props.disabled && {
     opacity: 0.5,
   },
-  props.size === 'medium' && {
-    paddingVertical: theme.space.medium,
-  },
   props.size === 'tiny' && {
     paddingVertical: theme.space.tiny,
   },
@@ -181,9 +179,12 @@ const Container = styled<
 const StyledInput = styled<Pick<Props, 'size'>, typeof TextInput>(
   TextInput,
   (theme, props) => [
-    theme.typography.presets.p1,
     {
       flexGrow: 1,
+      color: theme.pallette.text,
+    },
+    props.size === 'medium' && {
+      fontSize: theme.typography.presets.p1.fontSize,
     },
     props.size === 'large' && {
       fontSize: theme.typography.presets.h2.fontSize,

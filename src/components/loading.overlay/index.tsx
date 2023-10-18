@@ -15,6 +15,7 @@ import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
   isDark?: boolean;
+  isRound?: boolean;
   isLoading?: boolean;
   size?: ActivityIndicatorProps['size'];
   style?: StyleProp<ViewStyle>;
@@ -26,6 +27,7 @@ export const LoadingOverlay: React.FC<Props> = ({
   isLoading,
   size = 'large',
   style,
+  isRound,
   type = 'solid',
 }) => {
   const theme = useTheme();
@@ -35,7 +37,13 @@ export const LoadingOverlay: React.FC<Props> = ({
   }
 
   return (
-    <Container exiting={FadeOut} isDark={_isDark} style={[style]} type={type}>
+    <Container
+      isRound={isRound}
+      exiting={FadeOut}
+      isDark={_isDark}
+      style={[style]}
+      type={type}
+    >
       <Content entering={FadeIn.delay(750)}>
         {isLoading && type === 'blur' && (
           <BlurView blurType="dark" style={[StyleSheet.absoluteFill]} />
@@ -47,36 +55,39 @@ export const LoadingOverlay: React.FC<Props> = ({
   );
 };
 
-const Container = styled<Pick<Props, 'isDark' | 'type'>, typeof Animated.View>(
-  Animated.View,
-  (theme, props) => [
-    {
-      borderRadius: theme.borderRadius,
-      bottom: 0,
-      left: 0,
-      position: 'absolute',
-      right: 0,
-      top: 0,
-      zIndex: 1,
+const Container = styled<
+  Pick<Props, 'isDark' | 'type' | 'isRound'>,
+  typeof Animated.View
+>(Animated.View, (theme, props) => [
+  {
+    borderRadius: theme.borderRadius,
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 1,
+  },
+  props.isRound && {
+    borderRadius: theme.roundRadius,
+  },
+  props.type === 'translucent' &&
+    props.isDark && {
+      backgroundColor: 'rgba(0, 0, 0, 0.3)',
     },
-    props.type === 'translucent' &&
-      props.isDark && {
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-      },
-    props.type === 'translucent' &&
-      !props.isDark && {
-        backgroundColor: 'rgba(255, 255, 255, 0.3)',
-      },
-    props.type === 'solid' &&
-      props.isDark && {
-        backgroundColor: theme.pallette.background,
-      },
-    props.type === 'solid' &&
-      !props.isDark && {
-        backgroundColor: '#fff',
-      },
-  ],
-);
+  props.type === 'translucent' &&
+    !props.isDark && {
+      backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    },
+  props.type === 'solid' &&
+    props.isDark && {
+      backgroundColor: theme.pallette.background,
+    },
+  props.type === 'solid' &&
+    !props.isDark && {
+      backgroundColor: '#fff',
+    },
+]);
 
 const Content = styled(Animated.View, (theme) => [
   theme.presets.centered,

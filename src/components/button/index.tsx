@@ -123,6 +123,7 @@ export const Button = React.forwardRef<typeof AnimatedTouchable, Props>(
         type={type}
       >
         <LoadingOverlay
+          isRound
           isDark={theme.isDark}
           isLoading={isLoading}
           size="small"

@@ -13,7 +13,7 @@ type Transformed = {
   baggageClaim?: null | string;
   dayDiff?: string;
   gate?: null | string;
-  status?: FlightTimeStatus;
+  status: FlightTimeStatus;
   terminal?: null | string;
   time: moment.Moment;
   timezone: string;

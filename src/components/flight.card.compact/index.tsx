@@ -1,24 +1,29 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
-import moment from 'moment';
-
 import type { FindFlightsQuery } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
 
 import { FaIcon } from '../icons.fontawesome';
 import { DividerDashed } from '../divider.dashed';
+
 type Props = {
   flight: FindFlightsQuery['flights'][number];
 };
 
 export const FlightCardCompact: React.FC<Props> = ({ flight }) => {
   const theme = useTheme();
-  const departure = moment
-    .utc(flight.estimatedGateDeparture)
-    .tz(flight.Origin.timezone);
+  const data = transformFlightData(flight);
+  const departure = data.origin.time;
+  const statusColor =
+    data.origin.status === 'early' || data.origin.status === 'on-time'
+      ? theme.pallette.success
+      : data.origin.status === 'delayed'
+      ? theme.pallette.warn
+      : theme.pallette.danger;
 
   return (
     <Container>
@@ -39,13 +44,13 @@ export const FlightCardCompact: React.FC<Props> = ({ flight }) => {
         <Movement>
           <MovementIconContainer>
             <FaIcon
-              color={theme.pallette.success}
+              color={statusColor}
               name="circle-arrow-up-right"
               size={20}
               solid
             />
           </MovementIconContainer>
-          <MovementText color={theme.pallette.success}>
+          <MovementText color={statusColor}>
             {departure.format('LT')}
           </MovementText>
         </Movement>

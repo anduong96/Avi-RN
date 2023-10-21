@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
-import moment from 'moment';
-
 import type { GetUserArchivedFlightsQuery } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
 import { DOT_SEPARATOR } from '@app/constants';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
 
 import { FaIcon } from '../icons.fontawesome';
 import { DividerDashed } from '../divider.dashed';
@@ -18,9 +17,14 @@ type Props = {
 
 export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
   const theme = useTheme();
-  const departure = moment
-    .utc(Flight.estimatedGateDeparture)
-    .tz(Flight.Origin.timezone);
+  const data = transformFlightData(Flight);
+  const departureTime = data.origin.time;
+  const statusColor =
+    data.origin.status === 'early' || data.origin.status === 'on-time'
+      ? theme.pallette.success
+      : data.origin.status === 'delayed'
+      ? theme.pallette.warn
+      : theme.pallette.danger;
 
   return (
     <Container>
@@ -49,20 +53,20 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
         <Movement>
           <MovementIconContainer>
             <FaIcon
-              color={theme.pallette.success}
+              color={statusColor}
               name="circle-arrow-up-right"
               size={20}
               solid
             />
           </MovementIconContainer>
-          <MovementText color={theme.pallette.success}>
-            {departure.format('LT')}
+          <MovementText color={statusColor}>
+            {departureTime.format('LT')}
           </MovementText>
         </Movement>
         <Time>
-          <TimeText bold>{departure.fromNow()}</TimeText>
+          <TimeText bold>{departureTime.fromNow()}</TimeText>
           <TimeText>{DOT_SEPARATOR}</TimeText>
-          <TimeText>{departure.format('MMM D')}</TimeText>
+          <TimeText>{departureTime.format('MMM D')}</TimeText>
         </Time>
       </Footer>
     </Container>

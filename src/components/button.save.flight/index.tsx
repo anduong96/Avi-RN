@@ -6,6 +6,7 @@ import * as ting from '@baronha/ting';
 import { vibrate } from '@app/lib/haptic.feedback';
 import {
   GetUserActiveFlightsDocument,
+  GetUserArchivedFlightsDocument,
   UserHasFlightsDocument,
   useAddUserFlightMutation,
   useDeleteUserFlightMutation,
@@ -35,6 +36,7 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
     },
     refetchQueries: [
       { query: GetUserActiveFlightsDocument },
+      { query: GetUserArchivedFlightsDocument },
       { query: UserHasFlightsDocument },
     ],
     variables: {
@@ -49,6 +51,7 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
     },
     refetchQueries: [
       { query: GetUserActiveFlightsDocument },
+      { query: GetUserArchivedFlightsDocument },
       { query: UserHasFlightsDocument },
     ],
     variables: {

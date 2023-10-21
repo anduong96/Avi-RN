@@ -6,32 +6,46 @@ import { withStyled } from '@app/lib/styled';
 import { IconBtn } from '../icon.btn';
 
 type Props = {
+  isAbsolute?: boolean;
   isVisible?: boolean;
   onScrollUp?: () => void;
 };
 
-export const ScrollUp: React.FC<Props> = ({ isVisible, onScrollUp }) => {
+export const ScrollUp: React.FC<Props> = ({
+  isAbsolute = true,
+  isVisible,
+  onScrollUp,
+}) => {
   if (!isVisible) {
     return null;
   }
 
   return (
-    <Container entering={FadeInDown} exiting={FadeOutDown}>
+    <Container
+      entering={FadeInDown}
+      exiting={FadeOutDown}
+      isAbsolute={isAbsolute}
+    >
       <Btn icon="arrow-up-to-line" onPress={onScrollUp} size={25} />
     </Container>
   );
 };
 
-const Container = withStyled(Animated.View, (theme) => [
-  theme.presets.centered,
-  {
-    bottom: theme.insets.bottom || theme.space.medium,
-    left: 0,
-    padding: theme.space.medium,
-    position: 'absolute',
-    right: 0,
-  },
-]);
+const Container = withStyled<Pick<Props, 'isAbsolute'>, typeof Animated.View>(
+  Animated.View,
+  (theme, props) => [
+    theme.presets.centered,
+    props.isAbsolute && {
+      bottom: theme.insets.bottom || theme.space.medium,
+      left: 0,
+      position: 'absolute',
+      right: 0,
+    },
+    {
+      padding: theme.space.medium,
+    },
+  ],
+);
 
 const Btn = withStyled(IconBtn, (theme) => [
   {

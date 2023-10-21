@@ -1,8 +1,10 @@
-import type { ScrollViewProps } from 'react-native';
-
 import * as React from 'react';
-import { RefreshControl, ScrollView, Text, View } from 'react-native';
-import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler';
+import { RefreshControl, Text, View } from 'react-native';
+import {
+  ScrollView,
+  Swipeable,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import Animated, {
   FadeInDown,
   SlideInLeft,
@@ -15,10 +17,11 @@ import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
 import { withStyled } from '@app/lib/styled';
 import { Button } from '@app/components/button';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { ScrollUp } from '@app/components/scroll.up';
 import { FlightCard } from '@app/components/flight.card';
-import { FaIcon } from '@app/components/icons.fontawesome';
 import { usePrompt } from '@app/components/prompt/use.prompt';
 import { PageContainer } from '@app/components/page.container';
+import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
 import { useRootNavigation } from '@app/navigation/use.root.navigation';
 import {
   GetUserActiveFlightsDocument,
@@ -36,8 +39,8 @@ export const HomePage: React.FC = () => {
   const flights = useGetUserActiveFlightsQuery();
   const archived = useGetUserArchivedFlightsQuery();
   const rootNav = useRootNavigation();
+  const scrollPosition = useScrollPosition();
   const scroll = React.useRef<ScrollView>(null);
-  const [showScrollTop, setShowScrollTop] = React.useState(false);
   const activeFlights = flights.data?.userActiveFlights;
   const archivedFlights = archived.data?.userArchivedFlights;
   const hasArchivedFlights = !isEmpty(archivedFlights);
@@ -52,14 +55,6 @@ export const HomePage: React.FC = () => {
   const handleOpenArchivedFlights = () => {
     vibrate('impactMedium');
     rootNav.push('FlightsArchive');
-  };
-
-  const handleScroll: ScrollViewProps['onScroll'] = (event) => {
-    if (event.nativeEvent.contentOffset.y > WINDOW_HEIGHT && !showScrollTop) {
-      setShowScrollTop(true);
-    } else {
-      setShowScrollTop(false);
-    }
   };
 
   const handleScrollTop = () => {
@@ -97,7 +92,7 @@ export const HomePage: React.FC = () => {
           contentContainerStyle={{
             paddingBottom: WINDOW_HEIGHT * 0.5,
           }}
-          onScroll={handleScroll}
+          onScroll={scrollPosition.handleScroll}
           ref={scroll}
           refreshControl={
             <RefreshControl
@@ -106,7 +101,7 @@ export const HomePage: React.FC = () => {
             />
           }
           scrollEventThrottle={16}
-          showsVerticalScrollIndicator
+          showsVerticalScrollIndicator={false}
         >
           <Content>
             <Header>
@@ -149,14 +144,12 @@ export const HomePage: React.FC = () => {
                 </Swipeable>
               ))}
             </List>
-            {showScrollTop && (
-              <ScrollTop>
-                <ScrollTopBtn onPress={handleScrollTop}>
-                  <FaIcon name="arrow-up-to-line" size={25} />
-                </ScrollTopBtn>
-              </ScrollTop>
-            )}
           </Content>
+          <ScrollUp
+            isAbsolute={false}
+            isVisible={scrollPosition.isAtBottom}
+            onScrollUp={handleScrollTop}
+          />
         </ScrollView>
         <Footer>
           <BottomTabs />
@@ -234,18 +227,6 @@ const DeleteFlightBtnText = withStyled(Text, (theme) => [
   {
     color: theme.pallette.danger,
     fontWeight: 'bold',
-  },
-]);
-
-const ScrollTop = withStyled(View, (theme) => [theme.presets.centered]);
-const ScrollTopBtn = withStyled(TouchableOpacity, (theme) => [
-  theme.presets.centered,
-  {
-    aspectRatio: 1,
-    borderColor: theme.pallette.grey[50],
-    borderRadius: theme.roundRadius,
-    borderWidth: theme.borderWidth,
-    width: 50,
   },
 ]);
 

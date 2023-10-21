@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 
 import { withStyled } from '@app/lib/styled';
 
@@ -11,29 +11,27 @@ type Props = {
 };
 
 export const ScrollUp: React.FC<Props> = ({ isVisible, onScrollUp }) => {
+  if (!isVisible) {
+    return null;
+  }
+
   return (
-    <Container isVisible={isVisible}>
+    <Container entering={FadeInDown} exiting={FadeOutDown}>
       <Btn icon="arrow-up-to-line" onPress={onScrollUp} size={25} />
     </Container>
   );
 };
 
-const Container = withStyled<Pick<Props, 'isVisible'>, typeof View>(
-  View,
-  (theme, props) => [
-    theme.presets.centered,
-    {
-      bottom: theme.insets.bottom || theme.space.medium,
-      left: 0,
-      padding: theme.space.medium,
-      position: 'absolute',
-      right: 0,
-    },
-    !props.isVisible && {
-      opacity: 0,
-    },
-  ],
-);
+const Container = withStyled(Animated.View, (theme) => [
+  theme.presets.centered,
+  {
+    bottom: theme.insets.bottom || theme.space.medium,
+    left: 0,
+    padding: theme.space.medium,
+    position: 'absolute',
+    right: 0,
+  },
+]);
 
 const Btn = withStyled(IconBtn, (theme) => [
   {

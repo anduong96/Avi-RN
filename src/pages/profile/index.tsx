@@ -54,19 +54,19 @@ export const ProfilePage: React.FC = () => {
           <LegalCard />
         </Section>
         <SpaceVertical size="large" />
-        <ScrollUp
-          isVisible={scrollPosition.isAtBottom}
-          onScrollUp={() =>
-            vibrateFn(
-              'effectClick',
-              () =>
-                content.current?.scrollTo({
-                  y: 0,
-                }),
-            )
-          }
-        />
       </Content>
+      <ScrollUp
+        isVisible={scrollPosition.isAtBottom}
+        onScrollUp={() =>
+          vibrateFn(
+            'effectClick',
+            () =>
+              content.current?.scrollTo({
+                y: 0,
+              }),
+          )
+        }
+      />
     </PageContainer>
   );
 };

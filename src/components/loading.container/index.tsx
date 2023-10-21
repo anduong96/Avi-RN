@@ -9,7 +9,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 type Props = {
   children: () => React.ReactElement;
@@ -49,13 +49,13 @@ export const LoadingContainer: React.FC<Props> = ({ children, loading }) => {
   );
 };
 
-const Container = styled(View, () => [
+const Container = withStyled(View, () => [
   {
     flexGrow: 1,
   },
 ]);
 
-const Spinner = styled(Animated.View, (theme) => [
+const Spinner = withStyled(Animated.View, (theme) => [
   theme.presets.centered,
   {
     backgroundColor: theme.pallette.background,
@@ -68,7 +68,7 @@ const Spinner = styled(Animated.View, (theme) => [
   },
 ]);
 
-const Content = styled(View, () => [
+const Content = withStyled(View, () => [
   {
     flexGrow: 1,
   },

@@ -18,8 +18,8 @@ import { IS_ANDROID } from '@app/lib/platform';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
-import { styled } from '../../lib/styled';
 import { InputPublisher } from './publisher';
+import { withStyled } from '../../lib/styled';
 import { FaIcon } from '../icons.fontawesome';
 import { AnimatedTouchable } from '../animated.touchable';
 
@@ -117,7 +117,6 @@ export const Input = React.forwardRef<TextInput, Props>(
         {prefix}
         <StyledInput
           {...props}
-          size={size}
           clearButtonMode={allowClear ? 'while-editing' : 'never'}
           defaultValue={defaultValue}
           editable={!disabled}
@@ -129,8 +128,8 @@ export const Input = React.forwardRef<TextInput, Props>(
           onSubmitEditing={handleSubmit}
           placeholder={placeholder}
           placeholderTextColor={theme.pallette.grey[200]}
-          // @ts-expect-error
           ref={mergeRefs(ref, input)}
+          size={size}
           style={[inputStyle]}
           value={value}
         />
@@ -153,7 +152,7 @@ export const Input = React.forwardRef<TextInput, Props>(
   },
 );
 
-const Container = styled<
+const Container = withStyled<
   Pick<Props, 'disabled' | 'size'>,
   typeof Animated.View
 >(Animated.View, (theme, props) => [
@@ -176,12 +175,12 @@ const Container = styled<
   },
 ]);
 
-const StyledInput = styled<Pick<Props, 'size'>, typeof TextInput>(
+const StyledInput = withStyled<Pick<Props, 'size'>, typeof TextInput>(
   TextInput,
   (theme, props) => [
     {
-      flexGrow: 1,
       color: theme.pallette.text,
+      flexGrow: 1,
     },
     props.size === 'medium' && {
       fontSize: theme.typography.presets.p1.fontSize,
@@ -192,7 +191,7 @@ const StyledInput = styled<Pick<Props, 'size'>, typeof TextInput>(
   ],
 );
 
-const ClearContainer = styled(AnimatedTouchable, (theme) => [
+const ClearContainer = withStyled(AnimatedTouchable, (theme) => [
   {
     flexDirection: 'row',
     position: 'absolute',

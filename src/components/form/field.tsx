@@ -13,7 +13,7 @@ import type { StringOrElement } from '@app/types/string.or.component';
 
 import { useTheme } from '@app/lib/hooks/use.theme';
 
-import { styled } from '../../lib/styled';
+import { withStyled } from '../../lib/styled';
 import { StringRenderer } from '../string.renderer';
 
 type Props = Omit<FieldProps, 'children'> & {
@@ -115,30 +115,30 @@ export const FormField: React.FC<Props> = ({
   );
 };
 
-const FieldContainer = styled(View, (theme) => ({
+const FieldContainer = withStyled(View, (theme) => ({
   marginBottom: theme.space.medium,
 }));
 
-const FieldContent = styled(View, {});
-const FieldMeta = styled(View, {
+const FieldContent = withStyled(View, {});
+const FieldMeta = withStyled(View, {
   paddingVertical: 5,
 });
-const ErrorText = styled(Text, (theme) => ({
+const ErrorText = withStyled(Text, (theme) => ({
   color: theme.pallette.danger,
 }));
 
-const HintText = styled(Text, (theme) => [
+const HintText = withStyled(Text, (theme) => [
   theme.typography.presets.small,
   {
     color: theme.pallette.grey[500],
   },
 ]);
 
-const Label = styled(Text, (theme) => ({
+const Label = withStyled(Text, (theme) => ({
   color: theme.pallette.text,
 }));
 
-const OptionalText = styled(Text, (theme) => ({
+const OptionalText = withStyled(Text, (theme) => ({
   color: theme.pallette.textSecondary,
   fontSize: theme.typography.presets.small.fontSize,
   fontWeight: '400',
@@ -146,7 +146,7 @@ const OptionalText = styled(Text, (theme) => ({
   marginLeft: theme.space.tiny,
 }));
 
-const Header = styled(View, (theme) => ({
+const Header = withStyled(View, (theme) => ({
   alignItems: 'flex-end',
   flexDirection: 'row',
   marginBottom: theme.space.tiny,

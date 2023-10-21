@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 import { IconBtn } from '../icon.btn';
 
@@ -18,7 +18,7 @@ export const ScrollUp: React.FC<Props> = ({ isVisible, onScrollUp }) => {
   );
 };
 
-const Container = styled<Pick<Props, 'isVisible'>, typeof View>(
+const Container = withStyled<Pick<Props, 'isVisible'>, typeof View>(
   View,
   (theme, props) => [
     theme.presets.centered,
@@ -35,7 +35,7 @@ const Container = styled<Pick<Props, 'isVisible'>, typeof View>(
   ],
 );
 
-const Btn = styled(IconBtn, (theme) => [
+const Btn = withStyled(IconBtn, (theme) => [
   {
     borderColor: theme.pallette.borderColor,
     borderRadius: theme.roundRadius,

@@ -11,7 +11,7 @@ import {
 import { isNil } from 'lodash';
 import tinycolor from 'tinycolor2';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { FaIcon } from '../icons.fontawesome';
@@ -150,7 +150,7 @@ export const Button = React.forwardRef<typeof AnimatedTouchable, Props>(
   },
 );
 
-const Container = styled<
+const Container = withStyled<
   Pick<
     Props,
     'color' | 'fullWidth' | 'gap' | 'hasShadow' | 'isSolid' | 'size' | 'type'
@@ -208,7 +208,7 @@ const Container = styled<
   },
 ]);
 
-const BtnText = styled<
+const BtnText = withStyled<
   Pick<Props, 'color' | 'isBold' | 'isSolid' | 'size' | 'type'>,
   typeof Text
 >(Text, (theme, props) => [
@@ -225,7 +225,7 @@ const BtnText = styled<
   },
 ]);
 
-const Icon = styled(FaIcon, (theme) => [
+const Icon = withStyled(FaIcon, (theme) => [
   {
     fontSize: theme.typography.presets.p1.fontSize,
   },

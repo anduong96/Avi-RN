@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FlatList, TouchableOpacity, View } from 'react-native';
 import Animated, { SlideInLeft } from 'react-native-reanimated';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { CloseBtn } from '@app/components/btn.close';
 import { FlightCard } from '@app/components/flight.card';
@@ -61,7 +61,7 @@ export const ArchivedFlightsPage: React.FC = () => {
   );
 };
 
-const ListItem = styled(Animated.View, (theme) => [
+const ListItem = withStyled(Animated.View, (theme) => [
   {
     paddingHorizontal: theme.space.medium,
     paddingVertical: theme.space.medium / 2,

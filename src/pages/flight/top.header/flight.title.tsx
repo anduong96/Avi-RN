@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 type Props = {
   flight: Pick<FullFlightFragmentFragment, 'Destination'>;
@@ -17,4 +17,4 @@ export const FlightTitle: React.FC<Props> = ({ flight }) => {
   );
 };
 
-const Title = styled(Text, (theme) => [theme.typography.presets.massive]);
+const Title = withStyled(Text, (theme) => [theme.typography.presets.massive]);

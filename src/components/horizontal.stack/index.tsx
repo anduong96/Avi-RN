@@ -5,7 +5,7 @@ import { Text, View } from 'react-native';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 import { StringRenderer } from '../string.renderer';
 
@@ -32,8 +32,8 @@ export const HorizontalStack: React.FC<Props> = ({ textStyle, value }) => {
   );
 };
 
-const Container = styled(View, () => ({
+const Container = withStyled(View, () => ({
   flexDirection: 'row',
 }));
 
-const Label = styled(Text, () => ({}));
+const Label = withStyled(Text, () => ({}));

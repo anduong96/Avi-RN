@@ -8,7 +8,7 @@ import { isEmpty } from 'lodash';
 
 import type { LabelOption } from '@app/types/label.option';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { FaIcon } from '../icons.fontawesome';
@@ -80,14 +80,14 @@ export function RadioButtons<T>({
   );
 }
 
-const Container = styled(View, (theme) => [
+const Container = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
     gap: theme.space.small,
   },
 ]);
 
-const Option = styled<
+const Option = withStyled<
   { hasErrors?: boolean; isActive?: boolean },
   typeof TouchableOpacity
 >(TouchableOpacity, (theme, props) => [
@@ -108,7 +108,7 @@ const Option = styled<
   },
 ]);
 
-const OptionText = styled(Text, (theme) => [
+const OptionText = withStyled(Text, (theme) => [
   {
     color: theme.pallette.text,
     flexGrow: 1,
@@ -116,7 +116,7 @@ const OptionText = styled(Text, (theme) => [
   },
 ]);
 
-const OptionIndicator = styled<
+const OptionIndicator = withStyled<
   { hasErrors?: boolean; isActive?: boolean },
   typeof View
 >(View, (theme, props) => [

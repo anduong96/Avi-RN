@@ -8,7 +8,7 @@ import messaging from '@react-native-firebase/messaging';
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 
 import { delay } from '@app/lib/delay';
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { Shake } from '@app/lib/animated/shake';
 import { GlobalState } from '@app/state/global';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
@@ -128,7 +128,7 @@ export const PushNotificationSheet: React.FC = () => {
   );
 };
 
-const Container = styled(BottomSheetView, (theme) => [
+const Container = withStyled(BottomSheetView, (theme) => [
   {
     flexGrow: 1,
     gap: theme.space.large,
@@ -137,9 +137,9 @@ const Container = styled(BottomSheetView, (theme) => [
   },
 ]);
 
-const Header = styled(View, (theme) => [theme.presets.centered]);
+const Header = withStyled(View, (theme) => [theme.presets.centered]);
 
-const Content = styled(View, (theme) => [
+const Content = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     flexGrow: 1,
@@ -147,16 +147,16 @@ const Content = styled(View, (theme) => [
   },
 ]);
 
-const Footer = styled(View, (theme) => [
+const Footer = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     gap: theme.space.medium,
   },
 ]);
 
-const Title = styled(Text, (theme) => [theme.typography.presets.h1]);
+const Title = withStyled(Text, (theme) => [theme.typography.presets.h1]);
 
-const EnableBtn = styled(Button, (theme) => [
+const EnableBtn = withStyled(Button, (theme) => [
   theme.presets.shadows[100],
   {
     shadowColor: tinycolor(theme.pallette.primary).darken(30).toHexString(),
@@ -164,13 +164,13 @@ const EnableBtn = styled(Button, (theme) => [
   },
 ]);
 
-const DismissBtn = styled(Button, (theme) => [
+const DismissBtn = withStyled(Button, (theme) => [
   {
     backgroundColor: theme.pallette.transparent,
   },
 ]);
 
-const Item = styled(
+const Item = withStyled(
   ListItem,
   () => [
     {
@@ -188,7 +188,7 @@ const Item = styled(
   ],
 );
 
-const Icon = styled(Text, (theme) => [
+const Icon = withStyled(Text, (theme) => [
   theme.typography.presets.h1,
   {
     textAlign: 'center',

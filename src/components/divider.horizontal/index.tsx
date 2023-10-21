@@ -3,7 +3,7 @@ import { type StyleProp, View, type ViewStyle } from 'react-native';
 
 import type { SpaceKeys } from '@app/themes';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 type Props = {
   color?: string;
@@ -19,7 +19,7 @@ export const HorizontalDivider: React.FC<Props> = ({ color, size, style }) => {
   );
 };
 
-const Container = styled<Pick<Props, 'size'>, typeof View>(
+const Container = withStyled<Pick<Props, 'size'>, typeof View>(
   View,
   (theme, props) => [
     {
@@ -35,9 +35,12 @@ const Container = styled<Pick<Props, 'size'>, typeof View>(
   ],
 );
 
-const Line = styled<Pick<Props, 'color'>, typeof View>(View, (theme, props) => [
-  {
-    backgroundColor: props.color || theme.pallette.dividerColor,
-    height: theme.borderWidth,
-  },
-]);
+const Line = withStyled<Pick<Props, 'color'>, typeof View>(
+  View,
+  (theme, props) => [
+    {
+      backgroundColor: props.color || theme.pallette.dividerColor,
+      height: theme.borderWidth,
+    },
+  ],
+);

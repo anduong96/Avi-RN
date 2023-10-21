@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { FlightStackParams } from '@app/navigation/flight.stack';
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { useUserFlightQuery } from '@app/generated/server.gql';
@@ -48,7 +48,7 @@ export const ExitToHomeBtn: React.FC<Props> = ({ flightID }) => {
   );
 };
 
-const Container = styled(View, (theme) => [
+const Container = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     bottom: theme.insets.bottom,
@@ -57,7 +57,7 @@ const Container = styled(View, (theme) => [
   },
 ]);
 
-const Btn = styled(
+const Btn = withStyled(
   Animated.createAnimatedComponent(TouchableOpacity),
   (theme) => [
     theme.presets.centered,

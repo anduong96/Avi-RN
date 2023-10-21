@@ -6,7 +6,7 @@ import { TouchableOpacity } from '@gorhom/bottom-sheet';
 import messaging from '@react-native-firebase/messaging';
 
 import { ENV } from '@app/env';
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { PageHeader } from '@app/components/page.header';
 import { useFcmToken } from '@app/lib/hooks/use.fcm.token';
 import { PageContainer } from '@app/components/page.container';
@@ -48,7 +48,7 @@ export const DebugMenuPage: React.FC = () => {
   );
 };
 
-const Content = styled(View, (theme) => [
+const Content = withStyled(View, (theme) => [
   {
     gap: theme.space.small,
     padding: theme.space.medium,

@@ -5,7 +5,7 @@ import { Text, View } from 'react-native';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 import { StringRenderer } from '../string.renderer';
 
@@ -46,17 +46,17 @@ export const Statistic: React.FC<Props> = ({
   );
 };
 
-export const Container = styled(View, (theme) => ({
+export const Container = withStyled(View, (theme) => ({
   alignItems: 'center',
   flexDirection: 'row',
   gap: theme.space.small,
 }));
 
-export const Value = styled(Text, (theme) => [theme.typography.presets.h4]);
+export const Value = withStyled(Text, (theme) => [theme.typography.presets.h4]);
 
-export const IconContainer = styled(View, () => [{}]);
+export const IconContainer = withStyled(View, () => [{}]);
 
-export const Meta = styled<Pick<Props, 'align'>, typeof View>(
+export const Meta = withStyled<Pick<Props, 'align'>, typeof View>(
   View,
   (_, props) => [
     props.align === 'center' && {
@@ -68,9 +68,9 @@ export const Meta = styled<Pick<Props, 'align'>, typeof View>(
   ],
 );
 
-export const Hint = styled(Text, () => ({}));
+export const Hint = withStyled(Text, () => ({}));
 
-export const Label = styled(Text, (theme) => [
+export const Label = withStyled(Text, (theme) => [
   theme.typography.presets.small,
   {
     color: theme.pallette.textSecondary,

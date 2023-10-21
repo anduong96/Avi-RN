@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { type FullFlightFragmentFragment } from '@app/generated/server.gql';
 
 import { FlightMeta } from './flight.meta';
@@ -20,7 +20,7 @@ export const FlightPageTopHeader: React.FC<Props> = ({ flight }) => {
   );
 };
 
-const Container = styled(View, (theme) => [
+const Container = withStyled(View, (theme) => [
   {
     alignItems: 'center',
     flexDirection: 'row',
@@ -30,7 +30,7 @@ const Container = styled(View, (theme) => [
   },
 ]);
 
-const Flight = styled(View, (theme) => [
+const Flight = withStyled(View, (theme) => [
   {
     gap: theme.space.tiny,
   },

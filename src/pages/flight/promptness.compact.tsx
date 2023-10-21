@@ -6,7 +6,7 @@ import { isNil } from 'lodash';
 
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { Card } from '@app/components/card';
 import { Statistic } from '@app/components/statistic';
 import { VerticalDivider } from '@app/components/divider.vertical';
@@ -63,14 +63,14 @@ export const PromptnessCompact: React.FC<Props> = ({ flightID }) => {
   return <Card isLoading={response.loading}>{getContent()}</Card>;
 };
 
-const InfoText = styled(Text, (theme) => [
+const InfoText = withStyled(Text, (theme) => [
   theme.typography.presets.p1,
   {
     color: theme.pallette.textSecondary,
   },
 ]);
 
-const Item = styled(
+const Item = withStyled(
   Statistic,
   (theme) => [
     theme.presets.centered,
@@ -95,7 +95,7 @@ const Item = styled(
   }),
 );
 
-const Content = styled(View, () => [
+const Content = withStyled(View, () => [
   {
     alignItems: 'center',
     flexDirection: 'row',

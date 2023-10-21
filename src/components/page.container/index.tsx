@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 type Props = React.PropsWithChildren<{
   centered?: boolean;
@@ -21,7 +21,7 @@ export const PageContainer: React.FC<Props> = ({
   );
 };
 
-const Container = styled<{ centered?: boolean }, typeof View>(
+const Container = withStyled<{ centered?: boolean }, typeof View>(
   View,
   (theme, props) => [
     props.centered && theme.presets.centered,

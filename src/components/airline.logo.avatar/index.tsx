@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useAirlinesQuery } from '@app/generated/server.gql';
 
 type Props = {
@@ -52,21 +52,21 @@ export const AirlineLogoAvatar: React.FC<Props> = ({
   );
 };
 
-const Container = styled<Required<Pick<Props, 'size'>>, typeof Animated.View>(
-  Animated.View,
-  (theme, props) => [
-    theme.presets.centered,
-    {
-      aspectRatio: 1,
-      borderRadius: props.size,
-      height: props.size,
-      overflow: 'hidden',
-      padding: props.size / 10,
-    },
-  ],
-);
+const Container = withStyled<
+  Required<Pick<Props, 'size'>>,
+  typeof Animated.View
+>(Animated.View, (theme, props) => [
+  theme.presets.centered,
+  {
+    aspectRatio: 1,
+    borderRadius: props.size,
+    height: props.size,
+    overflow: 'hidden',
+    padding: props.size / 10,
+  },
+]);
 
-const Logo = styled(FastImage, () => ({
+const Logo = withStyled(FastImage, () => ({
   height: '100%',
   width: '100%',
 }));

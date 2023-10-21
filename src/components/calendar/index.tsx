@@ -7,7 +7,7 @@ import { isNil } from 'lodash';
 
 import type { ComponentProps } from '@app/types/component.props';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 
 import { CellType, generateCalendar } from './generate.calendar';
@@ -103,7 +103,7 @@ export const Calendar: React.FC<Props> = ({
   );
 };
 
-const Day = styled<{ isActive?: boolean }, typeof TouchableOpacity>(
+const Day = withStyled<{ isActive?: boolean }, typeof TouchableOpacity>(
   TouchableOpacity,
   (theme, props) => [
     theme.presets.centered,
@@ -122,7 +122,7 @@ const Day = styled<{ isActive?: boolean }, typeof TouchableOpacity>(
   ],
 );
 
-const DayText = styled<{ isActive?: boolean }, typeof Text>(
+const DayText = withStyled<{ isActive?: boolean }, typeof Text>(
   Text,
   (theme, props) => [
     theme.typography.presets.h3,
@@ -133,14 +133,14 @@ const DayText = styled<{ isActive?: boolean }, typeof Text>(
   ],
 );
 
-const Month = styled(View, (theme) => [
+const Month = withStyled(View, (theme) => [
   {
     paddingBottom: theme.space.large,
     width: '100%',
   },
 ]);
 
-const Weekday = styled(View, (theme) => [
+const Weekday = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     flexBasis: 1,
@@ -149,21 +149,21 @@ const Weekday = styled(View, (theme) => [
   },
 ]);
 
-const WeekdayText = styled(Text, (theme) => [
+const WeekdayText = withStyled(Text, (theme) => [
   theme.typography.presets.small,
   {
     textAlign: 'center',
   },
 ]);
 
-const YearText = styled(Text, (theme) => [theme.typography.presets.h3]);
+const YearText = withStyled(Text, (theme) => [theme.typography.presets.h3]);
 
-const MonthText = styled(Text, (theme) => [
+const MonthText = withStyled(Text, (theme) => [
   theme.typography.presets.h3,
   { fontWeight: 'bold' },
 ]);
 
-const MonthHeader = styled(View, (theme) => [
+const MonthHeader = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
     gap: theme.space.tiny,
@@ -171,7 +171,7 @@ const MonthHeader = styled(View, (theme) => [
   },
 ]);
 
-const Dot = styled(View, (theme) => [
+const Dot = withStyled(View, (theme) => [
   {
     aspectRatio: 1,
     backgroundColor: theme.pallette.primary,

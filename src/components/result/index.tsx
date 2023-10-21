@@ -7,7 +7,7 @@ import { isEmpty } from 'lodash';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 import { Button } from '../button';
 import { StringRenderer } from '../string.renderer';
@@ -57,7 +57,7 @@ export const Result: React.FC<Props> = ({
   );
 };
 
-const Container = styled(View, (theme) => [
+const Container = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     gap: theme.space.large,
@@ -66,11 +66,11 @@ const Container = styled(View, (theme) => [
   },
 ]);
 
-const Meta = styled(View, (theme) => ({
+const Meta = withStyled(View, (theme) => ({
   gap: theme.space.small,
 }));
 
-const Actions = styled(View, (theme) => [
+const Actions = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     gap: theme.space.medium,
@@ -78,7 +78,7 @@ const Actions = styled(View, (theme) => [
   },
 ]);
 
-const TitleText = styled(Text, (theme) => [
+const TitleText = withStyled(Text, (theme) => [
   theme.typography.presets.h1,
   {
     fontWeight: 'bold',
@@ -86,7 +86,7 @@ const TitleText = styled(Text, (theme) => [
   },
 ]);
 
-const SubtitleText = styled(Text, (theme) => [
+const SubtitleText = withStyled(Text, (theme) => [
   theme.typography.presets.p1,
   {
     color: theme.pallette.textSecondary,
@@ -94,9 +94,9 @@ const SubtitleText = styled(Text, (theme) => [
   },
 ]);
 
-const ActionItem = styled(Button, () => ({}));
+const ActionItem = withStyled(Button, () => ({}));
 
-const Hero = styled(View, (theme) => [
+const Hero = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     flexBasis: 1,
@@ -105,7 +105,7 @@ const Hero = styled(View, (theme) => [
   },
 ]);
 
-const Content = styled(View, () => [
+const Content = withStyled(View, () => [
   {
     flexBasis: 1,
     flexGrow: 1,

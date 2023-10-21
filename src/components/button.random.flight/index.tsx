@@ -5,7 +5,7 @@ import * as ting from '@baronha/ting';
 
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useGetRandomFlightLazyQuery } from '@app/generated/server.gql';
 
@@ -45,7 +45,7 @@ export const RandomFlightBtn: React.FC<Props> = ({ onFlight, withLabel }) => {
   );
 };
 
-const Btn = styled(TouchableOpacity, (theme) => [
+const Btn = withStyled(TouchableOpacity, (theme) => [
   theme.presets.centered,
   {
     aspectRatio: 1,
@@ -59,4 +59,4 @@ const Btn = styled(TouchableOpacity, (theme) => [
   },
 ]);
 
-const Label = styled(Text, (theme) => [theme.typography.presets.p1]);
+const Label = withStyled(Text, (theme) => [theme.typography.presets.p1]);

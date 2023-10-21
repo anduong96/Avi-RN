@@ -1,9 +1,9 @@
 import { Text, View } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
-export const Container = styled(View, () => ({
+export const Container = withStyled(View, () => ({
   flexDirection: 'row',
 }));
 
-export const Label = styled(Text, () => ({}));
+export const Label = withStyled(Text, () => ({}));

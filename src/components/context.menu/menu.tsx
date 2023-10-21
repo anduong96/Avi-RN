@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import type { OptionItem } from './types';
@@ -82,14 +82,14 @@ export const ContextMenu: React.FC<Props> = ({
   );
 };
 
-const Title = styled(Text, (theme) => [
+const Title = withStyled(Text, (theme) => [
   theme.typography.presets.p2,
   {
     color: theme.pallette.textSecondary,
   },
 ]);
 
-const Item = styled(Pressable, (theme) => ({
+const Item = withStyled(Pressable, (theme) => ({
   flexDirection: 'row',
   justifyContent: 'space-between',
   maxWidth: Dimensions.get('window').width,
@@ -97,22 +97,22 @@ const Item = styled(Pressable, (theme) => ({
   padding: theme.space.small,
 }));
 
-const ItemLabelText = styled(Text, (theme) => ({
+const ItemLabelText = withStyled(Text, (theme) => ({
   ...theme.typography.presets.p2,
 }));
 
-const ItemHintText = styled(Text, (theme) => ({
+const ItemHintText = withStyled(Text, (theme) => ({
   ...theme.typography.presets.small,
   color: theme.pallette.textSecondary,
 }));
 
-const ItemIcon = styled(View, () => ({}));
+const ItemIcon = withStyled(View, () => ({}));
 
-const ItemMeta = styled(View, () => ({
+const ItemMeta = withStyled(View, () => ({
   flexGrow: 1,
 }));
 
-const Container = styled(Animated.View, (theme) => ({
+const Container = withStyled(Animated.View, (theme) => ({
   backgroundColor: theme.pallette.grey[100],
   borderRadius: theme.borderRadius,
   justifyContent: 'center',
@@ -120,7 +120,7 @@ const Container = styled(Animated.View, (theme) => ({
   zIndex: 1,
 }));
 
-const Header = styled(View, (theme) => ({
+const Header = withStyled(View, (theme) => ({
   padding: theme.space.small,
   ...theme.presets.centered,
 }));

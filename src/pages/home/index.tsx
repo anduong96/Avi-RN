@@ -12,7 +12,7 @@ import Animated, {
 import { isEmpty } from 'lodash';
 import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { Button } from '@app/components/button';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { FlightCard } from '@app/components/flight.card';
@@ -167,14 +167,14 @@ export const HomePage: React.FC = () => {
   );
 };
 
-const Page = styled(View, (theme) => [
+const Page = withStyled(View, (theme) => [
   {
     backgroundColor: theme.pallette.background,
     flexGrow: 1,
   },
 ]);
 
-const Header = styled(View, (theme) => [
+const Header = withStyled(View, (theme) => [
   {
     paddingBottom: theme.space.small,
     paddingHorizontal: theme.space.large,
@@ -182,7 +182,7 @@ const Header = styled(View, (theme) => [
   },
 ]);
 
-const ListHeader = styled(View, (theme) => [
+const ListHeader = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -190,11 +190,11 @@ const ListHeader = styled(View, (theme) => [
   },
 ]);
 
-const ListActions = styled(View, () => [{}]);
+const ListActions = withStyled(View, () => [{}]);
 
-const Title = styled(Text, (theme) => [theme.typography.presets.massive]);
+const Title = withStyled(Text, (theme) => [theme.typography.presets.massive]);
 
-const Item = styled(
+const Item = withStyled(
   Animated.createAnimatedComponent(TouchableOpacity),
   (theme) => [
     {
@@ -204,7 +204,7 @@ const Item = styled(
   ],
 );
 
-const ItemActions = styled(View, (theme) => [
+const ItemActions = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     backgroundColor: theme.pallette.background,
@@ -213,23 +213,23 @@ const ItemActions = styled(View, (theme) => [
   },
 ]);
 
-const List = styled(View, () => []);
+const List = withStyled(View, () => []);
 
-const Content = styled(View, (theme) => [
+const Content = withStyled(View, (theme) => [
   {
     gap: theme.space.medium,
   },
 ]);
 
-const ArchivedFlightsBtn = styled(Button, (_, props) => [
+const ArchivedFlightsBtn = withStyled(Button, (_, props) => [
   {
     opacity: props.disabled ? 0 : 1,
   },
 ]);
 
-const DeleteFlightBtn = styled(TouchableOpacity, () => []);
+const DeleteFlightBtn = withStyled(TouchableOpacity, () => []);
 
-const DeleteFlightBtnText = styled(Text, (theme) => [
+const DeleteFlightBtnText = withStyled(Text, (theme) => [
   theme.typography.presets.p1,
   {
     color: theme.pallette.danger,
@@ -237,8 +237,8 @@ const DeleteFlightBtnText = styled(Text, (theme) => [
   },
 ]);
 
-const ScrollTop = styled(View, (theme) => [theme.presets.centered]);
-const ScrollTopBtn = styled(TouchableOpacity, (theme) => [
+const ScrollTop = withStyled(View, (theme) => [theme.presets.centered]);
+const ScrollTopBtn = withStyled(TouchableOpacity, (theme) => [
   theme.presets.centered,
   {
     aspectRatio: 1,
@@ -249,7 +249,7 @@ const ScrollTopBtn = styled(TouchableOpacity, (theme) => [
   },
 ]);
 
-const Footer = styled(
+const Footer = withStyled(
   Animated.View,
   (theme) => [
     {

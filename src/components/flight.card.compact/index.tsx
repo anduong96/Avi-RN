@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import type { FindFlightsQuery } from '@app/generated/server.gql';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { FaIcon } from '../icons.fontawesome';
@@ -57,7 +57,7 @@ export const FlightCardCompact: React.FC<Props> = ({ flight }) => {
   );
 };
 
-const Container = styled(View, (theme) => [
+const Container = withStyled(View, (theme) => [
   theme.presets.shadows[200],
   {
     backgroundColor: theme.pallette.card,
@@ -68,7 +68,7 @@ const Container = styled(View, (theme) => [
   },
 ]);
 
-const Main = styled(View, (theme) => [
+const Main = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
     gap: theme.space.medium,
@@ -76,7 +76,7 @@ const Main = styled(View, (theme) => [
   },
 ]);
 
-const Footer = styled(View, (theme) => [
+const Footer = withStyled(View, (theme) => [
   {
     alignItems: 'center',
     flexDirection: 'row',
@@ -84,7 +84,7 @@ const Footer = styled(View, (theme) => [
   },
 ]);
 
-const FlightPoint = styled<{ type: 'destination' | 'origin' }, typeof View>(
+const FlightPoint = withStyled<{ type: 'destination' | 'origin' }, typeof View>(
   View,
   (_, props) => [
     props.type === 'destination' && {
@@ -93,16 +93,16 @@ const FlightPoint = styled<{ type: 'destination' | 'origin' }, typeof View>(
   ],
 );
 
-const AirportIata = styled(Text, (theme) => [theme.typography.presets.h1]);
+const AirportIata = withStyled(Text, (theme) => [theme.typography.presets.h1]);
 
-const AirportCity = styled(Text, (theme) => [
+const AirportCity = withStyled(Text, (theme) => [
   theme.typography.presets.p2,
   {
     color: theme.pallette.textSecondary,
   },
 ]);
 
-const Actions = styled(View, () => [
+const Actions = withStyled(View, () => [
   {
     flexDirection: 'row',
     flexGrow: 1,
@@ -110,7 +110,7 @@ const Actions = styled(View, () => [
   },
 ]);
 
-const MovementText = styled<{ color: string }, typeof Text>(
+const MovementText = withStyled<{ color: string }, typeof Text>(
   Text,
   (theme, props) => [
     theme.typography.presets.h3,
@@ -121,7 +121,7 @@ const MovementText = styled<{ color: string }, typeof Text>(
   ],
 );
 
-const DividerContainer = styled(View, (theme) => [
+const DividerContainer = withStyled(View, (theme) => [
   {
     flexGrow: 1,
     overflow: 'hidden',
@@ -129,7 +129,7 @@ const DividerContainer = styled(View, (theme) => [
   },
 ]);
 
-const Movement = styled(View, (theme) => [
+const Movement = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     flexDirection: 'row',
@@ -137,4 +137,4 @@ const Movement = styled(View, (theme) => [
   },
 ]);
 
-const MovementIconContainer = styled(View, () => [{}]);
+const MovementIconContainer = withStyled(View, () => [{}]);

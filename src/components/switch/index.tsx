@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 
 import { startCase } from 'lodash';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 export type Props = {
   disabled?: boolean;
@@ -41,7 +41,7 @@ export const SwitchButton: React.FC<Props> = ({
   );
 };
 
-const Container = styled<{ isDisabled?: boolean }, typeof View>(
+const Container = withStyled<{ isDisabled?: boolean }, typeof View>(
   View,
   (_theme, props) => [
     {
@@ -53,13 +53,13 @@ const Container = styled<{ isDisabled?: boolean }, typeof View>(
   ],
 );
 
-const Option = styled(TouchableOpacity, (theme) => [
+const Option = withStyled(TouchableOpacity, (theme) => [
   {
     paddingHorizontal: theme.space.small,
   },
 ]);
 
-const Label = styled<{ isActive?: boolean }, typeof Text>(
+const Label = withStyled<{ isActive?: boolean }, typeof Text>(
   Text,
   (theme, props) => [
     theme.typography.presets.p1,

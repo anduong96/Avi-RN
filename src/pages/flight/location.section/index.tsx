@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import type { AirportQuery } from '@app/generated/server.gql';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { FaIcon } from '@app/components/icons.fontawesome';
 
@@ -77,7 +77,7 @@ export const FlightPageLocationSection: React.FC<Props> = ({
   );
 };
 
-const Container = styled(View, (theme) => [
+const Container = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
     gap: theme.space.large,
@@ -86,7 +86,7 @@ const Container = styled(View, (theme) => [
   },
 ]);
 
-const Airport = styled(View, () => [
+const Airport = withStyled(View, () => [
   {
     flexGrow: 1,
     flexShrink: 1,
@@ -94,28 +94,28 @@ const Airport = styled(View, () => [
   },
 ]);
 
-const AirportIata = styled(Text, (theme) => [
+const AirportIata = withStyled(Text, (theme) => [
   theme.typography.presets.h1,
   {
     lineHeight: 55,
   },
 ]);
 
-const AirportName = styled(Text, (theme) => [
+const AirportName = withStyled(Text, (theme) => [
   theme.typography.presets.small,
   {
     color: theme.pallette.text,
   },
 ]);
 
-const Meta = styled(View, (theme) => [
+const Meta = withStyled(View, (theme) => [
   {
     alignItems: 'flex-end',
     gap: theme.space.tiny,
   },
 ]);
 
-const MetaText = styled<{ isFiller?: boolean }, typeof Text>(
+const MetaText = withStyled<{ isFiller?: boolean }, typeof Text>(
   Text,
   (theme, props) => [
     theme.typography.presets.p2,
@@ -130,7 +130,7 @@ const MetaText = styled<{ isFiller?: boolean }, typeof Text>(
   ],
 );
 
-const Time = styled(View, (theme) => [
+const Time = withStyled(View, (theme) => [
   {
     alignItems: 'center',
     flexDirection: 'row',
@@ -138,7 +138,7 @@ const Time = styled(View, (theme) => [
   },
 ]);
 
-const TimeText = styled(Text, () => [
+const TimeText = withStyled(Text, () => [
   {
     fontSize: 22,
     fontWeight: 'bold',
@@ -147,4 +147,4 @@ const TimeText = styled(Text, () => [
   },
 ]);
 
-const DirectionalIconContainer = styled(View, (_) => []);
+const DirectionalIconContainer = withStyled(View, (_) => []);

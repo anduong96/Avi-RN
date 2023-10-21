@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useExitPage } from '@app/lib/hooks/use.exit.page';
 
 import { CloseBtn } from '../btn.close';
@@ -39,7 +39,7 @@ export const ModalHeader: React.FC<Props> = ({
   );
 };
 
-const Container = styled<Pick<Props, 'withTopInset'>, typeof View>(
+const Container = withStyled<Pick<Props, 'withTopInset'>, typeof View>(
   View,
   (theme, props) => [
     {
@@ -55,7 +55,7 @@ const Container = styled<Pick<Props, 'withTopInset'>, typeof View>(
   ],
 );
 
-const Meta = styled<Pick<Props, 'withPadding'>, typeof View>(
+const Meta = withStyled<Pick<Props, 'withPadding'>, typeof View>(
   View,
   (theme, props) => [
     {
@@ -68,16 +68,16 @@ const Meta = styled<Pick<Props, 'withPadding'>, typeof View>(
   ],
 );
 
-const TitleText = styled(Text, (theme) => ({
+const TitleText = withStyled(Text, (theme) => ({
   ...theme.typography.presets.h2,
   fontWeight: 'bold',
 }));
 
-const SubtitleText = styled(Text, (theme) => ({
+const SubtitleText = withStyled(Text, (theme) => ({
   color: theme.pallette.grey[500],
 }));
 
-const Actions = styled(View, (theme) => ({
+const Actions = withStyled(View, (theme) => ({
   padding: theme.space.medium,
   paddingTop: 0,
 }));

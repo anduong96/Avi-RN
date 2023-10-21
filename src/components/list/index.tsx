@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import { isEmpty } from 'lodash';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props<T> = {
@@ -77,4 +77,4 @@ export function List<T>({
   );
 }
 
-const Container = styled(View, () => ({}));
+const Container = withStyled(View, () => ({}));

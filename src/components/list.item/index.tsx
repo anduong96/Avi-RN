@@ -6,7 +6,7 @@ import { Text, View } from 'react-native';
 import type { SpaceKeys } from '@app/themes';
 import type { StringOrElement } from '@app/types/string.or.component';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 import { StringRenderer } from '../string.renderer';
 
@@ -57,7 +57,7 @@ export const ListItem: React.FC<Props> = ({
   );
 };
 
-const Container = styled<
+const Container = withStyled<
   Pick<Props, 'horizontalPadding' | 'verticalPadding'>,
   typeof View
 >(View, (theme, props) => [
@@ -69,7 +69,7 @@ const Container = styled<
   },
 ]);
 
-const IconContainer = styled(View, (theme) => [
+const IconContainer = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     aspectRatio: 1,
@@ -78,23 +78,23 @@ const IconContainer = styled(View, (theme) => [
   },
 ]);
 
-const Content = styled(View, () => ({
+const Content = withStyled(View, () => ({
   alignItems: 'flex-start',
   flexGrow: 1,
   flexShrink: 1,
   gap: 2,
 }));
 
-const TitleText = styled(Text, (theme) => [theme.typography.presets.h3]);
+const TitleText = withStyled(Text, (theme) => [theme.typography.presets.h3]);
 
-const DescriptionText = styled(Text, (theme) => [
+const DescriptionText = withStyled(Text, (theme) => [
   theme.typography.presets.p2,
   {
     color: theme.pallette.textSecondary,
   },
 ]);
 
-const Body = styled<Pick<Props, 'hasShadow'>, typeof View>(
+const Body = withStyled<Pick<Props, 'hasShadow'>, typeof View>(
   View,
   (theme, props) => [
     {

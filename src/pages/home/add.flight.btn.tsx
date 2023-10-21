@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import tinycolor from 'tinycolor2';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { AnimatedTouchable } from '@app/components/animated.touchable';
@@ -25,7 +25,7 @@ export const AddFlightBtn: React.FC = () => {
   );
 };
 
-const Btn = styled(AnimatedTouchable, (theme) => [
+const Btn = withStyled(AnimatedTouchable, (theme) => [
   theme.presets.shadows[100],
   {
     aspectRatio: 1,
@@ -37,7 +37,7 @@ const Btn = styled(AnimatedTouchable, (theme) => [
   },
 ]);
 
-const Icon = styled(FaIcon, (theme) => [
+const Icon = withStyled(FaIcon, (theme) => [
   {
     color: theme.pallette.black,
   },

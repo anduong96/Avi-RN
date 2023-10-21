@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { BlurView } from '@react-native-community/blur';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { Typography } from '../typography';
@@ -85,7 +85,7 @@ export const Prompt: React.FC<Props> = ({
   );
 };
 
-const Container = styled(
+const Container = withStyled(
   Animated.createAnimatedComponent(BlurView),
   (theme) => [
     theme.presets.centered,
@@ -96,7 +96,7 @@ const Container = styled(
   ],
 );
 
-const Menu = styled(View, (theme) => [
+const Menu = withStyled(View, (theme) => [
   {
     borderRadius: theme.space.medium,
     maxWidth: 400,
@@ -105,7 +105,7 @@ const Menu = styled(View, (theme) => [
   },
 ]);
 
-const Content = styled(View, (theme) => [
+const Content = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     backgroundColor: theme.pallette.background,
@@ -113,14 +113,14 @@ const Content = styled(View, (theme) => [
   },
 ]);
 
-const Actions = styled(View, (theme) => [
+const Actions = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     flexDirection: 'row',
   },
 ]);
 
-const OptionBtn = styled(
+const OptionBtn = withStyled(
   TouchableOpacity,
   (theme) => [
     theme.presets.centered,
@@ -136,11 +136,11 @@ const OptionBtn = styled(
   },
 );
 
-const OptionText = styled(Typography, undefined, {
+const OptionText = withStyled(Typography, undefined, {
   type: 'p2',
 });
 
-const Divider = styled<{ type: 'horizontal' | 'vertical' }, typeof View>(
+const Divider = withStyled<{ type: 'horizontal' | 'vertical' }, typeof View>(
   View,
   (theme, props) => [
     {

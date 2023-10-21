@@ -3,7 +3,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import * as React from 'react';
 import Animated from 'react-native-reanimated';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { FaIcon } from '../icons.fontawesome';
@@ -44,7 +44,7 @@ export const StatusIcon: React.FC<Props> = ({
   );
 };
 
-const Container = styled<
+const Container = withStyled<
   Pick<Props, 'hasShadow'> & { color: string },
   typeof Animated.View
 >(Animated.View, (theme, props) => [

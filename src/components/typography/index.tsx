@@ -5,7 +5,7 @@ import { Text } from 'react-native';
 
 import type { Theme } from '@app/themes';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 type Props = {
   isBold?: boolean;
@@ -17,7 +17,7 @@ export const Typography: React.FC<Props> = ({ isBold, type, ...props }) => {
   return <DisplayText isBold={isBold} type={type} {...props} />;
 };
 
-const DisplayText = styled<
+const DisplayText = withStyled<
   Pick<Props, 'isBold' | 'status' | 'type'>,
   typeof Text
 >(Text, (theme, props) => [

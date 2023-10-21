@@ -8,7 +8,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
@@ -69,12 +69,12 @@ export const ButtonLink: React.FC<Props> = ({
   );
 };
 
-const Container = styled(TouchableOpacity, () => ({
+const Container = withStyled(TouchableOpacity, () => ({
   flexDirection: 'row',
   padding: 0,
 }));
 
-const Label = styled(Text, (theme) => [
+const Label = withStyled(Text, (theme) => [
   theme.typography.presets.p1,
   {
     color: theme.pallette.active,

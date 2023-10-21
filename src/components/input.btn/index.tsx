@@ -5,7 +5,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { CheckIcon } from '../icon.check';
@@ -64,7 +64,7 @@ export const InputBtn: React.FC<Props> = ({
 };
 
 import type { SpaceKeys } from '@app/themes';
-const Container = styled<
+const Container = withStyled<
   {
     hasError?: boolean;
     isDisabled?: boolean;
@@ -90,7 +90,7 @@ const Container = styled<
   },
 ]);
 
-const Btn = styled<{ size?: SpaceKeys }, typeof TouchableOpacity>(
+const Btn = withStyled<{ size?: SpaceKeys }, typeof TouchableOpacity>(
   TouchableOpacity,
   (theme, props) => [
     {
@@ -104,18 +104,18 @@ const Btn = styled<{ size?: SpaceKeys }, typeof TouchableOpacity>(
   ],
 );
 
-const PlaceholderText = styled(Text, (theme) => ({
+const PlaceholderText = withStyled(Text, (theme) => ({
   color: theme.pallette.grey[400],
 }));
 
-const ValueText = styled(Text, (theme) => ({
+const ValueText = withStyled(Text, (theme) => ({
   fontSize: theme.typography.presets.p1.fontSize,
 }));
 
-const AddonLeft = styled(View, (theme) => ({
+const AddonLeft = withStyled(View, (theme) => ({
   paddingLeft: theme.space.medium,
 }));
 
-const AddonRight = styled(View, (theme) => ({
+const AddonRight = withStyled(View, (theme) => ({
   paddingRight: theme.space.medium,
 }));

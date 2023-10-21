@@ -5,7 +5,7 @@ import { Text, View } from 'react-native';
 
 import tinycolor from 'tinycolor2';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
@@ -46,7 +46,7 @@ export const Tag: React.FC<Props> = ({
   );
 };
 
-const Container = styled(View, (theme) => [
+const Container = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     backgroundColor: theme.pallette.grey[300],
@@ -58,4 +58,4 @@ const Container = styled(View, (theme) => [
   },
 ]);
 
-const Label = styled(Text, (theme) => [theme.typography.presets.small]);
+const Label = withStyled(Text, (theme) => [theme.typography.presets.small]);

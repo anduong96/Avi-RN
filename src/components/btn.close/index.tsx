@@ -3,7 +3,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useExitPage } from '@app/lib/hooks/use.exit.page';
 
@@ -50,7 +50,7 @@ export const CloseBtn: React.FC<Props> = ({
   );
 };
 
-const Container = styled<{ size: number }, typeof TouchableOpacity>(
+const Container = withStyled<{ size: number }, typeof TouchableOpacity>(
   TouchableOpacity,
   (theme, props) => [
     theme.presets.centered,

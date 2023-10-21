@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ScrollView, View } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { Avatar } from '@app/components/avatar';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { CloseBtn } from '@app/components/btn.close';
@@ -71,14 +71,14 @@ export const ProfilePage: React.FC = () => {
   );
 };
 
-const AvatarContainer = styled(View, (theme) => [
+const AvatarContainer = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     paddingTop: theme.space.large,
   },
 ]);
 
-const RightActions = styled(View, (theme) => [
+const RightActions = withStyled(View, (theme) => [
   {
     position: 'absolute',
     right: theme.space.medium,
@@ -87,7 +87,7 @@ const RightActions = styled(View, (theme) => [
   },
 ]);
 
-const Content = styled(ScrollView, undefined, (theme) => ({
+const Content = withStyled(ScrollView, undefined, (theme) => ({
   contentContainerStyle: {
     flexGrow: 1,
     gap: theme.space.large,
@@ -96,17 +96,17 @@ const Content = styled(ScrollView, undefined, (theme) => ({
   },
 }));
 
-const Section = styled(View, (theme) => [
+const Section = withStyled(View, (theme) => [
   {
     gap: theme.space.small,
   },
 ]);
 
-const SectionTitle = styled(Typography, undefined, {
+const SectionTitle = withStyled(Typography, undefined, {
   type: 'h3',
 });
 
-const SignOut = styled(View, () => [
+const SignOut = withStyled(View, () => [
   {
     alignItems: 'flex-start',
     flexBasis: 1,

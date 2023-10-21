@@ -5,7 +5,7 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 
 import moment from 'moment';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { Statistic } from '@app/components/statistic';
 import { useAircraftQuery } from '@app/generated/server.gql';
 import { LoadingOverlay } from '@app/components/loading.overlay';
@@ -59,7 +59,7 @@ export const AircraftCard: React.FC<Props> = ({ tailNumber }) => {
   );
 };
 
-const Container = styled(Animated.View, (theme) => [
+const Container = withStyled(Animated.View, (theme) => [
   {
     backgroundColor: theme.pallette.background,
     borderRadius: theme.borderRadius,
@@ -67,7 +67,7 @@ const Container = styled(Animated.View, (theme) => [
   },
 ]);
 
-const Content = styled(View, (theme) => [
+const Content = withStyled(View, (theme) => [
   {
     borderRadius: theme.borderRadius,
     flexGrow: 1,
@@ -76,7 +76,7 @@ const Content = styled(View, (theme) => [
   },
 ]);
 
-const Meta = styled(View, (theme) => [
+const Meta = withStyled(View, (theme) => [
   {
     alignItems: 'flex-start',
     backgroundColor: theme.pallette.card,
@@ -87,14 +87,14 @@ const Meta = styled(View, (theme) => [
   },
 ]);
 
-const Image = styled(FastImage, (theme) => [
+const Image = withStyled(FastImage, (theme) => [
   StyleSheet.absoluteFillObject,
   {
     borderRadius: theme.borderRadius,
   },
 ]);
 
-const StatItem = styled(
+const StatItem = withStyled(
   Statistic,
   (theme) => [
     theme.presets.centered,

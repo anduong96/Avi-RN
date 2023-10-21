@@ -4,7 +4,7 @@ import Animated, {
   useDerivedValue,
 } from 'react-native-reanimated';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 type Props = {
   children: React.ReactElement;
@@ -22,7 +22,7 @@ export const FocusedContainer: React.FC<Props> = ({ children, isFocused }) => {
   return <Container style={[animatedStyle]}>{children}</Container>;
 };
 
-const Container = styled(Animated.View, () => [
+const Container = withStyled(Animated.View, () => [
   {
     flexDirection: 'row',
     overflow: 'hidden',

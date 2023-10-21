@@ -3,7 +3,7 @@ import type { StyleProp, TouchableOpacityProps, ViewStyle } from 'react-native';
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 import { FaIcon } from '../icons.fontawesome';
 
@@ -38,7 +38,7 @@ export const IconBtn: React.FC<Props> = ({
   );
 };
 
-const Container = styled(TouchableOpacity, (theme) => [
+const Container = withStyled(TouchableOpacity, (theme) => [
   theme.presets.centered,
   {
     aspectRatio: 1,

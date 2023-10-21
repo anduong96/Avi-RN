@@ -7,7 +7,7 @@ import { isNil } from 'lodash';
 
 import type { SpaceKeys } from '@app/themes';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 import { LoadingOverlay } from '../loading.overlay';
 
@@ -52,7 +52,7 @@ export const Card: React.FC<Props> = ({
   );
 };
 
-const Container = styled<
+const Container = withStyled<
   Pick<
     Props,
     | 'direction'

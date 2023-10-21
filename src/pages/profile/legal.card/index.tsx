@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { Card } from '@app/components/card';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { ListItem } from '@app/components/list.item';
@@ -40,7 +40,7 @@ export const LegalCard: React.FC = () => {
   );
 };
 
-const Btn = styled(View, (theme) => [
+const Btn = withStyled(View, (theme) => [
   {
     paddingHorizontal: theme.space.medium,
   },

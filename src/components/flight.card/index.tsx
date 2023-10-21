@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import type { GetUserArchivedFlightsQuery } from '@app/generated/server.gql';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { DOT_SEPARATOR } from '@app/constants';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
@@ -69,7 +69,7 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
   );
 };
 
-const Container = styled(View, (theme) => [
+const Container = withStyled(View, (theme) => [
   theme.presets.shadows[200],
   {
     backgroundColor: theme.pallette.grey[50],
@@ -80,14 +80,14 @@ const Container = styled(View, (theme) => [
   },
 ]);
 
-const Header = styled(View, (theme) => [
+const Header = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
     gap: theme.space.medium,
   },
 ]);
 
-const Body = styled(View, (theme) => [
+const Body = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
     gap: theme.space.medium,
@@ -95,7 +95,7 @@ const Body = styled(View, (theme) => [
   },
 ]);
 
-const Footer = styled(View, (theme) => [
+const Footer = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     flexDirection: 'row',
@@ -105,7 +105,7 @@ const Footer = styled(View, (theme) => [
   },
 ]);
 
-const FlightPoint = styled<{ type: 'destination' | 'origin' }, typeof View>(
+const FlightPoint = withStyled<{ type: 'destination' | 'origin' }, typeof View>(
   View,
   (_, props) => [
     props.type === 'destination' && {
@@ -114,16 +114,16 @@ const FlightPoint = styled<{ type: 'destination' | 'origin' }, typeof View>(
   ],
 );
 
-const AirportIata = styled(Text, (theme) => [theme.typography.presets.h1]);
+const AirportIata = withStyled(Text, (theme) => [theme.typography.presets.h1]);
 
-const AirportCity = styled(Text, (theme) => [
+const AirportCity = withStyled(Text, (theme) => [
   theme.typography.presets.p2,
   {
     color: theme.pallette.textSecondary,
   },
 ]);
 
-const DividerContainer = styled(View, (theme) => [
+const DividerContainer = withStyled(View, (theme) => [
   {
     flexGrow: 1,
     overflow: 'hidden',
@@ -131,7 +131,7 @@ const DividerContainer = styled(View, (theme) => [
   },
 ]);
 
-const AirlineContainer = styled(View, (theme) => [
+const AirlineContainer = withStyled(View, (theme) => [
   {
     alignItems: 'center',
     flexDirection: 'row',
@@ -139,13 +139,13 @@ const AirlineContainer = styled(View, (theme) => [
   },
 ]);
 
-const AirlineFlightNumber = styled(Text, (theme) => [
+const AirlineFlightNumber = withStyled(Text, (theme) => [
   {
     color: theme.pallette.textSecondary,
   },
 ]);
 
-const Movement = styled(View, (theme) => [
+const Movement = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     flexDirection: 'row',
@@ -153,7 +153,7 @@ const Movement = styled(View, (theme) => [
   },
 ]);
 
-const MovementText = styled<{ color: string }, typeof Text>(
+const MovementText = withStyled<{ color: string }, typeof Text>(
   Text,
   (theme, props) => [
     theme.typography.presets.h3,
@@ -164,15 +164,15 @@ const MovementText = styled<{ color: string }, typeof Text>(
   ],
 );
 
-const MovementIconContainer = styled(View, () => [{}]);
+const MovementIconContainer = withStyled(View, () => [{}]);
 
-const Time = styled(View, () => [
+const Time = withStyled(View, () => [
   {
     flexDirection: 'row',
   },
 ]);
 
-const TimeText = styled<{ bold?: boolean }, typeof Text>(
+const TimeText = withStyled<{ bold?: boolean }, typeof Text>(
   Text,
   (theme, props) => [
     {

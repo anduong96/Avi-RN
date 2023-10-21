@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 
 import moment from 'moment';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { DividerDashed } from '@app/components/divider.dashed';
 
 type Props = {
@@ -30,11 +30,11 @@ export const FlightPageDistanceSeparator: React.FC<Props> = ({ duration }) => {
   );
 };
 
-const Container = styled(View, (theme) => [theme.presets.centered]);
+const Container = withStyled(View, (theme) => [theme.presets.centered]);
 
-const Content = styled(View, (theme) => [theme.presets.centered]);
+const Content = withStyled(View, (theme) => [theme.presets.centered]);
 
-const Divider = styled(DividerDashed, () => [
+const Divider = withStyled(DividerDashed, () => [
   {
     alignSelf: 'center',
     position: 'absolute',
@@ -42,7 +42,7 @@ const Divider = styled(DividerDashed, () => [
   },
 ]);
 
-const TextContainer = styled(View, (theme) => [
+const TextContainer = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     backgroundColor: theme.pallette.borderColor,
@@ -54,7 +54,7 @@ const TextContainer = styled(View, (theme) => [
   },
 ]);
 
-const StyledText = styled(Text, (theme) => [
+const StyledText = withStyled(Text, (theme) => [
   theme.typography.presets.p1,
   {
     fontWeight: 'bold',

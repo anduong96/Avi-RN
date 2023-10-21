@@ -9,7 +9,7 @@ import { useRoute } from '@react-navigation/native';
 import type { FlightStackParams } from '@app/navigation/flight.stack';
 
 import { ENV } from '@app/env';
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { Card } from '@app/components/card';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { useTheme } from '@app/lib/hooks/use.theme';
@@ -127,7 +127,7 @@ export const FlightPage: React.FC = () => {
   );
 };
 
-const Content = styled(View, (theme) => [
+const Content = withStyled(View, (theme) => [
   {
     flexGrow: 1,
     gap: theme.space.medium,
@@ -135,7 +135,7 @@ const Content = styled(View, (theme) => [
   },
 ]);
 
-const Header = styled(View, (theme) => [
+const Header = withStyled(View, (theme) => [
   {
     backgroundColor: theme.pallette.background,
     gap: theme.space.small,
@@ -144,7 +144,7 @@ const Header = styled(View, (theme) => [
   },
 ]);
 
-const Close = styled(View, (theme) => [
+const Close = withStyled(View, (theme) => [
   {
     position: 'absolute',
     right: theme.space.medium,

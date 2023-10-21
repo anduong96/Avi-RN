@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { MainStack } from '@app/navigation';
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { RandomFlightBtn } from '@app/components/button.random.flight';
 import { useKeyboardSubmitEvent } from '@app/components/input/use.keyboard.submit';
 
@@ -82,7 +82,7 @@ export const InputBar: React.FC = () => {
   );
 };
 
-const Container = styled(View, (theme) => [
+const Container = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
     flexShrink: 0,

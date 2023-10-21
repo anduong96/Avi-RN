@@ -4,7 +4,7 @@ import { FlatList, Text, TouchableOpacity } from 'react-native';
 
 import type { AirlinesQuery } from '@app/generated/server.gql';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { logger } from '@app/lib/logger';
 import { Result } from '@app/components/result';
 import { vibrate } from '@app/lib/haptic.feedback';
@@ -105,23 +105,25 @@ export const TextSearchResultSet: React.FC = () => {
   );
 };
 
-const ItemTitle = styled(HighlightedText, (theme) => [
+const ItemTitle = withStyled(HighlightedText, (theme) => [
   theme.typography.presets.h4,
   {
     color: theme.pallette.text,
   },
 ]);
 
-const ItemDescription = styled(HighlightedText, (theme) => [
+const ItemDescription = withStyled(HighlightedText, (theme) => [
   theme.typography.presets.small,
   {
     color: theme.pallette.textSecondary,
   },
 ]);
 
-const EmptyHero = styled(Text, (theme) => [theme.typography.presets.massive]);
+const EmptyHero = withStyled(Text, (theme) => [
+  theme.typography.presets.massive,
+]);
 
-const Item = styled<{ index: number }, typeof TouchableOpacity>(
+const Item = withStyled<{ index: number }, typeof TouchableOpacity>(
   TouchableOpacity,
   (theme, props) => [
     props.index === 0 && {

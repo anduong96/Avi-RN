@@ -7,7 +7,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { Portal } from '@gorhom/portal';
 import { BlurView } from '@react-native-community/blur';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { useIsDarkMode } from '@app/lib/hooks/use.color.scheme';
 
@@ -60,15 +60,18 @@ export const Tooltip: React.FC<Props> = ({ children, content }) => {
   );
 };
 
-const Container = styled(Animated.createAnimatedComponent(BlurView), () => ({
-  bottom: 0,
-  left: 0,
-  position: 'absolute',
-  right: 0,
-  top: 0,
-}));
+const Container = withStyled(
+  Animated.createAnimatedComponent(BlurView),
+  () => ({
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  }),
+);
 
-const Content = styled(View, (theme) => ({
+const Content = withStyled(View, (theme) => ({
   backgroundColor: theme.pallette.background,
   borderRadius: theme.borderRadius,
   padding: theme.space.medium,

@@ -7,7 +7,7 @@ import * as chrono from 'chrono-node';
 import { compact, unionBy } from 'lodash';
 import { useDebounce } from 'use-debounce';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { Calendar } from '@app/components/calendar';
 import { useTheme } from '@app/lib/hooks/use.theme';
@@ -126,14 +126,14 @@ export const DepartureDateResultSet: React.FC = () => {
   );
 };
 
-const Container = styled(View, () => [
+const Container = withStyled(View, () => [
   {
     flexGrow: 1,
     position: 'relative',
   },
 ]);
 
-const CalendarContainer = styled(
+const CalendarContainer = withStyled(
   Animated.View,
   (theme) => [
     {
@@ -153,8 +153,8 @@ const CalendarContainer = styled(
   },
 );
 
-const DismissBtn = styled(TouchableOpacity, () => []);
-const DismissContainer = styled(View, () => [
+const DismissBtn = withStyled(TouchableOpacity, () => []);
+const DismissContainer = withStyled(View, () => [
   {
     flexDirection: 'row',
     justifyContent: 'center',

@@ -8,7 +8,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 import type { FlightStackParams } from '@app/navigation/flight.stack';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { PageHeader } from '@app/components/page.header';
 import { useGetFlightQuery } from '@app/generated/server.gql';
@@ -61,7 +61,7 @@ export const FlightRatingsPage: React.FC = () => {
   );
 };
 
-const Content = styled(View, () => [
+const Content = withStyled(View, () => [
   {
     flexGrow: 1,
   },

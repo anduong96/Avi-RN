@@ -3,7 +3,7 @@ import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native';
 import * as React from 'react';
 import { View } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 type Props = {
   dashSize?: number;
@@ -45,9 +45,9 @@ export const DividerDashed: React.FC<Props> = ({
   );
 };
 
-const Container = styled(View, () => [{}]);
+const Container = withStyled(View, () => [{}]);
 
-const Dash = styled<{ isVertical: boolean; size: number }, typeof View>(
+const Dash = withStyled<{ isVertical: boolean; size: number }, typeof View>(
   View,
   (theme, props) => [
     {

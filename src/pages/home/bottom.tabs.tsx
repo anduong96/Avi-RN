@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import type { MainStack } from '@app/navigation';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { IconBtn } from '@app/components/icon.btn';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { BlurredBackground } from '@app/components/blurred.background';
@@ -35,7 +35,7 @@ export const BottomTabs: React.FC = () => {
   );
 };
 
-const Container = styled(View, (theme) => [
+const Container = withStyled(View, (theme) => [
   {
     alignItems: 'center',
     borderRadius: theme.roundRadius,
@@ -46,7 +46,7 @@ const Container = styled(View, (theme) => [
   },
 ]);
 
-const Item = styled<{ isActive?: boolean }, typeof IconBtn>(
+const Item = withStyled<{ isActive?: boolean }, typeof IconBtn>(
   IconBtn,
   (theme, props) => [
     {
@@ -67,11 +67,11 @@ const Item = styled<{ isActive?: boolean }, typeof IconBtn>(
   }),
 );
 
-const User = styled(Item, () => [], {
+const User = withStyled(Item, () => [], {
   size: 20,
 });
 
-const Rounded = styled(View, (theme) => [
+const Rounded = withStyled(View, (theme) => [
   StyleSheet.absoluteFill,
   {
     borderRadius: theme.roundRadius,

@@ -3,7 +3,7 @@ import FastImage from 'react-native-fast-image';
 import { FadeIn } from 'react-native-reanimated';
 import { TouchableOpacity, View } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useUser } from '@app/state/user';
 import { Card } from '@app/components/card';
 import { vibrate } from '@app/lib/haptic.feedback';
@@ -71,14 +71,14 @@ export const AccountConnectCard: React.FC = () => {
   );
 };
 
-const Content = styled(View, (theme) => [
+const Content = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
     gap: theme.space.medium,
   },
 ]);
 
-const Btn = styled(TouchableOpacity, (theme) => [
+const Btn = withStyled(TouchableOpacity, (theme) => [
   theme.presets.centered,
   theme.presets.shadows[200],
   {
@@ -88,19 +88,19 @@ const Btn = styled(TouchableOpacity, (theme) => [
   },
 ]);
 
-const AppleBtn = styled(Btn, (theme) => [
+const AppleBtn = withStyled(Btn, (theme) => [
   {
     backgroundColor: theme.isDark ? theme.pallette.white : theme.pallette.black,
   },
 ]);
 
-const GoogleBtn = styled(Btn, (theme) => [
+const GoogleBtn = withStyled(Btn, (theme) => [
   {
     backgroundColor: theme.isDark ? theme.pallette.white : theme.pallette.black,
   },
 ]);
 
-const AppleIcon = styled(
+const AppleIcon = withStyled(
   FaIcon,
   (theme) => [
     {
@@ -112,14 +112,14 @@ const AppleIcon = styled(
   }),
 );
 
-const GoogleIcon = styled(FastImage, (theme) => [
+const GoogleIcon = withStyled(FastImage, (theme) => [
   {
     aspectRatio: 1,
     width: theme.typography.presets.h1.fontSize,
   },
 ]);
 
-const Status = styled(
+const Status = withStyled(
   StatusIcon,
   (theme) => [
     {

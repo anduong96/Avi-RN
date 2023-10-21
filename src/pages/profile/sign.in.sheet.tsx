@@ -5,9 +5,9 @@ import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 
 import { BlurView } from '@react-native-community/blur';
 
-import { styled } from '@app/lib/styled';
 import { useUser } from '@app/state/user';
 import { Button } from '@app/components/button';
+import { withStyled } from '@app/lib/styled';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { signInWithApple } from '@app/lib/auth/apple.auth';
 import { signInWithGoogle } from '@app/lib/auth/google.auth';
@@ -47,21 +47,24 @@ export const SignInSheet: React.FC = () => {
   );
 };
 
-const Content = styled(Animated.createAnimatedComponent(BlurView), (theme) => [
-  {
-    borderRadius: theme.borderRadius,
-    bottom: 0,
-    gap: theme.space.medium,
-    left: 0,
-    paddingBottom: theme.insets.bottom || theme.space.large,
-    paddingHorizontal: theme.space.medium,
-    paddingVertical: theme.space.large,
-    position: 'absolute',
-    right: 0,
-  },
-]);
+const Content = withStyled(
+  Animated.createAnimatedComponent(BlurView),
+  (theme) => [
+    {
+      borderRadius: theme.borderRadius,
+      bottom: 0,
+      gap: theme.space.medium,
+      left: 0,
+      paddingBottom: theme.insets.bottom || theme.space.large,
+      paddingHorizontal: theme.space.medium,
+      paddingVertical: theme.space.large,
+      position: 'absolute',
+      right: 0,
+    },
+  ],
+);
 
-const AppleSignInBtn = styled(
+const AppleSignInBtn = withStyled(
   Button,
   (theme) => [
     {
@@ -79,7 +82,7 @@ const AppleSignInBtn = styled(
   }),
 );
 
-const AppleIcon = styled(
+const AppleIcon = withStyled(
   FaIcon,
   () => [],
   (theme) => ({
@@ -88,7 +91,7 @@ const AppleIcon = styled(
   }),
 );
 
-const GoogleSignInBtn = styled(
+const GoogleSignInBtn = withStyled(
   Button,
   () => [],
   (theme) => ({
@@ -96,7 +99,7 @@ const GoogleSignInBtn = styled(
   }),
 );
 
-const GoogleIcon = styled(
+const GoogleIcon = withStyled(
   FastImage,
   () => [
     {

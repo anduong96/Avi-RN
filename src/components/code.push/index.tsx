@@ -14,7 +14,7 @@ import { useThrottleCallback } from '@react-hook/throttle';
 
 import { ENV } from '@app/env';
 import { logger } from '@app/lib/logger';
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useAppActive } from '@app/lib/hooks/use.app.state';
 
 import { Button } from '../button';
@@ -116,7 +116,7 @@ export const CodepushShield: React.FC = () => {
   );
 };
 
-export const ProgressBar = styled(View, (theme) => [
+export const ProgressBar = withStyled(View, (theme) => [
   {
     backgroundColor: theme.pallette.grey[200],
     borderRadius: 30,
@@ -127,13 +127,13 @@ export const ProgressBar = styled(View, (theme) => [
   },
 ]);
 
-export const ProgressBarInner = styled(Animated.View, (theme) => [
+export const ProgressBarInner = withStyled(Animated.View, (theme) => [
   {
     backgroundColor: theme.pallette.active,
   },
 ]);
 
-export const Progress = styled(View, (theme) => [
+export const Progress = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     gap: theme.space.tiny,
@@ -141,7 +141,7 @@ export const Progress = styled(View, (theme) => [
   },
 ]);
 
-export const ProgressText = styled(Text, (theme) => [
+export const ProgressText = withStyled(Text, (theme) => [
   theme.typography.presets.small,
   {
     color: theme.pallette.textSecondary,

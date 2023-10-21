@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { styled } from '@app/lib/styled';
 import { useUser } from '@app/state/user';
 import { Button } from '@app/components/button';
+import { withStyled } from '@app/lib/styled';
 import { signOut } from '@app/lib/auth/sign.out';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { usePrompt } from '@app/components/prompt/use.prompt';
@@ -41,7 +41,7 @@ export const SignOutBtn: React.FC = () => {
   );
 };
 
-const Btn = styled(Button, undefined, (theme) => ({
+const Btn = withStyled(Button, undefined, (theme) => ({
   color: theme.pallette.danger,
   size: 'small' as const,
 }));

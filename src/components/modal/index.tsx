@@ -5,7 +5,7 @@ import { Modal as RnModal, View } from 'react-native';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 
-import { styled } from '../../lib/styled';
+import { withStyled } from '../../lib/styled';
 import { ModalHeader } from '../modal.header';
 
 type Props = {
@@ -43,6 +43,6 @@ export const Modal: React.FC<Props> = ({
   );
 };
 
-export const Content = styled(View, {
+export const Content = withStyled(View, {
   flexGrow: 1,
 });

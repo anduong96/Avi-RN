@@ -8,7 +8,7 @@ import { isNil } from 'lodash';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { BackBtn } from '../back.btn';
@@ -71,7 +71,7 @@ export const PageHeader: React.FC<Props> = ({
   );
 };
 
-const Container = styled<Pick<Props, 'withoutInsets'>, typeof View>(
+const Container = withStyled<Pick<Props, 'withoutInsets'>, typeof View>(
   View,
   (theme, props) => [
     {
@@ -85,7 +85,7 @@ const Container = styled<Pick<Props, 'withoutInsets'>, typeof View>(
   ],
 );
 
-const Content = styled<Pick<Props, 'align'>, typeof View>(
+const Content = withStyled<Pick<Props, 'align'>, typeof View>(
   View,
   (theme, props) => [
     {
@@ -98,21 +98,21 @@ const Content = styled<Pick<Props, 'align'>, typeof View>(
   ],
 );
 
-const Title = styled(Text, (theme) => [
+const Title = withStyled(Text, (theme) => [
   theme.typography.presets.h3,
   {
     fontWeight: 'bold',
   },
 ]);
 
-const Subtitle = styled(Text, (theme) => [
+const Subtitle = withStyled(Text, (theme) => [
   theme.typography.presets.p2,
   {
     color: theme.pallette.textSecondary,
   },
 ]);
 
-const RightActions = styled<
+const RightActions = withStyled<
   Pick<Props, 'align'> & { isVisible?: boolean },
   typeof View
 >(View, (theme, props) => [
@@ -129,7 +129,7 @@ const RightActions = styled<
   },
 ]);
 
-const LeftActions = styled<
+const LeftActions = withStyled<
   Pick<Props, 'align'> & { isVisible?: boolean },
   typeof View
 >(View, (theme, props) => [

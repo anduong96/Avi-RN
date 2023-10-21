@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { MainStack } from '@app/navigation';
 import type { FindFlightsQuery } from '@app/generated/server.gql';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useFindFlightsQuery } from '@app/generated/server.gql';
 import { FlightCardCompact } from '@app/components/flight.card.compact';
@@ -63,7 +63,7 @@ export const FlightsResultSet: React.FC = () => {
   );
 };
 
-const Empty = styled(View, (theme) => [
+const Empty = withStyled(View, (theme) => [
   theme.presets.centered,
   theme.presets.shadows[100],
   {
@@ -74,14 +74,14 @@ const Empty = styled(View, (theme) => [
   },
 ]);
 
-const EmptyText = styled(Text, (theme) => [
+const EmptyText = withStyled(Text, (theme) => [
   theme.typography.presets.h4,
   {
     fontWeight: 'bold',
   },
 ]);
 
-const Item = styled(TouchableOpacity, (theme) => [
+const Item = withStyled(TouchableOpacity, (theme) => [
   {
     paddingHorizontal: theme.space.medium,
   },

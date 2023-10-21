@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { DOT_SEPARATOR } from '@app/constants';
 import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
 
@@ -43,42 +43,42 @@ export const FlightMeta: React.FC<Props> = ({ flight }) => {
   );
 };
 
-const Container = styled(View, (theme) => [
+const Container = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
     gap: theme.space.small,
   },
 ]);
 
-const FlightNumber = styled(View, () => [
+const FlightNumber = withStyled(View, () => [
   {
     flexDirection: 'row',
     gap: 2,
   },
 ]);
 
-const FlightText = styled(Text, (theme) => [
+const FlightText = withStyled(Text, (theme) => [
   theme.typography.presets.p2,
   {
     color: theme.pallette.textSecondary,
   },
 ]);
 
-const Ticket = styled(View, () => [
+const Ticket = withStyled(View, () => [
   {
     alignItems: 'center',
     flexDirection: 'row',
   },
 ]);
 
-const Airline = styled(View, () => [
+const Airline = withStyled(View, () => [
   {
     flexDirection: 'column',
     justifyContent: 'center',
   },
 ]);
 
-const AirlineName = styled(Text, (theme) => [
+const AirlineName = withStyled(Text, (theme) => [
   theme.typography.presets.h3,
   {
     lineHeight: undefined,

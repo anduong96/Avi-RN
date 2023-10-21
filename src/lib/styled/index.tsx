@@ -20,7 +20,7 @@ type CustomTheme = Theme & { insets: EdgeInsets };
  * @returns A function that takes a component and a style and returns a component with the style
  * applied.
  */
-export function styled<
+export function withStyled<
   D,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   C extends React.ComponentType<any> | (new (props: any) => any),

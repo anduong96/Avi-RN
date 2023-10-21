@@ -12,7 +12,7 @@ import Animated, {
 
 import { BlurView } from '@react-native-community/blur';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { List } from '../list';
@@ -125,7 +125,7 @@ export const FloatingMenuButton: React.FC<Props> = ({
   );
 };
 
-const Btn = styled<
+const Btn = withStyled<
   { position: 'bottomLeft' | 'bottomRight' },
   typeof TouchableOpacity
 >(TouchableOpacity, (theme, props) => [
@@ -154,7 +154,7 @@ const Btn = styled<
   },
 ]);
 
-const ModalBg = styled(View, (theme) => [
+const ModalBg = withStyled(View, (theme) => [
   {
     backgroundColor: theme.pallette.black,
     bottom: 0,
@@ -166,22 +166,25 @@ const ModalBg = styled(View, (theme) => [
   },
 ]);
 
-const Options = styled(Animated.createAnimatedComponent(BlurView), (theme) => [
-  {
-    borderRadius: theme.borderRadius,
-    bottom: theme.insets.bottom + theme.space.medium + 60,
-    position: 'absolute',
-    right: theme.space.medium,
-  },
-]);
+const Options = withStyled(
+  Animated.createAnimatedComponent(BlurView),
+  (theme) => [
+    {
+      borderRadius: theme.borderRadius,
+      bottom: theme.insets.bottom + theme.space.medium + 60,
+      position: 'absolute',
+      right: theme.space.medium,
+    },
+  ],
+);
 
-const OptionItem = styled(TouchableOpacity, (theme) => [
+const OptionItem = withStyled(TouchableOpacity, (theme) => [
   {
     padding: theme.space.medium,
   },
 ]);
 
-const OptionItemText = styled<{ disabled?: boolean }, typeof Text>(
+const OptionItemText = withStyled<{ disabled?: boolean }, typeof Text>(
   Text,
   (theme) => [
     theme.typography.presets.p1,

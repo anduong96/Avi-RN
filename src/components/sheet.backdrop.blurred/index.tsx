@@ -9,7 +9,7 @@ import Animated, {
 
 import { BlurView } from '@react-native-community/blur';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 type Props = BottomSheetBackdropProps;
 
 export const BlurredSheetBackdrop: React.FC<Props> = ({
@@ -28,4 +28,4 @@ export const BlurredSheetBackdrop: React.FC<Props> = ({
   return <Container blurType="dark" style={[animatedStyle, style]} />;
 };
 
-const Container = styled(Animated.createAnimatedComponent(BlurView));
+const Container = withStyled(Animated.createAnimatedComponent(BlurView));

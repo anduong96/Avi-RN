@@ -3,7 +3,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import * as React from 'react';
 import { View } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 type Props = {
   style?: StyleProp<ViewStyle>;
@@ -13,7 +13,7 @@ export const VerticalDivider: React.FC<Props> = ({ style }) => {
   return <Container style={style} />;
 };
 
-export const Container = styled(View, (theme) => ({
+export const Container = withStyled(View, (theme) => ({
   backgroundColor: theme.pallette.dividerColor,
   height: '50%',
   width: theme.borderWidth,

@@ -10,7 +10,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { BlurView } from '@react-native-community/blur';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
@@ -55,7 +55,7 @@ export const LoadingOverlay: React.FC<Props> = ({
   );
 };
 
-const Container = styled<
+const Container = withStyled<
   Pick<Props, 'isDark' | 'type' | 'isRound'>,
   typeof Animated.View
 >(Animated.View, (theme, props) => [
@@ -89,7 +89,7 @@ const Container = styled<
     },
 ]);
 
-const Content = styled(Animated.View, (theme) => [
+const Content = withStyled(Animated.View, (theme) => [
   theme.presets.centered,
   {
     borderRadius: theme.borderRadius,

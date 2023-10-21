@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 
 type Props = {
   flightID: string;
@@ -21,7 +21,7 @@ export const AltFlightsButton: React.FC<Props> = () => {
   );
 };
 
-const Btn = styled(TouchableOpacity, (theme) => [
+const Btn = withStyled(TouchableOpacity, (theme) => [
   theme.presets.centered,
   {
     backgroundColor: theme.pallette.grey[100],
@@ -33,4 +33,4 @@ const Btn = styled(TouchableOpacity, (theme) => [
   },
 ]);
 
-const BtnText = styled(Text, (theme) => [theme.typography.presets.p2]);
+const BtnText = withStyled(Text, (theme) => [theme.typography.presets.p2]);

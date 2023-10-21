@@ -11,7 +11,7 @@ import {
 } from '@gorhom/bottom-sheet';
 
 import { Backdrop } from './backdrop';
-import { styled } from '../../lib/styled';
+import { withStyled } from '../../lib/styled';
 
 type Props = {
   children: React.ReactElement | React.ReactElement[];
@@ -87,13 +87,13 @@ export const SimpleBottomSheet: React.FC<Props> = ({
   );
 };
 
-const Content = styled(BottomSheetView, {});
+const Content = withStyled(BottomSheetView, {});
 
-const Header = styled(View, {
+const Header = withStyled(View, {
   padding: 10,
 });
 
-const Title = styled(Text, {
+const Title = withStyled(Text, {
   fontSize: 20,
   textAlign: 'center',
 });

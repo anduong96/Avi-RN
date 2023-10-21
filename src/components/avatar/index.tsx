@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Animated from 'react-native-reanimated';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { userState } from '@app/state/user';
 
 import { FaIcon } from '../icons.fontawesome';
@@ -21,7 +21,7 @@ export const Avatar: React.FC<Props> = ({ hasShadow, size }) => {
   );
 };
 
-const Container = styled<
+const Container = withStyled<
   Pick<Props, 'hasShadow'> & { color: string },
   typeof Animated.View
 >(Animated.View, (theme, props) => [

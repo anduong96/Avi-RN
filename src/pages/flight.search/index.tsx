@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 
-import { styled } from '@app/lib/styled';
+import { withStyled } from '@app/lib/styled';
 import { CloseBtn } from '@app/components/btn.close';
 import { PageHeader } from '@app/components/page.header';
 import { PageContainer } from '@app/components/page.container';
@@ -32,14 +32,14 @@ export const FlightSearchPage: React.FC = () => {
   );
 };
 
-const Content = styled(View, (theme) => [
+const Content = withStyled(View, (theme) => [
   {
     flexGrow: 1,
     gap: theme.space.large,
   },
 ]);
 
-const ResultContainer = styled(View, () => [
+const ResultContainer = withStyled(View, () => [
   {
     flexGrow: 1,
   },

@@ -1,52 +1,40 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
-import moment from 'moment';
+import { isNil } from 'lodash';
 
-import type { AirportQuery } from '@app/generated/server.gql';
+import type { transformFlightData } from '@app/lib/transformers/transform.flight.data';
 
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
-import { FaIcon } from '@app/components/icons.fontawesome';
+import { Typography } from '@app/components/typography';
 
-type Props = {
-  actualMovementTime?: Date | null;
-  airport: Pick<AirportQuery['airport'], 'iata' | 'name'>;
-  airportIata: string;
-  baggageClaim?: null | string;
-  estimatedMovementTime: Date;
-  gate?: null | string;
-  scheduledMovementTime: Date;
-  terminal?: null | string;
-  timezone: string;
+type Props = ReturnType<typeof transformFlightData>['origin'] & {
   type: 'destination' | 'origin';
 };
 
 const FILLER = '--' as const;
 
 export const FlightPageLocationSection: React.FC<Props> = ({
-  actualMovementTime,
   airport,
   baggageClaim,
-  estimatedMovementTime,
+  dayDiff,
   gate,
-  scheduledMovementTime,
+  status = 'on-time',
   terminal,
-  timezone,
+  time,
   type,
 }) => {
   const theme = useTheme();
-  const usableTime = actualMovementTime || estimatedMovementTime;
-  const movementTime = moment.utc(usableTime).tz(timezone);
   const gateText = gate || FILLER;
   const terminalText = terminal || FILLER;
   const baggageText = baggageClaim || FILLER;
-  const timeColor = moment(usableTime).isSameOrBefore(scheduledMovementTime)
-    ? theme.pallette.success
-    : theme.pallette.warn;
-
-  const icon =
-    type === 'origin' ? 'circle-arrow-up-right' : 'circle-arrow-down-right';
+  const timeColor =
+    status === 'on-time' || status === 'early'
+      ? theme.pallette.success
+      : status === 'late'
+      ? theme.pallette.danger
+      : theme.pallette.warn;
 
   return (
     <Container>
@@ -56,12 +44,12 @@ export const FlightPageLocationSection: React.FC<Props> = ({
       </Airport>
       <Meta>
         <Time>
-          <DirectionalIconContainer>
-            <FaIcon color={timeColor} name={icon} size={22} solid />
-          </DirectionalIconContainer>
           <TimeText style={[{ color: timeColor }]}>
-            {movementTime.format('h:mm A')}
+            {time.format('h:mm A')}
           </TimeText>
+          {!isNil(dayDiff) && (
+            <DayDiffText style={[{ color: timeColor }]}>{dayDiff}</DayDiffText>
+          )}
         </Time>
         <View style={[{ gap: 3 }]}>
           <MetaText isFiller={!terminal}>Terminal {terminalText}</MetaText>
@@ -79,10 +67,10 @@ export const FlightPageLocationSection: React.FC<Props> = ({
 
 const Container = withStyled(View, (theme) => [
   {
+    alignItems: 'flex-start',
     flexDirection: 'row',
     gap: theme.space.large,
     maxWidth: '100%',
-    overflow: 'hidden',
   },
 ]);
 
@@ -94,12 +82,10 @@ const Airport = withStyled(View, () => [
   },
 ]);
 
-const AirportIata = withStyled(Text, (theme) => [
-  theme.typography.presets.h1,
-  {
-    lineHeight: 55,
-  },
-]);
+const AirportIata = withStyled(Typography, () => [], {
+  isBold: true,
+  type: 'h1',
+});
 
 const AirportName = withStyled(Text, (theme) => [
   theme.typography.presets.small,
@@ -130,21 +116,37 @@ const MetaText = withStyled<{ isFiller?: boolean }, typeof Text>(
   ],
 );
 
-const Time = withStyled(View, (theme) => [
+const Time = withStyled(View, () => [
   {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: theme.space.tiny,
   },
 ]);
 
-const TimeText = withStyled(Text, () => [
+const TimeText = withStyled(
+  Typography,
+  () => [
+    {
+      textAlign: 'right',
+    },
+  ],
   {
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'right',
-    width: 100,
+    isBold: true,
+    type: 'h1',
   },
-]);
+);
 
-const DirectionalIconContainer = withStyled(View, (_) => []);
+const DayDiffText = withStyled(
+  Typography,
+  (theme) => [
+    {
+      position: 'absolute',
+      right: -theme.space.small,
+      top: -theme.space.tiny,
+    },
+  ],
+  {
+    isBold: true,
+    type: 'small',
+  },
+);

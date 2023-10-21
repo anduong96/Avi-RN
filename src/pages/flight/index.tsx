@@ -18,6 +18,7 @@ import { PageContainer } from '@app/components/page.container';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 import { FlightPageTopHeader } from '@app/pages/flight/top.header';
 import { FlightPageLocationSection } from '@app/pages/flight/location.section';
+import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
 import { FlightPageDistanceSeparator } from '@app/pages/flight/distance.separator';
 
 import { AircraftCard } from './aircraft';
@@ -37,10 +38,12 @@ export const FlightPage: React.FC = () => {
     },
   });
   const flight = flightResponse.data?.flight;
+  const data = flight ? transformFlightData(flight) : null;
+
   return (
     <PageContainer>
       <LoadingOverlay isDark isLoading={flightResponse.loading} />
-      {flight && (
+      {flight && data && (
         <Container stickyHeaderIndices={[0]}>
           <Header>
             <FlightPageTopHeader flight={flight} />
@@ -48,33 +51,14 @@ export const FlightPage: React.FC = () => {
           <FlightActions flightID={flight.id} />
           <Content>
             <Card hasShadow>
-              <FlightPageLocationSection
-                actualMovementTime={flight.actualGateDeparture}
-                airport={flight.Origin}
-                airportIata={flight.originIata}
-                estimatedMovementTime={flight.estimatedGateDeparture}
-                gate={flight.originGate}
-                scheduledMovementTime={flight.scheduledGateDeparture}
-                terminal={flight.originTerminal}
-                timezone={flight.Origin.timezone}
-                type="origin"
-              />
-
+              <FlightPageLocationSection {...data.origin} type="origin" />
               <FlightPageDistanceSeparator
                 duration={moment(flight.estimatedGateArrival).diff(
                   flight.estimatedGateDeparture,
                 )}
               />
               <FlightPageLocationSection
-                actualMovementTime={flight.actualGateArrival}
-                airport={flight.Destination}
-                airportIata={flight.destinationIata}
-                baggageClaim={flight.destinationBaggageClaim}
-                estimatedMovementTime={flight.estimatedGateArrival}
-                gate={flight.destinationGate}
-                scheduledMovementTime={flight.scheduledGateArrival}
-                terminal={flight.destinationTerminal}
-                timezone={flight.Destination.timezone}
+                {...data.destination}
                 type="destination"
               />
             </Card>

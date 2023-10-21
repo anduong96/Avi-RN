@@ -28,11 +28,13 @@ export function useNotificationHandling() {
   const handleInitialNotification = React.useCallback(
     async (isActive: boolean) => {
       if (!isActive) {
+        logger.debug('App is not active');
         return;
       }
 
       const event = await notifee.getInitialNotification();
       if (isEmpty(event)) {
+        logger.debug('No initial notification');
         return;
       }
 
@@ -40,6 +42,11 @@ export function useNotificationHandling() {
         typeof event?.notification.data?.url === 'string'
           ? event.notification.data.url
           : undefined;
+
+      logger.debug('Initial notification', {
+        event,
+        urlToOpen,
+      });
 
       if (urlToOpen) {
         const canOpen = await Linking.canOpenURL(urlToOpen);

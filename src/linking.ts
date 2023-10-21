@@ -32,7 +32,6 @@ export const LINKING_CONFIG: LinkingOptions<MainStackParam> = {
       Home: 'home',
       PrivacyPolicies: 'privacy',
       Profile: 'profile',
-      Settings: 'settings',
       TermsOfService: 'terms',
     },
   },

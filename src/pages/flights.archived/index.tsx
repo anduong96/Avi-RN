@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
 import Animated, { SlideInLeft } from 'react-native-reanimated';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import { FlashList } from '@shopify/flash-list';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { CloseBtn } from '@app/components/btn.close';
 import { FlightCard } from '@app/components/flight.card';
-import { PageHeader } from '@app/components/page.header';
+import { ModalHeader } from '@app/components/modal.header';
 import { PageContainer } from '@app/components/page.container';
 import { useRootNavigation } from '@app/navigation/use.root.navigation';
 import { useGetUserArchivedFlightsQuery } from '@app/generated/server.gql';
@@ -29,31 +30,26 @@ export const ArchivedFlightsPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <PageHeader
-        rightActions={<CloseBtn />}
-        title={'Archived Flights'}
-        withoutInsets
-      />
-      <FlatList
-        data={response.data?.userArchivedFlights}
-        refreshing={response.loading}
-        onRefresh={response.refetch}
+      <ModalHeader title={'Archived Flights'} withClose />
+      <FlashList
+        data={response.data?.userArchivedFlights ?? []}
+        estimatedItemSize={200}
         keyExtractor={(item) => item.id}
+        onRefresh={() => response.refetch()}
+        refreshing={response.loading}
         renderItem={(entry) => {
           return (
-            <ListItem
-              entering={
-                entry.index < 10
-                  ? SlideInLeft.delay(entry.index * 100)
-                  : undefined
-              }
-            >
-              <TouchableOpacity
-                onPress={() => handlePress(entry.item.flightID)}
+            <TouchableOpacity onPress={() => handlePress(entry.item.flightID)}>
+              <ListItem
+                entering={
+                  entry.index < 10
+                    ? SlideInLeft.delay(entry.index * 100)
+                    : undefined
+                }
               >
                 <FlightCard value={entry.item} />
-              </TouchableOpacity>
-            </ListItem>
+              </ListItem>
+            </TouchableOpacity>
           );
         }}
       />

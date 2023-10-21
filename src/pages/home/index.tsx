@@ -70,6 +70,7 @@ export const HomePage: React.FC = () => {
   const handleRemoveFlight = (flightID: string) => {
     vibrate('impactHeavy');
     prompt({
+      acceptStatus: 'danger',
       onAccept: async () => {
         await removeFlight({
           variables: {

@@ -10,6 +10,8 @@ import { useTheme } from '@app/lib/hooks/use.theme';
 import { Typography } from '../typography';
 import { StringRenderer } from '../string.renderer';
 import { LoadingOverlay } from '../loading.overlay';
+import { VerticalDivider } from '../divider.vertical';
+import { HorizontalDivider } from '../divider.horizontal';
 
 type Props = {
   acceptStatus?: React.ComponentProps<typeof Typography>['status'];
@@ -60,22 +62,24 @@ export const Prompt: React.FC<Props> = ({
     >
       <Menu>
         <Content>
-          <StringRenderer Container={Typography} isBold type="h2">
+          <StringRenderer Container={Typography} isBold isCentered type="h2">
             {title}
           </StringRenderer>
-          <StringRenderer Container={Typography} type="h3">
+          <StringRenderer Container={Typography} isCentered type="h3">
             {description}
           </StringRenderer>
         </Content>
-        <Divider type="horizontal" />
+        <HorizontalDivider />
         <Actions>
           <OptionBtn onPress={handleCancel}>
-            <OptionText status={cancelStatus}>{cancelText}</OptionText>
+            <OptionText isCentered status={cancelStatus}>
+              {cancelText}
+            </OptionText>
           </OptionBtn>
-          <Divider type="vertical" />
+          <VerticalDivider />
           <OptionBtn onPress={handleAccept}>
             <LoadingOverlay isLoading={isLoading} type="solid" />
-            <OptionText isBold status={acceptStatus}>
+            <OptionText isCentered status={acceptStatus}>
               {acceptText}
             </OptionText>
           </OptionBtn>
@@ -139,19 +143,3 @@ const OptionBtn = withStyled(
 const OptionText = withStyled(Typography, undefined, {
   type: 'p2',
 });
-
-const Divider = withStyled<{ type: 'horizontal' | 'vertical' }, typeof View>(
-  View,
-  (theme, props) => [
-    {
-      backgroundColor: theme.pallette.dividerColor,
-    },
-    props.type === 'horizontal' && {
-      height: 1,
-    },
-    props.type === 'vertical' && {
-      height: '100%',
-      width: 1,
-    },
-  ],
-);

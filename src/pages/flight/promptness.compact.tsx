@@ -6,8 +6,8 @@ import { isNil } from 'lodash';
 
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
-import { withStyled } from '@app/lib/styled';
 import { Card } from '@app/components/card';
+import { withStyled } from '@app/lib/styled';
 import { Statistic } from '@app/components/statistic';
 import { VerticalDivider } from '@app/components/divider.vertical';
 import { useGetFlightPromptnessQuery } from '@app/generated/server.gql';
@@ -29,7 +29,7 @@ export const PromptnessCompact: React.FC<Props> = ({ flightID }) => {
   const { averageDelayTimeMs = 0, onTimePercent = 0 } = data ?? {};
 
   const getContent = () => {
-    if (!onTimePercent && !averageDelayTimeMs) {
+    if (isNil(onTimePercent) || isNil(averageDelayTimeMs)) {
       return (
         <Content>
           <InfoText>

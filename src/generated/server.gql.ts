@@ -25,7 +25,7 @@ export type Aircraft = {
   airlineIata: Scalars['String']['output'];
   createdAt: Scalars['DateTimeISO']['output'];
   description?: Maybe<Scalars['String']['output']>;
-  firstFlight: Scalars['DateTimeISO']['output'];
+  firstFlight?: Maybe<Scalars['DateTimeISO']['output']>;
   iata?: Maybe<Scalars['String']['output']>;
   icao: Scalars['String']['output'];
   id: Scalars['Int']['output'];
@@ -39,7 +39,7 @@ export type AircraftPosition = {
   __typename?: 'AircraftPosition';
   aircraftID: Scalars['Int']['output'];
   airlineIata: Scalars['String']['output'];
-  altitude?: Maybe<Scalars['Int']['output']>;
+  altitude?: Maybe<Scalars['Float']['output']>;
   createdAt: Scalars['DateTimeISO']['output'];
   destinationIata: Scalars['String']['output'];
   flightDate: Scalars['Int']['output'];
@@ -47,8 +47,8 @@ export type AircraftPosition = {
   flightNumber: Scalars['String']['output'];
   flightYear: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
-  latitude?: Maybe<Scalars['Int']['output']>;
-  longitude?: Maybe<Scalars['Int']['output']>;
+  latitude?: Maybe<Scalars['Float']['output']>;
+  longitude?: Maybe<Scalars['Float']['output']>;
   originIata: Scalars['String']['output'];
   updatedAt: Scalars['DateTimeISO']['output'];
 };
@@ -74,8 +74,8 @@ export type Airport = {
   elevation?: Maybe<Scalars['Int']['output']>;
   iata: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  latitude: Scalars['Int']['output'];
-  longitude: Scalars['Int']['output'];
+  latitude: Scalars['Float']['output'];
+  longitude: Scalars['Float']['output'];
   name: Scalars['String']['output'];
   state?: Maybe<Scalars['String']['output']>;
   timezone: Scalars['String']['output'];
@@ -114,25 +114,25 @@ export type Flight = {
 export type FlightPromptness = {
   __typename?: 'FlightPromptness';
   airlineIata: Scalars['String']['output'];
-  averageDelayTimeMs: Scalars['Int']['output'];
-  cancelledCount: Scalars['Int']['output'];
+  averageDelayTimeMs?: Maybe<Scalars['Int']['output']>;
+  cancelledCount?: Maybe<Scalars['Int']['output']>;
   createdAt: Scalars['DateTimeISO']['output'];
-  daysObserved: Scalars['Int']['output'];
+  daysObserved?: Maybe<Scalars['Int']['output']>;
   destinationIata: Scalars['String']['output'];
-  divertedCount: Scalars['Int']['output'];
-  excessiveCount: Scalars['Int']['output'];
+  divertedCount?: Maybe<Scalars['Int']['output']>;
+  excessiveCount?: Maybe<Scalars['Int']['output']>;
   expiresAt: Scalars['DateTimeISO']['output'];
   flightNumber: Scalars['String']['output'];
-  flightsObservered: Scalars['Int']['output'];
+  flightsObserved?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
-  lateCount: Scalars['Int']['output'];
-  onTimeCount: Scalars['Int']['output'];
-  onTimePercent: Scalars['Int']['output'];
+  lateCount?: Maybe<Scalars['Int']['output']>;
+  onTimeCount?: Maybe<Scalars['Int']['output']>;
+  onTimePercent?: Maybe<Scalars['Int']['output']>;
   originIata: Scalars['String']['output'];
-  rating: Scalars['Int']['output'];
+  rating?: Maybe<Scalars['Int']['output']>;
   updatedAt: Scalars['DateTimeISO']['output'];
   vendor: FlightVendor;
-  veryLateCount: Scalars['Int']['output'];
+  veryLateCount?: Maybe<Scalars['Int']['output']>;
 };
 
 export const FlightStatus = {
@@ -284,7 +284,7 @@ export type AircraftQueryVariables = Exact<{
 }>;
 
 
-export type AircraftQuery = { __typename?: 'Query', aircraft?: { __typename?: 'Aircraft', id: number, iata?: string | null, icao: string, model: string, airlineIata: string, description?: string | null, tailNumber: string, firstFlight: any, imageURL?: string | null, createdAt: any, updatedAt: any } | null };
+export type AircraftQuery = { __typename?: 'Query', aircraft?: { __typename?: 'Aircraft', id: number, iata?: string | null, icao: string, model: string, airlineIata: string, description?: string | null, tailNumber: string, firstFlight?: any | null, imageURL?: string | null, createdAt: any, updatedAt: any } | null };
 
 export type AircraftPositionQueryVariables = Exact<{
   aircraftId: Scalars['Float']['input'];
@@ -340,7 +340,7 @@ export type GetFlightPromptnessQueryVariables = Exact<{
 }>;
 
 
-export type GetFlightPromptnessQuery = { __typename?: 'Query', flightPromptness: { __typename?: 'FlightPromptness', onTimePercent: number, rating: number, averageDelayTimeMs: number } };
+export type GetFlightPromptnessQuery = { __typename?: 'Query', flightPromptness: { __typename?: 'FlightPromptness', onTimePercent?: number | null, rating?: number | null, averageDelayTimeMs?: number | null } };
 
 export type GetFlightQueryVariables = Exact<{
   flightID: Scalars['String']['input'];

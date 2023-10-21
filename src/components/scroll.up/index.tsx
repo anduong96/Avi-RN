@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const ScrollUp: React.FC<Props> = ({
-  isAbsolute = true,
+  isAbsolute = false,
   isVisible,
   onScrollUp,
 }) => {

@@ -1,10 +1,6 @@
 import * as React from 'react';
-import { RefreshControl, Text, View } from 'react-native';
-import {
-  ScrollView,
-  Swipeable,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+import { Text, View } from 'react-native';
+import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, {
   FadeInDown,
   SlideInLeft,
@@ -12,7 +8,10 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { isEmpty } from 'lodash';
+import { FlashList } from '@shopify/flash-list';
 import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
+
+import type { GetUserActiveFlightsQuery } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
 import { Button } from '@app/components/button';
@@ -40,10 +39,13 @@ export const HomePage: React.FC = () => {
   const archived = useGetUserArchivedFlightsQuery();
   const rootNav = useRootNavigation();
   const scrollPosition = useScrollPosition();
-  const scroll = React.useRef<ScrollView>(null);
   const activeFlights = flights.data?.userActiveFlights;
   const archivedFlights = archived.data?.userArchivedFlights;
   const hasArchivedFlights = !isEmpty(archivedFlights);
+  const scroll =
+    React.useRef<FlashList<GetUserActiveFlightsQuery['userActiveFlights'][0]>>(
+      null,
+    );
 
   const [removeFlight] = useDeleteUserFlightMutation({
     refetchQueries: [
@@ -59,7 +61,10 @@ export const HomePage: React.FC = () => {
 
   const handleScrollTop = () => {
     vibrate('impactMedium');
-    scroll.current?.scrollTo({ animated: true, y: 0 });
+    scroll.current?.scrollToOffset({
+      animated: true,
+      offset: 0,
+    });
   };
 
   const handleRemoveFlight = (flightID: string) => {
@@ -88,69 +93,67 @@ export const HomePage: React.FC = () => {
   return (
     <PageContainer>
       <Page>
-        <ScrollView
-          contentContainerStyle={{
-            paddingBottom: WINDOW_HEIGHT * 0.5,
+        <FlashList
+          ListFooterComponent={() => {
+            return (
+              <ScrollUp
+                isVisible={scrollPosition.isAtBottom}
+                onScrollUp={handleScrollTop}
+              />
+            );
           }}
+          ListHeaderComponent={() => {
+            return (
+              <HeaderWrapper>
+                <Header>
+                  <Title>Your</Title>
+                  <Title>Flights ✈️</Title>
+                </Header>
+                <Actions>
+                  <ArchivedFlightsBtn
+                    disabled={!hasArchivedFlights}
+                    icon="rectangle-history"
+                    onPress={handleOpenArchivedFlights}
+                  >
+                    Past
+                  </ArchivedFlightsBtn>
+                </Actions>
+              </HeaderWrapper>
+            );
+          }}
+          contentContainerStyle={{ paddingBottom: WINDOW_HEIGHT * 0.5 }}
+          data={activeFlights}
+          estimatedItemSize={200}
+          onRefresh={() => flights.refetch()}
           onScroll={scrollPosition.handleScroll}
           ref={scroll}
-          refreshControl={
-            <RefreshControl
-              onRefresh={() => flights.refetch()}
-              refreshing={false}
-            />
-          }
-          scrollEventThrottle={16}
+          refreshing={false}
+          renderItem={({ index, item: flight }) => {
+            return (
+              <Swipeable
+                key={flight.id}
+                renderRightActions={() => (
+                  <ItemActions>
+                    <DeleteFlightBtn
+                      onPress={() => handleRemoveFlight(flight.flightID)}
+                    >
+                      <DeleteFlightBtnText>Remove</DeleteFlightBtnText>
+                    </DeleteFlightBtn>
+                  </ItemActions>
+                )}
+              >
+                <Item
+                  entering={SlideInLeft.delay(index * 50).duration(300)}
+                  exiting={SlideOutLeft}
+                  onPress={() => handleOpenFlight(flight.flightID)}
+                >
+                  <FlightCard value={flight} />
+                </Item>
+              </Swipeable>
+            );
+          }}
           showsVerticalScrollIndicator={false}
-        >
-          <Content>
-            <Header>
-              <Title>Your</Title>
-              <Title>Flights ✈️</Title>
-            </Header>
-            <ListHeader>
-              <View />
-              <ListActions>
-                <ArchivedFlightsBtn
-                  disabled={!hasArchivedFlights}
-                  icon="rectangle-history"
-                  onPress={handleOpenArchivedFlights}
-                >
-                  Archive
-                </ArchivedFlightsBtn>
-              </ListActions>
-            </ListHeader>
-            <List>
-              {activeFlights?.map((flight, index) => (
-                <Swipeable
-                  key={flight.id}
-                  renderRightActions={() => (
-                    <ItemActions>
-                      <DeleteFlightBtn
-                        onPress={() => handleRemoveFlight(flight.flightID)}
-                      >
-                        <DeleteFlightBtnText>Remove</DeleteFlightBtnText>
-                      </DeleteFlightBtn>
-                    </ItemActions>
-                  )}
-                >
-                  <Item
-                    entering={SlideInLeft.delay(index * 50).duration(300)}
-                    exiting={SlideOutLeft}
-                    onPress={() => handleOpenFlight(flight.flightID)}
-                  >
-                    <FlightCard value={flight} />
-                  </Item>
-                </Swipeable>
-              ))}
-            </List>
-          </Content>
-          <ScrollUp
-            isAbsolute={false}
-            isVisible={scrollPosition.isAtBottom}
-            onScrollUp={handleScrollTop}
-          />
-        </ScrollView>
+        />
         <Footer>
           <BottomTabs />
           <AddFlightBtn />
@@ -167,23 +170,28 @@ const Page = withStyled(View, (theme) => [
   },
 ]);
 
+const HeaderWrapper = withStyled(View, (theme) => [
+  {
+    gap: theme.space.large,
+  },
+]);
+
 const Header = withStyled(View, (theme) => [
   {
     paddingBottom: theme.space.small,
     paddingHorizontal: theme.space.large,
-    paddingTop: theme.insets.top,
+    paddingTop: theme.insets.top || theme.space.medium,
   },
 ]);
 
-const ListHeader = withStyled(View, (theme) => [
+const Actions = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     paddingHorizontal: theme.space.medium,
+    paddingVertical: theme.space.tiny,
   },
 ]);
-
-const ListActions = withStyled(View, () => [{}]);
 
 const Title = withStyled(Text, (theme) => [theme.typography.presets.massive]);
 
@@ -203,14 +211,6 @@ const ItemActions = withStyled(View, (theme) => [
     backgroundColor: theme.pallette.background,
     padding: theme.space.large,
     zIndex: 1,
-  },
-]);
-
-const List = withStyled(View, () => []);
-
-const Content = withStyled(View, (theme) => [
-  {
-    gap: theme.space.medium,
   },
 ]);
 

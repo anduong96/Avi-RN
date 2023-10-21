@@ -8,7 +8,6 @@ import { FlightNumberResultSet } from './flight.number.result.set';
 import { DepartureDateResultSet } from './departure.date.result.set';
 
 export const ResultSet: React.FC = () => {
-  const hasTextSearch = useHasValue('textSearch');
   const hasAirlineIata = useHasValue('airlineIata');
   const hasFlightNumber = useHasValue('flightNumber');
   const hasDepartureDate = useHasValue('departureDate');
@@ -16,20 +15,16 @@ export const ResultSet: React.FC = () => {
 
   if (focusedInput === 'departureDate') {
     return <DepartureDateResultSet />;
-  }
-
-  if (!hasTextSearch && hasAirlineIata && hasFlightNumber && hasDepartureDate) {
-    return <FlightsResultSet />;
-  }
-
-  if (!hasTextSearch) {
-    return null;
   } else if (focusedInput === 'textSearch') {
     return <TextSearchResultSet />;
   } else if (focusedInput === 'airlineIata') {
     return <TextSearchResultSet />;
   } else if (focusedInput === 'flightNumber') {
     return <FlightNumberResultSet />;
+  }
+
+  if (hasAirlineIata && hasFlightNumber && hasDepartureDate) {
+    return <FlightsResultSet />;
   }
 
   return null;

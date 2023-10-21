@@ -12,6 +12,7 @@ import { withStyled } from '@app/lib/styled';
 import { RandomFlightBtn } from '@app/components/button.random.flight';
 import { useKeyboardSubmitEvent } from '@app/components/input/use.keyboard.submit';
 
+import { State } from '../state';
 import { useTopic } from '../publisher';
 import { AirlineInput } from './airline.input';
 import { useHasValue } from '../state/use.has.value';
@@ -35,13 +36,14 @@ export const InputBar: React.FC = () => {
       focusedInput === 'airlineIata' ||
       (focusedInput === 'textSearch' && !hasFlightNumber)
     ) {
-      return flightNumberInput.current?.focus();
+      flightNumberInput.current?.focus();
     } else if (focusedInput === 'flightNumber') {
-      return departureDateInput.current?.focus();
+      departureDateInput.current?.focus();
     } else if (focusedInput === 'textSearch') {
-      return departureDateInput.current?.focus();
+      departureDateInput.current?.focus();
     } else if (focusedInput === 'departureDate') {
-      return departureDateInput.current?.blur();
+      State.actions.setState({ focusInput: undefined });
+      departureDateInput.current?.blur();
     }
   }, [focusedInput, hasFlightNumber]);
 

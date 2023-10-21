@@ -12,7 +12,8 @@ import { useTheme } from '../hooks/use.theme';
 
 type Styles = ImageStyle | TextStyle | ViewStyle;
 type CustomTheme = Theme & { insets: EdgeInsets };
-type Props<P> = React.PropsWithRef<P>;
+type Props<P extends React.ComponentType<unknown>> =
+  React.ComponentPropsWithRef<P>;
 
 /**
  * It takes a React component and a style object, and returns a new React component that renders the
@@ -64,8 +65,6 @@ export function withStyled<
         {...props}
         {...resolvedPropsObj}
         ref={ref}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
         style={[resolvedStyle, props?.style]}
       />
     );

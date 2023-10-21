@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 
 import moment from 'moment';
 import * as chrono from 'chrono-node';
-import { compact, unionBy } from 'lodash';
+import { compact, uniqBy } from 'lodash';
 import { useDebounce } from 'use-debounce';
 
 import { withStyled } from '@app/lib/styled';
@@ -26,50 +27,38 @@ export const DepartureDateResultSet: React.FC = () => {
   const [showCalendar, setShowCalendar] = React.useState(false);
   const options = React.useMemo(
     () =>
-      compact([debouncedSearch, 'today', 'tomorrow']).map((dateStr) => ({
-        date: chrono.parse(dateStr)?.[0]?.date(),
-        text: dateStr,
-      })),
+      compact([debouncedSearch, 'today', 'tomorrow'])
+        .map((dateStr) => ({ date: chrono.parse(dateStr)?.[0]?.date() }))
+        .map(({ date }) => ({ date, text: formatRelativeDay(date) })),
     [debouncedSearch],
   );
 
   const handleSelect = (date: moment.MomentInput) => {
     vibrate('impactMedium');
-
-    State.actions.setState({
-      departureDate: moment(date).toDate(),
-      textSearch: undefined,
-    });
-
+    State.actions.setState({ departureDate: moment(date).toDate() });
     Publisher.broadcast('Selected', undefined);
   };
 
   return (
     <Container>
       <ScrollView>
-        {unionBy(options, (entry) => moment(entry.date).format('L')).map(
+        {uniqBy(options, (entry) => entry.text.toLowerCase()).map(
           ({ date, text }, index) => {
             if (!date) {
               return (
-                <ListItem
+                <Item
                   description="Unable to recognize"
-                  icon={<FaIcon light name="question" size={20} />}
+                  icon={<FaIcon name="question" size={20} />}
+                  index={index}
                   key={index}
-                  style={[
-                    index === 0 && {
-                      backgroundColor: theme.pallette.grey[50],
-                    },
-                  ]}
                   title={text}
-                  verticalPadding="medium"
                 />
               );
             }
 
             return (
               <TouchableOpacity key={index} onPress={() => handleSelect(date)}>
-                <ListItem
-                  description={moment(date).format('L')}
+                <Item
                   extra={
                     index === 0 && (
                       <FaIcon
@@ -80,20 +69,15 @@ export const DepartureDateResultSet: React.FC = () => {
                     )
                   }
                   icon={<FaIcon light name="calendar" size={20} />}
-                  style={[
-                    index === 0 && {
-                      backgroundColor: theme.pallette.grey[100],
-                    },
-                  ]}
+                  index={index}
                   title={formatRelativeDay(date)}
-                  verticalPadding="medium"
                 />
               </TouchableOpacity>
             );
           },
         )}
         <TouchableOpacity onPress={() => setShowCalendar(true)}>
-          <ListItem
+          <Item
             icon={
               <FaIcon
                 color={theme.pallette.active}
@@ -104,7 +88,6 @@ export const DepartureDateResultSet: React.FC = () => {
             }
             title="Pick from calendar"
             titleStyle={{ color: theme.pallette.active }}
-            verticalPadding="medium"
           />
         </TouchableOpacity>
       </ScrollView>
@@ -160,3 +143,16 @@ const DismissContainer = withStyled(View, () => [
     justifyContent: 'center',
   },
 ]);
+
+const Item = withStyled<{ index?: number }, typeof ListItem>(
+  ListItem,
+  (theme, props) => [
+    props.index === 0 && {
+      backgroundColor: theme.pallette.grey[100],
+    },
+  ],
+  () => ({
+    horizontalPadding: 'medium',
+    verticalPadding: 'medium',
+  }),
+);

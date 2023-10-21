@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { FlatList, Text } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { FlatList, Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import type { AirlinesQuery } from '@app/generated/server.gql';
 
-import { withStyled } from '@app/lib/styled';
 import { logger } from '@app/lib/logger';
+import { withStyled } from '@app/lib/styled';
 import { Result } from '@app/components/result';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
@@ -63,9 +64,13 @@ export const TextSearchResultSet: React.FC = () => {
   return (
     <FlatList
       ListEmptyComponent={() => (
-        <Animated.View>
-          <Result hero={<EmptyHero>😐</EmptyHero>} title="No results" />
-        </Animated.View>
+        <>
+          {textSearch && (
+            <Animated.View>
+              <Result hero={<EmptyHero>😐</EmptyHero>} title="No results" />
+            </Animated.View>
+          )}
+        </>
       )}
       data={result}
       keyExtractor={(item) => item.item.id}

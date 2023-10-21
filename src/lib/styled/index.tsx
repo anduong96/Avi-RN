@@ -29,20 +29,22 @@ export function styled<
   style?:
     | ((
         theme: CustomTheme,
-        props: React.ComponentProps<C> & D,
+        props: React.ComponentPropsWithRef<C> & D,
       ) => StyleProp<Styles>)
     | StyleProp<Styles>,
   finalProps?:
     | ((
         theme: CustomTheme,
-        props: React.ComponentProps<C> & D,
+        props: React.ComponentPropsWithRef<C> & D,
       ) =>
-        | Array<Partial<React.ComponentProps<C>>>
-        | Partial<React.ComponentProps<C>>)
-    | Array<Partial<React.ComponentProps<C>>>
-    | Partial<React.ComponentProps<C>>,
-) {
-  type P = React.ComponentProps<C> & D;
+        | Array<Partial<React.ComponentPropsWithRef<C>>>
+        | Partial<React.ComponentPropsWithRef<C>>)
+    | Array<Partial<React.ComponentPropsWithRef<C>>>
+    | Partial<React.ComponentPropsWithRef<C>>,
+): React.FC<React.ComponentPropsWithRef<C> & D> {
+  type P = React.ComponentPropsWithRef<C> & D;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   return React.forwardRef<C, P>((props, ref) => {
     const theme = useTheme();
     const insets = useSafeAreaInsets();

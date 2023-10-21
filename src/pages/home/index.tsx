@@ -117,8 +117,8 @@ export const HomePage: React.FC = () => {
               <View />
               <ListActions>
                 <ArchivedFlightsBtn
-                  icon="rectangle-history"
                   disabled={!hasArchivedFlights}
+                  icon="rectangle-history"
                   onPress={handleOpenArchivedFlights}
                 >
                   Archive

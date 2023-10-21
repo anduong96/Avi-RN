@@ -12,6 +12,7 @@ type Props = {
   icon: string;
   size?: number;
   style?: StyleProp<ViewStyle>;
+  type?: 'bordered' | 'solid';
 } & Omit<React.ComponentProps<typeof FaIcon>, 'name'> &
   Pick<TouchableOpacityProps, 'activeOpacity' | 'onPress' | 'onPressIn'>;
 
@@ -38,7 +39,9 @@ export const IconBtn: React.FC<Props> = ({
 };
 
 const Container = styled(TouchableOpacity, (theme) => [
+  theme.presets.centered,
   {
+    aspectRatio: 1,
     borderRadius: theme.roundRadius,
     padding: theme.space.tiny,
   },

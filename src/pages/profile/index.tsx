@@ -5,10 +5,13 @@ import { styled } from '@app/lib/styled';
 import { Avatar } from '@app/components/avatar';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { CloseBtn } from '@app/components/btn.close';
+import { ScrollUp } from '@app/components/scroll.up';
+import { vibrateFn } from '@app/lib/haptic.feedback';
 import { Typography } from '@app/components/typography';
 import { useExitPage } from '@app/lib/hooks/use.exit.page';
 import { PageContainer } from '@app/components/page.container';
 import { SpaceVertical } from '@app/components/space.vertical';
+import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
 
 import { LegalCard } from './legal.card';
 import { SignOutBtn } from './sign.out.btn';
@@ -17,13 +20,20 @@ import { AccountConnectCard } from './account.connect.card';
 
 export const ProfilePage: React.FC = () => {
   const exit = useExitPage();
+  const content = React.useRef<ScrollView>(null);
+  const scrollPosition = useScrollPosition();
 
   return (
     <PageContainer>
       <RightActions>
         <CloseBtn onPress={exit} />
       </RightActions>
-      <Content showsVerticalScrollIndicator={false}>
+      <Content
+        onScroll={scrollPosition.handleScroll}
+        ref={content}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+      >
         <SignOut>
           <SignOutBtn />
         </SignOut>
@@ -43,6 +53,19 @@ export const ProfilePage: React.FC = () => {
           <SectionTitle>Legal</SectionTitle>
           <LegalCard />
         </Section>
+        <SpaceVertical size="large" />
+        <ScrollUp
+          isVisible={scrollPosition.isAtBottom}
+          onScrollUp={() =>
+            vibrateFn(
+              'effectClick',
+              () =>
+                content.current?.scrollTo({
+                  y: 0,
+                }),
+            )
+          }
+        />
       </Content>
     </PageContainer>
   );

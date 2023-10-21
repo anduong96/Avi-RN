@@ -14,14 +14,17 @@ import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { useUserFlightQuery } from '@app/generated/server.gql';
+import { useIsDarkMode } from '@app/lib/hooks/use.color.scheme';
 
 type Navigation = NativeStackNavigationProp<FlightStackParams, 'Flight'>;
 
 type Props = {
   flightID: FullFlightFragmentFragment['id'];
+  isVisible?: boolean;
 };
 
-export const ExitToHomeBtn: React.FC<Props> = ({ flightID }) => {
+export const ExitToHomeBtn: React.FC<Props> = ({ flightID, isVisible }) => {
+  const isDark = useIsDarkMode();
   const navigation = useNavigation<Navigation>();
   const response = useUserFlightQuery({
     variables: {
@@ -34,15 +37,18 @@ export const ExitToHomeBtn: React.FC<Props> = ({ flightID }) => {
     navigation.popToTop();
   };
 
-  if (!response.data?.userFlight) {
+  if (!response.data?.userFlight || !isVisible) {
     return null;
   }
 
   return (
     <Container>
       <Btn entering={SlideInDown} onPress={handleExit}>
-        <BlurView blurType="dark" style={[StyleSheet.absoluteFillObject]} />
-        <FaIcon name="xmark" size={30} solid />
+        <BlurView
+          blurType={isDark ? 'light' : 'dark'}
+          style={[StyleSheet.absoluteFillObject]}
+        />
+        <FaIcon name="arrow-down-to-line" size={30} />
       </Btn>
     </Container>
   );
@@ -52,8 +58,9 @@ const Container = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     bottom: theme.insets.bottom,
+    left: 0,
     position: 'absolute',
-    width: '100%',
+    right: 0,
   },
 ]);
 
@@ -66,9 +73,7 @@ const Btn = withStyled(
       borderRadius: 70,
       height: undefined,
       overflow: 'hidden',
-      shadowOpacity: 0.8,
-      width: 50,
-      zIndex: 1,
+      width: 70,
     },
   ],
 );

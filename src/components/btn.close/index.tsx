@@ -11,6 +11,7 @@ import { FaIcon } from '../icons.fontawesome';
 
 type Props = {
   disabled?: boolean;
+  isAbsolute?: boolean;
   onPress?: () => void;
   size?: number;
   style?: StyleProp<ViewStyle>;
@@ -19,6 +20,7 @@ type Props = {
 
 export const CloseBtn: React.FC<Props> = ({
   disabled,
+  isAbsolute,
   onPress,
   size = 30,
   style,
@@ -41,6 +43,7 @@ export const CloseBtn: React.FC<Props> = ({
   return (
     <Container
       disabled={disabled}
+      isAbsolute={isAbsolute}
       onPress={handlePress}
       size={size}
       style={style}
@@ -50,18 +53,23 @@ export const CloseBtn: React.FC<Props> = ({
   );
 };
 
-const Container = withStyled<{ size: number }, typeof TouchableOpacity>(
-  TouchableOpacity,
-  (theme, props) => [
-    theme.presets.centered,
-    {
-      aspectRatio: 1,
-      backgroundColor: theme.pallette.background,
-      borderColor: theme.pallette.borderColor,
-      borderRadius: props.size,
-      borderWidth: theme.borderWidth,
-      height: undefined,
-      width: props.size,
-    },
-  ],
-);
+const Container = withStyled<
+  Pick<Props, 'isAbsolute' | 'size'>,
+  typeof TouchableOpacity
+>(TouchableOpacity, (theme, props) => [
+  theme.presets.centered,
+  {
+    aspectRatio: 1,
+    backgroundColor: theme.pallette.background,
+    borderColor: theme.pallette.borderColor,
+    borderRadius: props.size,
+    borderWidth: theme.borderWidth,
+    height: undefined,
+    width: props.size,
+  },
+  props.isAbsolute && {
+    position: 'absolute',
+    right: theme.space.medium,
+    top: theme.space.medium,
+  },
+]);

@@ -13,9 +13,7 @@ type Props = {
 export const FlightPageTopHeader: React.FC<Props> = ({ flight }) => {
   return (
     <Container>
-      <Flight>
-        <FlightMeta flight={flight} />
-      </Flight>
+      <FlightMeta flight={flight} />
     </Container>
   );
 };
@@ -27,11 +25,5 @@ const Container = withStyled(View, (theme) => [
     flexGrow: 1,
     justifyContent: 'flex-start',
     paddingHorizontal: theme.space.medium,
-  },
-]);
-
-const Flight = withStyled(View, (theme) => [
-  {
-    gap: theme.space.tiny,
   },
 ]);

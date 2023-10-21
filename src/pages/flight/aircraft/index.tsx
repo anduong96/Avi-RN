@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { StyleSheet, View } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
 import moment from 'moment';
 import tinycolor from 'tinycolor2';
 
+import { logger } from '@app/lib/logger';
 import { withStyled } from '@app/lib/styled';
 import { Statistic } from '@app/components/statistic';
 import { useAircraftQuery } from '@app/generated/server.gql';
@@ -26,6 +27,10 @@ export const AircraftCard: React.FC<Props> = ({ tailNumber }) => {
   const aircraft = response.data?.aircraft;
   const isLoading = response.loading || !imageLoaded;
 
+  const handleError = () => {
+    logger.error('Unable to load image', aircraft?.imageURL);
+  };
+
   if (!aircraft) {
     return null;
   }
@@ -37,7 +42,8 @@ export const AircraftCard: React.FC<Props> = ({ tailNumber }) => {
         {aircraft && (
           <>
             <Image
-              onLoad={() => setImageLoaded(true)}
+              onError={handleError}
+              onLoadEnd={() => setImageLoaded(true)}
               resizeMode={FastImage.resizeMode.cover}
               source={{ uri: aircraft.imageURL! }}
             />

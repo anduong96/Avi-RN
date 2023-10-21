@@ -24,12 +24,11 @@ export const ModalHeader: React.FC<Props> = ({
   title,
   withClose = true,
   withPadding = true,
-  withTopInset = false,
 }) => {
   const exit = useExitPage();
 
   return (
-    <Container withTopInset={withTopInset}>
+    <Container>
       <Meta withPadding={withPadding}>
         <StringRenderer Container={TitleText}>{title}</StringRenderer>
         <StringRenderer Container={SubtitleText}>{subtitle}</StringRenderer>

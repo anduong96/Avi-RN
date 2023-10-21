@@ -13,9 +13,7 @@ export const AddFlightBtn: React.FC = () => {
 
   const handlePress = () => {
     vibrate('effectHeavyClick');
-    setTimeout(() => {
-      navigation.push('FlightSearch');
-    }, 300);
+    navigation.push('FlightSearch');
   };
 
   return (

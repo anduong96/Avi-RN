@@ -4,6 +4,7 @@ import FastImage from 'react-native-fast-image';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
 import moment from 'moment';
+import tinycolor from 'tinycolor2';
 
 import { withStyled } from '@app/lib/styled';
 import { Statistic } from '@app/components/statistic';
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export const AircraftCard: React.FC<Props> = ({ tailNumber }) => {
+  const [imageLoaded, setImageLoaded] = React.useState(false);
   const response = useAircraftQuery({
     variables: {
       tailNumber,
@@ -22,6 +24,7 @@ export const AircraftCard: React.FC<Props> = ({ tailNumber }) => {
   });
 
   const aircraft = response.data?.aircraft;
+  const isLoading = response.loading || !imageLoaded;
 
   if (!aircraft) {
     return null;
@@ -30,10 +33,11 @@ export const AircraftCard: React.FC<Props> = ({ tailNumber }) => {
   return (
     <Container entering={FadeIn}>
       <Content>
-        <LoadingOverlay isDark isLoading={response.loading} />
+        <LoadingOverlay isLoading={isLoading} />
         {aircraft && (
           <>
             <Image
+              onLoad={() => setImageLoaded(true)}
               resizeMode={FastImage.resizeMode.cover}
               source={{ uri: aircraft.imageURL! }}
             />
@@ -79,7 +83,7 @@ const Content = withStyled(View, (theme) => [
 const Meta = withStyled(View, (theme) => [
   {
     alignItems: 'flex-start',
-    backgroundColor: theme.pallette.card,
+    backgroundColor: tinycolor(theme.pallette.card).setAlpha(0.8).toRgbString(),
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingHorizontal: theme.space.medium,

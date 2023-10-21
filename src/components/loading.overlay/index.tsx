@@ -15,8 +15,8 @@ import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
   isDark?: boolean;
-  isRound?: boolean;
   isLoading?: boolean;
+  isRound?: boolean;
   size?: ActivityIndicatorProps['size'];
   style?: StyleProp<ViewStyle>;
   type?: 'blur' | 'solid' | 'translucent';
@@ -25,22 +25,23 @@ type Props = {
 export const LoadingOverlay: React.FC<Props> = ({
   isDark,
   isLoading,
+  isRound,
   size = 'large',
   style,
-  isRound,
   type = 'solid',
 }) => {
   const theme = useTheme();
   const _isDark = isDark ?? theme.isDark;
+
   if (!isLoading) {
     return null;
   }
 
   return (
     <Container
-      isRound={isRound}
       exiting={FadeOut}
       isDark={_isDark}
+      isRound={isRound}
       style={[style]}
       type={type}
     >
@@ -56,7 +57,7 @@ export const LoadingOverlay: React.FC<Props> = ({
 };
 
 const Container = withStyled<
-  Pick<Props, 'isDark' | 'type' | 'isRound'>,
+  Pick<Props, 'isDark' | 'isRound' | 'type'>,
   typeof Animated.View
 >(Animated.View, (theme, props) => [
   {
@@ -81,11 +82,11 @@ const Container = withStyled<
     },
   props.type === 'solid' &&
     props.isDark && {
-      backgroundColor: theme.pallette.background,
+      backgroundColor: theme.pallette.grey[50],
     },
   props.type === 'solid' &&
     !props.isDark && {
-      backgroundColor: '#fff',
+      backgroundColor: theme.pallette.grey[50],
     },
 ]);
 

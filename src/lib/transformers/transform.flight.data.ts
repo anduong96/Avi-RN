@@ -70,7 +70,12 @@ export function transformFlightData(flight: FullFlightFragmentFragment): {
     airport: flight.Destination,
     airportIata: flight.destinationIata,
     baggageClaim: flight.destinationBaggageClaim,
-    dayDiff: dayDiff > 0 ? `+${dayDiff}` : dayDiff.toString(),
+    dayDiff:
+      dayDiff > 0
+        ? `+${dayDiff}`
+        : dayDiff === 0
+        ? undefined
+        : dayDiff.toString(),
     gate: flight.destinationGate,
     status: getStatus(flight.scheduledGateArrival, flight.estimatedGateArrival),
     terminal: flight.destinationTerminal,

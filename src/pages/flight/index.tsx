@@ -9,8 +9,8 @@ import { useRoute } from '@react-navigation/native';
 import type { FlightStackParams } from '@app/navigation/flight.stack';
 
 import { ENV } from '@app/env';
-import { withStyled } from '@app/lib/styled';
 import { Card } from '@app/components/card';
+import { withStyled } from '@app/lib/styled';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { CloseBtn } from '@app/components/btn.close';
@@ -116,8 +116,8 @@ export const FlightPage: React.FC = () => {
               />
             </Card>
             <PromptnessCompact flightID={flightID} />
-            {flight.aircraftTailnumber && (
-              <AircraftCard tailNumber={flight.aircraftTailnumber} />
+            {flight.aircraftTailNumber && (
+              <AircraftCard tailNumber={flight.aircraftTailNumber} />
             )}
           </Content>
         </ScrollView>

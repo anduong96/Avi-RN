@@ -30,7 +30,12 @@ export const FlightPageDistanceSeparator: React.FC<Props> = ({ duration }) => {
   );
 };
 
-const Container = withStyled(View, (theme) => [theme.presets.centered]);
+const Container = withStyled(View, (theme) => [
+  theme.presets.centered,
+  {
+    paddingVertical: theme.space.small,
+  },
+]);
 
 const Content = withStyled(View, (theme) => [theme.presets.centered]);
 

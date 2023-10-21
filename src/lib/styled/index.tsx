@@ -12,6 +12,7 @@ import { useTheme } from '../hooks/use.theme';
 
 type Styles = ImageStyle | TextStyle | ViewStyle;
 type CustomTheme = Theme & { insets: EdgeInsets };
+type Props<P> = React.PropsWithRef<P>;
 
 /**
  * It takes a React component and a style object, and returns a new React component that renders the
@@ -27,22 +28,17 @@ export function withStyled<
 >(
   Component: C,
   style?:
-    | ((
-        theme: CustomTheme,
-        props: React.ComponentPropsWithRef<C> & D,
-      ) => StyleProp<Styles>)
+    | ((theme: CustomTheme, props: Props<C> & D) => StyleProp<Styles>)
     | StyleProp<Styles>,
   finalProps?:
     | ((
         theme: CustomTheme,
-        props: React.ComponentPropsWithRef<C> & D,
-      ) =>
-        | Array<Partial<React.ComponentPropsWithRef<C>>>
-        | Partial<React.ComponentPropsWithRef<C>>)
-    | Array<Partial<React.ComponentPropsWithRef<C>>>
-    | Partial<React.ComponentPropsWithRef<C>>,
-): React.FC<React.ComponentPropsWithRef<C> & D> {
-  type P = React.ComponentPropsWithRef<C> & D;
+        props: Props<C> & D,
+      ) => Array<Partial<Props<C>>> | Partial<Props<C>>)
+    | Array<Partial<Props<C>>>
+    | Partial<Props<C>>,
+): React.FC<Props<C> & D> {
+  type P = Props<C> & D;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   return React.forwardRef<C, P>((props, ref) => {
@@ -68,7 +64,9 @@ export function withStyled<
         {...props}
         {...resolvedPropsObj}
         ref={ref}
-        style={[resolvedStyle, props.style]}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        style={[resolvedStyle, props?.style]}
       />
     );
   });

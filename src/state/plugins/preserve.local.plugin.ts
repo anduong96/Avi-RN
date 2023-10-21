@@ -15,7 +15,6 @@ export function withLocalStorage<
 >(key: string, store: Pick<Store<State, A>, 'actions' | 'subscribe'>) {
   store.subscribe(async (value) => {
     if (value.isReady) {
-      logger.debug('Saving', key, value);
       storage.set(key, JSON.stringify(value));
     }
   });

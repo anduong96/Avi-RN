@@ -34,6 +34,7 @@ export const Calendar: React.FC<Props> = ({
   onSelectDay,
   style,
   value,
+  ...props
 }) => {
   const hasValue = !isNil(value);
   const today = moment();
@@ -53,6 +54,7 @@ export const Calendar: React.FC<Props> = ({
 
   return (
     <FlatList
+      ListHeaderComponent={props.ListHeaderComponent}
       data={months}
       initialNumToRender={3}
       renderItem={({ item }) => {
@@ -98,6 +100,7 @@ export const Calendar: React.FC<Props> = ({
         );
       }}
       showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={props.stickyHeaderIndices}
       style={[style]}
     />
   );

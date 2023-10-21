@@ -22,7 +22,6 @@ import { FlightPageDistanceSeparator } from '@app/pages/flight/distance.separato
 
 import { AircraftCard } from './aircraft';
 import { FlightActions } from './actions';
-import { FlightTitle } from './flight.title';
 import { ExitToHomeBtn } from './exit.to.home.btn';
 import { PromptnessCompact } from './promptness.compact';
 
@@ -46,7 +45,6 @@ export const FlightPage: React.FC = () => {
           <Header>
             <FlightPageTopHeader flight={flight} />
           </Header>
-          <FlightTitle flight={flight} />
           <FlightActions flightID={flight.id} />
           <Content>
             <Card hasShadow>

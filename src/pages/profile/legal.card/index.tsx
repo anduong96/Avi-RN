@@ -2,8 +2,8 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { withStyled } from '@app/lib/styled';
 import { Card } from '@app/components/card';
+import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { ListItem } from '@app/components/list.item';
 import { FaIcon } from '@app/components/icons.fontawesome';

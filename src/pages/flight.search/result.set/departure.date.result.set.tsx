@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 
 import moment from 'moment';
+import tinycolor from 'tinycolor2';
 import * as chrono from 'chrono-node';
 import { compact, uniqBy } from 'lodash';
 import { useDebounce } from 'use-debounce';
@@ -93,14 +94,19 @@ export const DepartureDateResultSet: React.FC = () => {
       </ScrollView>
       {showCalendar && (
         <CalendarContainer>
-          <DismissContainer>
-            <DismissBtn onPress={() => setShowCalendar(false)}>
-              <FaIcon color={theme.pallette.active} name="chevron-down" solid />
-            </DismissBtn>
-          </DismissContainer>
           <Calendar
+            ListHeaderComponent={
+              <DismissBtn onPress={() => setShowCalendar(false)}>
+                <FaIcon
+                  color={theme.pallette.active}
+                  name="chevron-down"
+                  solid
+                />
+              </DismissBtn>
+            }
             highlightToday
             onSelectDay={handleSelect}
+            stickyHeaderIndices={[0]}
             value={departureDate}
           />
         </CalendarContainer>
@@ -124,7 +130,7 @@ const CalendarContainer = withStyled(
       bottom: 0,
       gap: theme.space.medium,
       left: 0,
-      padding: theme.space.small,
+      paddingHorizontal: theme.space.small,
       position: 'absolute',
       right: 0,
       top: 0,
@@ -136,11 +142,14 @@ const CalendarContainer = withStyled(
   },
 );
 
-const DismissBtn = withStyled(TouchableOpacity, () => []);
-const DismissContainer = withStyled(View, () => [
+const DismissBtn = withStyled(TouchableOpacity, (theme) => [
+  theme.presets.centered,
   {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    backgroundColor: tinycolor(theme.pallette.grey[50])
+      .setAlpha(0.95)
+      .toRgbString(),
+    height: 50,
+    width: '100%',
   },
 ]);
 

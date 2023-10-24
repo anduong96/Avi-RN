@@ -38,11 +38,9 @@ firebase.auth().onAuthStateChanged((nextUser) => {
     userState.actions.setUser(nextUser);
   }
 
-  if (!nextUser?.isAnonymous) {
-    AppServerApolloClient.mutate({
-      mutation: SyncUserDocument,
-    });
-  }
+  AppServerApolloClient.mutate({
+    mutation: SyncUserDocument,
+  });
 });
 
 export function useUser() {

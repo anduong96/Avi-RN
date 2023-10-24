@@ -90,10 +90,15 @@ export type Flight = {
   actualGateDeparture?: Maybe<Scalars['DateTimeISO']['output']>;
   aircraftTailNumber?: Maybe<Scalars['String']['output']>;
   airlineIata: Scalars['String']['output'];
+  co2EmissionKgBusiness?: Maybe<Scalars['Float']['output']>;
+  co2EmissionKgEco?: Maybe<Scalars['Float']['output']>;
+  co2EmissionKgEconomy?: Maybe<Scalars['Float']['output']>;
+  co2EmissionKgFirst?: Maybe<Scalars['Float']['output']>;
   destinationBaggageClaim?: Maybe<Scalars['String']['output']>;
   destinationGate?: Maybe<Scalars['String']['output']>;
   destinationIata: Scalars['String']['output'];
   destinationTerminal?: Maybe<Scalars['String']['output']>;
+  destinationUtcHourOffset: Scalars['Int']['output'];
   estimatedGateArrival: Scalars['DateTimeISO']['output'];
   estimatedGateDeparture: Scalars['DateTimeISO']['output'];
   flightDate: Scalars['Int']['output'];
@@ -104,6 +109,7 @@ export type Flight = {
   originGate?: Maybe<Scalars['String']['output']>;
   originIata: Scalars['String']['output'];
   originTerminal?: Maybe<Scalars['String']['output']>;
+  originUtcHourOffset: Scalars['Int']['output'];
   reconAttempt?: Maybe<Scalars['Int']['output']>;
   scheduledGateArrival: Scalars['DateTimeISO']['output'];
   scheduledGateDeparture: Scalars['DateTimeISO']['output'];
@@ -158,12 +164,20 @@ export const ImageType = {
 } as const;
 
 export type ImageType = typeof ImageType[keyof typeof ImageType];
+export const MeasurementType = {
+  AMERICAN: 'AMERICAN',
+  IMPERIAL: 'IMPERIAL',
+  METRIC: 'METRIC'
+} as const;
+
+export type MeasurementType = typeof MeasurementType[keyof typeof MeasurementType];
 export type Mutation = {
   __typename?: 'Mutation';
   _sendFlightNotification: Scalars['Float']['output'];
   addUserFlight: Scalars['String']['output'];
   deleteUserFlight: Scalars['String']['output'];
   syncUser: Scalars['Boolean']['output'];
+  updateUserPreference: Scalars['Boolean']['output'];
 };
 
 
@@ -184,6 +198,11 @@ export type MutationDeleteUserFlightArgs = {
   flightID: Scalars['String']['input'];
 };
 
+
+export type MutationUpdateUserPreferenceArgs = {
+  data: UpdateUserPreferenceInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   aircraft?: Maybe<Aircraft>;
@@ -200,6 +219,7 @@ export type Query = {
   userArchivedFlights: Array<UserFlight>;
   userFlight?: Maybe<UserFlight>;
   userHasFlights: Scalars['Boolean']['output'];
+  userPreference: UserPreference;
 };
 
 
@@ -246,6 +266,10 @@ export type QueryUserFlightArgs = {
   flightID: Scalars['String']['input'];
 };
 
+export type UpdateUserPreferenceInput = {
+  measurement?: InputMaybe<MeasurementType>;
+};
+
 export type User = {
   __typename?: 'User';
   Authentications: Array<UserAuthentication>;
@@ -253,6 +277,7 @@ export type User = {
   createdAt: Scalars['DateTimeISO']['output'];
   displayName?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
+  isAnonymous: Scalars['Boolean']['output'];
   lastSignInAt: Scalars['DateTimeISO']['output'];
   updatedAt: Scalars['DateTimeISO']['output'];
 };
@@ -276,6 +301,13 @@ export type UserFlight = {
   id: Scalars['ID']['output'];
   shouldAlert: Scalars['Boolean']['output'];
   updatedAt: Scalars['DateTimeISO']['output'];
+  userID: Scalars['String']['output'];
+};
+
+export type UserPreference = {
+  __typename?: 'UserPreference';
+  id: Scalars['ID']['output'];
+  measurement: MeasurementType;
   userID: Scalars['String']['output'];
 };
 
@@ -322,7 +354,7 @@ export type DebugFlightNotificationMutationVariables = Exact<{
 
 export type DebugFlightNotificationMutation = { __typename?: 'Mutation', _sendFlightNotification: number };
 
-export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } };
+export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } };
 
 export type FindFlightsQueryVariables = Exact<{
   airlineIata: Scalars['String']['input'];
@@ -333,7 +365,7 @@ export type FindFlightsQueryVariables = Exact<{
 }>;
 
 
-export type FindFlightsQuery = { __typename?: 'Query', flights: Array<{ __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } }> };
+export type FindFlightsQuery = { __typename?: 'Query', flights: Array<{ __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } }> };
 
 export type GetFlightPromptnessQueryVariables = Exact<{
   flightID: Scalars['String']['input'];
@@ -347,22 +379,22 @@ export type GetFlightQueryVariables = Exact<{
 }>;
 
 
-export type GetFlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
+export type GetFlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
 
 export type GetRandomFlightQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetRandomFlightQuery = { __typename?: 'Query', randomFlight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
+export type GetRandomFlightQuery = { __typename?: 'Query', randomFlight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } };
 
 export type GetUserActiveFlightsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserActiveFlightsQuery = { __typename?: 'Query', userActiveFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, shouldAlert: boolean, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } }> };
+export type GetUserActiveFlightsQuery = { __typename?: 'Query', userActiveFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, shouldAlert: boolean, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } }> };
 
 export type GetUserArchivedFlightsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserArchivedFlightsQuery = { __typename?: 'Query', userArchivedFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } }> };
+export type GetUserArchivedFlightsQuery = { __typename?: 'Query', userArchivedFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL: string }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, iata: string, timezone: string } } }> };
 
 export type AddUserFlightMutationVariables = Exact<{
   flightID: Scalars['String']['input'];
@@ -395,6 +427,18 @@ export type SyncUserMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type SyncUserMutation = { __typename?: 'Mutation', syncUser: boolean };
 
+export type PreferenceQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PreferenceQuery = { __typename?: 'Query', userPreference: { __typename?: 'UserPreference', measurement: MeasurementType } };
+
+export type UpdatePreferenceMutationVariables = Exact<{
+  data: UpdateUserPreferenceInput;
+}>;
+
+
+export type UpdatePreferenceMutation = { __typename?: 'Mutation', updateUserPreference: boolean };
+
 export const FullFlightFragmentFragmentDoc = gql`
     fragment FullFlightFragment on Flight {
   id
@@ -406,6 +450,11 @@ export const FullFlightFragmentFragmentDoc = gql`
   }
   aircraftTailNumber
   flightNumber
+  totalDistanceKm
+  co2EmissionKgEconomy
+  co2EmissionKgFirst
+  co2EmissionKgBusiness
+  co2EmissionKgEco
   originIata
   originTerminal
   originGate
@@ -1122,3 +1171,71 @@ export function useSyncUserMutation(baseOptions?: Apollo.MutationHookOptions<Syn
 export type SyncUserMutationHookResult = ReturnType<typeof useSyncUserMutation>;
 export type SyncUserMutationResult = Apollo.MutationResult<SyncUserMutation>;
 export type SyncUserMutationOptions = Apollo.BaseMutationOptions<SyncUserMutation, SyncUserMutationVariables>;
+export const PreferenceDocument = gql`
+    query Preference {
+  userPreference {
+    measurement
+  }
+}
+    `;
+
+/**
+ * __usePreferenceQuery__
+ *
+ * To run a query within a React component, call `usePreferenceQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePreferenceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePreferenceQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePreferenceQuery(baseOptions?: Apollo.QueryHookOptions<PreferenceQuery, PreferenceQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PreferenceQuery, PreferenceQueryVariables>(PreferenceDocument, options);
+      }
+export function usePreferenceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PreferenceQuery, PreferenceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PreferenceQuery, PreferenceQueryVariables>(PreferenceDocument, options);
+        }
+export type PreferenceQueryHookResult = ReturnType<typeof usePreferenceQuery>;
+export type PreferenceLazyQueryHookResult = ReturnType<typeof usePreferenceLazyQuery>;
+export type PreferenceQueryResult = Apollo.QueryResult<PreferenceQuery, PreferenceQueryVariables>;
+export function refetchPreferenceQuery(variables?: PreferenceQueryVariables) {
+      return { query: PreferenceDocument, variables: variables }
+    }
+export const UpdatePreferenceDocument = gql`
+    mutation UpdatePreference($data: UpdateUserPreferenceInput!) {
+  updateUserPreference(data: $data)
+}
+    `;
+export type UpdatePreferenceMutationFn = Apollo.MutationFunction<UpdatePreferenceMutation, UpdatePreferenceMutationVariables>;
+
+/**
+ * __useUpdatePreferenceMutation__
+ *
+ * To run a mutation, you first call `useUpdatePreferenceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePreferenceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePreferenceMutation, { data, loading, error }] = useUpdatePreferenceMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdatePreferenceMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePreferenceMutation, UpdatePreferenceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePreferenceMutation, UpdatePreferenceMutationVariables>(UpdatePreferenceDocument, options);
+      }
+export type UpdatePreferenceMutationHookResult = ReturnType<typeof useUpdatePreferenceMutation>;
+export type UpdatePreferenceMutationResult = Apollo.MutationResult<UpdatePreferenceMutation>;
+export type UpdatePreferenceMutationOptions = Apollo.BaseMutationOptions<UpdatePreferenceMutation, UpdatePreferenceMutationVariables>;

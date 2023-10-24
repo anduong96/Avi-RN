@@ -1,3 +1,13 @@
 mutation SyncUser {
   syncUser
 }
+
+query Preference {
+  userPreference {
+    measurement
+  }
+}
+
+mutation UpdatePreference($data: UpdateUserPreferenceInput!) {
+  updateUserPreference(data: $data)
+}

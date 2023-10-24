@@ -16,6 +16,11 @@ type State = {
   >;
 };
 
+const initialState: State = {
+  isReady: false,
+  subscriptions: {},
+};
+
 export const FlightPushSubState = createStoreHook(
   createStore(
     withShallow({
@@ -50,10 +55,7 @@ export const FlightPushSubState = createStoreHook(
         },
       },
 
-      initialState: {
-        isReady: false,
-        subscriptions: {},
-      } as State,
+      initialState,
     }),
   ),
 );

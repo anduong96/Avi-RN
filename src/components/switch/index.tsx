@@ -48,16 +48,12 @@ const Container = withStyled<{ isDisabled?: boolean }, typeof View>(
       flexDirection: 'row',
     },
     props.isDisabled && {
-      opacity: 0.9,
+      opacity: 0.5,
     },
   ],
 );
 
-const Option = withStyled(TouchableOpacity, (theme) => [
-  {
-    paddingHorizontal: theme.space.small,
-  },
-]);
+const Option = withStyled(TouchableOpacity, () => [{}]);
 
 const Label = withStyled<{ isActive?: boolean }, typeof Text>(
   Text,

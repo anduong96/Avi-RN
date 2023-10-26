@@ -38,7 +38,7 @@ export const ProfilePage: React.FC = () => {
           <SignOutBtn />
         </SignOut>
         <AvatarContainer>
-          <Avatar hasShadow size={120} />
+          <Avatar hasShadow size={150} />
         </AvatarContainer>
         <SpaceVertical size="medium" />
         <Section>

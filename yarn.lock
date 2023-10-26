@@ -3002,6 +3002,11 @@
     expect "^29.0.0"
     pretty-format "^29.0.0"
 
+"@types/js-quantities@^1.6.5":
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/@types/js-quantities/-/js-quantities-1.6.5.tgz#dee0635ab81e67a261a015797ccb549311d7b55c"
+  integrity sha512-AkT7LRzMGHdoOkpeCPoZvwcULJ1nBh18gdvfdNpzmzUz06pfMs4cAUE25+YeGg1Hp53dQaZ5jWGQU/BgeHHPVw==
+
 "@types/js-yaml@^4.0.0":
   version "4.0.8"
   resolved "https://registry.npmjs.org/@types/js-yaml/-/js-yaml-4.0.8.tgz"
@@ -7057,6 +7062,11 @@ jose@^4.11.4:
   version "4.15.4"
   resolved "https://registry.npmjs.org/jose/-/jose-4.15.4.tgz"
   integrity sha512-W+oqK4H+r5sITxfxpSU+MMdr/YSWGvgZMQDIsNoBDGGy4i7GBPTtvFKibQzW06n3U3TqHjhvBJsirShsEJ6eeQ==
+
+js-quantities@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/js-quantities/-/js-quantities-1.8.0.tgz#32d8c447796574c1ab359d5bba64ab9c7575a7fc"
+  integrity sha512-swDw9RJpXACAWR16vAKoSojAsP6NI7cZjjnjKqhOyZSdybRUdmPr071foD3fejUKSU2JMHz99hflWkRWvfLTpQ==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

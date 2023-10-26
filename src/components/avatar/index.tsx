@@ -1,8 +1,9 @@
 import * as React from 'react';
 import Animated from 'react-native-reanimated';
 
-import { withStyled } from '@app/lib/styled';
 import { userState } from '@app/state/user';
+import { withStyled } from '@app/lib/styled';
+import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { FaIcon } from '../icons.fontawesome';
 
@@ -11,12 +12,17 @@ type Props = {
   size?: number;
 };
 
-export const Avatar: React.FC<Props> = ({ hasShadow, size }) => {
+export const Avatar: React.FC<Props> = ({ hasShadow, size = 20 }) => {
+  const theme = useTheme();
   const colors = userState.useSelect((state) => state.colors);
 
   return (
-    <Container color={colors.neon} hasShadow={hasShadow}>
-      <FaIcon color={colors.pastel} name="user-astronaut" size={size} />
+    <Container color={colors.pastel} hasShadow={hasShadow}>
+      <FaIcon
+        color={colors.neon}
+        name="user-astronaut"
+        size={Math.max(size - theme.space.large, theme.space.large + 10)}
+      />
     </Container>
   );
 };
@@ -31,7 +37,7 @@ const Container = withStyled<
     aspectRatio: 1,
     backgroundColor: props.color,
     borderRadius: theme.roundRadius,
-    padding: theme.space.medium,
+    padding: theme.space.large,
     shadowColor: props.color,
   },
 ]);

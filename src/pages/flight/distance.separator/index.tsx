@@ -2,28 +2,39 @@ import * as React from 'react';
 import { Text, View } from 'react-native';
 
 import moment from 'moment';
+import { isNil } from 'lodash';
+
+import type { GetFlightQuery } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
+import { DOT_SEPARATOR } from '@app/constants';
+import { formatDuration } from '@app/lib/format.duration';
 import { DividerDashed } from '@app/components/divider.dashed';
+import { useMeasurementDisplay } from '@app/lib/hooks/use.measurement.display';
 
 type Props = {
-  duration: number;
+  flight: GetFlightQuery['flight'];
 };
 
-export const FlightPageDistanceSeparator: React.FC<Props> = ({ duration }) => {
+export const FlightPageDistanceSeparator: React.FC<Props> = ({
+  flight: { estimatedGateArrival, estimatedGateDeparture, totalDistanceKm },
+}) => {
+  const distance = useMeasurementDisplay('km', totalDistanceKm);
+  const diff = moment(estimatedGateArrival).diff(estimatedGateDeparture);
+  const durationText = formatDuration(diff);
+
   return (
     <Container>
       <Divider />
       <Content>
         <TextContainer>
-          <StyledText>
-            {moment
-              .utc(duration)
-              .format('H[h] m[m]')
-              .split(' ')
-              .filter((item) => !item.startsWith('0'))
-              .join(' ')}
-          </StyledText>
+          <StyledText>{durationText}</StyledText>
+          {!isNil(distance) && (
+            <>
+              <StyledText>{DOT_SEPARATOR}</StyledText>
+              <StyledText>{distance}</StyledText>
+            </>
+          )}
         </TextContainer>
       </Content>
     </Container>
@@ -53,7 +64,6 @@ const TextContainer = withStyled(View, (theme) => [
     backgroundColor: theme.pallette.borderColor,
     borderRadius: theme.borderRadius,
     flexDirection: 'row',
-    gap: theme.space.tiny,
     paddingHorizontal: theme.space.medium,
     paddingVertical: 2,
   },

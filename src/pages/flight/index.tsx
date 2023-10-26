@@ -3,7 +3,6 @@ import type { RouteProp } from '@react-navigation/native';
 import * as React from 'react';
 import { ScrollView, View } from 'react-native';
 
-import moment from 'moment';
 import tinycolor from 'tinycolor2';
 import { useRoute } from '@react-navigation/native';
 
@@ -52,11 +51,7 @@ export const FlightPage: React.FC = () => {
           <Content>
             <Card hasShadow>
               <FlightPageLocationSection {...data.origin} type="origin" />
-              <FlightPageDistanceSeparator
-                duration={moment(flight.estimatedGateArrival).diff(
-                  flight.estimatedGateDeparture,
-                )}
-              />
+              <FlightPageDistanceSeparator flight={flight} />
               <FlightPageLocationSection
                 {...data.destination}
                 type="destination"

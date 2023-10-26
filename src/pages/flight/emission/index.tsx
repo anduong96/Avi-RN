@@ -44,8 +44,8 @@ export const EmissionCard: React.FC<Props> = ({ flightID }) => {
       <CardTitle>Emission</CardTitle>
       <Content>
         {[
-          ['Eco+', ecoEmission],
           ['Economy', economyEmission],
+          ['Eco+', ecoEmission],
           ['Business Class', businessEmission],
           ['First Class', firstEmission],
         ]

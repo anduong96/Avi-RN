@@ -22,6 +22,7 @@ import { FlightPageDistanceSeparator } from '@app/pages/flight/distance.separato
 
 import { AircraftCard } from './aircraft';
 import { FlightActions } from './actions';
+import { EmissionCard } from './emission';
 import { ExitToHomeBtn } from './exit.to.home.btn';
 import { PromptnessCompact } from './promptness.compact';
 
@@ -58,9 +59,8 @@ export const FlightPage: React.FC = () => {
               />
             </Card>
             <PromptnessCompact flightID={flightID} />
-            {flight.aircraftTailNumber && (
-              <AircraftCard tailNumber={flight.aircraftTailNumber} />
-            )}
+            <EmissionCard flightID={flightID} />
+            <AircraftCard flightID={flightID} />
           </Content>
         </Container>
       )}
@@ -90,7 +90,7 @@ const Content = withStyled(View, (theme) => [
 const Header = withStyled(View, (theme) => [
   {
     backgroundColor: tinycolor(theme.pallette.background)
-      .setAlpha(0.9)
+      .setAlpha(0.98)
       .toRgbString(),
     paddingBottom: theme.space.small,
     paddingTop: theme.space.medium,

@@ -11,11 +11,14 @@ import type { FlightStackParams } from '@app/navigation/flight.stack';
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
+import { vibrate } from '@app/lib/haptic.feedback';
+import { ScrollUp } from '@app/components/scroll.up';
 import { CloseBtn } from '@app/components/btn.close';
 import { useGetFlightQuery } from '@app/generated/server.gql';
 import { PageContainer } from '@app/components/page.container';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 import { FlightPageTopHeader } from '@app/pages/flight/top.header';
+import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
 import { FlightPageLocationSection } from '@app/pages/flight/location.section';
 import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
 import { FlightPageDistanceSeparator } from '@app/pages/flight/distance.separator';
@@ -32,6 +35,8 @@ export const FlightPage: React.FC = () => {
   const route = useRoute<Route>();
   const flightID = route.params.flightID;
   const isFromSearch = route.params.isFromSearch;
+  const container = React.useRef<ScrollView>(null);
+  const scrollPosition = useScrollPosition();
   const flightResponse = useGetFlightQuery({
     variables: {
       flightID,
@@ -40,11 +45,22 @@ export const FlightPage: React.FC = () => {
   const flight = flightResponse.data?.flight;
   const data = flight ? transformFlightData(flight) : null;
 
+  const handleScrollUp = () => {
+    vibrate('effectClick');
+    container.current?.scrollTo({ animated: true, y: 0 });
+  };
+
   return (
     <PageContainer>
       <LoadingOverlay isDark isLoading={flightResponse.loading} />
       {flight && data && (
-        <Container stickyHeaderIndices={[0]}>
+        <Container
+          onScroll={scrollPosition.handleScroll}
+          ref={container}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
+          stickyHeaderIndices={[0]}
+        >
           <Header>
             <FlightPageTopHeader flight={flight} />
           </Header>
@@ -61,6 +77,10 @@ export const FlightPage: React.FC = () => {
             <PromptnessCompact flightID={flightID} />
             <EmissionCard flightID={flightID} />
             <AircraftCard flightID={flightID} />
+            <ScrollUp
+              isVisible={scrollPosition.isAtBottom}
+              onScrollUp={handleScrollUp}
+            />
           </Content>
         </Container>
       )}

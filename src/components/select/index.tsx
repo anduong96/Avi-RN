@@ -65,7 +65,10 @@ export const Select = <T extends number | string>({
               </Pressable>
               <Options>
                 {options.map((option, index) => (
-                  <TouchableOpacity onPress={() => handleSelect(option.value)}>
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleSelect(option.value)}
+                  >
                     {index > 0 && <HorizontalDivider />}
                     <ListItem
                       horizontalPadding="large"

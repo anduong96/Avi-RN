@@ -10,7 +10,7 @@ import { withStyled } from '@app/lib/styled';
 type Props = {
   isBold?: boolean;
   isCentered?: boolean;
-  status?: 'active' | 'danger' | 'warn';
+  status?: 'active' | 'danger' | 'secondary' | 'warn';
   type?: keyof Theme['typography']['presets'];
 } & TextProps;
 
@@ -35,6 +35,9 @@ const DisplayText = withStyled<
   typeof Text
 >(Text, (theme, props) => [
   theme.typography.presets[props.type ?? 'p1'],
+  {
+    color: theme.pallette.text,
+  },
   props.isBold && {
     fontWeight: 'bold',
   },
@@ -49,5 +52,8 @@ const DisplayText = withStyled<
   },
   props.status === 'danger' && {
     color: theme.pallette.danger,
+  },
+  props.status === 'secondary' && {
+    color: theme.pallette.textSecondary,
   },
 ]);

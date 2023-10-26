@@ -38,39 +38,48 @@ export const FlightPageLocationSection: React.FC<Props> = ({
 
   return (
     <Container>
-      <Airport>
-        <AirportIata>{airport.iata}</AirportIata>
-        <AirportName>{airport.name}</AirportName>
-      </Airport>
-      <Meta>
-        <Time>
-          <TimeText style={[{ color: timeColor }]}>
-            {time.format('h:mm A')}
-          </TimeText>
-          {!isNil(dayDiff) && (
-            <DayDiffText style={[{ color: timeColor }]}>{dayDiff}</DayDiffText>
-          )}
-        </Time>
-        <View style={[{ gap: 3 }]}>
-          <MetaText isFiller={!terminal}>Terminal {terminalText}</MetaText>
-          <MetaText isFiller={!gate}>Gate {gateText}</MetaText>
-          {type === 'destination' && (
-            <MetaText isFiller={!baggageClaim}>
-              Baggage Belt {baggageText}
-            </MetaText>
-          )}
-        </View>
-      </Meta>
+      <Content>
+        <Airport>
+          <AirportIata>{airport.iata}</AirportIata>
+          <AirportName>{airport.name}</AirportName>
+        </Airport>
+        <Meta>
+          <Time>
+            <TimeText style={[{ color: timeColor }]}>
+              {time.format('h:mm A')}
+            </TimeText>
+            {!isNil(dayDiff) && (
+              <DayDiffText style={[{ color: timeColor }]}>
+                {dayDiff}
+              </DayDiffText>
+            )}
+          </Time>
+          <View style={[{ gap: 3 }]}>
+            <MetaText isFiller={!terminal}>Terminal {terminalText}</MetaText>
+            <MetaText isFiller={!gate}>Gate {gateText}</MetaText>
+            {type === 'destination' && (
+              <MetaText isFiller={!baggageClaim}>
+                Baggage Belt {baggageText}
+              </MetaText>
+            )}
+          </View>
+        </Meta>
+      </Content>
     </Container>
   );
 };
 
-const Container = withStyled(View, (theme) => [
+const Content = withStyled(View, (theme) => [
   {
     alignItems: 'flex-start',
     flexDirection: 'row',
     gap: theme.space.large,
-    maxWidth: '100%',
+  },
+]);
+
+const Container = withStyled(View, (theme) => [
+  {
+    gap: theme.space.tiny,
   },
 ]);
 

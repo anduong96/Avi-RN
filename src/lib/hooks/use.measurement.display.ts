@@ -1,6 +1,6 @@
 import Qty from 'js-quantities';
 
-import { usePreferenceQuery } from '@app/generated/server.gql';
+import { MeasurementType, usePreferenceQuery } from '@app/generated/server.gql';
 
 import { format } from '../format';
 
@@ -21,12 +21,12 @@ export function useMeasurementDisplay(
 
   const qty = Qty(value, fromUnit);
 
-  if (preferredSystem === 'AMERICAN') {
+  if (preferredSystem === MeasurementType.AMERICAN) {
     return qty
       .to(fromUnit === 'kg' ? 'lbs' : 'mi')
       .toPrec(1)
       .format(formatter);
   }
 
-  return qty.format();
+  return qty.toPrec(1).format(formatter);
 }

@@ -85,7 +85,12 @@ const Content = withStyled(View, () => ({
   gap: 2,
 }));
 
-const TitleText = withStyled(Text, (theme) => [theme.typography.presets.h3]);
+const TitleText = withStyled(Text, (theme) => [
+  theme.typography.presets.h3,
+  {
+    lineHeight: 0,
+  },
+]);
 
 const DescriptionText = withStyled(Text, (theme) => [
   theme.typography.presets.p2,

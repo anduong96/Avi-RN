@@ -9,16 +9,24 @@ import { BlurView } from '@react-native-community/blur';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { ListItem } from '../list.item';
 import { LoadingOverlay } from '../loading.overlay';
 import { HorizontalDivider } from '../divider.horizontal';
 
 type Props<T> = {
+  description?: string;
   isLoading?: boolean;
   onChange?: (value: T) => void;
-  options: Array<{ label: string; value: T }>;
+  options: Array<{
+    disabled?: boolean;
+    icon?: React.ReactElement;
+    label: string;
+    value: T;
+  }>;
   placeholder?: string;
+  title?: string;
   value?: T;
 };
 
@@ -29,6 +37,7 @@ export const Select = <T extends number | string>({
   placeholder = 'Select',
   value,
 }: Props<T>) => {
+  const theme = useTheme();
   const [showOptions, setShowOptions] = React.useState(false);
   const display = options.find((option) => option.value === value);
   const displayLabel = display?.label || value;
@@ -45,7 +54,7 @@ export const Select = <T extends number | string>({
   return (
     <>
       <TouchableOpacity onPress={() => setShowOptions(true)}>
-        <LoadingOverlay isLoading={isLoading} />
+        <LoadingOverlay isLoading={isLoading} size={'small'} />
         <Label isPlaceholder={!Boolean(displayLabel)}>
           {displayLabel || placeholder}
         </Label>
@@ -63,22 +72,34 @@ export const Select = <T extends number | string>({
               >
                 <BlurView blurType="dark" style={StyleSheet.absoluteFill} />
               </Pressable>
-              <Options>
-                {options.map((option, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => handleSelect(option.value)}
-                  >
-                    {index > 0 && <HorizontalDivider />}
-                    <ListItem
-                      horizontalPadding="large"
-                      key={option.value}
-                      title={option.label}
-                      verticalPadding="small"
-                    />
-                  </TouchableOpacity>
-                ))}
-              </Options>
+              <Content>
+                <Options>
+                  {options.map((option, index) => (
+                    <TouchableOpacity
+                      disabled={option.disabled}
+                      key={index}
+                      onPress={() => handleSelect(option.value)}
+                    >
+                      <OptionItem>
+                        {index > 0 && <HorizontalDivider />}
+                        <ListItem
+                          horizontalPadding="large"
+                          icon={option.icon}
+                          key={option.value}
+                          title={option.label}
+                          titleStyle={[
+                            value === option.value && {
+                              color: theme.pallette.active,
+                              fontWeight: 'bold',
+                            },
+                          ]}
+                          verticalPadding="small"
+                        />
+                      </OptionItem>
+                    </TouchableOpacity>
+                  ))}
+                </Options>
+              </Content>
             </Animated.View>
           )}
         </FullWindowOverlay>
@@ -101,7 +122,20 @@ const Label = withStyled<{ isPlaceholder?: boolean }, typeof Text>(
   ],
 );
 
-const Options = withStyled(View, (theme) => [
+const Options = withStyled(View, () => [
+  {
+    flexGrow: 1,
+  },
+]);
+
+const OptionItem = withStyled(View, (theme) => [
+  {
+    justifyContent: 'center',
+    paddingVertical: theme.space.tiny,
+  },
+]);
+
+const Content = withStyled(View, (theme) => [
   {
     backgroundColor: theme.pallette.background,
     borderRadius: theme.borderRadius,
@@ -109,7 +143,6 @@ const Options = withStyled(View, (theme) => [
     left: 0,
     margin: theme.space.medium,
     marginBottom: theme.insets.bottom || theme.space.medium,
-    paddingVertical: theme.space.medium,
     position: 'absolute',
     right: 0,
   },

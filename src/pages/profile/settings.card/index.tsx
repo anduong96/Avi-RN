@@ -42,7 +42,6 @@ export const SettingsCard: React.FC = () => {
             options={[
               { label: 'American', value: MeasurementType.AMERICAN },
               { label: 'Metric', value: MeasurementType.METRIC },
-              { label: 'Imperial', value: MeasurementType.IMPERIAL },
             ]}
             value={preference.data?.userPreference.measurement}
           />

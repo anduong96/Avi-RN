@@ -41,13 +41,13 @@ export function transformFlightData(flight: FullFlightFragmentFragment): {
   destination: Transformed;
   origin: Transformed;
 } {
-  const originTime = moment
-    .utc(flight.estimatedGateDeparture)
-    .tz(flight.Origin.timezone);
+  const originTime = moment(flight.estimatedGateDeparture).utcOffset(
+    flight.originUtcHourOffset,
+  );
 
-  const destinationTime = moment
-    .utc(flight.estimatedGateArrival)
-    .tz(flight.Destination.timezone);
+  const destinationTime = moment(flight.estimatedGateArrival).utcOffset(
+    flight.Destination.timezone,
+  );
 
   const dayDiff =
     parseInt(destinationTime.format('YYYYMMDD'), 10) -

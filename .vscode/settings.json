@@ -30,6 +30,7 @@
   },
   "eslint.validate": ["typescript"],
   "eslint.format.enable": true,
+  "eslint.workingDirectories": ["src"],
   // "editor.formatOnSaveMode": "file",
   // "editor.formatOnSave": true,
   "editor.acceptSuggestionOnEnter": "smart",

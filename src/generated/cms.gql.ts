@@ -784,6 +784,38 @@ export type DocumentVersion = {
   stage: Stage;
 };
 
+/** An object with an ID */
+export type Entity = {
+  /** The id of the object. */
+  id: Scalars['ID']['output'];
+  /** The Stage of an object */
+  stage: Stage;
+};
+
+/** This enumeration holds all typenames that implement the Entity interface. Components implement the Entity interface. At the moment models are not supported, models are listed in this enum to avoid an empty enum without any components. */
+export const EntityTypeName = {
+  /** Asset system model */
+  Asset: 'Asset',
+  Legal: 'Legal',
+  Onboard: 'Onboard',
+  /** Scheduled Operation system model */
+  ScheduledOperation: 'ScheduledOperation',
+  /** Scheduled Release system model */
+  ScheduledRelease: 'ScheduledRelease',
+  /** User system model */
+  User: 'User'
+} as const;
+
+export type EntityTypeName = typeof EntityTypeName[keyof typeof EntityTypeName];
+/** Allows to specify input to query components directly */
+export type EntityWhereInput = {
+  /** The ID of an object */
+  id: Scalars['ID']['input'];
+  stage: Stage;
+  /** The Type name of an object */
+  typename: EntityTypeName;
+};
+
 export const ImageFit = {
   /** Resizes the image to fit within the specified parameters without distorting, cropping, or changing the aspect ratio. */
   clip: 'clip',
@@ -2524,6 +2556,8 @@ export type Query = {
   assets: Array<Asset>;
   /** Retrieve multiple assets using the Relay connection interface */
   assetsConnection: AssetConnection;
+  /** Fetches an object given its ID */
+  entities?: Maybe<Array<Entity>>;
   /** Retrieve a single legal */
   legal?: Maybe<Legal>;
   /** Retrieve document version */
@@ -2598,6 +2632,11 @@ export type QueryAssetsConnectionArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   stage?: Stage;
   where?: InputMaybe<AssetWhereInput>;
+};
+
+
+export type QueryEntitiesArgs = {
+  where: Array<EntityWhereInput>;
 };
 
 

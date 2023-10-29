@@ -21,6 +21,7 @@ fragment FullFlightFragment on Flight {
   originIata
   originTerminal
   originGate
+  originUtcHourOffset
 
   Origin {
     id
@@ -37,6 +38,7 @@ fragment FullFlightFragment on Flight {
   destinationGate
   destinationTerminal
   destinationBaggageClaim
+  destinationUtcHourOffset
 
   Destination {
     id

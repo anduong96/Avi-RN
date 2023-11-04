@@ -31,8 +31,8 @@ export const TravelMap: React.FC<Props> = ({ flightID }) => {
       {
         scale: withRepeat(
           withSequence(
-            withTiming(1.1, { duration: 1000 }),
-            withTiming(1, { duration: 1000 }),
+            withTiming(3, { duration: 500 }),
+            withTiming(1, { duration: 500 }),
           ),
           -1,
           true,
@@ -70,9 +70,10 @@ export const TravelMap: React.FC<Props> = ({ flightID }) => {
             }}
             identifier={location.id}
             key={location.id}
-            style={{ aspectRatio: 1, width: 15 }}
+            style={{ aspectRatio: 1, width: 10 }}
           >
-            <MarkerContent style={markerStyle} />
+            <MarkerPulse style={markerStyle} />
+            <MarkerContent />
           </MapMarker>
         ))}
         <Polyline
@@ -80,7 +81,7 @@ export const TravelMap: React.FC<Props> = ({ flightID }) => {
           strokeColor={tinycolor(theme.pallette.primary)
             .darken(1)
             .toHexString()}
-          strokeWidth={3}
+          strokeWidth={2}
         />
       </Map>
       <GradientContainer>
@@ -91,25 +92,39 @@ export const TravelMap: React.FC<Props> = ({ flightID }) => {
   );
 };
 
+const MAP_HEIGHT = 250;
+
 const Map = withStyled(MapView, () => [
   {
-    height: 210,
+    height: MAP_HEIGHT - 10,
   },
 ]);
 
 const Container = withStyled(View, () => [
   {
-    height: 200,
+    height: MAP_HEIGHT,
   },
 ]);
 
-const MarkerContent = withStyled(Animated.View, (theme) => [
+const MarkerContent = withStyled(View, (theme) => [
   theme.presets.shadows[200],
   {
     aspectRatio: 1,
     backgroundColor: theme.pallette.primary,
     borderRadius: theme.roundRadius,
     height: '100%',
+  },
+]);
+
+const MarkerPulse = withStyled(Animated.View, (theme) => [
+  {
+    borderColor: theme.pallette.background,
+    borderRadius: theme.roundRadius,
+    borderWidth: 1,
+    height: '100%',
+    position: 'absolute',
+    width: '100%',
+    zIndex: 1,
   },
 ]);
 

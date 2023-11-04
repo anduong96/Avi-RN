@@ -322,7 +322,7 @@ export type AircraftQueryVariables = Exact<{
 export type AircraftQuery = { __typename?: 'Query', aircraft?: { __typename?: 'Aircraft', id: number, iata?: string | null, icao: string, model: string, airlineIata: string, description?: string | null, tailNumber: string, firstFlight?: any | null, imageURL?: string | null, createdAt: any, updatedAt: any } | null };
 
 export type AircraftPositionQueryVariables = Exact<{
-  aircraftId: Scalars['Float']['input'];
+  aircraftID: Scalars['Float']['input'];
 }>;
 
 
@@ -545,8 +545,8 @@ export function refetchAircraftQuery(variables: AircraftQueryVariables) {
       return { query: AircraftDocument, variables: variables }
     }
 export const AircraftPositionDocument = gql`
-    query AircraftPosition($aircraftId: Float!) {
-  aircraftPosition(aircraftID: $aircraftId) {
+    query AircraftPosition($aircraftID: Float!) {
+  aircraftPosition(aircraftID: $aircraftID) {
     id
     aircraftID
     latitude
@@ -577,7 +577,7 @@ export const AircraftPositionDocument = gql`
  * @example
  * const { data, loading, error } = useAircraftPositionQuery({
  *   variables: {
- *      aircraftId: // value for 'aircraftId'
+ *      aircraftID: // value for 'aircraftID'
  *   },
  * });
  */

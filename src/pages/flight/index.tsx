@@ -3,7 +3,6 @@ import type { RouteProp } from '@react-navigation/native';
 import * as React from 'react';
 import { ScrollView, View } from 'react-native';
 
-import tinycolor from 'tinycolor2';
 import { useRoute } from '@react-navigation/native';
 
 import type { FlightStackParams } from '@app/navigation/flight.stack';
@@ -17,15 +16,16 @@ import { CloseBtn } from '@app/components/btn.close';
 import { useGetFlightQuery } from '@app/generated/server.gql';
 import { PageContainer } from '@app/components/page.container';
 import { LoadingOverlay } from '@app/components/loading.overlay';
-import { FlightPageTopHeader } from '@app/pages/flight/top.header';
 import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
 import { FlightPageLocationSection } from '@app/pages/flight/location.section';
 import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
 import { FlightPageDistanceSeparator } from '@app/pages/flight/distance.separator';
 
+import { TravelMap } from './travel.map';
 import { AircraftCard } from './aircraft';
 import { FlightActions } from './actions';
 import { EmissionCard } from './emission';
+import { HeaderMeta } from './header.meta';
 import { ExitToHomeBtn } from './exit.to.home.btn';
 import { PromptnessCompact } from './promptness.compact';
 
@@ -59,13 +59,12 @@ export const FlightPage: React.FC = () => {
           ref={container}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
-          stickyHeaderIndices={[0]}
+          stickyHeaderIndices={[1]}
         >
-          <Header>
-            <FlightPageTopHeader flight={flight} />
-          </Header>
-          <FlightActions flightID={flight.id} />
+          <TravelMap flightID={flight.id} />
+          <HeaderMeta flightID={flight.id} />
           <Content>
+            <FlightActions flightID={flight.id} />
             <Card hasShadow>
               <FlightPageLocationSection {...data.origin} type="origin" />
               <FlightPageDistanceSeparator flight={flight} />
@@ -90,10 +89,9 @@ export const FlightPage: React.FC = () => {
   );
 };
 
-const Container = withStyled(ScrollView, undefined, (theme) => ({
+const Container = withStyled(ScrollView, undefined, () => ({
   contentContainerStyle: {
     flexGrow: 1,
-    gap: theme.space.medium,
     paddingBottom: WINDOW_HEIGHT * 0.3,
   },
   showsVerticalScrollIndicator: false,
@@ -104,15 +102,5 @@ const Content = withStyled(View, (theme) => [
     flexGrow: 1,
     gap: theme.space.medium,
     paddingHorizontal: theme.space.medium,
-  },
-]);
-
-const Header = withStyled(View, (theme) => [
-  {
-    backgroundColor: tinycolor(theme.pallette.background)
-      .setAlpha(0.98)
-      .toRgbString(),
-    paddingBottom: theme.space.small,
-    paddingTop: theme.space.medium,
   },
 ]);

@@ -36,7 +36,6 @@ const Container = withStyled(ScrollView, undefined, (theme) => ({
   contentContainerStyle: {
     alignItems: 'center' as const,
     gap: theme.space.small,
-    paddingHorizontal: theme.space.medium,
     paddingVertical: theme.space.small,
   },
   horizontal: true,

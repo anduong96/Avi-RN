@@ -14,8 +14,8 @@ query Aircraft($tailNumber: String!) {
   }
 }
 
-query AircraftPosition($aircraftId: Float!) {
-  aircraftPosition(aircraftID: $aircraftId) {
+query AircraftPosition($aircraftID: Float!) {
+  aircraftPosition(aircraftID: $aircraftID) {
     id
     aircraftID
     latitude

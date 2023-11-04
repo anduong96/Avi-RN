@@ -25,6 +25,7 @@ import { TravelMap } from './travel.map';
 import { AircraftCard } from './aircraft';
 import { FlightActions } from './actions';
 import { EmissionCard } from './emission';
+import { FlightContext } from './context';
 import { HeaderMeta } from './header.meta';
 import { ExitToHomeBtn } from './exit.to.home.btn';
 import { PromptnessCompact } from './promptness.compact';
@@ -52,39 +53,41 @@ export const FlightPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <LoadingOverlay isDark isLoading={flightResponse.loading} />
-      {flight && data && (
-        <Container
-          onScroll={scrollPosition.handleScroll}
-          ref={container}
-          scrollEventThrottle={16}
-          showsVerticalScrollIndicator={false}
-          stickyHeaderIndices={[1]}
-        >
-          <TravelMap flightID={flight.id} />
-          <HeaderMeta flightID={flight.id} />
-          <Content>
-            <FlightActions flightID={flight.id} />
-            <Card hasShadow>
-              <FlightPageLocationSection {...data.origin} type="origin" />
-              <FlightPageDistanceSeparator flight={flight} />
-              <FlightPageLocationSection
-                {...data.destination}
-                type="destination"
+      <FlightContext.Provider value={{ flightID }}>
+        <LoadingOverlay isDark isLoading={flightResponse.loading} />
+        {flight && data && (
+          <Container
+            onScroll={scrollPosition.handleScroll}
+            ref={container}
+            scrollEventThrottle={16}
+            showsVerticalScrollIndicator={false}
+            stickyHeaderIndices={[1]}
+          >
+            <TravelMap />
+            <HeaderMeta flightID={flight.id} />
+            <Content>
+              <FlightActions flightID={flight.id} />
+              <Card hasShadow>
+                <FlightPageLocationSection {...data.origin} type="origin" />
+                <FlightPageDistanceSeparator flight={flight} />
+                <FlightPageLocationSection
+                  {...data.destination}
+                  type="destination"
+                />
+              </Card>
+              <PromptnessCompact flightID={flightID} />
+              <EmissionCard flightID={flightID} />
+              <AircraftCard flightID={flightID} />
+              <ScrollUp
+                isVisible={scrollPosition.isAtBottom}
+                onScrollUp={handleScrollUp}
               />
-            </Card>
-            <PromptnessCompact flightID={flightID} />
-            <EmissionCard flightID={flightID} />
-            <AircraftCard flightID={flightID} />
-            <ScrollUp
-              isVisible={scrollPosition.isAtBottom}
-              onScrollUp={handleScrollUp}
-            />
-          </Content>
-        </Container>
-      )}
-      <CloseBtn isAbsolute />
-      <ExitToHomeBtn flightID={flightID} isVisible={isFromSearch} />
+            </Content>
+          </Container>
+        )}
+        <CloseBtn isAbsolute />
+        <ExitToHomeBtn flightID={flightID} isVisible={isFromSearch} />
+      </FlightContext.Provider>
     </PageContainer>
   );
 };

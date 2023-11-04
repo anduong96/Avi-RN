@@ -17,7 +17,7 @@ function calculateDistance(coord1: Coordinate, coord2: Coordinate): number {
 export function createBezierCurve(
   startCoord: Coordinate,
   endCoord: Coordinate,
-  controlPointFactor: number = 0.3,
+  controlPointFactor: number = 0.15,
 ): Coordinate[] {
   const distance = calculateDistance(startCoord, endCoord);
   const numPoints = Math.ceil(distance / 10);

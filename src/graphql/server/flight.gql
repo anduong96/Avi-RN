@@ -30,6 +30,8 @@ fragment FullFlightFragment on Flight {
     countryCode
     iata
     timezone
+    latitude
+    longitude
   }
 
   status
@@ -47,6 +49,8 @@ fragment FullFlightFragment on Flight {
     countryCode
     iata
     timezone
+    latitude
+    longitude
   }
 
   scheduledGateDeparture

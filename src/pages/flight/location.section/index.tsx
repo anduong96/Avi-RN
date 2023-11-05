@@ -92,7 +92,6 @@ const Airport = withStyled(View, () => [
 ]);
 
 const AirportIata = withStyled(Typography, () => [], {
-  isBold: true,
   type: 'h1',
 });
 

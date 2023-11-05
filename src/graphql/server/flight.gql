@@ -12,6 +12,9 @@ fragment FullFlightFragment on Flight {
   flightNumber
 
   totalDistanceKm
+  durationMs
+  remainingDurationMs
+  progressPercent
 
   co2EmissionKgEconomy
   co2EmissionKgFirst
@@ -28,6 +31,7 @@ fragment FullFlightFragment on Flight {
     name
     cityName
     countryCode
+    cityCode
     iata
     timezone
     latitude
@@ -47,6 +51,7 @@ fragment FullFlightFragment on Flight {
     name
     cityName
     countryCode
+    cityCode
     iata
     timezone
     latitude
@@ -61,6 +66,8 @@ fragment FullFlightFragment on Flight {
 
   actualGateDeparture
   actualGateArrival
+
+  updatedAt
 }
 
 query FindFlights(

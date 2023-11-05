@@ -9,17 +9,15 @@ import tinycolor from 'tinycolor2';
 import { logger } from '@app/lib/logger';
 import { withStyled } from '@app/lib/styled';
 import { Statistic } from '@app/components/statistic';
+import { useAircraftQuery } from '@app/generated/server.gql';
 import { LoadingOverlay } from '@app/components/loading.overlay';
-import { useAircraftQuery, useGetFlightQuery } from '@app/generated/server.gql';
 
-type Props = {
-  flightID: string;
-};
+import { useFlight } from '../hooks/use.flight';
 
-export const AircraftCard: React.FC<Props> = ({ flightID }) => {
+export const AircraftCard: React.FC = () => {
   const [imageLoaded, setImageLoaded] = React.useState(false);
-  const flight = useGetFlightQuery({ variables: { flightID } });
-  const tailNumber = flight.data?.flight.aircraftTailNumber;
+  const flight = useFlight(true);
+  const tailNumber = flight.aircraftTailNumber;
   const response = useAircraftQuery({
     skip: !tailNumber,
     variables: {

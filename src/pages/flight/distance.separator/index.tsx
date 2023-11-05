@@ -4,21 +4,19 @@ import { Text, View } from 'react-native';
 import moment from 'moment';
 import { isNil } from 'lodash';
 
-import type { GetFlightQuery } from '@app/generated/server.gql';
-
 import { withStyled } from '@app/lib/styled';
 import { DOT_SEPARATOR } from '@app/constants';
 import { formatDuration } from '@app/lib/format.duration';
 import { DividerDashed } from '@app/components/divider.dashed';
 import { useMeasurementDisplay } from '@app/lib/hooks/use.measurement.display';
 
-type Props = {
-  flight: GetFlightQuery['flight'];
-};
+import { useFlight } from '../hooks/use.flight';
 
-export const FlightPageDistanceSeparator: React.FC<Props> = ({
-  flight: { estimatedGateArrival, estimatedGateDeparture, totalDistanceKm },
-}) => {
+export const FlightPageDistanceSeparator: React.FC = () => {
+  const flight = useFlight(true);
+  const { estimatedGateArrival, estimatedGateDeparture, totalDistanceKm } =
+    flight;
+
   const distance = useMeasurementDisplay('km', totalDistanceKm);
   const diff = moment(estimatedGateArrival).diff(estimatedGateDeparture);
   const durationText = formatDuration(diff);

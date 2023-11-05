@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
+import type { Flight } from '@app/generated/server.gql';
 import type { FindFlightsQuery } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
@@ -34,6 +35,7 @@ export const FlightCardCompact: React.FC<Props> = ({ flight }) => {
         </FlightPoint>
         <DividerContainer>
           <DividerDashed />
+          <ActiveDivider progressPercent={flight.progressPercent} />
         </DividerContainer>
         <FlightPoint type="destination">
           <AirportIata>{flight.Destination.iata}</AirportIata>
@@ -143,3 +145,19 @@ const Movement = withStyled(View, (theme) => [
 ]);
 
 const MovementIconContainer = withStyled(View, () => [{}]);
+
+const ActiveDivider = withStyled<Pick<Flight, 'progressPercent'>, typeof View>(
+  View,
+  (theme, props) => [
+    {
+      alignSelf: 'center',
+      backgroundColor: theme.pallette.active,
+      height: 1,
+      position: 'absolute',
+    },
+    {
+      left: 0,
+      width: `${props.progressPercent * 100}%`,
+    },
+  ],
+);

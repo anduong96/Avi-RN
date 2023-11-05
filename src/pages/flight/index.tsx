@@ -27,6 +27,7 @@ import { FlightActions } from './actions';
 import { EmissionCard } from './emission';
 import { FlightContext } from './context';
 import { HeaderMeta } from './header.meta';
+import { SmartStatus } from './smart.status';
 import { ExitToHomeBtn } from './exit.to.home.btn';
 import { PromptnessCompact } from './promptness.compact';
 
@@ -64,20 +65,21 @@ export const FlightPage: React.FC = () => {
             stickyHeaderIndices={[1]}
           >
             <TravelMap />
-            <HeaderMeta flightID={flight.id} />
+            <HeaderMeta />
+            <FlightActions />
             <Content>
-              <FlightActions flightID={flight.id} />
+              <SmartStatus />
               <Card hasShadow>
                 <FlightPageLocationSection {...data.origin} type="origin" />
-                <FlightPageDistanceSeparator flight={flight} />
+                <FlightPageDistanceSeparator />
                 <FlightPageLocationSection
                   {...data.destination}
                   type="destination"
                 />
               </Card>
-              <PromptnessCompact flightID={flightID} />
-              <EmissionCard flightID={flightID} />
-              <AircraftCard flightID={flightID} />
+              <PromptnessCompact />
+              <EmissionCard />
+              <AircraftCard />
               <ScrollUp
                 isVisible={scrollPosition.isAtBottom}
                 onScrollUp={handleScrollUp}
@@ -86,15 +88,16 @@ export const FlightPage: React.FC = () => {
           </Container>
         )}
         <CloseBtn isAbsolute />
-        <ExitToHomeBtn flightID={flightID} isVisible={isFromSearch} />
+        <ExitToHomeBtn isVisible={isFromSearch} />
       </FlightContext.Provider>
     </PageContainer>
   );
 };
 
-const Container = withStyled(ScrollView, undefined, () => ({
+const Container = withStyled(ScrollView, undefined, (theme) => ({
   contentContainerStyle: {
     flexGrow: 1,
+    gap: theme.space.small,
     paddingBottom: WINDOW_HEIGHT * 0.3,
   },
   showsVerticalScrollIndicator: false,
@@ -105,5 +108,6 @@ const Content = withStyled(View, (theme) => [
     flexGrow: 1,
     gap: theme.space.medium,
     paddingHorizontal: theme.space.medium,
+    paddingVertical: theme.space.large,
   },
 ]);

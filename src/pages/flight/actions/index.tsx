@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { ScrollView } from 'react-native';
 
-import type { Flight } from '@app/generated/server.gql';
-
 import { ENV } from '@app/env';
 import { withStyled } from '@app/lib/styled';
 import { VerticalDivider } from '@app/components/divider.vertical';
@@ -11,11 +9,10 @@ import { ShareFlightButton } from '@app/components/button.share.flight';
 import { AlertFlightButton } from '@app/components/button.alerts.flight';
 import { DebugNotificationFlightBtn } from '@app/components/button.debug.notif.flight';
 
-type Props = {
-  flightID: Flight['id'];
-};
+import { useFlightID } from '../context';
 
-export const FlightActions: React.FC<Props> = ({ flightID }) => {
+export const FlightActions: React.FC = () => {
+  const flightID = useFlightID();
   return (
     <Container>
       <SaveFlightButton flightID={flightID} />
@@ -36,7 +33,7 @@ const Container = withStyled(ScrollView, undefined, (theme) => ({
   contentContainerStyle: {
     alignItems: 'center' as const,
     gap: theme.space.small,
-    paddingVertical: theme.space.small,
+    paddingHorizontal: theme.space.medium,
   },
   horizontal: true,
   showsHorizontalScrollIndicator: false,

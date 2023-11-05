@@ -6,14 +6,13 @@ import tinycolor from 'tinycolor2';
 
 import { withStyled } from '@app/lib/styled';
 import { DOT_SEPARATOR } from '@app/constants';
+import { useGetFlightQuery } from '@app/generated/server.gql';
 import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
-import { type Flight, useGetFlightQuery } from '@app/generated/server.gql';
 
-type Props = {
-  flightID: Flight['id'];
-};
+import { useFlightID } from './context';
 
-export const HeaderMeta: React.FC<Props> = ({ flightID }) => {
+export const HeaderMeta: React.FC = () => {
+  const flightID = useFlightID();
   const request = useGetFlightQuery({ variables: { flightID } });
   const flight = request.data?.flight;
   if (!flight) {

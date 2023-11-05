@@ -1550,6 +1550,8 @@ PODS:
     - React-Core
   - RNSharedElement (0.8.8):
     - React-Core
+  - RNSVG (13.14.0):
+    - React-Core
   - RSCrashReporter (1.0.0)
   - Rudder (1.23.0):
     - MetricsReporter (= 1.1.1)
@@ -1684,6 +1686,7 @@ DEPENDENCIES:
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNShare (from `../node_modules/react-native-share`)
   - RNSharedElement (from `../node_modules/react-native-shared-element`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RSCrashReporter
   - "Ting (from `../node_modules/@baronha/ting`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -1914,6 +1917,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-share"
   RNSharedElement:
     :path: "../node_modules/react-native-shared-element"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   Ting:
     :path: "../node_modules/@baronha/ting"
   Yoga:
@@ -2050,6 +2055,7 @@ SPEC CHECKSUMS:
   RNSentry: e668d4e68fe09d475dc084bab81f02c3be2db173
   RNShare: 32e97adc8d8c97d4a26bcdd3c45516882184f8b6
   RNSharedElement: 504fa28a235b12505b6daedbb452a9ec96809bd0
+  RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   RSCrashReporter: e9ccaebd996263f8325a6cbef44ff74aa5f58e30
   Rudder: 125d9dc03e178b35b0f74487aa694afe1a8e6f4f
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f

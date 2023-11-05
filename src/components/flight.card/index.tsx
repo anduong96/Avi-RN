@@ -1,12 +1,19 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
-import type { GetUserArchivedFlightsQuery } from '@app/generated/server.gql';
+import moment from 'moment';
 
+import type { Flight } from '@app/generated/server.gql';
+
+import { format } from '@app/lib/format';
 import { withStyled } from '@app/lib/styled';
 import { DOT_SEPARATOR } from '@app/constants';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
+import {
+  FlightStatus,
+  type GetUserArchivedFlightsQuery,
+} from '@app/generated/server.gql';
 
 import { FaIcon } from '../icons.fontawesome';
 import { DividerDashed } from '../divider.dashed';
@@ -19,6 +26,7 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
   const theme = useTheme();
   const data = transformFlightData(Flight);
   const departureTime = data.origin.time;
+  const arrivalTime = data.destination.time;
   const statusColor =
     data.origin.status === 'early' || data.origin.status === 'on-time'
       ? theme.pallette.success
@@ -43,6 +51,7 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
         </FlightPoint>
         <DividerContainer>
           <DividerDashed />
+          <ActiveDivider progressPercent={Flight.progressPercent} />
         </DividerContainer>
         <FlightPoint type="destination">
           <AirportIata>{Flight.Destination.iata}</AirportIata>
@@ -64,7 +73,17 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
           </MovementText>
         </Movement>
         <Time>
-          <TimeText bold>{departureTime.fromNow()}</TimeText>
+          <TimeText bold>
+            {Flight.status === FlightStatus.SCHEDULED ||
+            Flight.status === FlightStatus.DELAYED
+              ? format('Depart %s', departureTime.fromNow())
+              : Flight.status === FlightStatus.ARRIVED ||
+                Flight.status === FlightStatus.ARCHIVED
+              ? format('Arrived %s', arrivalTime.fromNow())
+              : Flight.status === FlightStatus.CANCELED
+              ? format('Canceled %s', moment(Flight.updatedAt).fromNow())
+              : format('Land %s', arrivalTime.fromNow())}
+          </TimeText>
           <TimeText>{DOT_SEPARATOR}</TimeText>
           <TimeText>{departureTime.format('MMM D')}</TimeText>
         </Time>
@@ -112,6 +131,10 @@ const Footer = withStyled(View, (theme) => [
 const FlightPoint = withStyled<{ type: 'destination' | 'origin' }, typeof View>(
   View,
   (_, props) => [
+    {
+      flexBasis: 1,
+      flexGrow: 1,
+    },
     props.type === 'destination' && {
       alignItems: 'flex-end',
     },
@@ -129,11 +152,31 @@ const AirportCity = withStyled(Text, (theme) => [
 
 const DividerContainer = withStyled(View, (theme) => [
   {
+    alignSelf: 'center',
+    borderRadius: theme.roundRadius,
+    flexDirection: 'column',
     flexGrow: 1,
+    justifyContent: 'center',
     overflow: 'hidden',
     paddingTop: theme.typography.presets.h1.fontSize / 2,
   },
 ]);
+
+const ActiveDivider = withStyled<Pick<Flight, 'progressPercent'>, typeof View>(
+  View,
+  (theme, props) => [
+    {
+      alignSelf: 'center',
+      backgroundColor: theme.pallette.active,
+      height: 1,
+      position: 'absolute',
+    },
+    {
+      left: 0,
+      width: `${props.progressPercent * 100}%`,
+    },
+  ],
+);
 
 const AirlineContainer = withStyled(View, (theme) => [
   {

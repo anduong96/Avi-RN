@@ -3,32 +3,21 @@ import { Text, View } from 'react-native';
 
 import { isNil } from 'lodash';
 
-import type { Flight } from '@app/generated/server.gql';
-
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
-import { useGetFlightQuery } from '@app/generated/server.gql';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
 import { useMeasurementDisplay } from '@app/lib/hooks/use.measurement.display';
 
-type Props = {
-  flightID: Flight['id'];
-};
+import { useFlight } from '../hooks/use.flight';
 
-export const EmissionCard: React.FC<Props> = ({ flightID }) => {
-  const response = useGetFlightQuery({
-    variables: {
-      flightID,
-    },
-  });
-
-  const flight = response.data?.flight;
+export const EmissionCard: React.FC = () => {
+  const flight = useFlight(true);
   const {
     co2EmissionKgBusiness: business,
     co2EmissionKgEco: eco,
     co2EmissionKgEconomy: economy,
     co2EmissionKgFirst: first,
-  } = flight ?? {};
+  } = flight;
 
   const firstEmission = useMeasurementDisplay('kg', first);
   const ecoEmission = useMeasurementDisplay('kg', eco);
@@ -40,7 +29,7 @@ export const EmissionCard: React.FC<Props> = ({ flightID }) => {
   }
 
   return (
-    <Card gap="medium" isLoading={response.loading}>
+    <Card gap="medium">
       <CardTitle>Emission</CardTitle>
       <Content>
         {[

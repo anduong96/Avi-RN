@@ -3,6 +3,7 @@ import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
+import type { SpaceKeys } from '@app/themes';
 import type { StringOrElement } from '@app/types/string.or.component';
 
 import { withStyled } from '@app/lib/styled';
@@ -11,6 +12,7 @@ import { StringRenderer } from '../string.renderer';
 
 type Props = {
   align?: 'center' | 'left' | 'right';
+  gap?: SpaceKeys;
   hint?: React.ReactElement | string;
   icon?: React.ReactElement;
   label?: React.ReactElement | string;
@@ -22,6 +24,7 @@ type Props = {
 
 export const Statistic: React.FC<Props> = ({
   align,
+  gap,
   hint,
   icon,
   label,
@@ -33,7 +36,7 @@ export const Statistic: React.FC<Props> = ({
   return (
     <Container style={[style]}>
       {icon && <IconContainer>{icon}</IconContainer>}
-      <Meta align={align}>
+      <Meta align={align} gap={gap}>
         <StringRenderer Container={Label} style={labelStyle}>
           {label}
         </StringRenderer>
@@ -56,9 +59,12 @@ export const Value = withStyled(Text, (theme) => [theme.typography.presets.h4]);
 
 export const IconContainer = withStyled(View, () => [{}]);
 
-export const Meta = withStyled<Pick<Props, 'align'>, typeof View>(
+export const Meta = withStyled<Pick<Props, 'align' | 'gap'>, typeof View>(
   View,
-  (_, props) => [
+  (theme, props) => [
+    {
+      gap: props.gap ? theme.space[props.gap] : theme.space.tiny,
+    },
     props.align === 'center' && {
       alignItems: 'center',
     },

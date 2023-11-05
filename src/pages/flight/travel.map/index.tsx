@@ -67,7 +67,7 @@ export const TravelMap: React.FC = () => {
   );
 };
 
-const MAP_HEIGHT = 250;
+const MAP_HEIGHT = 200;
 
 const Map = withStyled(
   MapView,

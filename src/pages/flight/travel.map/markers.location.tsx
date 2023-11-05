@@ -11,6 +11,7 @@ import Animated, {
 import tinycolor from 'tinycolor2';
 
 import { withStyled } from '@app/lib/styled';
+import { Typography } from '@app/components/typography';
 import { FlightStatus } from '@app/generated/server.gql';
 
 import { useFlight } from '../hooks/use.flight';
@@ -50,6 +51,9 @@ export const LocationMarkers: React.FC = () => {
           ]}
         />
         <MarkerContent />
+        <MarkerLabel>
+          {flight.Origin.cityName || flight.Origin.cityCode}
+        </MarkerLabel>
       </MapMarker>
       <MapMarker
         coordinate={{
@@ -67,6 +71,9 @@ export const LocationMarkers: React.FC = () => {
           ]}
         />
         <MarkerContent />
+        <MarkerLabel>
+          {flight.Destination.cityName || flight.Destination.cityCode}
+        </MarkerLabel>
       </MapMarker>
     </>
   );
@@ -93,3 +100,19 @@ const MarkerPulse = withStyled(Animated.View, (theme) => [
     width: '100%',
   },
 ]);
+
+const MarkerLabel = withStyled(
+  Typography,
+  (theme) => [
+    {
+      bottom: -(theme.space.tiny + theme.typography.presets.tiny.fontSize),
+      left: -theme.typography.presets.tiny.fontSize / 2,
+      position: 'absolute',
+      width: 50,
+    },
+  ],
+  {
+    isBold: true,
+    type: 'tiny',
+  },
+);

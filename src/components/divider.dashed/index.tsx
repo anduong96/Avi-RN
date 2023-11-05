@@ -45,7 +45,12 @@ export const DividerDashed: React.FC<Props> = ({
   );
 };
 
-const Container = withStyled(View, () => [{}]);
+const Container = withStyled(View, () => [
+  {
+    position: 'absolute',
+    width: '100%',
+  },
+]);
 
 const Dash = withStyled<{ isVertical: boolean; size: number }, typeof View>(
   View,

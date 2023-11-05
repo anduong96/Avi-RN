@@ -4,19 +4,16 @@ import { Text, View } from 'react-native';
 import moment from 'moment';
 import { isNil } from 'lodash';
 
-import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
-
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
 import { Statistic } from '@app/components/statistic';
 import { VerticalDivider } from '@app/components/divider.vertical';
 import { useGetFlightPromptnessQuery } from '@app/generated/server.gql';
 
-type Props = {
-  flightID: FullFlightFragmentFragment['id'];
-};
+import { useFlightID } from './context';
 
-export const PromptnessCompact: React.FC<Props> = ({ flightID }) => {
+export const PromptnessCompact: React.FC = () => {
+  const flightID = useFlightID();
   const response = useGetFlightPromptnessQuery({
     fetchPolicy: 'cache-first',
     variables: {

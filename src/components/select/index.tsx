@@ -12,6 +12,7 @@ import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { ListItem } from '../list.item';
+import { CloseBtn } from '../btn.close';
 import { LoadingOverlay } from '../loading.overlay';
 import { HorizontalDivider } from '../divider.horizontal';
 
@@ -59,9 +60,9 @@ export const Select = <T extends number | string>({
           {displayLabel || placeholder}
         </Label>
       </TouchableOpacity>
-      <Portal>
-        <FullWindowOverlay>
-          {showOptions && (
+      {showOptions && (
+        <Portal>
+          <FullWindowOverlay>
             <Animated.View
               entering={FadeInDown}
               style={StyleSheet.absoluteFill}
@@ -73,6 +74,12 @@ export const Select = <T extends number | string>({
                 <BlurView blurType="dark" style={StyleSheet.absoluteFill} />
               </Pressable>
               <Content>
+                <CloseBtn
+                  isAbsolute
+                  onPress={() => setShowOptions(false)}
+                  size={30}
+                  style={{ right: 0, top: -(30 + theme.space.small) }}
+                />
                 <Options>
                   {options.map((option, index) => (
                     <TouchableOpacity
@@ -101,9 +108,9 @@ export const Select = <T extends number | string>({
                 </Options>
               </Content>
             </Animated.View>
-          )}
-        </FullWindowOverlay>
-      </Portal>
+          </FullWindowOverlay>
+        </Portal>
+      )}
     </>
   );
 };

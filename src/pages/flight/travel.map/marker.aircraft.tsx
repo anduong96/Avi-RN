@@ -4,16 +4,12 @@ import { MapMarker, Polyline } from 'react-native-maps';
 import { isNil } from 'lodash';
 import tinycolor from 'tinycolor2';
 
-import { format } from '@app/lib/format';
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { FaIcon } from '@app/components/icons.fontawesome';
-import { createBezierCurve } from '@app/lib/geolocation/create.bezier.curve';
-import {
-  calculateDerivativeAtT,
-  calculateRotationAngle,
-  findClosestPointOnBezier,
-} from '@app/lib/geolocation/closest.to.bezier.curve';
+import { createQuadraticBezierCurve } from '@app/lib/geolocation/create.bezier.curve';
+import { findClosestPointOnBezier } from '@app/lib/geolocation/closest.to.bezier.curve';
+import { getHeadingOnQuadraticBezier } from '@app/lib/geolocation/get.bezier.curve.heading';
 
 import { useFlight } from '../hooks/use.flight';
 import { useAircraftPosition } from '../hooks/use.aircraft.position';
@@ -23,16 +19,23 @@ export const AircraftMarker: React.FC = () => {
   const flight = useFlight(true);
   const request = useAircraftPosition();
   const position = request.data?.aircraftPosition;
-  const curvePoints = createBezierCurve(flight.Origin, flight.Destination);
-  const lineColor = theme.pallette.grey[200];
+  const curvePoints = createQuadraticBezierCurve(
+    flight.Origin,
+    flight.Destination,
+    position,
+  );
+  const lineDashPattern = [2];
+  const lineWidth = 1;
+  const lineColor = theme.pallette.grey[600];
   const completedLineColor = theme.pallette.primary;
 
   if (isNil(position?.latitude) || isNil(position!.longitude)) {
     return (
       <Polyline
         coordinates={curvePoints}
+        lineDashPattern={lineDashPattern}
         strokeColor={lineColor}
-        strokeWidth={2}
+        strokeWidth={lineWidth}
       />
     );
   }
@@ -49,11 +52,19 @@ export const AircraftMarker: React.FC = () => {
       <>
         <Polyline
           coordinates={curvePoints}
+          lineDashPattern={lineDashPattern}
           strokeColor={lineColor}
-          strokeWidth={2}
+          strokeWidth={lineWidth}
         />
         <MapMarker coordinate={coordinate}>
-          <Plane name="plane-engines" />
+          <Plane
+            name="plane-engines"
+            rotation={getHeadingOnQuadraticBezier(
+              coordinate,
+              flight.Origin,
+              coordinate,
+            )}
+          />
         </MapMarker>
       </>
     );
@@ -61,29 +72,27 @@ export const AircraftMarker: React.FC = () => {
 
   const closetCoordinate = findClosestPointOnBezier(curvePoints, coordinate);
   const progress = curvePoints.indexOf(closetCoordinate);
-  const completeCoordinates = curvePoints.slice(0, progress);
-  const planeRotation = calculateRotationAngle(
-    calculateDerivativeAtT(
-      0.5,
-      curvePoints[0],
-      curvePoints[curvePoints.length - 1]!,
-      0.3,
-    ),
+  const completeCoordinates = curvePoints.slice(0, progress + 2);
+  const planeRotation = getHeadingOnQuadraticBezier(
+    flight.Origin,
+    flight.Destination,
+    coordinate,
   );
 
   return (
     <>
       <Polyline
         coordinates={curvePoints}
+        lineDashPattern={lineDashPattern}
         strokeColor={lineColor}
-        strokeWidth={2}
+        strokeWidth={lineWidth}
       />
       <Polyline
         coordinates={completeCoordinates}
         strokeColor={completedLineColor}
-        strokeWidth={2}
+        strokeWidth={lineWidth + 2}
       />
-      <MapMarker coordinate={closetCoordinate} identifier="aircraft">
+      <MapMarker coordinate={closetCoordinate}>
         <Plane name="plane-engines" rotation={planeRotation} />
       </MapMarker>
     </>
@@ -92,15 +101,17 @@ export const AircraftMarker: React.FC = () => {
 
 const Plane = withStyled<{ rotation?: number }, typeof FaIcon>(
   FaIcon,
-  (_, props) => ({
-    transform: [
-      {
-        rotate: format('%sdeg', props.rotation),
-      },
-    ],
-  }),
+  (_, props) => [
+    !isNil(props.rotation) && {
+      transform: [
+        {
+          rotate: `${props.rotation - 90}deg`,
+        },
+      ],
+    },
+  ],
   (theme) => ({
-    color: tinycolor(theme.pallette.active).brighten(10).toHexString(),
-    size: 15,
+    color: tinycolor(theme.pallette.active).brighten(20).toHexString(),
+    size: 20,
   }),
 );

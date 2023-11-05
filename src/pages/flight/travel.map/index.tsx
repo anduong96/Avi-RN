@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import MapView from 'react-native-maps';
-import LinearGradient from 'react-native-linear-gradient';
 
 import { compact } from 'lodash';
 
 import { isNil } from '@app/lib/is.nil';
+import { isIos } from '@app/lib/is.ios';
 import { logger } from '@app/lib/logger';
 import { withStyled } from '@app/lib/styled';
-import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { useFlight } from '../hooks/use.flight';
 import { AircraftMarker } from './marker.aircraft';
@@ -17,7 +16,6 @@ import { useAircraftPosition } from '../hooks/use.aircraft.position';
 
 export const TravelMap: React.FC = () => {
   const map = React.useRef<MapView>(null);
-  const theme = useTheme();
   const flight = useFlight(true);
   const aircraftPositionReq = useAircraftPosition();
   const aircraftPosition = aircraftPositionReq.data?.aircraftPosition;
@@ -53,47 +51,39 @@ export const TravelMap: React.FC = () => {
 
   return (
     <Container>
-      <Map ref={map}>
+      <Map
+        initialRegion={{
+          latitude: flight.Origin.latitude,
+          latitudeDelta: 0,
+          longitude: flight.Origin.longitude,
+          longitudeDelta: 0,
+        }}
+        ref={map}
+      >
         <LocationMarkers />
         <AircraftMarker />
       </Map>
-      <GradientContainer>
-        <Gradient colors={['transparent', theme.pallette.background]} />
-        <GradientPad />
-      </GradientContainer>
     </Container>
   );
 };
 
 const MAP_HEIGHT = 250;
 
-const Map = withStyled(MapView, () => [
+const Map = withStyled(
+  MapView,
+  () => [
+    {
+      height: MAP_HEIGHT,
+    },
+  ],
   {
-    height: MAP_HEIGHT - 10,
+    liteMode: true,
+    mapType: isIos ? 'terrain' : 'terrain',
   },
-]);
+);
 
 const Container = withStyled(View, () => [
   {
     height: MAP_HEIGHT,
   },
 ]);
-
-const Gradient = withStyled(LinearGradient, () => [
-  {
-    flexGrow: 1,
-  },
-]);
-
-const GradientPad = withStyled(View, (theme) => ({
-  backgroundColor: theme.pallette.background,
-  height: 20,
-}));
-
-const GradientContainer = withStyled(View, {
-  bottom: -10,
-  height: 80,
-  left: 0,
-  position: 'absolute',
-  right: 0,
-});

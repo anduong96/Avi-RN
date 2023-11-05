@@ -44,36 +44,3 @@ export function findClosestPointOnBezier(
 
   return closestPoint;
 }
-
-// Function to calculate the derivative of a Bezier curve at a specific t value
-export function calculateDerivativeAtT(
-  t: number,
-  startCoord: Coordinate,
-  endCoord: Coordinate,
-  controlPointFactor: number,
-): Coordinate {
-  const dX =
-    2 *
-    (1 - t) *
-    (controlPointFactor * (endCoord.longitude - startCoord.longitude));
-  const dY =
-    2 *
-    (1 - t) *
-    (controlPointFactor * (endCoord.latitude - startCoord.latitude));
-  return { latitude: dY, longitude: dX };
-}
-
-// Function to calculate the angle between the tangent vector and the east direction
-export function calculateRotationAngle(tangentVector: Coordinate): number {
-  // Calculate the angle in radians
-  const angle = Math.atan2(tangentVector.latitude, tangentVector.longitude);
-
-  // Convert the angle to degrees and adjust it to fit your image orientation
-  const degrees = (angle * 180) / Math.PI;
-
-  // Adjust the angle based on the image orientation
-  // For example, if the image is initially pointing east, you can add 90 degrees
-  const adjustedDegrees = degrees + 90;
-
-  return adjustedDegrees;
-}

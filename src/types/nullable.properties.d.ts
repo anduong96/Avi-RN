@@ -1,3 +1,5 @@
-export type NullableObject<T extends object> = {
-  [K: keyof T]: T[K] | null;
-};
+export type NullableObject<T extends object> =
+  | {
+      [K in keyof T]?: T[K] | null;
+    }
+  | null;

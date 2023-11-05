@@ -41,17 +41,17 @@ export const AirlineLogoAvatar: React.FC<Props> = ({
   return (
     <Container size={size} style={[style, containerStyle]}>
       <Logo
-        defaultSource={
-          isDark
-            ? require('@app/assets/airline.png')
-            : require('@app/assets/airline-dark.png')
-        }
+        // defaultSource={
+        //   isDark
+        //     ? require('@app/assets/airline.png')
+        //     : require('@app/assets/airline-dark.png')
+        // }
         onError={handleLoad}
         onLoad={handleLoad}
         resizeMode={FastImage.resizeMode.contain}
         source={{
           priority: FastImage.priority.high,
-          uri: match?.logoCompactImageURL,
+          uri: match!.logoCompactImageURL!,
         }}
       />
     </Container>

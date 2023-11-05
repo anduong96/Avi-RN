@@ -8,7 +8,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import tinycolor from 'tinycolor2';
+
 import { withStyled } from '@app/lib/styled';
+import { FlightStatus } from '@app/generated/server.gql';
 
 import { useFlight } from '../hooks/use.flight';
 
@@ -31,20 +34,40 @@ export const LocationMarkers: React.FC = () => {
 
   return (
     <>
-      {[flight.Origin, flight.Destination].map((location) => (
-        <MapMarker
-          coordinate={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-          }}
-          identifier={location.id}
-          key={location.id}
-          style={{ aspectRatio: 1, width: 10 }}
-        >
-          <MarkerPulse style={markerStyle} />
-          <MarkerContent />
-        </MapMarker>
-      ))}
+      <MapMarker
+        coordinate={{
+          latitude: flight.Origin.latitude,
+          longitude: flight.Origin.longitude,
+        }}
+        identifier={flight.Origin.id}
+        style={{ aspectRatio: 1, width: 10 }}
+      >
+        <MarkerPulse
+          style={[
+            (flight.status === FlightStatus.SCHEDULED ||
+              flight.status === FlightStatus.DELAYED) &&
+              markerStyle,
+          ]}
+        />
+        <MarkerContent />
+      </MapMarker>
+      <MapMarker
+        coordinate={{
+          latitude: flight.Destination.latitude,
+          longitude: flight.Destination.longitude,
+        }}
+        identifier={flight.Destination.id}
+        style={{ aspectRatio: 1, width: 10 }}
+      >
+        <MarkerPulse
+          style={[
+            (flight.status === FlightStatus.LANDED ||
+              flight.status === FlightStatus.DEPARTED) &&
+              markerStyle,
+          ]}
+        />
+        <MarkerContent />
+      </MapMarker>
     </>
   );
 };
@@ -61,12 +84,12 @@ const MarkerContent = withStyled(View, (theme) => [
 
 const MarkerPulse = withStyled(Animated.View, (theme) => [
   {
-    borderColor: theme.pallette.primary,
+    backgroundColor: tinycolor(theme.pallette.background)
+      .setAlpha(0.4)
+      .toRgbString(),
     borderRadius: theme.roundRadius,
-    borderWidth: 1,
     height: '100%',
     position: 'absolute',
     width: '100%',
-    zIndex: 1,
   },
 ]);

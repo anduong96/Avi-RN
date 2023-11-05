@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import moment from 'moment';
 import { isNil } from 'lodash';
 
 import { Card } from '@app/components/card';
@@ -22,6 +23,7 @@ export const AircraftPositionCard: React.FC<Props> = ({ flightID }) => {
   });
   const aircraftID = aircraft.data?.aircraft?.id;
   const aircraftPosition = useAircraftPositionQuery({
+    pollInterval: moment.duration({ seconds: 30 }).milliseconds(),
     skip: isNil(aircraftID),
     variables: { aircraftID: aircraftID! },
   });

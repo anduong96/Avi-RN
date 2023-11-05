@@ -8,6 +8,8 @@ import * as Sentry from '@sentry/react-native';
 
 import { ENV } from '@app/env';
 
+import { logger } from '../logger';
+
 Sentry.init({
   attachScreenshot: true,
   debug: false,
@@ -23,6 +25,7 @@ Sentry.init({
 });
 
 setJSExceptionHandler((error, isFatal) => {
+  logger.debug({ error, isFatal });
   Sentry.captureException(error);
 
   if (isFatal) {
@@ -42,8 +45,9 @@ setJSExceptionHandler((error, isFatal) => {
       ],
     );
   }
-});
+}, true);
 
 setNativeExceptionHandler((errorString) => {
+  logger.debug({ errorString });
   Sentry.captureException(errorString);
 });

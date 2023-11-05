@@ -1,4 +1,7 @@
+import { isNil } from 'lodash';
+
 import type { Coordinate } from '@app/types/coordinate';
+import type { NullableObject } from '@app/types/nullable.properties';
 
 function calculateDistance(coord1: Coordinate, coord2: Coordinate): number {
   const R = 6371; // Earth's radius in kilometers
@@ -49,4 +52,36 @@ export function createBezierCurve(
   }
 
   return points;
+}
+
+export function createQuadraticBezierCurve(
+  start: Coordinate,
+  end: Coordinate,
+  control?: NullableObject<Coordinate>,
+  numPoints: number = 100,
+): Coordinate[] {
+  if (isNil(control) || isNil(control?.latitude) || isNil(control?.longitude)) {
+    return createBezierCurve(start, end);
+  }
+
+  const curve: Coordinate[] = [];
+
+  for (let t = 0; t <= 1; t += 1 / numPoints) {
+    const invT = 1 - t;
+    const invT2 = invT * invT;
+    const t2 = t * t;
+
+    const latitude =
+      start.latitude * invT2 +
+      2 * control.latitude * invT * t +
+      end.latitude * t2;
+    const longitude =
+      start.longitude * invT2 +
+      2 * control.longitude * invT * t +
+      end.longitude * t2;
+
+    curve.push({ latitude, longitude });
+  }
+
+  return curve;
 }

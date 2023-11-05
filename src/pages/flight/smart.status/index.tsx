@@ -28,6 +28,14 @@ export const SmartStatus: React.FC = () => {
   return <></>;
 };
 
-const Container = withStyled(Animated.View, () => [], {
-  entering: FadeIn,
-});
+const Container = withStyled(
+  Animated.View,
+  (theme) => [
+    {
+      marginBottom: theme.space.medium,
+    },
+  ],
+  {
+    entering: FadeIn,
+  },
+);

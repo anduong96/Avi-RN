@@ -101,7 +101,15 @@ export const AircraftMarker: React.FC = () => {
 
 const Plane = withStyled<{ rotation?: number }, typeof FaIcon>(
   FaIcon,
-  (_, props) => [
+  (theme, props) => [
+    theme.presets.shadows[200],
+    {
+      shadowOffset: {
+        height: -5,
+        width: -5,
+      },
+      shadowOpacity: 0.6,
+    },
     !isNil(props.rotation) && {
       transform: [
         {
@@ -111,7 +119,7 @@ const Plane = withStyled<{ rotation?: number }, typeof FaIcon>(
     },
   ],
   (theme) => ({
-    color: tinycolor(theme.pallette.active).brighten(20).toHexString(),
+    color: tinycolor(theme.pallette.active).toHexString(),
     size: 20,
   }),
 );

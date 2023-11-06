@@ -11,7 +11,7 @@ import { isEmpty } from 'lodash';
 import { FlashList } from '@shopify/flash-list';
 import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
 
-import type { GetUserActiveFlightsQuery } from '@app/generated/server.gql';
+import type { UserActiveFlightsQuery } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
 import { Button } from '@app/components/button';
@@ -23,11 +23,11 @@ import { PageContainer } from '@app/components/page.container';
 import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
 import { useRootNavigation } from '@app/navigation/use.root.navigation';
 import {
-  GetUserActiveFlightsDocument,
+  UserActiveFlightsDocument,
   UserHasFlightsDocument,
   useDeleteUserFlightMutation,
-  useGetUserActiveFlightsQuery,
-  useGetUserArchivedFlightsQuery,
+  useUserActiveFlightsQuery,
+  useUserArchivedFlightsQuery,
 } from '@app/generated/server.gql';
 
 import { BottomTabs } from './bottom.tabs';
@@ -35,21 +35,21 @@ import { AddFlightBtn } from './add.flight.btn';
 
 export const HomePage: React.FC = () => {
   const prompt = usePrompt();
-  const flights = useGetUserActiveFlightsQuery();
-  const archived = useGetUserArchivedFlightsQuery();
+  const flights = useUserActiveFlightsQuery();
+  const archived = useUserArchivedFlightsQuery();
   const rootNav = useRootNavigation();
   const scrollPosition = useScrollPosition();
   const activeFlights = flights.data?.userActiveFlights;
   const archivedFlights = archived.data?.userArchivedFlights;
   const hasArchivedFlights = !isEmpty(archivedFlights);
   const scroll =
-    React.useRef<FlashList<GetUserActiveFlightsQuery['userActiveFlights'][0]>>(
+    React.useRef<FlashList<UserActiveFlightsQuery['userActiveFlights'][0]>>(
       null,
     );
 
   const [removeFlight] = useDeleteUserFlightMutation({
     refetchQueries: [
-      { query: GetUserActiveFlightsDocument },
+      { query: UserActiveFlightsDocument },
       { query: UserHasFlightsDocument },
     ],
   });

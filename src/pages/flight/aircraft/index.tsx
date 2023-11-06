@@ -12,11 +12,11 @@ import { Statistic } from '@app/components/statistic';
 import { useAircraftQuery } from '@app/generated/server.gql';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 
-import { useFlight } from '../hooks/use.flight';
+import { useFlight } from '../context';
 
 export const AircraftCard: React.FC = () => {
   const [imageLoaded, setImageLoaded] = React.useState(false);
-  const flight = useFlight(true);
+  const flight = useFlight();
   const tailNumber = flight.aircraftTailNumber;
   const response = useAircraftQuery({
     skip: !tailNumber,

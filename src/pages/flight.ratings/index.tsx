@@ -11,7 +11,7 @@ import type { FlightStackParams } from '@app/navigation/flight.stack';
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { PageHeader } from '@app/components/page.header';
-import { useGetFlightQuery } from '@app/generated/server.gql';
+import { useFlightQuery } from '@app/generated/server.gql';
 import { PageContainer } from '@app/components/page.container';
 import { LoadingContainer } from '@app/components/loading.container';
 
@@ -22,12 +22,7 @@ export const FlightRatingsPage: React.FC = () => {
   const route = useRoute<Route>();
   const navigation = useNavigation<Navigation>();
   const flightID = route.params.flightID;
-  const flight = useGetFlightQuery({
-    fetchPolicy: 'cache-first',
-    variables: {
-      flightID,
-    },
-  });
+  const flight = useFlightQuery({ variables: { flightID } });
 
   const handleBack = () => {
     vibrate('effectClick');

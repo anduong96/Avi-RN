@@ -7,7 +7,7 @@ import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { useGetRandomFlightLazyQuery } from '@app/generated/server.gql';
+import { useRandomFlightLazyQuery } from '@app/generated/server.gql';
 
 import { FaIcon } from '../icons.fontawesome';
 import { LoadingOverlay } from '../loading.overlay';
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const RandomFlightBtn: React.FC<Props> = ({ onFlight, withLabel }) => {
-  const [getFlight, { loading }] = useGetRandomFlightLazyQuery({
+  const [getFlight, { loading }] = useRandomFlightLazyQuery({
     onCompleted(data) {
       onFlight(data.randomFlight);
     },

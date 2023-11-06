@@ -13,7 +13,7 @@ import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { ScrollUp } from '@app/components/scroll.up';
 import { CloseBtn } from '@app/components/btn.close';
-import { useGetFlightQuery } from '@app/generated/server.gql';
+import { useFlightQuery } from '@app/generated/server.gql';
 import { PageContainer } from '@app/components/page.container';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
@@ -39,11 +39,7 @@ export const FlightPage: React.FC = () => {
   const isFromSearch = route.params.isFromSearch;
   const container = React.useRef<ScrollView>(null);
   const scrollPosition = useScrollPosition();
-  const flightResponse = useGetFlightQuery({
-    variables: {
-      flightID,
-    },
-  });
+  const flightResponse = useFlightQuery({ variables: { flightID } });
   const flight = flightResponse.data?.flight;
   const data = flight ? transformFlightData(flight) : null;
 
@@ -54,7 +50,12 @@ export const FlightPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <FlightContext.Provider value={{ flightID }}>
+      <FlightContext.Provider
+        value={{
+          flight: flight!,
+          flightID,
+        }}
+      >
         <LoadingOverlay isDark isLoading={flightResponse.loading} />
         {flight && data && (
           <Container

@@ -10,11 +10,11 @@ import { FlightCard } from '@app/components/flight.card';
 import { ModalHeader } from '@app/components/modal.header';
 import { PageContainer } from '@app/components/page.container';
 import { useRootNavigation } from '@app/navigation/use.root.navigation';
-import { useGetUserArchivedFlightsQuery } from '@app/generated/server.gql';
+import { useUserArchivedFlightsQuery } from '@app/generated/server.gql';
 
 export const ArchivedFlightsPage: React.FC = () => {
   const rootNavigation = useRootNavigation();
-  const response = useGetUserArchivedFlightsQuery({
+  const response = useUserArchivedFlightsQuery({
     fetchPolicy: 'cache-first',
   });
 

@@ -375,34 +375,34 @@ export type FindFlightsQueryVariables = Exact<{
 
 export type FindFlightsQuery = { __typename?: 'Query', flights: Array<{ __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } }> };
 
-export type GetFlightPromptnessQueryVariables = Exact<{
+export type FlightPromptnessQueryVariables = Exact<{
   flightID: Scalars['String']['input'];
 }>;
 
 
-export type GetFlightPromptnessQuery = { __typename?: 'Query', flightPromptness: { __typename?: 'FlightPromptness', onTimePercent?: number | null, rating?: number | null, averageDelayTimeMs?: number | null } };
+export type FlightPromptnessQuery = { __typename?: 'Query', flightPromptness: { __typename?: 'FlightPromptness', onTimePercent?: number | null, rating?: number | null, averageDelayTimeMs?: number | null } };
 
-export type GetFlightQueryVariables = Exact<{
+export type FlightQueryVariables = Exact<{
   flightID: Scalars['String']['input'];
 }>;
 
 
-export type GetFlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } } };
+export type FlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } } };
 
-export type GetRandomFlightQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetRandomFlightQuery = { __typename?: 'Query', randomFlight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } } };
-
-export type GetUserActiveFlightsQueryVariables = Exact<{ [key: string]: never; }>;
+export type RandomFlightQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserActiveFlightsQuery = { __typename?: 'Query', userActiveFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, shouldAlert: boolean, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } } }> };
+export type RandomFlightQuery = { __typename?: 'Query', randomFlight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } } };
 
-export type GetUserArchivedFlightsQueryVariables = Exact<{ [key: string]: never; }>;
+export type UserActiveFlightsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserArchivedFlightsQuery = { __typename?: 'Query', userArchivedFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } } }> };
+export type UserActiveFlightsQuery = { __typename?: 'Query', userActiveFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, shouldAlert: boolean, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } } }> };
+
+export type UserArchivedFlightsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserArchivedFlightsQuery = { __typename?: 'Query', userArchivedFlights: Array<{ __typename?: 'UserFlight', id: string, flightID: string, createdAt: any, Flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } } }> };
 
 export type AddUserFlightMutationVariables = Exact<{
   flightID: Scalars['String']['input'];
@@ -739,7 +739,7 @@ export function refetchAirportQuery(variables: AirportQueryVariables) {
       return { query: AirportDocument, variables: variables }
     }
 export const DebugFlightNotificationDocument = gql`
-    mutation debugFlightNotification($flightID: String!, $title: String!, $body: String!, $data: JSON) {
+    mutation DebugFlightNotification($flightID: String!, $title: String!, $body: String!, $data: JSON) {
   _sendFlightNotification(
     flightID: $flightID
     title: $title
@@ -825,8 +825,8 @@ export type FindFlightsQueryResult = Apollo.QueryResult<FindFlightsQuery, FindFl
 export function refetchFindFlightsQuery(variables: FindFlightsQueryVariables) {
       return { query: FindFlightsDocument, variables: variables }
     }
-export const GetFlightPromptnessDocument = gql`
-    query GetFlightPromptness($flightID: String!) {
+export const FlightPromptnessDocument = gql`
+    query FlightPromptness($flightID: String!) {
   flightPromptness(flightID: $flightID) {
     onTimePercent
     rating
@@ -836,37 +836,37 @@ export const GetFlightPromptnessDocument = gql`
     `;
 
 /**
- * __useGetFlightPromptnessQuery__
+ * __useFlightPromptnessQuery__
  *
- * To run a query within a React component, call `useGetFlightPromptnessQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFlightPromptnessQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFlightPromptnessQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFlightPromptnessQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetFlightPromptnessQuery({
+ * const { data, loading, error } = useFlightPromptnessQuery({
  *   variables: {
  *      flightID: // value for 'flightID'
  *   },
  * });
  */
-export function useGetFlightPromptnessQuery(baseOptions: Apollo.QueryHookOptions<GetFlightPromptnessQuery, GetFlightPromptnessQueryVariables>) {
+export function useFlightPromptnessQuery(baseOptions: Apollo.QueryHookOptions<FlightPromptnessQuery, FlightPromptnessQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetFlightPromptnessQuery, GetFlightPromptnessQueryVariables>(GetFlightPromptnessDocument, options);
+        return Apollo.useQuery<FlightPromptnessQuery, FlightPromptnessQueryVariables>(FlightPromptnessDocument, options);
       }
-export function useGetFlightPromptnessLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFlightPromptnessQuery, GetFlightPromptnessQueryVariables>) {
+export function useFlightPromptnessLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FlightPromptnessQuery, FlightPromptnessQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetFlightPromptnessQuery, GetFlightPromptnessQueryVariables>(GetFlightPromptnessDocument, options);
+          return Apollo.useLazyQuery<FlightPromptnessQuery, FlightPromptnessQueryVariables>(FlightPromptnessDocument, options);
         }
-export type GetFlightPromptnessQueryHookResult = ReturnType<typeof useGetFlightPromptnessQuery>;
-export type GetFlightPromptnessLazyQueryHookResult = ReturnType<typeof useGetFlightPromptnessLazyQuery>;
-export type GetFlightPromptnessQueryResult = Apollo.QueryResult<GetFlightPromptnessQuery, GetFlightPromptnessQueryVariables>;
-export function refetchGetFlightPromptnessQuery(variables: GetFlightPromptnessQueryVariables) {
-      return { query: GetFlightPromptnessDocument, variables: variables }
+export type FlightPromptnessQueryHookResult = ReturnType<typeof useFlightPromptnessQuery>;
+export type FlightPromptnessLazyQueryHookResult = ReturnType<typeof useFlightPromptnessLazyQuery>;
+export type FlightPromptnessQueryResult = Apollo.QueryResult<FlightPromptnessQuery, FlightPromptnessQueryVariables>;
+export function refetchFlightPromptnessQuery(variables: FlightPromptnessQueryVariables) {
+      return { query: FlightPromptnessDocument, variables: variables }
     }
-export const GetFlightDocument = gql`
-    query GetFlight($flightID: String!) {
+export const FlightDocument = gql`
+    query Flight($flightID: String!) {
   flight(flightID: $flightID) {
     ...FullFlightFragment
   }
@@ -874,37 +874,37 @@ export const GetFlightDocument = gql`
     ${FullFlightFragmentFragmentDoc}`;
 
 /**
- * __useGetFlightQuery__
+ * __useFlightQuery__
  *
- * To run a query within a React component, call `useGetFlightQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFlightQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFlightQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFlightQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetFlightQuery({
+ * const { data, loading, error } = useFlightQuery({
  *   variables: {
  *      flightID: // value for 'flightID'
  *   },
  * });
  */
-export function useGetFlightQuery(baseOptions: Apollo.QueryHookOptions<GetFlightQuery, GetFlightQueryVariables>) {
+export function useFlightQuery(baseOptions: Apollo.QueryHookOptions<FlightQuery, FlightQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetFlightQuery, GetFlightQueryVariables>(GetFlightDocument, options);
+        return Apollo.useQuery<FlightQuery, FlightQueryVariables>(FlightDocument, options);
       }
-export function useGetFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFlightQuery, GetFlightQueryVariables>) {
+export function useFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FlightQuery, FlightQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetFlightQuery, GetFlightQueryVariables>(GetFlightDocument, options);
+          return Apollo.useLazyQuery<FlightQuery, FlightQueryVariables>(FlightDocument, options);
         }
-export type GetFlightQueryHookResult = ReturnType<typeof useGetFlightQuery>;
-export type GetFlightLazyQueryHookResult = ReturnType<typeof useGetFlightLazyQuery>;
-export type GetFlightQueryResult = Apollo.QueryResult<GetFlightQuery, GetFlightQueryVariables>;
-export function refetchGetFlightQuery(variables: GetFlightQueryVariables) {
-      return { query: GetFlightDocument, variables: variables }
+export type FlightQueryHookResult = ReturnType<typeof useFlightQuery>;
+export type FlightLazyQueryHookResult = ReturnType<typeof useFlightLazyQuery>;
+export type FlightQueryResult = Apollo.QueryResult<FlightQuery, FlightQueryVariables>;
+export function refetchFlightQuery(variables: FlightQueryVariables) {
+      return { query: FlightDocument, variables: variables }
     }
-export const GetRandomFlightDocument = gql`
-    query GetRandomFlight {
+export const RandomFlightDocument = gql`
+    query RandomFlight {
   randomFlight {
     ...FullFlightFragment
   }
@@ -912,36 +912,36 @@ export const GetRandomFlightDocument = gql`
     ${FullFlightFragmentFragmentDoc}`;
 
 /**
- * __useGetRandomFlightQuery__
+ * __useRandomFlightQuery__
  *
- * To run a query within a React component, call `useGetRandomFlightQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetRandomFlightQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRandomFlightQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRandomFlightQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetRandomFlightQuery({
+ * const { data, loading, error } = useRandomFlightQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetRandomFlightQuery(baseOptions?: Apollo.QueryHookOptions<GetRandomFlightQuery, GetRandomFlightQueryVariables>) {
+export function useRandomFlightQuery(baseOptions?: Apollo.QueryHookOptions<RandomFlightQuery, RandomFlightQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetRandomFlightQuery, GetRandomFlightQueryVariables>(GetRandomFlightDocument, options);
+        return Apollo.useQuery<RandomFlightQuery, RandomFlightQueryVariables>(RandomFlightDocument, options);
       }
-export function useGetRandomFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRandomFlightQuery, GetRandomFlightQueryVariables>) {
+export function useRandomFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RandomFlightQuery, RandomFlightQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetRandomFlightQuery, GetRandomFlightQueryVariables>(GetRandomFlightDocument, options);
+          return Apollo.useLazyQuery<RandomFlightQuery, RandomFlightQueryVariables>(RandomFlightDocument, options);
         }
-export type GetRandomFlightQueryHookResult = ReturnType<typeof useGetRandomFlightQuery>;
-export type GetRandomFlightLazyQueryHookResult = ReturnType<typeof useGetRandomFlightLazyQuery>;
-export type GetRandomFlightQueryResult = Apollo.QueryResult<GetRandomFlightQuery, GetRandomFlightQueryVariables>;
-export function refetchGetRandomFlightQuery(variables?: GetRandomFlightQueryVariables) {
-      return { query: GetRandomFlightDocument, variables: variables }
+export type RandomFlightQueryHookResult = ReturnType<typeof useRandomFlightQuery>;
+export type RandomFlightLazyQueryHookResult = ReturnType<typeof useRandomFlightLazyQuery>;
+export type RandomFlightQueryResult = Apollo.QueryResult<RandomFlightQuery, RandomFlightQueryVariables>;
+export function refetchRandomFlightQuery(variables?: RandomFlightQueryVariables) {
+      return { query: RandomFlightDocument, variables: variables }
     }
-export const GetUserActiveFlightsDocument = gql`
-    query GetUserActiveFlights {
+export const UserActiveFlightsDocument = gql`
+    query UserActiveFlights {
   userActiveFlights {
     id
     flightID
@@ -955,36 +955,36 @@ export const GetUserActiveFlightsDocument = gql`
     ${FullFlightFragmentFragmentDoc}`;
 
 /**
- * __useGetUserActiveFlightsQuery__
+ * __useUserActiveFlightsQuery__
  *
- * To run a query within a React component, call `useGetUserActiveFlightsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserActiveFlightsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserActiveFlightsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserActiveFlightsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUserActiveFlightsQuery({
+ * const { data, loading, error } = useUserActiveFlightsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetUserActiveFlightsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserActiveFlightsQuery, GetUserActiveFlightsQueryVariables>) {
+export function useUserActiveFlightsQuery(baseOptions?: Apollo.QueryHookOptions<UserActiveFlightsQuery, UserActiveFlightsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserActiveFlightsQuery, GetUserActiveFlightsQueryVariables>(GetUserActiveFlightsDocument, options);
+        return Apollo.useQuery<UserActiveFlightsQuery, UserActiveFlightsQueryVariables>(UserActiveFlightsDocument, options);
       }
-export function useGetUserActiveFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserActiveFlightsQuery, GetUserActiveFlightsQueryVariables>) {
+export function useUserActiveFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserActiveFlightsQuery, UserActiveFlightsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserActiveFlightsQuery, GetUserActiveFlightsQueryVariables>(GetUserActiveFlightsDocument, options);
+          return Apollo.useLazyQuery<UserActiveFlightsQuery, UserActiveFlightsQueryVariables>(UserActiveFlightsDocument, options);
         }
-export type GetUserActiveFlightsQueryHookResult = ReturnType<typeof useGetUserActiveFlightsQuery>;
-export type GetUserActiveFlightsLazyQueryHookResult = ReturnType<typeof useGetUserActiveFlightsLazyQuery>;
-export type GetUserActiveFlightsQueryResult = Apollo.QueryResult<GetUserActiveFlightsQuery, GetUserActiveFlightsQueryVariables>;
-export function refetchGetUserActiveFlightsQuery(variables?: GetUserActiveFlightsQueryVariables) {
-      return { query: GetUserActiveFlightsDocument, variables: variables }
+export type UserActiveFlightsQueryHookResult = ReturnType<typeof useUserActiveFlightsQuery>;
+export type UserActiveFlightsLazyQueryHookResult = ReturnType<typeof useUserActiveFlightsLazyQuery>;
+export type UserActiveFlightsQueryResult = Apollo.QueryResult<UserActiveFlightsQuery, UserActiveFlightsQueryVariables>;
+export function refetchUserActiveFlightsQuery(variables?: UserActiveFlightsQueryVariables) {
+      return { query: UserActiveFlightsDocument, variables: variables }
     }
-export const GetUserArchivedFlightsDocument = gql`
-    query GetUserArchivedFlights {
+export const UserArchivedFlightsDocument = gql`
+    query UserArchivedFlights {
   userArchivedFlights {
     id
     flightID
@@ -997,33 +997,33 @@ export const GetUserArchivedFlightsDocument = gql`
     ${FullFlightFragmentFragmentDoc}`;
 
 /**
- * __useGetUserArchivedFlightsQuery__
+ * __useUserArchivedFlightsQuery__
  *
- * To run a query within a React component, call `useGetUserArchivedFlightsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserArchivedFlightsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserArchivedFlightsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserArchivedFlightsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUserArchivedFlightsQuery({
+ * const { data, loading, error } = useUserArchivedFlightsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetUserArchivedFlightsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserArchivedFlightsQuery, GetUserArchivedFlightsQueryVariables>) {
+export function useUserArchivedFlightsQuery(baseOptions?: Apollo.QueryHookOptions<UserArchivedFlightsQuery, UserArchivedFlightsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserArchivedFlightsQuery, GetUserArchivedFlightsQueryVariables>(GetUserArchivedFlightsDocument, options);
+        return Apollo.useQuery<UserArchivedFlightsQuery, UserArchivedFlightsQueryVariables>(UserArchivedFlightsDocument, options);
       }
-export function useGetUserArchivedFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserArchivedFlightsQuery, GetUserArchivedFlightsQueryVariables>) {
+export function useUserArchivedFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserArchivedFlightsQuery, UserArchivedFlightsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserArchivedFlightsQuery, GetUserArchivedFlightsQueryVariables>(GetUserArchivedFlightsDocument, options);
+          return Apollo.useLazyQuery<UserArchivedFlightsQuery, UserArchivedFlightsQueryVariables>(UserArchivedFlightsDocument, options);
         }
-export type GetUserArchivedFlightsQueryHookResult = ReturnType<typeof useGetUserArchivedFlightsQuery>;
-export type GetUserArchivedFlightsLazyQueryHookResult = ReturnType<typeof useGetUserArchivedFlightsLazyQuery>;
-export type GetUserArchivedFlightsQueryResult = Apollo.QueryResult<GetUserArchivedFlightsQuery, GetUserArchivedFlightsQueryVariables>;
-export function refetchGetUserArchivedFlightsQuery(variables?: GetUserArchivedFlightsQueryVariables) {
-      return { query: GetUserArchivedFlightsDocument, variables: variables }
+export type UserArchivedFlightsQueryHookResult = ReturnType<typeof useUserArchivedFlightsQuery>;
+export type UserArchivedFlightsLazyQueryHookResult = ReturnType<typeof useUserArchivedFlightsLazyQuery>;
+export type UserArchivedFlightsQueryResult = Apollo.QueryResult<UserArchivedFlightsQuery, UserArchivedFlightsQueryVariables>;
+export function refetchUserArchivedFlightsQuery(variables?: UserArchivedFlightsQueryVariables) {
+      return { query: UserArchivedFlightsDocument, variables: variables }
     }
 export const AddUserFlightDocument = gql`
     mutation AddUserFlight($flightID: String!) {

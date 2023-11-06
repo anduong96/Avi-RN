@@ -9,14 +9,14 @@ import { isIos } from '@app/lib/is.ios';
 import { logger } from '@app/lib/logger';
 import { withStyled } from '@app/lib/styled';
 
-import { useFlight } from '../hooks/use.flight';
+import { useFlight } from '../context';
 import { AircraftMarker } from './marker.aircraft';
 import { LocationMarkers } from './markers.location';
 import { useAircraftPosition } from '../hooks/use.aircraft.position';
 
 export const TravelMap: React.FC = () => {
   const map = React.useRef<MapView>(null);
-  const flight = useFlight(true);
+  const flight = useFlight();
   const aircraftPositionReq = useAircraftPosition();
   const aircraftPosition = aircraftPositionReq.data?.aircraftPosition;
 

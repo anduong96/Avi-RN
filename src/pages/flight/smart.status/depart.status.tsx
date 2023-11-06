@@ -2,38 +2,58 @@ import * as React from 'react';
 import { View } from 'react-native';
 
 import moment from 'moment';
-import tinycolor from 'tinycolor2';
 
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { Typography } from '@app/components/typography';
+import { useCountDown } from '@app/lib/hooks/use.count.down';
 import { formatDurationMs } from '@app/lib/duration/format.duration';
+import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
 
-import { useFlight } from '../hooks/use.flight';
+import { useFlight } from '../context';
 
 export const DepartStatus: React.FC = () => {
-  const flight = useFlight(true);
+  const flight = useFlight();
+  const formatted = transformFlightData(flight);
   const theme = useTheme();
+  const timeToDepart = React.useMemo(
+    () => moment().diff(flight.estimatedGateDeparture),
+    [flight],
+  );
+  const timeLeft = useCountDown(timeToDepart);
+
+  const [, statusColor] =
+    formatted.origin.status === 'early'
+      ? ['Early', theme.pallette.success]
+      : formatted.origin.status === 'delayed'
+      ? ['Delayed', theme.pallette.warn]
+      : formatted.origin.status === 'late'
+      ? ['Late', theme.pallette.danger]
+      : ['On Time', theme.pallette.success];
 
   return (
     <Card
-      style={{
-        backgroundColor: tinycolor(theme.pallette.active)
-          .setAlpha(0.1)
-          .toRgbString(),
-        borderColor: theme.pallette.active,
-        borderWidth: theme.borderWidth,
-      }}
+      padding="large"
+      style={[
+        {
+          backgroundColor: theme.pallette.background,
+          borderColor: statusColor,
+          borderWidth: theme.borderWidth,
+          shadowColor: statusColor,
+        },
+      ]}
     >
-      <Meta>
-        <Typography isBold status="secondary">
-          Depart in
-        </Typography>
-        <Typography isBold type="h1">
-          {formatDurationMs(moment().diff(flight.estimatedGateDeparture))}
-        </Typography>
-      </Meta>
+      <Content>
+        <Meta>
+          <Typography isBold status="secondary">
+            Depart in
+          </Typography>
+          <Typography isBold type="massive">
+            {formatDurationMs(timeLeft)}
+          </Typography>
+        </Meta>
+      </Content>
     </Card>
   );
 };
@@ -41,6 +61,15 @@ export const DepartStatus: React.FC = () => {
 const Meta = withStyled(View, (theme) => [
   theme.presets.centered,
   {
+    flexBasis: 1,
+    flexGrow: 1,
     gap: theme.space.small,
+  },
+]);
+
+const Content = withStyled(View, (theme) => [
+  {
+    flexDirection: 'row',
+    gap: theme.space.medium,
   },
 ]);

@@ -88,7 +88,7 @@ query FindFlights(
   }
 }
 
-query GetFlightPromptness($flightID: String!) {
+query FlightPromptness($flightID: String!) {
   flightPromptness(flightID: $flightID) {
     onTimePercent
     rating
@@ -96,19 +96,19 @@ query GetFlightPromptness($flightID: String!) {
   }
 }
 
-query GetFlight($flightID: String!) {
+query Flight($flightID: String!) {
   flight(flightID: $flightID) {
     ...FullFlightFragment
   }
 }
 
-query GetRandomFlight {
+query RandomFlight {
   randomFlight {
     ...FullFlightFragment
   }
 }
 
-query GetUserActiveFlights {
+query UserActiveFlights {
   userActiveFlights {
     id
     flightID
@@ -120,7 +120,7 @@ query GetUserActiveFlights {
   }
 }
 
-query GetUserArchivedFlights {
+query UserArchivedFlights {
   userArchivedFlights {
     id
     flightID

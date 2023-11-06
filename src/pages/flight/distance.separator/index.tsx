@@ -6,20 +6,20 @@ import { isNil } from 'lodash';
 
 import { withStyled } from '@app/lib/styled';
 import { DOT_SEPARATOR } from '@app/constants';
-import { formatDuration } from '@app/lib/format.duration';
 import { DividerDashed } from '@app/components/divider.dashed';
+import { formatDurationMs } from '@app/lib/duration/format.duration';
 import { useMeasurementDisplay } from '@app/lib/hooks/use.measurement.display';
 
-import { useFlight } from '../hooks/use.flight';
+import { useFlight } from '../context';
 
 export const FlightPageDistanceSeparator: React.FC = () => {
-  const flight = useFlight(true);
+  const flight = useFlight();
   const { estimatedGateArrival, estimatedGateDeparture, totalDistanceKm } =
     flight;
 
   const distance = useMeasurementDisplay('km', totalDistanceKm);
   const diff = moment(estimatedGateArrival).diff(estimatedGateDeparture);
-  const durationText = formatDuration(diff);
+  const durationText = formatDurationMs(diff);
 
   return (
     <Container>

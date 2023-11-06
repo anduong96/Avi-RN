@@ -14,10 +14,10 @@ import { withStyled } from '@app/lib/styled';
 import { Typography } from '@app/components/typography';
 import { FlightStatus } from '@app/generated/server.gql';
 
-import { useFlight } from '../hooks/use.flight';
+import { useFlight } from '../context';
 
 export const LocationMarkers: React.FC = () => {
-  const flight = useFlight(true);
+  const flight = useFlight();
   const markerStyle = useAnimatedStyle(() => ({
     transform: [
       {
@@ -113,6 +113,7 @@ const MarkerLabel = withStyled(
   ],
   {
     isBold: true,
+    numberOfLines: 1,
     type: 'tiny',
   },
 );

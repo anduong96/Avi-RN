@@ -3,23 +3,24 @@ import { Text, View } from 'react-native';
 
 import moment from 'moment';
 
-import type { Flight } from '@app/generated/server.gql';
+import type {
+  Flight,
+  UserArchivedFlightsQuery,
+} from '@app/generated/server.gql';
 
 import { format } from '@app/lib/format';
 import { withStyled } from '@app/lib/styled';
 import { DOT_SEPARATOR } from '@app/constants';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { FlightStatus } from '@app/generated/server.gql';
 import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
-import {
-  FlightStatus,
-  type GetUserArchivedFlightsQuery,
-} from '@app/generated/server.gql';
 
 import { FaIcon } from '../icons.fontawesome';
 import { DividerDashed } from '../divider.dashed';
 import { AirlineLogoAvatar } from '../airline.logo.avatar';
+
 type Props = {
-  value: GetUserArchivedFlightsQuery['userArchivedFlights'][number];
+  value: UserArchivedFlightsQuery['userArchivedFlights'][number];
 };
 
 export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
@@ -76,7 +77,7 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
           <TimeText bold>
             {Flight.status === FlightStatus.SCHEDULED ||
             Flight.status === FlightStatus.DELAYED
-              ? format('Depart %s', departureTime.fromNow())
+              ? format('Departed %s', departureTime.fromNow())
               : Flight.status === FlightStatus.ARRIVED ||
                 Flight.status === FlightStatus.ARCHIVED
               ? format('Arrived %s', arrivalTime.fromNow())

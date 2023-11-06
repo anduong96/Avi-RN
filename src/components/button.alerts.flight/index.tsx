@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { vibrate } from '@app/lib/haptic.feedback';
 import { FlightPushSubState } from '@app/state/flight.push.sub';
-import { FlightStatus, useGetFlightQuery } from '@app/generated/server.gql';
+import { FlightStatus, useFlightQuery } from '@app/generated/server.gql';
 
 import { Button } from '../button';
 
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const AlertFlightButton: React.FC<Props> = ({ flightID }) => {
-  const flight = useGetFlightQuery({
+  const flight = useFlightQuery({
     variables: {
       flightID,
     },

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { RefreshControl } from 'react-native-gesture-handler';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -52,8 +53,9 @@ export const FlightsResultSet: React.FC = () => {
       }
       data={result.data?.flights}
       keyExtractor={(item) => item.id}
-      onRefresh={() => result.refetch()}
-      refreshing={result.loading}
+      refreshControl={
+        <RefreshControl onRefresh={() => result.refetch()} refreshing={false} />
+      }
       renderItem={({ item }) => (
         <Item onPress={() => handlePress(item)}>
           <FlightCardCompact flight={item} />

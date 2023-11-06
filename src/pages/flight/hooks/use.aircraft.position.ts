@@ -3,10 +3,10 @@ import {
   useAircraftQuery,
 } from '@app/generated/server.gql';
 
-import { useFlight } from './use.flight';
+import { useFlight } from '../context';
 
 export function useAircraftPosition() {
-  const flight = useFlight(true);
+  const flight = useFlight();
   const aircraft = useAircraftQuery({
     skip: !flight.aircraftTailNumber,
     variables: {

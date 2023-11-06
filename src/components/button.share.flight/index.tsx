@@ -5,7 +5,7 @@ import { tryNice } from 'try-nice';
 
 import { vibrate } from '@app/lib/haptic.feedback';
 import { buildFlightLink } from '@app/lib/deep.link';
-import { useGetFlightQuery } from '@app/generated/server.gql';
+import { useFlightQuery } from '@app/generated/server.gql';
 
 import { Button } from '../button';
 
@@ -15,7 +15,7 @@ type Props = {
 
 export const ShareFlightButton: React.FC<Props> = ({ flightID }) => {
   const [loading, setLoading] = React.useState(false);
-  const flight = useGetFlightQuery({ variables: { flightID } });
+  const flight = useFlightQuery({ variables: { flightID } });
 
   const buildTitle = (): string => {
     if (!flight.data?.flight) {

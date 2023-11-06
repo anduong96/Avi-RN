@@ -1,4 +1,4 @@
-mutation debugFlightNotification(
+mutation DebugFlightNotification(
   $flightID: String!
   $title: String!
   $body: String!

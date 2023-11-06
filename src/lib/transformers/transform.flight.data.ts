@@ -30,7 +30,7 @@ function getStatus(
     return 'on-time';
   } else if (actual.isBefore(scheduled, 'minute')) {
     return 'early';
-  } else if (actual.isAfter(scheduled, 'hour')) {
+  } else if (actual.diff(scheduled, 'minute') < 20) {
     return 'delayed';
   } else {
     return 'late';

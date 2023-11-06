@@ -8,10 +8,10 @@ import { withStyled } from '@app/lib/styled';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
 import { useMeasurementDisplay } from '@app/lib/hooks/use.measurement.display';
 
-import { useFlight } from '../hooks/use.flight';
+import { useFlight } from '../context';
 
 export const EmissionCard: React.FC = () => {
-  const flight = useFlight(true);
+  const flight = useFlight();
   const {
     co2EmissionKgBusiness: business,
     co2EmissionKgEco: eco,

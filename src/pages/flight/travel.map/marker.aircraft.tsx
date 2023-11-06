@@ -11,12 +11,12 @@ import { createQuadraticBezierCurve } from '@app/lib/geolocation/create.bezier.c
 import { findClosestPointOnBezier } from '@app/lib/geolocation/closest.to.bezier.curve';
 import { getHeadingOnQuadraticBezier } from '@app/lib/geolocation/get.bezier.curve.heading';
 
-import { useFlight } from '../hooks/use.flight';
+import { useFlight } from '../context';
 import { useAircraftPosition } from '../hooks/use.aircraft.position';
 
 export const AircraftMarker: React.FC = () => {
   const theme = useTheme();
-  const flight = useFlight(true);
+  const flight = useFlight();
   const request = useAircraftPosition();
   const position = request.data?.aircraftPosition;
   const curvePoints = createQuadraticBezierCurve(

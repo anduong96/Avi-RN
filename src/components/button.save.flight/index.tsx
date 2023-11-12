@@ -20,7 +20,6 @@ type Props = {
 };
 
 export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
-  const [loading, setLoading] = React.useState(false);
   const userFlightResp = useUserFlightQuery({
     errorPolicy: 'ignore',
     variables: {
@@ -28,10 +27,17 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
     },
   });
 
-  const [add] = useAddUserFlightMutation({
+  const [add, { loading: adding }] = useAddUserFlightMutation({
     onCompleted() {
       ting.toast({
         title: 'Flight Added!',
+      });
+    },
+    onError() {
+      ting.toast({
+        position: 'top',
+        preset: 'error',
+        title: 'Failed to add flight',
       });
     },
     refetchQueries: [
@@ -43,10 +49,17 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
       flightID,
     },
   });
-  const [remove] = useDeleteUserFlightMutation({
+  const [remove, { loading: removing }] = useDeleteUserFlightMutation({
     onCompleted() {
       ting.toast({
         title: 'Flight Removed!',
+      });
+    },
+    onError() {
+      ting.toast({
+        position: 'top',
+        preset: 'error',
+        title: 'Failed to remove flight',
       });
     },
     refetchQueries: [
@@ -60,17 +73,15 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
   });
 
   const isSaved = !isNil(userFlightResp.data?.userFlight?.id);
-  const isLoading = userFlightResp.loading || loading;
+  const isLoading = userFlightResp.loading || adding || removing;
   const [label, type] = isSaved
     ? (['Saved', 'primary'] as const)
     : (['Save', 'default'] as const);
 
   const handlePress = async () => {
     vibrate('impactHeavy');
-    setLoading(true);
     isSaved ? await remove() : await add();
     await userFlightResp.refetch();
-    setLoading(false);
   };
 
   return (

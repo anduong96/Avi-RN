@@ -18,7 +18,7 @@ export const DepartStatus: React.FC = () => {
   const formatted = transformFlightData(flight);
   const theme = useTheme();
   const timeToDepart = React.useMemo(
-    () => moment().diff(flight.estimatedGateDeparture),
+    () => moment(flight.estimatedGateDeparture).diff(new Date()),
     [flight],
   );
   const timeLeft = useCountDown(timeToDepart);

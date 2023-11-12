@@ -58,6 +58,7 @@ export const AircraftMarker: React.FC = () => {
         />
         <MapMarker coordinate={coordinate}>
           <Plane
+            color={tinycolor(theme.pallette.danger).toHexString()}
             name="plane-engines"
             rotation={getHeadingOnQuadraticBezier(
               coordinate,
@@ -93,7 +94,11 @@ export const AircraftMarker: React.FC = () => {
         strokeWidth={lineWidth + 2}
       />
       <MapMarker coordinate={closetCoordinate}>
-        <Plane name="plane-engines" rotation={planeRotation} />
+        <Plane
+          color={tinycolor(theme.pallette.active).toHexString()}
+          name="plane-engines"
+          rotation={planeRotation}
+        />
       </MapMarker>
     </>
   );
@@ -118,8 +123,7 @@ const Plane = withStyled<{ rotation?: number }, typeof FaIcon>(
       ],
     },
   ],
-  (theme) => ({
-    color: tinycolor(theme.pallette.active).toHexString(),
+  () => ({
     size: 20,
   }),
 );

@@ -55,6 +55,7 @@ export type AircraftPosition = {
 
 export type Airline = {
   __typename?: 'Airline';
+  Flight: Array<Flight>;
   iata: Scalars['String']['output'];
   icao?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -68,7 +69,9 @@ export type Airline = {
 
 export type Airport = {
   __typename?: 'Airport';
+  ArrivalFlights: Array<Flight>;
   Country: Country;
+  DepartureFlights: Array<Flight>;
   cityCode: Scalars['String']['output'];
   cityName: Scalars['String']['output'];
   countryCode: Scalars['String']['output'];
@@ -84,6 +87,38 @@ export type Airport = {
   timezone: Scalars['String']['output'];
 };
 
+export type AirportTsaCheckPointHour = {
+  __typename?: 'AirportTsaCheckPointHour';
+  hour: Scalars['Float']['output'];
+  status: CheckPointStatus;
+};
+
+export type AirportTsaCheckPointTerminal = {
+  __typename?: 'AirportTsaCheckPointTerminal';
+  checkpoints: Array<AirportTsaCheckPoints>;
+  terminalName: Scalars['String']['output'];
+};
+
+export type AirportTsaCheckPoints = {
+  __typename?: 'AirportTsaCheckPoints';
+  checkPointName: Scalars['String']['output'];
+  hours: Array<AirportTsaCheckPointHour>;
+};
+
+export type AirportTsaWaitTime = {
+  __typename?: 'AirportTsaWaitTime';
+  dayOfWeek: Scalars['Float']['output'];
+  hour: Scalars['Float']['output'];
+  maxWaitMinute: Scalars['Float']['output'];
+  updatedAt: Scalars['DateTimeISO']['output'];
+};
+
+export const CheckPointStatus = {
+  CLOSE: 'CLOSE',
+  OPEN: 'OPEN'
+} as const;
+
+export type CheckPointStatus = typeof CheckPointStatus[keyof typeof CheckPointStatus];
 export type Country = {
   __typename?: 'Country';
   dialCode: Scalars['String']['output'];
@@ -228,6 +263,8 @@ export type Query = {
   airline: Airline;
   airlines: Array<Airline>;
   airport: Airport;
+  airportTsaCheckpointsStatus?: Maybe<Array<AirportTsaCheckPointTerminal>>;
+  airportTsaWaitTime?: Maybe<Array<AirportTsaWaitTime>>;
   flight: Flight;
   flightPromptness: FlightPromptness;
   flights: Array<Flight>;
@@ -257,6 +294,17 @@ export type QueryAirlineArgs = {
 
 
 export type QueryAirportArgs = {
+  iata: Scalars['String']['input'];
+};
+
+
+export type QueryAirportTsaCheckpointsStatusArgs = {
+  dayOfWeek: Scalars['Float']['input'];
+  iata: Scalars['String']['input'];
+};
+
+
+export type QueryAirportTsaWaitTimeArgs = {
   iata: Scalars['String']['input'];
 };
 
@@ -351,6 +399,21 @@ export type AirportQueryVariables = Exact<{
 
 
 export type AirportQuery = { __typename?: 'Query', airport: { __typename?: 'Airport', id: string, name: string, iata?: string | null, cityName: string, cityCode: string, timezone: string, state?: string | null, elevation?: number | null, countryCode: string, countyName?: string | null } };
+
+export type AirportTsaCheckpointsStatusQueryVariables = Exact<{
+  dayOfWeek: Scalars['Float']['input'];
+  iata: Scalars['String']['input'];
+}>;
+
+
+export type AirportTsaCheckpointsStatusQuery = { __typename?: 'Query', airportTsaCheckpointsStatus?: Array<{ __typename?: 'AirportTsaCheckPointTerminal', terminalName: string, checkpoints: Array<{ __typename?: 'AirportTsaCheckPoints', checkPointName: string, hours: Array<{ __typename?: 'AirportTsaCheckPointHour', hour: number, status: CheckPointStatus }> }> }> | null };
+
+export type AirportTsaWaitTimeQueryVariables = Exact<{
+  iata: Scalars['String']['input'];
+}>;
+
+
+export type AirportTsaWaitTimeQuery = { __typename?: 'Query', airportTsaWaitTime?: Array<{ __typename?: 'AirportTsaWaitTime', dayOfWeek: number, hour: number, maxWaitMinute: number }> | null };
 
 export type DebugFlightNotificationMutationVariables = Exact<{
   flightID: Scalars['String']['input'];
@@ -737,6 +800,92 @@ export type AirportLazyQueryHookResult = ReturnType<typeof useAirportLazyQuery>;
 export type AirportQueryResult = Apollo.QueryResult<AirportQuery, AirportQueryVariables>;
 export function refetchAirportQuery(variables: AirportQueryVariables) {
       return { query: AirportDocument, variables: variables }
+    }
+export const AirportTsaCheckpointsStatusDocument = gql`
+    query AirportTsaCheckpointsStatus($dayOfWeek: Float!, $iata: String!) {
+  airportTsaCheckpointsStatus(dayOfWeek: $dayOfWeek, iata: $iata) {
+    checkpoints {
+      checkPointName
+      hours {
+        hour
+        status
+      }
+    }
+    terminalName
+  }
+}
+    `;
+
+/**
+ * __useAirportTsaCheckpointsStatusQuery__
+ *
+ * To run a query within a React component, call `useAirportTsaCheckpointsStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAirportTsaCheckpointsStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAirportTsaCheckpointsStatusQuery({
+ *   variables: {
+ *      dayOfWeek: // value for 'dayOfWeek'
+ *      iata: // value for 'iata'
+ *   },
+ * });
+ */
+export function useAirportTsaCheckpointsStatusQuery(baseOptions: Apollo.QueryHookOptions<AirportTsaCheckpointsStatusQuery, AirportTsaCheckpointsStatusQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AirportTsaCheckpointsStatusQuery, AirportTsaCheckpointsStatusQueryVariables>(AirportTsaCheckpointsStatusDocument, options);
+      }
+export function useAirportTsaCheckpointsStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AirportTsaCheckpointsStatusQuery, AirportTsaCheckpointsStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AirportTsaCheckpointsStatusQuery, AirportTsaCheckpointsStatusQueryVariables>(AirportTsaCheckpointsStatusDocument, options);
+        }
+export type AirportTsaCheckpointsStatusQueryHookResult = ReturnType<typeof useAirportTsaCheckpointsStatusQuery>;
+export type AirportTsaCheckpointsStatusLazyQueryHookResult = ReturnType<typeof useAirportTsaCheckpointsStatusLazyQuery>;
+export type AirportTsaCheckpointsStatusQueryResult = Apollo.QueryResult<AirportTsaCheckpointsStatusQuery, AirportTsaCheckpointsStatusQueryVariables>;
+export function refetchAirportTsaCheckpointsStatusQuery(variables: AirportTsaCheckpointsStatusQueryVariables) {
+      return { query: AirportTsaCheckpointsStatusDocument, variables: variables }
+    }
+export const AirportTsaWaitTimeDocument = gql`
+    query AirportTsaWaitTime($iata: String!) {
+  airportTsaWaitTime(iata: $iata) {
+    dayOfWeek
+    hour
+    maxWaitMinute
+  }
+}
+    `;
+
+/**
+ * __useAirportTsaWaitTimeQuery__
+ *
+ * To run a query within a React component, call `useAirportTsaWaitTimeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAirportTsaWaitTimeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAirportTsaWaitTimeQuery({
+ *   variables: {
+ *      iata: // value for 'iata'
+ *   },
+ * });
+ */
+export function useAirportTsaWaitTimeQuery(baseOptions: Apollo.QueryHookOptions<AirportTsaWaitTimeQuery, AirportTsaWaitTimeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AirportTsaWaitTimeQuery, AirportTsaWaitTimeQueryVariables>(AirportTsaWaitTimeDocument, options);
+      }
+export function useAirportTsaWaitTimeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AirportTsaWaitTimeQuery, AirportTsaWaitTimeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AirportTsaWaitTimeQuery, AirportTsaWaitTimeQueryVariables>(AirportTsaWaitTimeDocument, options);
+        }
+export type AirportTsaWaitTimeQueryHookResult = ReturnType<typeof useAirportTsaWaitTimeQuery>;
+export type AirportTsaWaitTimeLazyQueryHookResult = ReturnType<typeof useAirportTsaWaitTimeLazyQuery>;
+export type AirportTsaWaitTimeQueryResult = Apollo.QueryResult<AirportTsaWaitTimeQuery, AirportTsaWaitTimeQueryVariables>;
+export function refetchAirportTsaWaitTimeQuery(variables: AirportTsaWaitTimeQueryVariables) {
+      return { query: AirportTsaWaitTimeDocument, variables: variables }
     }
 export const DebugFlightNotificationDocument = gql`
     mutation DebugFlightNotification($flightID: String!, $title: String!, $body: String!, $data: JSON) {

@@ -6,6 +6,7 @@ import tinycolor from 'tinycolor2';
 
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { FlightStatus } from '@app/generated/server.gql';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { createQuadraticBezierCurve } from '@app/lib/geolocation/create.bezier.curve';
 import { findClosestPointOnBezier } from '@app/lib/geolocation/closest.to.bezier.curve';
@@ -29,7 +30,23 @@ export const AircraftMarker: React.FC = () => {
   const lineColor = theme.pallette.grey[600];
   const completedLineColor = theme.pallette.primary;
 
-  if (isNil(position?.latitude) || isNil(position!.longitude)) {
+  if (flight.status === FlightStatus.CANCELED) {
+    return (
+      <Polyline
+        coordinates={curvePoints}
+        strokeColor={lineColor}
+        strokeWidth={lineWidth}
+      />
+    );
+  } else if (flight.status === FlightStatus.ARCHIVED) {
+    return (
+      <Polyline
+        coordinates={curvePoints}
+        strokeColor={completedLineColor}
+        strokeWidth={lineWidth + 2}
+      />
+    );
+  } else if (isNil(position?.latitude) || isNil(position!.longitude)) {
     return (
       <Polyline
         coordinates={curvePoints}

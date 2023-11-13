@@ -60,8 +60,8 @@ export const TravelMap: React.FC = () => {
         }}
         ref={map}
       >
-        <LocationMarkers />
         <AircraftMarker />
+        <LocationMarkers />
       </Map>
     </Container>
   );

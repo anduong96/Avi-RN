@@ -294,18 +294,18 @@ export type QueryAirlineArgs = {
 
 
 export type QueryAirportArgs = {
-  iata: Scalars['String']['input'];
+  airportIata: Scalars['String']['input'];
 };
 
 
 export type QueryAirportTsaCheckpointsStatusArgs = {
+  airportIata: Scalars['String']['input'];
   dayOfWeek: Scalars['Float']['input'];
-  iata: Scalars['String']['input'];
 };
 
 
 export type QueryAirportTsaWaitTimeArgs = {
-  iata: Scalars['String']['input'];
+  airportIata: Scalars['String']['input'];
 };
 
 
@@ -394,7 +394,7 @@ export type AirlineQueryVariables = Exact<{
 export type AirlineQuery = { __typename?: 'Query', airline: { __typename?: 'Airline', id: string, name: string, iata: string, logoCompactImageURL?: string | null, logoCompactImageType?: ImageType | null, logoFullImageURL?: string | null, logoFullImageType?: ImageType | null } };
 
 export type AirportQueryVariables = Exact<{
-  iata: Scalars['String']['input'];
+  airportIata: Scalars['String']['input'];
 }>;
 
 
@@ -402,14 +402,14 @@ export type AirportQuery = { __typename?: 'Query', airport: { __typename?: 'Airp
 
 export type AirportTsaCheckpointsStatusQueryVariables = Exact<{
   dayOfWeek: Scalars['Float']['input'];
-  iata: Scalars['String']['input'];
+  airportIata: Scalars['String']['input'];
 }>;
 
 
 export type AirportTsaCheckpointsStatusQuery = { __typename?: 'Query', airportTsaCheckpointsStatus?: Array<{ __typename?: 'AirportTsaCheckPointTerminal', terminalName: string, checkpoints: Array<{ __typename?: 'AirportTsaCheckPoints', checkPointName: string, hours: Array<{ __typename?: 'AirportTsaCheckPointHour', hour: number, status: CheckPointStatus }> }> }> | null };
 
 export type AirportTsaWaitTimeQueryVariables = Exact<{
-  iata: Scalars['String']['input'];
+  airportIata: Scalars['String']['input'];
 }>;
 
 
@@ -755,8 +755,8 @@ export function refetchAirlineQuery(variables: AirlineQueryVariables) {
       return { query: AirlineDocument, variables: variables }
     }
 export const AirportDocument = gql`
-    query Airport($iata: String!) {
-  airport(iata: $iata) {
+    query Airport($airportIata: String!) {
+  airport(airportIata: $airportIata) {
     id
     name
     iata
@@ -783,7 +783,7 @@ export const AirportDocument = gql`
  * @example
  * const { data, loading, error } = useAirportQuery({
  *   variables: {
- *      iata: // value for 'iata'
+ *      airportIata: // value for 'airportIata'
  *   },
  * });
  */
@@ -802,8 +802,8 @@ export function refetchAirportQuery(variables: AirportQueryVariables) {
       return { query: AirportDocument, variables: variables }
     }
 export const AirportTsaCheckpointsStatusDocument = gql`
-    query AirportTsaCheckpointsStatus($dayOfWeek: Float!, $iata: String!) {
-  airportTsaCheckpointsStatus(dayOfWeek: $dayOfWeek, iata: $iata) {
+    query AirportTsaCheckpointsStatus($dayOfWeek: Float!, $airportIata: String!) {
+  airportTsaCheckpointsStatus(dayOfWeek: $dayOfWeek, airportIata: $airportIata) {
     checkpoints {
       checkPointName
       hours {
@@ -829,7 +829,7 @@ export const AirportTsaCheckpointsStatusDocument = gql`
  * const { data, loading, error } = useAirportTsaCheckpointsStatusQuery({
  *   variables: {
  *      dayOfWeek: // value for 'dayOfWeek'
- *      iata: // value for 'iata'
+ *      airportIata: // value for 'airportIata'
  *   },
  * });
  */
@@ -848,8 +848,8 @@ export function refetchAirportTsaCheckpointsStatusQuery(variables: AirportTsaChe
       return { query: AirportTsaCheckpointsStatusDocument, variables: variables }
     }
 export const AirportTsaWaitTimeDocument = gql`
-    query AirportTsaWaitTime($iata: String!) {
-  airportTsaWaitTime(iata: $iata) {
+    query AirportTsaWaitTime($airportIata: String!) {
+  airportTsaWaitTime(airportIata: $airportIata) {
     dayOfWeek
     hour
     maxWaitMinute
@@ -869,7 +869,7 @@ export const AirportTsaWaitTimeDocument = gql`
  * @example
  * const { data, loading, error } = useAirportTsaWaitTimeQuery({
  *   variables: {
- *      iata: // value for 'iata'
+ *      airportIata: // value for 'airportIata'
  *   },
  * });
  */

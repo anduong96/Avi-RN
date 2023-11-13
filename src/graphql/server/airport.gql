@@ -1,5 +1,5 @@
-query Airport($iata: String!) {
-  airport(iata: $iata) {
+query Airport($airportIata: String!) {
+  airport(airportIata: $airportIata) {
     id
     name
     iata
@@ -13,8 +13,11 @@ query Airport($iata: String!) {
   }
 }
 
-query AirportTsaCheckpointsStatus($dayOfWeek: Float!, $iata: String!) {
-  airportTsaCheckpointsStatus(dayOfWeek: $dayOfWeek, iata: $iata) {
+query AirportTsaCheckpointsStatus($dayOfWeek: Float!, $airportIata: String!) {
+  airportTsaCheckpointsStatus(
+    dayOfWeek: $dayOfWeek
+    airportIata: $airportIata
+  ) {
     checkpoints {
       checkPointName
       hours {
@@ -26,8 +29,8 @@ query AirportTsaCheckpointsStatus($dayOfWeek: Float!, $iata: String!) {
   }
 }
 
-query AirportTsaWaitTime($iata: String!) {
-  airportTsaWaitTime(iata: $iata) {
+query AirportTsaWaitTime($airportIata: String!) {
+  airportTsaWaitTime(airportIata: $airportIata) {
     dayOfWeek
     hour
     maxWaitMinute

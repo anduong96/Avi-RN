@@ -21,6 +21,7 @@ import { FlightPageLocationSection } from '@app/pages/flight/location.section';
 import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
 import { FlightPageDistanceSeparator } from '@app/pages/flight/distance.separator';
 
+import { TsaCard } from './tsa';
 import { TravelMap } from './travel.map';
 import { AircraftCard } from './aircraft';
 import { FlightActions } from './actions';
@@ -79,6 +80,7 @@ export const FlightPage: React.FC = () => {
                 />
               </Card>
               <PromptnessCompact />
+              <TsaCard />
               <EmissionCard />
               <AircraftCard />
               <ScrollUp

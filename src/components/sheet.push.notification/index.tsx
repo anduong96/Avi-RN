@@ -1,51 +1,45 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import tinycolor from 'tinycolor2';
 import messaging from '@react-native-firebase/messaging';
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 
 import { delay } from '@app/lib/delay';
+import { logger } from '@app/lib/logger';
 import { withStyled } from '@app/lib/styled';
 import { Shake } from '@app/lib/animated/shake';
-import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useGlobalState } from '@app/state/global';
-import { useTheme } from '@app/lib/hooks/use.theme';
 import { useAppActive } from '@app/lib/hooks/use.app.state';
 import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 
 import { Button } from '../button';
 import { ListItem } from '../list.item';
+import { SpaceVertical } from '../space.vertical';
 import { BlurredSheetBackdrop } from '../sheet.backdrop.blurred';
 
 export const PushNotificationSheet: React.FC = () => {
-  const insets = useSafeAreaInsets();
-  const theme = useTheme();
   const sheet = React.useRef<BottomSheetModal>(null);
-  const isPushAsked = useGlobalState((s) => s.isPushAsked);
+  const hasPushAsked = useGlobalState((s) => s._hasPushAsked);
   const status = useGlobalState((s) => s.pushPermission);
   const userFlights = useUserHasFlightsQuery();
   const hasFlights = userFlights.data?.userHasFlights ?? false;
   const isActive = useAppActive();
   const [loading, setLoading] = React.useState(false);
-
-  const snapPoints = React.useMemo(
-    () => [Math.min(WINDOW_HEIGHT - insets.top, 500)],
-    [insets],
-  );
-
+  const snapPoints = React.useMemo(() => ['100%'], []);
   const showSheet = React.useCallback(() => {
-    if (isActive && hasFlights && !isPushAsked) {
+    if (isActive && hasFlights && !hasPushAsked) {
+      logger.debug('Showing push notification sheet');
       delay(3 * 1000).then(() => {
         sheet.current?.present();
       });
     } else {
+      logger.debug('Not showing push notification sheet');
       sheet.current?.dismiss();
     }
-  }, [isActive, hasFlights, isPushAsked]);
+  }, [isActive, hasFlights, hasPushAsked]);
 
   React.useEffect(() => {
     showSheet();
@@ -58,7 +52,7 @@ export const PushNotificationSheet: React.FC = () => {
   }, [status]);
 
   const handleEnable = async () => {
-    useGlobalState.setState({ isPushAsked: true });
+    useGlobalState.setState({ _hasPushAsked: true });
 
     vibrate('effectClick');
     setLoading(true);
@@ -73,71 +67,92 @@ export const PushNotificationSheet: React.FC = () => {
   };
 
   const handleDismiss = () => {
-    useGlobalState.setState({ isPushAsked: true });
+    useGlobalState.setState({ _hasPushAsked: true });
     sheet.current?.dismiss();
   };
 
   return (
     <BottomSheetModal
       backdropComponent={BlurredSheetBackdrop}
-      backgroundStyle={{ backgroundColor: theme.pallette.background }}
-      containerStyle={[isPushAsked && { opacity: 0 }]}
+      backgroundStyle={{ backgroundColor: 'transparent' }}
+      containerStyle={[hasPushAsked && { opacity: 0 }]}
+      detached
       handleIndicatorStyle={{ display: 'none' }}
       ref={sheet}
       snapPoints={snapPoints}
     >
       <Container>
-        <Header>
-          <Title>Notifications</Title>
-        </Header>
         <Content>
-          <Item
-            description="Important information about your flights such as delay"
-            icon={
-              <Animated.View entering={Shake()}>
-                <Icon>🔔</Icon>
-              </Animated.View>
-            }
-            title="Flight Activities"
-          />
-          <Item
-            description="Instantaneous alert at the moment it happens"
-            icon={<Icon>⚡</Icon>}
-            title="Lightning Fast"
-          />
+          <Header>
+            <Title>Notifications</Title>
+          </Header>
+          <Body>
+            <Item
+              description="Important information about your flights such as delay"
+              icon={
+                <Animated.View entering={Shake()}>
+                  <Icon>🔔</Icon>
+                </Animated.View>
+              }
+              title="Flight Activities"
+            />
+            <Item
+              description="Instantaneous alert at the moment it happens"
+              icon={<Icon>⚡</Icon>}
+              title="Lightning Fast"
+            />
+          </Body>
+          <SpaceVertical size="small" />
+          <Footer>
+            <EnableBtn
+              isBold
+              isLoading={loading}
+              isSolid
+              onPress={handleEnable}
+              size="large"
+              type="primary"
+            >
+              Enable
+            </EnableBtn>
+            <DismissBtn
+              disabled={loading}
+              isBold
+              isSolid
+              onPress={handleDismiss}
+            >
+              not now
+            </DismissBtn>
+          </Footer>
         </Content>
-        <Footer>
-          <EnableBtn
-            isBold
-            isLoading={loading}
-            isSolid
-            onPress={handleEnable}
-            size="large"
-            type="primary"
-          >
-            Enable
-          </EnableBtn>
-          <DismissBtn disabled={loading} isBold isSolid onPress={handleDismiss}>
-            not now
-          </DismissBtn>
-        </Footer>
       </Container>
     </BottomSheetModal>
   );
 };
 
 const Container = withStyled(BottomSheetView, (theme) => [
+  theme.presets.shadows[100],
   {
     flexGrow: 1,
+    justifyContent: 'flex-end',
+    paddingBottom: theme.insets.bottom || theme.space.medium,
+    paddingHorizontal: theme.space.medium,
+    paddingTop: theme.insets.top || theme.space.medium,
+  },
+]);
+
+const Content = withStyled(View, (theme) => [
+  {
+    backgroundColor: theme.pallette.background,
+    borderRadius: theme.borderRadius,
     gap: theme.space.large,
-    padding: theme.space.medium,
+    padding: theme.space.large,
     paddingBottom: theme.insets.bottom,
   },
 ]);
 
 const Header = withStyled(View, (theme) => [theme.presets.centered]);
 
-const Content = withStyled(View, (theme) => [
+const Body = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     flexGrow: 1,

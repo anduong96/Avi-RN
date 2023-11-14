@@ -22,26 +22,14 @@ import { LINKING_CONFIG } from '@app/linking';
 import { Analytics } from '@app/lib/analytics';
 import { AppNavigator } from '@app/navigation';
 import { APP_PORTAL_HOST } from '@app/lib/portal';
-import { useStartup } from '@app/lib/startup/use.startup';
-import { useUserSync } from '@app/state/user/use.user.sync';
 import { AppServerApolloClient } from '@app/apollo/app.server';
-import { useAppStateSync } from '@app/lib/hooks/use.app.state';
 import { ForceUpdateShield } from '@app/components/force.update';
-import { useColorScheme } from '@app/lib/hooks/use.color.scheme';
-import { useNotificationHandling } from '@app/lib/startup/push.notification';
+import { BackgroundSync } from '@app/components/background.sync';
 import { PushNotificationSheet } from '@app/components/sheet.push.notification';
-import { useFlightPushSync } from '@app/state/flights.notifications/use.flight.push';
 
 type NavigationRef = NavigationContainerRef<MainStackParam>;
 
 const Entry: React.FC = () => {
-  useUserSync();
-  useFlightPushSync();
-  useStartup();
-  useColorScheme();
-  useAppStateSync();
-  useNotificationHandling();
-
   const routeNameRef = React.useRef<string>();
   const navigationRef = React.useRef<NavigationRef>(null);
 
@@ -68,6 +56,7 @@ const Entry: React.FC = () => {
         <ApolloProvider client={AppServerApolloClient}>
           <PortalHost name={APP_PORTAL_HOST} />
           <BottomSheetModalProvider>
+            <BackgroundSync />
             <AppNavigator />
             <PushNotificationSheet />
           </BottomSheetModalProvider>

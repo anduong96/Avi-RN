@@ -1,8 +1,10 @@
 import * as React from 'react';
 
 import { vibrate } from '@app/lib/haptic.feedback';
-import { FlightPushSubState } from '@app/state/flight.push.sub';
 import { FlightStatus, useFlightQuery } from '@app/generated/server.gql';
+import { useFlightNotificationsState } from '@app/state/flights.notifications';
+import { enableFlightPush } from '@app/state/flights.notifications/flight.push.enable';
+import { disableFlightPush } from '@app/state/flights.notifications/flight.push.disable';
 
 import { Button } from '../button';
 
@@ -18,29 +20,33 @@ export const AlertFlightButton: React.FC<Props> = ({ flightID }) => {
   });
   const isLoading = flight.loading;
   const isDisabled = flight.data?.flight.status === FlightStatus.ARCHIVED;
-  const isEnabled = FlightPushSubState.useSelect(
-    (s) => s.subscriptions[flightID]?.pushEnabled ?? false,
+  const notification = useFlightNotificationsState((s) =>
+    s.getFlightPush(flightID),
   );
-  const [type, icon] = isEnabled
+  const isPushEnabled = notification.pushEnabled;
+  const [type, icon] = isPushEnabled
     ? (['primary', 'bell-on'] as const)
     : (['default', 'bell'] as const);
 
   const handleToggle = () => {
-    vibrate('impactLight');
-    isEnabled
-      ? FlightPushSubState.actions.disablePush(flightID)
-      : FlightPushSubState.actions.enablePush(flightID);
+    vibrate('effectClick');
+
+    if (isPushEnabled) {
+      disableFlightPush(flightID);
+    } else {
+      enableFlightPush(flightID);
+    }
   };
 
   return (
     <Button
       disabled={isDisabled}
-      hasShadow={isEnabled}
+      hasShadow={isPushEnabled}
       icon={icon}
-      iconProps={{ solid: isEnabled }}
-      isBold={isEnabled}
+      iconProps={{ solid: isPushEnabled }}
+      isBold={isPushEnabled}
       isLoading={isLoading}
-      isSolid={isEnabled}
+      isSolid={isPushEnabled}
       onPress={handleToggle}
       type={type}
     >

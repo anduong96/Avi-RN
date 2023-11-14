@@ -14,9 +14,9 @@ type State = {
   _appState: AppStateStatus;
   _hasFinishStartup: boolean;
   _hasHydrated: boolean;
+  _hasPushAsked: boolean;
   _setHasHydrated: (value: boolean) => void;
   hasOnboard: boolean;
-  hasPushAsked: boolean;
   isDarkMode: boolean;
   pushPermission: FirebaseMessagingTypes.AuthorizationStatus;
 };
@@ -28,13 +28,13 @@ export const useGlobalState = create<State>()(
       _appState: AppState.currentState,
       _hasFinishStartup: false,
       _hasHydrated: false,
+      _hasPushAsked: false,
       _setHasHydrated: (value: boolean) => {
         set({
           _hasHydrated: value,
         });
       },
       hasOnboard: false,
-      hasPushAsked: false,
       isDarkMode: false,
       pushPermission: messaging.AuthorizationStatus.NOT_DETERMINED,
     }),

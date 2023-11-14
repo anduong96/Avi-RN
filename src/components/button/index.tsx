@@ -117,15 +117,17 @@ export const Button = React.forwardRef<typeof AnimatedTouchable, Props>(
         onPress={onPress}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         ref={ref}
         size={size}
         style={[pressedStyled, style]}
         type={type}
       >
         <LoadingOverlay
-          isRound
           isDark={theme.isDark}
           isLoading={isLoading}
+          isRound
           size="small"
           type="solid"
         />

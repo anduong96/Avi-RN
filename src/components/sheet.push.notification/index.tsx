@@ -17,11 +17,13 @@ import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 
 import { Button } from '../button';
 import { ListItem } from '../list.item';
+import { usePrompt } from '../prompt/use.prompt';
 import { SpaceVertical } from '../space.vertical';
 import { BlurredSheetBackdrop } from '../sheet.backdrop.blurred';
 
 export const PushNotificationSheet: React.FC = () => {
   const sheet = React.useRef<BottomSheetModal>(null);
+  const prompt = usePrompt();
   const hasPushAsked = useGlobalState((s) => s._hasPushAsked);
   const status = useGlobalState((s) => s.pushPermission);
   const userFlights = useUserHasFlightsQuery();
@@ -52,8 +54,6 @@ export const PushNotificationSheet: React.FC = () => {
   }, [status]);
 
   const handleEnable = async () => {
-    useGlobalState.setState({ _hasPushAsked: true });
-
     vibrate('effectClick');
     setLoading(true);
     const responseStatus = await messaging().requestPermission({
@@ -63,12 +63,21 @@ export const PushNotificationSheet: React.FC = () => {
       sound: true,
     });
     setLoading(false);
-    useGlobalState.setState({ pushPermission: responseStatus });
+    useGlobalState.setState({
+      _hasPushAsked: true,
+      pushPermission: responseStatus,
+    });
   };
 
   const handleDismiss = () => {
-    useGlobalState.setState({ _hasPushAsked: true });
-    sheet.current?.dismiss();
+    prompt({
+      description: 'Push notifications are core functionality of the app',
+      onAccept: () => {
+        useGlobalState.setState({ _hasPushAsked: true });
+        sheet.current?.dismiss();
+      },
+      title: 'Are you sure?',
+    });
   };
 
   return (
@@ -170,18 +179,26 @@ const Footer = withStyled(View, (theme) => [
 const Title = withStyled(Text, (theme) => [theme.typography.presets.h1]);
 
 const EnableBtn = withStyled(Button, (theme) => [
-  theme.presets.shadows[100],
+  theme.presets.shadows[200],
   {
     shadowColor: tinycolor(theme.pallette.primary).darken(30).toHexString(),
     shadowOpacity: 1,
   },
 ]);
 
-const DismissBtn = withStyled(Button, (theme) => [
-  {
-    backgroundColor: theme.pallette.transparent,
-  },
-]);
+const DismissBtn = withStyled(
+  Button,
+  (theme) => [
+    {
+      backgroundColor: theme.pallette.transparent,
+    },
+  ],
+  (theme) => ({
+    textStyle: {
+      color: theme.pallette.danger,
+    },
+  }),
+);
 
 const Item = withStyled(
   ListItem,

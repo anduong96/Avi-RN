@@ -113,6 +113,7 @@ const Content = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     backgroundColor: theme.pallette.background,
+    gap: theme.space.medium,
     padding: theme.space.large,
   },
 ]);

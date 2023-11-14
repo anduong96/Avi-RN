@@ -12,13 +12,13 @@ import { vibrate } from '@app/lib/haptic.feedback';
 import { useFindFlightsQuery } from '@app/generated/server.gql';
 import { FlightCardCompact } from '@app/components/flight.card.compact';
 
-import { useValue } from '../state/use.value';
+import { useFlightSearchState } from '../state';
 
 export const FlightsResultSet: React.FC = () => {
   const navigation = useNavigation<MainStack<'FlightSearch'>>();
-  const airlineIata = useValue('airlineIata')!;
-  const flightNumber = useValue('flightNumber')!;
-  const departureDate = useValue('departureDate')!;
+  const airlineIata = useFlightSearchState((s) => s.airlineIata!);
+  const flightNumber = useFlightSearchState((s) => s.flightNumber!);
+  const departureDate = useFlightSearchState((s) => s.departureDate!);
   const result = useFindFlightsQuery({
     variables: {
       airlineIata,

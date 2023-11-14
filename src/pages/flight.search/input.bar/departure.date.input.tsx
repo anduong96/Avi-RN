@@ -7,10 +7,10 @@ import moment from 'moment';
 import { Input } from '@app/components/input';
 import { vibrate } from '@app/lib/haptic.feedback';
 
-import { State } from '../state';
+import { useFlightSearchState } from '../state';
 
 export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
-  const inputValue = State.useSelect((state) =>
+  const inputValue = useFlightSearchState((state) =>
     state.focusInput === 'departureDate'
       ? state.textSearch
       : state.departureDate
@@ -19,14 +19,14 @@ export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
   );
 
   const handleChange = (value?: string) => {
-    State.actions.setState({
+    useFlightSearchState.setState({
       textSearch: value,
     });
   };
 
   const handleFocus = () => {
     vibrate('impactMedium');
-    State.actions.setState({
+    useFlightSearchState.setState({
       focusInput: 'departureDate',
       textSearch: inputValue,
     });

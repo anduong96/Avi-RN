@@ -12,21 +12,21 @@ import { withStyled } from '@app/lib/styled';
 import { RandomFlightBtn } from '@app/components/button.random.flight';
 import { useKeyboardSubmitEvent } from '@app/components/input/use.keyboard.submit';
 
-import { State } from '../state';
 import { useTopic } from '../publisher';
 import { AirlineInput } from './airline.input';
-import { useHasValue } from '../state/use.has.value';
+import { useFlightSearchState } from '../state';
 import { TextSearchInput } from './text.search.input';
 import { FocusedContainer } from './focused.container';
 import { FlightNumberInput } from './flight.number.input';
 import { DepartureDateInput } from './departure.date.input';
-import { useFocusedInput } from '../state/use.focused.input';
 
 export const InputBar: React.FC = () => {
   const navigation = useNavigation<MainStack<'FlightSearch'>>();
-  const focusedInput = useFocusedInput();
-  const hasAirlineIata = useHasValue('airlineIata');
-  const hasFlightNumber = useHasValue('flightNumber');
+  const focusedInput = useFlightSearchState((s) => s.focusInput);
+  const hasAirlineIata = useFlightSearchState((s) => s.hasValue('airlineIata'));
+  const hasFlightNumber = useFlightSearchState((s) =>
+    s.hasValue('flightNumber'),
+  );
   const airlineInput = React.useRef<TextInput>(null);
   const flightNumberInput = React.useRef<TextInput>(null);
   const departureDateInput = React.useRef<TextInput>(null);
@@ -42,7 +42,7 @@ export const InputBar: React.FC = () => {
     } else if (focusedInput === 'textSearch') {
       departureDateInput.current?.focus();
     } else if (focusedInput === 'departureDate') {
-      State.actions.setState({ focusInput: undefined });
+      useFlightSearchState.setState({ focusInput: undefined });
       departureDateInput.current?.blur();
     }
   }, [focusedInput, hasFlightNumber]);

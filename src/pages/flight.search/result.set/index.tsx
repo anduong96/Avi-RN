@@ -1,17 +1,20 @@
 import * as React from 'react';
 
-import { useHasValue } from '../state/use.has.value';
+import { useFlightSearchState } from '../state';
 import { FlightsResultSet } from './flights.result.set';
-import { useFocusedInput } from '../state/use.focused.input';
 import { TextSearchResultSet } from './text.search.result.set';
 import { FlightNumberResultSet } from './flight.number.result.set';
 import { DepartureDateResultSet } from './departure.date.result.set';
 
 export const ResultSet: React.FC = () => {
-  const hasAirlineIata = useHasValue('airlineIata');
-  const hasFlightNumber = useHasValue('flightNumber');
-  const hasDepartureDate = useHasValue('departureDate');
-  const focusedInput = useFocusedInput();
+  const focusedInput = useFlightSearchState((s) => s.focusInput);
+  const hasAirlineIata = useFlightSearchState((s) => s.hasValue('airlineIata'));
+  const hasFlightNumber = useFlightSearchState((s) =>
+    s.hasValue('flightNumber'),
+  );
+  const hasDepartureDate = useFlightSearchState((s) =>
+    s.hasValue('departureDate'),
+  );
 
   if (focusedInput === 'departureDate') {
     return <DepartureDateResultSet />;

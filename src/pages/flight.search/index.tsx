@@ -6,13 +6,13 @@ import { CloseBtn } from '@app/components/btn.close';
 import { PageHeader } from '@app/components/page.header';
 import { PageContainer } from '@app/components/page.container';
 
-import { State } from './state';
 import { InputBar } from './input.bar';
 import { ResultSet } from './result.set';
+import { useFlightSearchState } from './state';
 
 export const FlightSearchPage: React.FC = () => {
   React.useEffect(() => {
-    State.actions.reset();
+    useFlightSearchState.getState().reset();
   }, []);
 
   return (

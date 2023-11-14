@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { AppState } from 'react-native';
 
-import { GlobalState } from '@app/state/global';
+import { useGlobalState } from '@app/state/global';
 
 /**
  * UseAppState() returns the current app state (active, background, inactive)
  * @returns A function that returns the current app state.
  */
-export function useAppStateListener() {
+export function useAppStateSync() {
   React.useEffect(() => {
-    GlobalState.actions.setState({ appState: AppState.currentState });
+    useGlobalState.setState({ appState: AppState.currentState });
 
     AppState.addEventListener('change', (state) => {
-      GlobalState.actions.setState({ appState: state });
+      useGlobalState.setState({ appState: state });
     });
   }, []);
 }
@@ -22,7 +22,7 @@ export function useAppStateListener() {
  * @returns the value of the `appState` property from the global state.
  */
 export function useAppState() {
-  return GlobalState.useSelect((s) => s.appState);
+  return useGlobalState((s) => s.appState);
 }
 
 /**

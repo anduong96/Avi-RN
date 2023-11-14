@@ -10,9 +10,9 @@ import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { delay } from '@app/lib/delay';
 import { withStyled } from '@app/lib/styled';
 import { Shake } from '@app/lib/animated/shake';
-import { GlobalState } from '@app/state/global';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useGlobalState } from '@app/state/global';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { useAppActive } from '@app/lib/hooks/use.app.state';
 import { useUserHasFlightsQuery } from '@app/generated/server.gql';
@@ -25,8 +25,8 @@ export const PushNotificationSheet: React.FC = () => {
   const insets = useSafeAreaInsets();
   const theme = useTheme();
   const sheet = React.useRef<BottomSheetModal>(null);
-  const isPushAsked = GlobalState.useSelect((s) => s.isPushAsked);
-  const status = GlobalState.useSelect((s) => s.pushPermission);
+  const isPushAsked = useGlobalState((s) => s.isPushAsked);
+  const status = useGlobalState((s) => s.pushPermission);
   const userFlights = useUserHasFlightsQuery();
   const hasFlights = userFlights.data?.userHasFlights ?? false;
   const isActive = useAppActive();
@@ -58,7 +58,7 @@ export const PushNotificationSheet: React.FC = () => {
   }, [status]);
 
   const handleEnable = async () => {
-    GlobalState.actions.setIsPushAsked();
+    useGlobalState.setState({ isPushAsked: true });
 
     vibrate('effectClick');
     setLoading(true);
@@ -69,13 +69,11 @@ export const PushNotificationSheet: React.FC = () => {
       sound: true,
     });
     setLoading(false);
-    GlobalState.actions.setState({
-      pushPermission: responseStatus,
-    });
+    useGlobalState.setState({ pushPermission: responseStatus });
   };
 
   const handleDismiss = () => {
-    GlobalState.actions.setIsPushAsked();
+    useGlobalState.setState({ isPushAsked: true });
     sheet.current?.dismiss();
   };
 

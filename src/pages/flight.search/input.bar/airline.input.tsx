@@ -6,27 +6,28 @@ import { Input } from '@app/components/input';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
 
-import { State } from '../state';
-import { useValue } from '../state/use.value';
+import { useFlightSearchState } from '../state';
 
 export const AirlineInput = React.forwardRef<TextInput>((_, ref) => {
-  const airlineIata = useValue('airlineIata');
-  const inputValue = State.useSelect((state) =>
-    state.focusInput === 'airlineIata'
-      ? state.textSearch
-      : state.airlineIata ?? state.textSearch,
+  const airlineIata = useFlightSearchState((s) => s.airlineIata);
+  const inputValue = useFlightSearchState((s) =>
+    s.focusInput === 'airlineIata'
+      ? s.textSearch
+      : s.airlineIata ?? s.textSearch,
   );
 
   const handleFocus = () => {
     vibrate('impactMedium');
-    State.actions.setState({
+    useFlightSearchState.setState({
       focusInput: 'airlineIata',
       textSearch: airlineIata,
     });
   };
 
   const changeChange = (value?: string) => {
-    State.actions.setState({ textSearch: value });
+    useFlightSearchState.setState({
+      textSearch: value,
+    });
   };
 
   return (

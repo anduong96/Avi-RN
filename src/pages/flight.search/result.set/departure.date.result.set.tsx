@@ -17,12 +17,12 @@ import { ListItem } from '@app/components/list.item';
 import { formatRelativeDay } from '@app/lib/format.date';
 import { FaIcon } from '@app/components/icons.fontawesome';
 
-import { State } from '../state';
 import { Publisher } from '../publisher';
+import { useFlightSearchState } from '../state';
 
 export const DepartureDateResultSet: React.FC = () => {
-  const departureDate = State.useSelect((state) => state.departureDate);
-  const textSearch = State.useSelect((state) => state.textSearch);
+  const departureDate = useFlightSearchState((state) => state.departureDate);
+  const textSearch = useFlightSearchState((state) => state.textSearch);
   const theme = useTheme();
   const [debouncedSearch] = useDebounce(textSearch, 200);
   const [showCalendar, setShowCalendar] = React.useState(false);
@@ -36,7 +36,7 @@ export const DepartureDateResultSet: React.FC = () => {
 
   const handleSelect = (date: moment.MomentInput) => {
     vibrate('impactMedium');
-    State.actions.setState({ departureDate: moment(date).toDate() });
+    useFlightSearchState.setState({ departureDate: moment(date).toDate() });
     Publisher.broadcast('Selected', undefined);
   };
 

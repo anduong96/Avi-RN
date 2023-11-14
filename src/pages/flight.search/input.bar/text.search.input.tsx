@@ -3,24 +3,24 @@ import * as React from 'react';
 import { Input } from '@app/components/input';
 import { vibrate } from '@app/lib/haptic.feedback';
 
-import { State } from '../state';
+import { useFlightSearchState } from '../state';
 
 export const TextSearchInput: React.FC = () => {
-  const value = State.useSelect((state) => state.textSearch);
+  const value = useFlightSearchState((state) => state.textSearch);
   const handleChangeText = (textSearch?: string) => {
-    State.actions.setState({
+    useFlightSearchState.setState({
       textSearch,
     });
   };
 
   const handleFocus = () => {
     vibrate('impactLight');
-    State.actions.setState({ focusInput: 'textSearch' });
+    useFlightSearchState.setState({ focusInput: 'textSearch' });
   };
 
   React.useEffect(() => {
     return () => {
-      State.actions.setState({
+      useFlightSearchState.setState({
         textSearch: undefined,
       });
     };

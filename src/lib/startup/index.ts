@@ -1,8 +1,5 @@
 import './sentry';
-import '@app/state/user';
 import './push.notification';
-
-import * as React from 'react';
 
 import auth from '@react-native-firebase/auth';
 import remoteConfig from '@react-native-firebase/remote-config';
@@ -11,7 +8,6 @@ import rudderClient, {
 } from '@rudderstack/rudder-sdk-react-native';
 
 import { ENV } from '@app/env';
-import { GlobalState } from '@app/state/global';
 
 import { startSmartlook } from './smart.look';
 import { handleBuildInfo } from './build.info';
@@ -35,12 +31,4 @@ export async function startup() {
         trackAppLifecycleEvents: true,
       }),
   ]);
-}
-
-export function useStartupPrep() {
-  React.useEffect(() => {
-    startup().finally(() => {
-      GlobalState.actions.setIsStartUpFinish();
-    });
-  }, []);
 }

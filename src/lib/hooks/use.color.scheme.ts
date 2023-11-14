@@ -1,7 +1,7 @@
 import React from 'react';
 import { useColorScheme as useRnColorScheme } from 'react-native';
 
-import { GlobalState } from '@app/state/global';
+import { useGlobalState } from '@app/state/global';
 
 /**
  * UseColorScheme() is a React hook that sets the global state isDarkMode to true if the device is in
@@ -9,13 +9,13 @@ import { GlobalState } from '@app/state/global';
  * @returns A function that returns a boolean value.
  */
 export function useIsDarkMode() {
-  return GlobalState.useSelect((s) => s.isDarkMode);
+  return useGlobalState((s) => s.isDarkMode);
 }
 
 export function useColorScheme() {
   const scheme = useRnColorScheme();
 
   React.useMemo(() => {
-    GlobalState.actions.setIsDarkMode(scheme === 'dark');
+    useGlobalState.setState({ isDarkMode: scheme === 'dark' });
   }, [scheme]);
 }

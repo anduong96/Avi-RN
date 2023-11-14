@@ -2,7 +2,7 @@ import React from 'react';
 
 import { isNil } from 'lodash';
 
-import { GlobalState } from '@app/state/global';
+import { useGlobalState } from '@app/state/global';
 import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 
 import { bootApp } from '../boot.app';
@@ -15,9 +15,7 @@ import { bootApp } from '../boot.app';
 export function useBootApp() {
   const userFlights = useUserHasFlightsQuery({ fetchPolicy: 'cache-only' });
   const userFlightsLoaded = !isNil(userFlights.data?.userHasFlights);
-  const canBoot = GlobalState.useSelect(
-    (state) => state.isFinishStartup && state.isReady,
-  );
+  const canBoot = useGlobalState((s) => s.hasFinishStartup && s._hasHydrated);
 
   React.useEffect(() => {
     if (canBoot && userFlightsLoaded) {

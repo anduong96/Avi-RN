@@ -21,6 +21,7 @@ export function useAirlineSearch(searchValue: string, flightNumber?: string) {
     fetchPolicy: 'cache-and-network',
     pollInterval: moment.duration({ days: 1 }).asMilliseconds(),
   });
+
   const searcher = React.useMemo(
     () =>
       new Fuse(airlines.data?.airlines ?? [], {

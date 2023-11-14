@@ -7,21 +7,19 @@ import { ListItem } from '@app/components/list.item';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { useKeyboardSubmitEvent } from '@app/components/input/use.keyboard.submit';
 
-import { State } from '../state';
 import { Publisher } from '../publisher';
-import { useValue } from '../state/use.value';
-import { useFocusedInput } from '../state/use.focused.input';
+import { useFlightSearchState } from '../state';
 
 export const FlightNumberResultSet: React.FC = () => {
-  const flightNumber = useValue('flightNumber')!;
-  const textSearch = useValue('textSearch');
-  const focused = useFocusedInput();
+  const flightNumber = useFlightSearchState((s) => s.flightNumber)!;
+  const textSearch = useFlightSearchState((s) => s.textSearch);
+  const focused = useFlightSearchState((s) => s.focusInput);
   const value = textSearch || flightNumber;
   const theme = useTheme();
 
   const handleSelection = React.useCallback(() => {
     vibrate('impactMedium');
-    State.actions.setState({
+    useFlightSearchState.setState({
       flightNumber: value,
       textSearch: undefined,
     });

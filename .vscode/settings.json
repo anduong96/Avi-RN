@@ -4,11 +4,13 @@
     "chrono",
     "Codegen",
     "codepush",
+    "DATAPLANE",
     "flywithavi",
     "fontawesome",
     "gorhom",
     "MMKV",
     "notifee",
+    "partialize",
     "Prec",
     "Pressable",
     "Rudderstack",
@@ -19,7 +21,8 @@
     "tiamut",
     "tinycolor",
     "xlight",
-    "xmark"
+    "xmark",
+    "zustand"
   ],
   "yaml.schemas": {
     "https://unpkg.com/graphql-config@4.0.1/config-schema.json": "graphql.config.yml",

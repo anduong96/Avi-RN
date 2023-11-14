@@ -7,12 +7,11 @@ import { Input } from '@app/components/input';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { removeNonNumericCharacters } from '@app/lib/remove.non.numeric';
 
-import { State } from '../state';
-import { useValue } from '../state/use.value';
+import { useFlightSearchState } from '../state';
 
 export const FlightNumberInput = React.forwardRef<TextInput>((_, ref) => {
-  const flightNumber = useValue('flightNumber');
-  const inputValue = State.useSelect((state) =>
+  const flightNumber = useFlightSearchState((s) => s.flightNumber);
+  const inputValue = useFlightSearchState((state) =>
     state.focusInput === 'flightNumber'
       ? state.textSearch
       : state.flightNumber ?? state.textSearch,
@@ -20,14 +19,14 @@ export const FlightNumberInput = React.forwardRef<TextInput>((_, ref) => {
 
   const handleFocus = () => {
     vibrate('impactMedium');
-    State.actions.setState({
+    useFlightSearchState.setState({
       focusInput: 'flightNumber',
       textSearch: flightNumber,
     });
   };
 
   const handleChange = (value?: string) => {
-    State.actions.setState({
+    useFlightSearchState.setState({
       textSearch: removeNonNumericCharacters(value),
     });
   };

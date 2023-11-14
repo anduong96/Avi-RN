@@ -17,29 +17,27 @@ import { HighlightedText } from '@app/components/highlight.text';
 import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
 import { useKeyboardSubmitEvent } from '@app/components/input/use.keyboard.submit';
 
-import { State } from '../state';
 import { Publisher } from '../publisher';
-import { useValue } from '../state/use.value';
+import { useFlightSearchState } from '../state';
 import { useAirlineSearch } from '../use.airline.search';
-import { useFocusedInput } from '../state/use.focused.input';
 
 export const TextSearchResultSet: React.FC = () => {
   const theme = useTheme();
-  const focused = useFocusedInput();
-  const textSearch = useValue('textSearch', '');
+  const focused = useFlightSearchState((s) => s.focusInput);
+  const textSearch = useFlightSearchState((s) => s.textSearch ?? '');
   const isFocusOnAirlineIata = focused === 'airlineIata';
   const flightNumber = !isFocusOnAirlineIata
     ? parseFlightIata(textSearch)?.flightNumber.slice(0, 4)
     : undefined;
   const result = useAirlineSearch(textSearch, flightNumber);
-  const currentFlightNumber = useValue('flightNumber');
+  const currentFlightNumber = useFlightSearchState((s) => s.flightNumber);
 
   const handleSelection = React.useCallback(
     (airline: AirlinesQuery['airlines'][number]) => {
       vibrate('impactMedium');
       logger.debug('Airline Selected', airline);
 
-      State.actions.setState({
+      useFlightSearchState.setState({
         airlineIata: airline.iata,
         flightNumber: flightNumber || currentFlightNumber,
         textSearch: undefined,

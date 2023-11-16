@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { isNil } from 'lodash';
-import * as ting from '@baronha/ting';
+// import * as ting from '@baronha/ting';
 
 import { vibrate } from '@app/lib/haptic.feedback';
 import {
@@ -29,16 +29,16 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
 
   const [add, { loading: adding }] = useAddUserFlightMutation({
     onCompleted() {
-      ting.toast({
-        title: 'Flight Added!',
-      });
+      // ting.toast({
+      //   title: 'Flight Added!',
+      // });
     },
     onError() {
-      ting.toast({
-        position: 'top',
-        preset: 'error',
-        title: 'Failed to add flight',
-      });
+      // ting.toast({
+      //   position: 'top',
+      //   preset: 'error',
+      //   title: 'Failed to add flight',
+      // });
     },
     refetchQueries: [
       { query: UserActiveFlightsDocument },
@@ -51,16 +51,16 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
   });
   const [remove, { loading: removing }] = useDeleteUserFlightMutation({
     onCompleted() {
-      ting.toast({
-        title: 'Flight Removed!',
-      });
+      // ting.toast({
+      //   title: 'Flight Removed!',
+      // });
     },
     onError() {
-      ting.toast({
-        position: 'top',
-        preset: 'error',
-        title: 'Failed to remove flight',
-      });
+      // ting.toast({
+      //   position: 'top',
+      //   preset: 'error',
+      //   title: 'Failed to remove flight',
+      // });
     },
     refetchQueries: [
       { query: UserActiveFlightsDocument },

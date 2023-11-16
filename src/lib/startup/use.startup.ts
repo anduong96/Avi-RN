@@ -8,7 +8,7 @@ export function useStartup() {
   React.useEffect(() => {
     startup().finally(() => {
       useGlobalState.setState({
-        hasFinishStartup: true,
+        _hasFinishStartup: true,
       });
     });
   }, []);

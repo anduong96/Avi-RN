@@ -1,3 +1,5 @@
+import { merge } from 'merge-anything';
+
 import { BASE_THEME } from './base.theme';
 
-export const LIGHT_THEME = BASE_THEME;
+export const LIGHT_THEME = merge(BASE_THEME, {});

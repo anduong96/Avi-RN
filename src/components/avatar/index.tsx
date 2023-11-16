@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Animated from 'react-native-reanimated';
 
-import { userState } from '@app/state/user';
 import { withStyled } from '@app/lib/styled';
+import { useUserState } from '@app/state/user';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { FaIcon } from '../icons.fontawesome';
@@ -14,7 +14,7 @@ type Props = {
 
 export const Avatar: React.FC<Props> = ({ hasShadow, size = 20 }) => {
   const theme = useTheme();
-  const colors = userState.useSelect((state) => state.colors);
+  const colors = useUserState((state) => state.colors);
 
   return (
     <Container color={colors.pastel} hasShadow={hasShadow}>

@@ -5,19 +5,19 @@ import { startCase } from 'lodash';
 
 import { withStyled } from '@app/lib/styled';
 
-export type Props = {
+export type Props<T> = {
   disabled?: boolean;
-  onChange?: (value: Props['value']) => void;
-  options: Array<{ label: string; value: string }> | Array<string>;
-  value?: string;
+  onChange?: (value: T) => void;
+  options: Array<{ label: string; value: T }> | Array<T>;
+  value?: T;
 };
 
-export const SwitchButton: React.FC<Props> = ({
+export function SwitchButton<T extends string>({
   disabled,
   onChange,
   options,
   value,
-}) => {
+}: Props<T>) {
   return (
     <Container isDisabled={disabled}>
       {options.map((item) => {
@@ -30,8 +30,8 @@ export const SwitchButton: React.FC<Props> = ({
         return (
           <Option
             disabled={disabled}
-            key={itemValue}
-            onPress={() => onChange?.(itemValue)}
+            key={itemLabel}
+            onPress={() => onChange?.(itemValue as T)}
           >
             <Label isActive={isActive}>{itemLabel}</Label>
           </Option>
@@ -39,7 +39,7 @@ export const SwitchButton: React.FC<Props> = ({
       })}
     </Container>
   );
-};
+}
 
 const Container = withStyled<{ isDisabled?: boolean }, typeof View>(
   View,

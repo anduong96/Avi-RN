@@ -45,6 +45,30 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### copy_assets
+
+```sh
+[bundle exec] fastlane copy_assets
+```
+
+
+
+### suffix_name
+
+```sh
+[bundle exec] fastlane suffix_name
+```
+
+
+
+### update_bundle_identifier
+
+```sh
+[bundle exec] fastlane update_bundle_identifier
+```
+
+
+
 ### prepare_icons
 
 ```sh
@@ -70,14 +94,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ```sh
 [bundle exec] fastlane ios build_application
-```
-
-
-
-### ios suffix_name
-
-```sh
-[bundle exec] fastlane ios suffix_name
 ```
 
 

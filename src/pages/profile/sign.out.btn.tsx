@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { useUser } from '@app/state/user';
-import { Button } from '@app/components/button';
 import { withStyled } from '@app/lib/styled';
+import { Button } from '@app/components/button';
 import { signOut } from '@app/lib/auth/sign.out';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useUser } from '@app/state/user/use.user';
 import { usePrompt } from '@app/components/prompt/use.prompt';
 
 export const SignOutBtn: React.FC = () => {

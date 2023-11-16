@@ -1,46 +1,13 @@
-project.ext.vectoricons = [
-    // TODO: Remove unused icons
-    iconFontNames: [
-        'AntDesign.ttf',
-        'Entypo.ttf',
-        'EvilIcons.ttf',
-        'Feather.ttf',
-        'FontAwesome.ttf',
-        'FontAwesome5_Brands.ttf',
-        'FontAwesome5_Regular.ttf',
-        'FontAwesome5_Solid.ttf',
-        'FontAwesome6_Pro_Brands.ttf',
-		'FontAwesome6_Pro_Regular.ttf',
-		'FontAwesome6_Pro_Solid.ttf',
-		'FontAwesome6_Pro_Light.ttf',
-		'FontAwesome6_Pro_Duotone.ttf',
-		'FontAwesome6_Pro_Thin.ttf',
-		'FontAwesome6_Pro_Sharp_Solid.ttf',
-        'Foundation.ttf',
-        'Ionicons.ttf',
-        'MaterialIcons.ttf',
-        'MaterialCommunityIcons.ttf',
-        'SimpleLineIcons.ttf',
-        'Octicons.ttf',
-        'Zocial.ttf',
-        'Fontisto.ttf',
-    ]
-]
-
-
-// TODO: Broken
-// apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
-
 apply plugin: "com.android.application"
-apply plugin: 'com.google.gms.google-services'
 apply plugin: "com.facebook.react"
-apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.appdistribution'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
 
-import com.android.build.OutputFile
-
+/* -------------------------------------------------------------------------- */
+/*                             react-native-config                            */
+/* -------------------------------------------------------------------------- */
 project.ext.envConfigFiles = [
     debug: ".env",
     staging: ".env.staging",
@@ -59,8 +26,8 @@ react {
     // root = file("../")
     //   The folder where the react-native NPM package is. Default is ../node_modules/react-native
     // reactNativeDir = file("../node_modules/react-native")
-    //   The folder where the react-native Codegen package is. Default is ../node_modules/react-native-codegen
-    // codegenDir = file("../node_modules/react-native-codegen")
+    //   The folder where the react-native Codegen package is. Default is ../node_modules/@react-native/codegen
+    // codegenDir = file("../node_modules/@react-native/codegen")
     //   The cli.js file which is the React Native CLI entrypoint. Default is ../node_modules/react-native/cli.js
     // cliFile = file("../node_modules/react-native/cli.js")
 
@@ -99,17 +66,13 @@ react {
 }
 
 /**
- * Set this to true to create four separate APKs instead of one,
- * one for each native architecture. This is useful if you don't
- * use App Bundles (https://developer.android.com/guide/app-bundle/)
- * and want to have separate APKs to upload to the Play Store.
- */
-def enableSeparateBuildPerCPUArchitecture = false
-
-/**
  * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
  */
 def enableProguardInReleaseBuilds = false
+
+def keystorePropertiesFile= rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 /**
  * The preferred build flavor of JavaScriptCore (JSC)
@@ -124,24 +87,7 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
-/**
- * Private function to get the list of Native Architectures you want to build.
- * This reads the value from reactNativeArchitectures in your gradle.properties
- * file and works together with the --active-arch-only flag of react-native run-android.
- */
-def reactNativeArchitectures() {
-    def value = project.getProperties().get("reactNativeArchitectures")
-    return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
-}
-
-def keystorePropertiesFile= rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
-
 android {
-    flavorDimensions "version"
-
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -152,17 +98,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0.5"
+        versionName "1.0"
         resValue "string", "build_config_package", "com.avitech.app"
-    }
-
-    splits {
-        abi {
-            reset()
-            enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
-            include (*reactNativeArchitectures())
-        }
     }
     signingConfigs {
         debug {
@@ -188,44 +125,25 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            firebaseCrashlytics {
-                nativeSymbolUploadEnabled true
-                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
-            }
         }
     }
-
+    flavorDimensions += "version"
     productFlavors {
         develop {
             applicationIdSuffix ".develop"
+            versionNameSuffix "-develop"
         }
         staging {
             applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
         }
         production {}
-    }
-
-    // applicationVariants are e.g. debug, release
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            // For each separate APK per architecture, set a unique version code as described here:
-            // https://developer.android.com/studio/build/configure-apk-splits.html
-            // Example: versionCode 1 will generate 1001 for armeabi-v7a, 1002 for x86, etc.
-            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
-            def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
-            }
-
-        }
     }
 }
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
     implementation("androidx.core:core-splashscreen:1.0.0") // Add this line
 
@@ -243,5 +161,24 @@ dependencies {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
-apply from: "../../node_modules/react-native/react.gradle"
+
+/* -------------------------------------------------------------------------- */
+/*                           react-native-code-push                           */
+/* -------------------------------------------------------------------------- */
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
+
+/* -------------------------------------------------------------------------- */
+/*                          react-native-vector-icons                         */
+/* -------------------------------------------------------------------------- */
+project.ext.vectoricons = [
+    iconFontNames: [
+        'FontAwesome6_Pro_Brands.ttf',
+		'FontAwesome6_Pro_Regular.ttf',
+		'FontAwesome6_Pro_Solid.ttf',
+		'FontAwesome6_Pro_Light.ttf',
+		'FontAwesome6_Pro_Thin.ttf',
+        'MaterialCommunityIcons.ttf',
+    ]
+]
+
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")

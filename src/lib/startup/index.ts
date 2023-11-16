@@ -9,14 +9,12 @@ import rudderClient, {
 
 import { ENV } from '@app/env';
 
-import { startSmartlook } from './smart.look';
 import { handleBuildInfo } from './build.info';
 import { handleFcmToken } from './push.notification';
 
 export async function startup() {
   await Promise.allSettled([
     remoteConfig().fetchAndActivate(),
-    startSmartlook(),
     handleFcmToken(),
     handleBuildInfo(),
     auth().currentUser

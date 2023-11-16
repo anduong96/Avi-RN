@@ -8,6 +8,7 @@ import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 
 import { delay } from '@app/lib/delay';
 import { logger } from '@app/lib/logger';
+import { format } from '@app/lib/format';
 import { withStyled } from '@app/lib/styled';
 import { Shake } from '@app/lib/animated/shake';
 import { vibrate } from '@app/lib/haptic.feedback';
@@ -31,8 +32,13 @@ export const PushNotificationSheet: React.FC = () => {
   const isActive = useAppActive();
   const [loading, setLoading] = React.useState(false);
   const snapPoints = React.useMemo(() => ['100%'], []);
+
   const showSheet = React.useCallback(() => {
-    if (isActive && hasFlights && !hasPushAsked) {
+    if (
+      isActive &&
+      hasFlights &&
+      status !== messaging.AuthorizationStatus.NOT_DETERMINED
+    ) {
       logger.debug('Showing push notification sheet');
       delay(3 * 1000).then(() => {
         sheet.current?.present();
@@ -41,13 +47,21 @@ export const PushNotificationSheet: React.FC = () => {
       logger.debug('Not showing push notification sheet');
       sheet.current?.dismiss();
     }
-  }, [isActive, hasFlights, hasPushAsked]);
+  }, [isActive, hasFlights, status]);
 
   React.useEffect(() => {
     showSheet();
   }, [showSheet]);
 
   React.useEffect(() => {
+    logger.debug(
+      format(
+        'Push notification status statusCode=%s changed=%s',
+        status,
+        messaging.AuthorizationStatus[status],
+      ),
+    );
+
     if (status !== messaging.AuthorizationStatus.NOT_DETERMINED) {
       sheet.current?.close();
     }
@@ -56,17 +70,31 @@ export const PushNotificationSheet: React.FC = () => {
   const handleEnable = async () => {
     vibrate('effectClick');
     setLoading(true);
-    const responseStatus = await messaging().requestPermission({
-      alert: true,
-      announcement: true,
-      carPlay: true,
-      sound: true,
-    });
-    setLoading(false);
-    useGlobalState.setState({
-      _hasPushAsked: true,
-      pushPermission: responseStatus,
-    });
+    logger.debug('User selected to enable push notifications');
+    logger.debug('Requesting push notification permission');
+    try {
+      const responseStatus = await messaging().requestPermission({
+        alert: true,
+        announcement: true,
+        carPlay: true,
+        sound: true,
+      });
+      logger.debug(
+        format(
+          'Push permission statusCode=%s status=%s',
+          responseStatus,
+          messaging.AuthorizationStatus[responseStatus],
+        ),
+      );
+      useGlobalState.setState({
+        _hasPushAsked: true,
+        pushPermission: responseStatus,
+      });
+    } catch (error) {
+      logger.error('Error requesting push notification permission', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDismiss = () => {
@@ -139,7 +167,6 @@ export const PushNotificationSheet: React.FC = () => {
 };
 
 const Container = withStyled(BottomSheetView, (theme) => [
-  theme.presets.shadows[100],
   {
     flexGrow: 1,
     justifyContent: 'flex-end',

@@ -5,9 +5,9 @@ import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 
 import { BlurView } from '@react-native-community/blur';
 
-import { useUser } from '@app/state/user';
-import { Button } from '@app/components/button';
 import { withStyled } from '@app/lib/styled';
+import { Button } from '@app/components/button';
+import { useUser } from '@app/state/user/use.user';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { signInWithApple } from '@app/lib/auth/apple.auth';
 import { signInWithGoogle } from '@app/lib/auth/google.auth';

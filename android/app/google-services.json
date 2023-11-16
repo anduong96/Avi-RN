@@ -1,37 +1,73 @@
 {
   "project_info": {
-    "project_number": "837257235182",
-    "project_id": "tailwind-7192a",
-    "storage_bucket": "tailwind-7192a.appspot.com"
+    "project_number": "770636852536",
+    "project_id": "avi-app-dev",
+    "storage_bucket": "avi-app-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:837257235182:android:3146f9466f5b81992441ff",
+        "mobilesdk_app_id": "1:770636852536:android:431f87885f7ee3cb3aa5cd",
         "android_client_info": {
-          "package_name": "com.avitech.app"
+          "package_name": "com.avitech.app.develop"
         }
       },
       "oauth_client": [
         {
-          "client_id": "837257235182-odhfti8omif968i0jh71p1q8f2mt37ti.apps.googleusercontent.com",
+          "client_id": "770636852536-bm1utoq897b5qcf6ip6paus0r9fm96eq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_ybcCRCoXxIaTvrI1egJVB0S_BtCHIiw"
+          "current_key": "AIzaSyDOoCk2u3gA8cQOMcwYhjxc28sDBBq7ZjQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "837257235182-odhfti8omif968i0jh71p1q8f2mt37ti.apps.googleusercontent.com",
+              "client_id": "770636852536-bm1utoq897b5qcf6ip6paus0r9fm96eq.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "837257235182-bbdcc7tdtm8mhr4peiimrm21ss386cs9.apps.googleusercontent.com",
+              "client_id": "770636852536-641ehtqp7fensti6jo9i6vki3fbadnmf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.avitech.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770636852536:android:5b69364435919b853aa5cd",
+        "android_client_info": {
+          "package_name": "com.avitech.app.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770636852536-bm1utoq897b5qcf6ip6paus0r9fm96eq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOoCk2u3gA8cQOMcwYhjxc28sDBBq7ZjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770636852536-bm1utoq897b5qcf6ip6paus0r9fm96eq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "770636852536-641ehtqp7fensti6jo9i6vki3fbadnmf.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.avitech.app"

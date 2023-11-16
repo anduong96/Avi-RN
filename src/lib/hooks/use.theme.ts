@@ -1,5 +1,8 @@
 import { useColorScheme } from 'react-native';
 
+import { useGlobalState } from '@app/state/global';
+import { ThemePreset } from '@app/themes/constants';
+
 import { DARK_THEME } from '../../themes/dark.theme';
 import { LIGHT_THEME } from '../../themes/light.theme';
 
@@ -9,5 +12,11 @@ import { LIGHT_THEME } from '../../themes/light.theme';
  */
 export function useTheme() {
   const scheme = useColorScheme();
-  return scheme === 'dark' ? DARK_THEME : LIGHT_THEME;
+  const theme = useGlobalState((s) => s.theme);
+  const isDarkTheme =
+    theme === ThemePreset.SYSTEM
+      ? scheme === 'dark'
+      : theme === ThemePreset.DARK;
+
+  return isDarkTheme ? DARK_THEME : LIGHT_THEME;
 }

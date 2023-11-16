@@ -10,7 +10,6 @@ import type { AnalyticPlugin } from './types';
 import { logger } from '../logger';
 import { SentryPlugin } from './plugins/sentry.plugin';
 import { FirebasePlugin } from './plugins/firebase.plugin';
-import { SmartlookPlugin } from './plugins/smartlook.plugin';
 import { RudderstackPlugin } from './plugins/rudder.stack.plugin';
 
 export class Analytics {
@@ -19,7 +18,6 @@ export class Analytics {
     FirebasePlugin,
     SentryPlugin,
     RudderstackPlugin,
-    SmartlookPlugin,
   ]);
   private static plugins: AnalyticPlugin[] = [];
   private static user?: User;

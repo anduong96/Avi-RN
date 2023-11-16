@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as ting from '@baronha/ting';
+// import * as ting from '@baronha/ting';
 
 import { useDebugFlightNotificationMutation } from '@app/generated/server.gql';
 
@@ -13,18 +13,18 @@ type Props = {
 export const DebugNotificationFlightBtn: React.FC<Props> = ({ flightID }) => {
   const [send, { loading }] = useDebugFlightNotificationMutation({
     onCompleted(data) {
-      ting.toast({
-        position: 'top',
-        preset: 'done',
-        title: `Sent ${data._sendFlightNotification} notification`,
-      });
+      // ting.toast({
+      //   position: 'top',
+      //   preset: 'done',
+      //   title: `Sent ${data._sendFlightNotification} notification`,
+      // });
     },
     onError(error) {
-      ting.toast({
-        position: 'top',
-        preset: 'error',
-        title: error.message,
-      });
+      // ting.toast({
+      //   position: 'top',
+      //   preset: 'error',
+      //   title: error.message,
+      // });
     },
     variables: {
       body: 'body',

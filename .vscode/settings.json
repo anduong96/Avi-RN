@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "avitech",
     "baronha",
     "chrono",
     "Codegen",
@@ -8,9 +9,11 @@
     "flywithavi",
     "fontawesome",
     "gorhom",
+    "gradlew",
     "MMKV",
     "notifee",
     "partialize",
+    "podfile",
     "Prec",
     "Pressable",
     "Rudderstack",
@@ -37,5 +40,6 @@
   // "editor.formatOnSaveMode": "file",
   // "editor.formatOnSave": true,
   "editor.acceptSuggestionOnEnter": "smart",
-  "editor.tabCompletion": "on"
+  "editor.tabCompletion": "on",
+  "java.configuration.updateBuildConfiguration": "automatic"
 }

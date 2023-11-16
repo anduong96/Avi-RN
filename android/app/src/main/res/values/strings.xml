@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">avi</string>
+  <string name="app_name">Avi</string>
+  <string name="bundle_id">com.avitech.app</string>
+  <string moduleConfig="true" name="CodePushDeploymentKey">CodePushDeploymentKey</string>
 </resources>

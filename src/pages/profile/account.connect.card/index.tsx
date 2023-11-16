@@ -3,9 +3,9 @@ import FastImage from 'react-native-fast-image';
 import { FadeIn } from 'react-native-reanimated';
 import { TouchableOpacity, View } from 'react-native';
 
-import { withStyled } from '@app/lib/styled';
-import { useUser } from '@app/state/user';
 import { Card } from '@app/components/card';
+import { withStyled } from '@app/lib/styled';
+import { useUser } from '@app/state/user/use.user';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { StatusIcon } from '@app/components/icon.status';
 import { FaIcon } from '@app/components/icons.fontawesome';

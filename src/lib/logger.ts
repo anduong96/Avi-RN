@@ -1,4 +1,4 @@
-import { logger as RnLogger } from 'react-native-logs';
+import { logger as RnLogger, consoleTransport } from 'react-native-logs';
 
 type LogLevel = 'debug' | 'error' | 'info' | 'warn';
 export const logger = RnLogger.createLogger<LogLevel>({
@@ -14,8 +14,10 @@ export const logger = RnLogger.createLogger<LogLevel>({
   printDate: true,
   printLevel: true,
   severity: 'debug',
+  transport: [consoleTransport],
   transportOptions: {
     colors: {
+      debug: 'grey',
       error: 'redBright',
       info: 'blueBright',
       warn: 'yellowBright',

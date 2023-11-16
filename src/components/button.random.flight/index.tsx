@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-import * as ting from '@baronha/ting';
+// import * as ting from '@baronha/ting';
 
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
@@ -23,11 +23,11 @@ export const RandomFlightBtn: React.FC<Props> = ({ onFlight, withLabel }) => {
       onFlight(data.randomFlight);
     },
     onError(error) {
-      ting.toast({
-        position: 'top',
-        preset: 'error',
-        title: error.message,
-      });
+      // ting.toast({
+      //   position: 'top',
+      //   preset: 'error',
+      //   title: error.message,
+      // });
     },
   });
 

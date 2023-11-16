@@ -31,6 +31,7 @@ end
 
 before_all do |lane, options|
   Dotenv.overload("../.env")
+  platform = lane_context[SharedValues::PLATFORM_NAME]
 
   ensure_env_vars(
     env_vars: [
@@ -38,9 +39,18 @@ before_all do |lane, options|
     ]
   )
 
-  lane_context["IOS_SCHEME"]  = add_suffix_to(IOS_PROJ_NAME, lane)
-  lane_context["IOS_APP_ID"]  = add_suffix_to(IOS_IDENTIFIER, lane)
-  lane_context["AND_PACKAGE"] = add_suffix_to(AND_PACKAGE_ID, lane)
+  if platform == :ios
+    lane_context["IOS_SCHEME"]  = add_suffix_to(IOS_PROJ_NAME, lane)
+    lane_context["IOS_APP_ID"]  = add_suffix_to(IOS_IDENTIFIER, lane)
+    UI.message("Setting lane context for iOS... 🏗️")
+    UI.message("IOS_SCHEME: #{lane_context["IOS_SCHEME"]}")
+    UI.message("IOS_APP_ID: #{lane_context["IOS_APP_ID"]}")
+  elsif platform === :android
+    lane_context["AND_PACKAGE"] = add_suffix_to(AND_PACKAGE_ID, lane)
+    UI.message("Setting lane context for Android... 🏗️")
+    UI.message("AND_PACKAGE_ID: #{AND_PACKAGE_ID}")
+    UI.message("AND_PACKAGE: #{lane_context["AND_PACKAGE"]}")
+  end
 end
 
 lane :liftoff do |options|
@@ -162,15 +172,6 @@ platform :ios do
     )
   end
 
-  lane :suffix_name do |options|
-    update_info_plist(
-      xcodeproj: IOS_PROJ_PATH,
-      app_identifier: options[:suffix] ? lane_context["IOS_APP_ID"] : "$(PRODUCT_BUNDLE_IDENTIFIER)",
-      plist_path: "/#{IOS_PROJ_NAME}/Info.plist",
-      display_name: "#{options[:suffix] ? "#{ENV["FASTLANE_PRODUCT_NAME"]} (#{options[:suffix]})" : "#{ENV["FASTLANE_PRODUCT_NAME"]}"}",
-    )
-  end
-
   lane :fetch_profiles do |options|
     if ENV['GITHUB_ACCESS_TOKEN'] != nil
       match(
@@ -250,10 +251,14 @@ platform :ios do
   desc "Local development using iOS Simulator..."
   lane :develop do |options|
     begin
+      scheme = "--scheme #{options[:scheme] || lane_context["IOS_SCHEME"]}"
+      device = "--device" if options[:device]
+      simulator = "--simulator #{options[:simulator] || '"iPhone 14"'}"
+
       suffix_name(suffix: "D")
       prepare_icons(platform: :ios, lane: :develop)
       sh('npm', 'run', 'localhost')
-      sh "cd .. && npx react-native run-ios --scheme #{options[:scheme] || lane_context["IOS_SCHEME"]} #{options[:device] ? "--device" : "--simulator #{options[:simulator] || '"iPhone 14"'}"}"
+      sh "cd .. && npx react-native run-ios #{scheme} #{device ? device : simulator}"
     ensure
       suffix_name(suffix: nil)
       reset(platform: :ios)
@@ -404,10 +409,27 @@ platform :android do
 
   desc "Development..."
   lane :develop do |options|
-    increment_build(:android)
-    prepare_icons(platform: :android, lane: :develop)
-    sh "cd .. && adb reverse tcp:8081 tcp:8081 && npx react-native run-android --variant=#{options[:variant] || "developDebug"}"
-    reset(platform: :android)
+    appId = "--appIdSuffix=develop"
+    variant = "--variant=developDebug"
+    device = ""
+
+    if options[:device] != nil
+      UI.message("Building for device: #{options[:device]}")
+      device = "--deviceId=#{options[:device]}"
+    end
+
+    begin
+      suffix_name(suffix: "D", lane: :develop)
+      prepare_icons(platform: :android, lane: :develop)
+      copy_assets(source: "../assets/fonts", destination: "../android/app/src/main/assets/fonts")
+
+      sh "yarn localhost"
+      sh "cd .. && npx react-native run-android #{device} #{variant} #{appId}"
+    ensure
+      suffix_name(suffix: nil)
+      reset(platform: :android)
+      sh "rm -rf ../android/app/src/main/assets/fonts"
+    end
   end
 
   desc "Submit a new staging build to internal testers..."
@@ -451,8 +473,64 @@ platform :android do
   end
 end
 
+lane :copy_assets do |options|
+  source = options[:source]
+  destination = options[:destination]
+  sh("node ../scripts/copy.assets.js --source=#{source} --destination=#{destination}")
+end
+
+lane :suffix_name do |options|
+  lane = options[:lane]
+  ensure_env_vars(
+    env_vars: [
+      "FASTLANE_PRODUCT_NAME"
+    ]
+  )
+
+  platform = lane_context[SharedValues::PLATFORM_NAME]
+  app_name = ENV["FASTLANE_PRODUCT_NAME"]
+  suffix = options[:suffix] ? "(#{options[:suffix]})" : ""
+  display_name = "#{app_name} #{suffix}".strip
+  UI.message("Display name=#{display_name}")
+  update_bundle_identifier(
+    platform: platform,
+    lane: lane,
+    display_name: display_name,
+    suffix: options[:suffix]
+  )
+end
+
+lane :update_bundle_identifier do |options|
+  platform = options[:platform].to_sym
+  display_name = options[:display_name]
+
+  UI.message("Updating bundle identifier for platform=#{platform}")
+
+  if platform == :ios
+    app_identifier = options[:suffix] ? lane_context["IOS_APP_ID"] : "$(PRODUCT_BUNDLE_IDENTIFIER)"
+
+    update_info_plist(
+      xcodeproj: IOS_PROJ_PATH,
+      app_identifier: app_identifier,
+      plist_path: "/#{IOS_PROJ_NAME}/Info.plist",
+      display_name: display_name,
+    )
+  elsif platform == :android
+    bundle_id = lane_context["AND_PACKAGE"]
+
+    update_android_strings(
+      block: lambda { |strings|
+        strings["app_name"] = display_name
+        strings["bundle_id"] = bundle_id
+      }
+    )
+  end
+end
+
 lane :prepare_icons do |options|
   platform = options[:platform].to_sym
+  lane = options[:lane].to_sym
+  UI.message("Generating icons for platform=#{platform} lane=#{lane} at #{ICON_IMAGE_LOC}")
 
   if platform == :ios
     appicon(
@@ -469,11 +547,12 @@ lane :prepare_icons do |options|
     )
   end
 
-  if options[:lane]
+  if lane != nil
+    UI.message("Adding badge for platform=#{platform} lane=#{lane}")
     version = fetch_version(platform)
     shield = "#{version[:name]}-#{version[:code]}-blue"
 
-    if options[:lane] == :develop
+    if lane == :develop
       shield = "develop-red"
     end
 
@@ -497,12 +576,25 @@ lane :prepare_icons do |options|
 end
 
 lane :reset do |options|
-  platform = options[:platform]
-  location = platform == :android \
-    ? "../android/**/*/ic_launcher*.png"\
-    : "../ios/**/*.appiconset/*.png"
+  platform = options[:platform].to_sym
+  files = []
 
-  reset_git_repo(force: true, files: Dir.glob(location).map {|f| File.expand_path(f)})
+  if platform == :ios
+    Dir.glob("../ios/**/*.appiconset") do |file|
+      files << File.expand_path(file)
+    end
+  elsif platform == :android
+    files << File.expand_path("../android/app/src/main/res/values/strings.xml")
+    files << File.expand_path("../android/app/src/main/AndroidManifest.xml")
+
+    Dir.glob("../android/**/*/ic_launcher*.png") do |file|
+      files << File.expand_path(file)
+    end
+  end
+
+  UI.message("Resetting git repo for platform=#{platform}...")
+  UI.message("Files count=#{files.size}")
+  reset_git_repo(force: true, files: files)
 end
 
 def fetch_teams(portal, tunes)
@@ -637,8 +729,16 @@ def increment_build(platform)
       build_number: curr_build_number
     )
   elsif platform == :android
+    ensure_env_vars(
+      env_vars: [
+        "FIREBASE_AND_APP_ID",
+      ]
+    )
+
+    firebase_app_id = ENV["FIREBASE_AND_APP_ID"]
     latest_release = firebase_app_distribution_get_latest_release(
-      app: ENV["FIREBASE_AND_APP_ID"]
+      debug: !is_ci,
+      app: firebase_app_id
     )
 
     prev_build_number = latest_release ? latest_release[:buildVersion]&.to_i : 0

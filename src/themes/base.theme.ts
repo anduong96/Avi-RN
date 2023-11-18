@@ -36,7 +36,7 @@ const pallette = {
   disabled: grey[400],
   dividerColor: grey[100],
   grey,
-  primary: '#DBCE1B',
+  primary: '#e8db28',
   secondary: '#fff',
   success: '#00C851',
   text: WHITE,

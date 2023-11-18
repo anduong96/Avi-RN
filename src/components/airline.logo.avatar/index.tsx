@@ -1,6 +1,6 @@
 import * as React from 'react';
 import FastImage from 'react-native-fast-image';
-import { type StyleProp, type ViewStyle } from 'react-native';
+import { Image, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { withStyled } from '@app/lib/styled';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { useAirlinesQuery } from '@app/generated/server.gql';
 
 type Props = {
@@ -21,6 +22,7 @@ export const AirlineLogoAvatar: React.FC<Props> = ({
   size = 50,
   style,
 }) => {
+  const theme = useTheme();
   const request = useAirlinesQuery();
   const airlines = request.data?.airlines;
   const isVisible = useSharedValue(false);
@@ -31,6 +33,9 @@ export const AirlineLogoAvatar: React.FC<Props> = ({
   const containerStyle = useAnimatedStyle(() => ({
     opacity: withTiming(isVisible.value ? 1 : 0),
   }));
+  const fallback = theme.isDark
+    ? require('@app/assets/airline.png')
+    : require('@app/assets/airline-dark.png');
 
   const handleLoad = () => {
     isVisible.value = true;
@@ -38,15 +43,25 @@ export const AirlineLogoAvatar: React.FC<Props> = ({
 
   return (
     <Container size={size} style={[style, containerStyle]}>
-      <Logo
-        onError={handleLoad}
-        onLoad={handleLoad}
-        resizeMode={FastImage.resizeMode.contain}
-        source={{
-          priority: FastImage.priority.high,
-          uri: match!.logoCompactImageURL!,
-        }}
-      />
+      {match?.logoCompactImageURL ? (
+        <Logo
+          fallback={fallback}
+          onError={handleLoad}
+          onLoad={handleLoad}
+          resizeMode={FastImage.resizeMode.contain}
+          source={{
+            priority: FastImage.priority.high,
+            uri: match!.logoCompactImageURL!,
+          }}
+        />
+      ) : (
+        <FallbackLogo
+          onError={handleLoad}
+          onLoad={handleLoad}
+          resizeMode={FastImage.resizeMode.contain}
+          source={fallback}
+        />
+      )}
     </Container>
   );
 };
@@ -65,15 +80,12 @@ const Container = withStyled<
   },
 ]);
 
-const Logo = withStyled(
-  FastImage,
-  () => ({
-    height: '100%',
-    width: '100%',
-  }),
-  (theme) => ({
-    defaultSource: theme.isDark
-      ? require('@app/assets/airline.png')
-      : require('@app/assets/airline-dark.png'),
-  }),
-);
+const Logo = withStyled(FastImage, () => ({
+  height: '100%',
+  width: '100%',
+}));
+
+const FallbackLogo = withStyled(Image, () => ({
+  height: '100%',
+  width: '100%',
+}));

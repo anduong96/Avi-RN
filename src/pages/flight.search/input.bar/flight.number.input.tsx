@@ -2,7 +2,7 @@ import type { TextInput } from 'react-native';
 
 import * as React from 'react';
 
-import { isIos } from '@app/lib/is.ios';
+import { IS_IOS } from '@app/lib/platform';
 import { Input } from '@app/components/input';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { removeNonNumericCharacters } from '@app/lib/remove.non.numeric';
@@ -37,7 +37,7 @@ export const FlightNumberInput = React.forwardRef<TextInput>((_, ref) => {
       autoCapitalize="none"
       autoComplete="off"
       autoCorrect={false}
-      keyboardType={isIos ? 'numbers-and-punctuation' : 'default'}
+      keyboardType={IS_IOS ? 'numbers-and-punctuation' : 'default'}
       maxLength={4}
       onChange={handleChange}
       onFocus={handleFocus}

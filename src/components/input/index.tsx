@@ -14,9 +14,9 @@ import mergeRefs from 'merge-refs';
 
 import type { SpaceKeys } from '@app/themes';
 
-import { IS_ANDROID } from '@app/lib/platform';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { IS_ANDROID, IS_IOS } from '@app/lib/platform';
 
 import { InputPublisher } from './publisher';
 import { withStyled } from '../../lib/styled';
@@ -70,8 +70,8 @@ export const Input = React.forwardRef<TextInput, Props>(
           hasErrors
             ? theme.pallette.danger
             : isFocused.value
-            ? theme.pallette.active
-            : theme.pallette.borderColor,
+              ? theme.pallette.active
+              : theme.pallette.borderColor,
         ),
       };
     });
@@ -165,13 +165,16 @@ const Container = withStyled<
     gap: theme.space.small,
     justifyContent: 'center',
     paddingHorizontal: theme.space.medium,
+  },
+  IS_IOS && {
     paddingVertical: theme.space.small,
   },
+  IS_IOS &&
+    props.size === 'tiny' && {
+      paddingVertical: theme.space.tiny,
+    },
   props.disabled && {
     opacity: 0.5,
-  },
-  props.size === 'tiny' && {
-    paddingVertical: theme.space.tiny,
   },
 ]);
 

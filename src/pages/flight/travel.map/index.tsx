@@ -5,8 +5,8 @@ import MapView from 'react-native-maps';
 import { compact } from 'lodash';
 
 import { isNil } from '@app/lib/is.nil';
-import { isIos } from '@app/lib/is.ios';
 import { logger } from '@app/lib/logger';
+import { IS_IOS } from '@app/lib/platform';
 import { withStyled } from '@app/lib/styled';
 
 import { useFlight } from '../context';
@@ -78,7 +78,7 @@ const Map = withStyled(
   ],
   {
     liteMode: true,
-    mapType: isIos ? 'terrain' : 'terrain',
+    mapType: IS_IOS ? 'terrain' : 'terrain',
   },
 );
 

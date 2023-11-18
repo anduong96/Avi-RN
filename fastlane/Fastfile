@@ -424,7 +424,7 @@ platform :android do
       copy_assets(source: "../assets/fonts", destination: "../android/app/src/main/assets/fonts")
 
       sh "yarn localhost"
-      sh "cd .. && npx react-native run-android #{device} #{variant} #{appId}"
+      sh "cd .. && adb reverse tcp:8081 tcp:8081 && npx react-native run-android #{device} #{variant} #{appId}"
     ensure
       suffix_name(suffix: nil)
       reset(platform: :android)

@@ -90,13 +90,13 @@ const Btn = withStyled(TouchableOpacity, (theme) => [
 
 const AppleBtn = withStyled(Btn, (theme) => [
   {
-    backgroundColor: theme.isDark ? theme.pallette.white : theme.pallette.black,
+    backgroundColor: theme.pallette.white,
   },
 ]);
 
 const GoogleBtn = withStyled(Btn, (theme) => [
   {
-    backgroundColor: theme.isDark ? theme.pallette.white : theme.pallette.black,
+    backgroundColor: theme.pallette.white,
   },
 ]);
 
@@ -104,7 +104,7 @@ const AppleIcon = withStyled(
   FaIcon,
   (theme) => [
     {
-      color: theme.isDark ? theme.pallette.black : theme.pallette.white,
+      color: theme.pallette.black,
     },
   ],
   (theme) => ({

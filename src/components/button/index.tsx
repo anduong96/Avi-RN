@@ -79,10 +79,10 @@ export const Button = React.forwardRef<typeof AnimatedTouchable, Props>(
       (!isSolid
         ? theme.pallette.transparent
         : type === 'primary'
-        ? theme.pallette.primary
-        : type === 'active'
-        ? theme.pallette.active
-        : theme.pallette.transparent);
+          ? theme.pallette.primary
+          : type === 'active'
+            ? theme.pallette.active
+            : theme.pallette.transparent);
 
     const textColor = isSolid
       ? tinycolor
@@ -93,10 +93,10 @@ export const Button = React.forwardRef<typeof AnimatedTouchable, Props>(
           ])
           .toHexString()
       : type === 'primary'
-      ? theme.pallette.primary
-      : type === 'active'
-      ? theme.pallette.active
-      : color ?? theme.pallette.text;
+        ? theme.pallette.primary
+        : type === 'active'
+          ? theme.pallette.active
+          : color ?? theme.pallette.text;
 
     const handlePressIn = () => {
       isPressed.value = true;

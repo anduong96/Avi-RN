@@ -1,15 +1,17 @@
-import type { ImageStyle, TextStyle, ViewStyle } from 'react-native';
+import { type ImageStyle, type TextStyle, type ViewStyle } from 'react-native';
 
 import tinycolor from 'tinycolor2';
 
-function makeStyle<P extends ImageStyle | TextStyle | ViewStyle>(style: P) {
+const WHITE = '#fff';
+const BLACK = '#000';
+
+export function makeStyle<P extends ImageStyle | TextStyle | ViewStyle>(
+  style: P,
+) {
   return style;
 }
 
-const white = '#fff';
-const black = '#000';
-
-const blackColor = tinycolor(black);
+export const blackColor = tinycolor(BLACK);
 
 const grey = {
   50: blackColor.clone().lighten(7).toHexString(),
@@ -27,7 +29,7 @@ const grey = {
 const pallette = {
   active: '#0171E3',
   background: blackColor.clone().lighten(5).toHexString(),
-  black,
+  black: BLACK,
   borderColor: grey[200],
   card: grey[50],
   danger: '#FF4444',
@@ -37,16 +39,17 @@ const pallette = {
   primary: '#DBCE1B',
   secondary: '#fff',
   success: '#00C851',
-  text: white,
+  text: WHITE,
   textSecondary: grey[500],
   transparent: 'rgba(0,0,0,0)',
   warn: '#FFBB33',
-  white,
+  white: WHITE,
 };
 
 const shadows = {
   [100]: makeStyle({
-    shadowColor: black,
+    elevation: 5,
+    shadowColor: BLACK,
     shadowOffset: {
       height: 6,
       width: 3,
@@ -55,7 +58,8 @@ const shadows = {
     shadowRadius: 5,
   }),
   [200]: makeStyle({
-    shadowColor: black,
+    elevation: 5,
+    shadowColor: BLACK,
     shadowOffset: {
       height: 4,
       width: 4,
@@ -71,45 +75,36 @@ const borderWidth = 2;
 const typography = {
   presets: {
     h1: makeStyle({
-      color: pallette.text,
       fontSize: 35,
       lineHeight: 41,
     }),
     h2: makeStyle({
-      color: pallette.text,
       fontSize: 24,
       lineHeight: 33,
     }),
     h3: makeStyle({
-      color: pallette.text,
       fontSize: 20,
       lineHeight: 25,
     }),
     h4: makeStyle({
-      color: pallette.text,
       fontSize: 18,
       lineHeight: 19,
     }),
     massive: makeStyle({
-      color: pallette.text,
       fontSize: 60,
       lineHeight: 75,
     }),
     p1: makeStyle({
-      color: pallette.text,
       fontSize: 17,
       lineHeight: 25,
     }),
     p2: makeStyle({
-      color: pallette.text,
       fontSize: 14,
     }),
     small: makeStyle({
-      color: pallette.text,
       fontSize: 12,
     }),
     tiny: makeStyle({
-      color: pallette.text,
       fontSize: 10,
     }),
   },
@@ -135,6 +130,7 @@ space.tiny = spaceFn(2);
 export const BASE_THEME = {
   borderRadius,
   borderWidth,
+  dividerSize: 1,
   isDark: true,
   pallette,
   presets: {

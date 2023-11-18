@@ -1,7 +1,11 @@
 import type { NavigatorScreenParams } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type {
+  NativeStackNavigationOptions,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
 
 import * as React from 'react';
+import { Platform } from 'react-native';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -45,7 +49,17 @@ export const AppNavigator: React.FC = () => {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen component={HomePage} name="Home" />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+      <Stack.Group
+        screenOptions={Platform.select<NativeStackNavigationOptions>({
+          android: {
+            animation: 'slide_from_bottom',
+            presentation: 'transparentModal',
+          },
+          ios: {
+            presentation: 'modal',
+          },
+        })}
+      >
         <Stack.Screen component={FlightStack} name="FlightStack" />
         <Stack.Screen component={FlightSearchPage} name="FlightSearch" />
         <Stack.Screen component={DebugMenuPage} name="Debug" />

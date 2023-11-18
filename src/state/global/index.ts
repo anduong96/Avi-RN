@@ -21,7 +21,7 @@ type State = {
   theme: ThemePreset;
 };
 
-const GLOBAL_STATE_KEY = 'globalState';
+const GLOBAL_STATE_KEY = 'globalState_v1';
 export const useGlobalState = create<State>()(
   persist(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -194,7 +194,12 @@ const Actions = withStyled(View, (theme) => [
   },
 ]);
 
-const Title = withStyled(Text, (theme) => [theme.typography.presets.massive]);
+const Title = withStyled(Text, (theme) => [
+  theme.typography.presets.massive,
+  {
+    color: theme.pallette.text,
+  },
+]);
 
 const Item = withStyled(
   Animated.createAnimatedComponent(TouchableOpacity),

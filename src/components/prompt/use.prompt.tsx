@@ -1,9 +1,8 @@
-import { FullWindowOverlay } from 'react-native-screens';
-
 import { uniqueId } from 'lodash';
 import { usePortal } from '@gorhom/portal';
 
 import { Prompt } from '.';
+import { PortalWindowOverlay } from '../portal.window.overlay';
 
 /**
  * The `usePrompt` function is a custom hook that creates a prompt component and adds it to a portal
@@ -24,9 +23,9 @@ export function usePrompt() {
     const portalName = uniqueId('portal');
     portal.addPortal(
       portalName,
-      <FullWindowOverlay>
+      <PortalWindowOverlay>
         <Prompt onFinish={() => portal.removePortal(portalName)} {...params} />
-      </FullWindowOverlay>,
+      </PortalWindowOverlay>,
     );
   };
 

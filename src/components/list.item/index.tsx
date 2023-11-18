@@ -88,7 +88,7 @@ const Content = withStyled(View, () => ({
 const TitleText = withStyled(Text, (theme) => [
   theme.typography.presets.h3,
   {
-    lineHeight: 0,
+    color: theme.pallette.text,
   },
 ]);
 

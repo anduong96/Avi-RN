@@ -29,7 +29,9 @@ const Container = withStyled<{ centered?: boolean }, typeof View>(
       backgroundColor: theme.pallette.background,
       display: 'flex',
       flexGrow: 1,
+      height: '100%',
       overflow: 'hidden',
+      width: '100%',
     },
   ],
 );

@@ -40,7 +40,7 @@ const Line = withStyled<Pick<Props, 'color'>, typeof View>(
   (theme, props) => [
     {
       backgroundColor: props.color || theme.pallette.dividerColor,
-      height: theme.borderWidth,
+      height: theme.dividerSize,
     },
   ],
 );

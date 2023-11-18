@@ -12,7 +12,7 @@ export type Props<T> = {
   value?: T;
 };
 
-export function SwitchButton<T extends string>({
+export function SwitchButton<T>({
   disabled,
   onChange,
   options,
@@ -24,7 +24,12 @@ export function SwitchButton<T extends string>({
         const [itemValue, itemLabel] =
           typeof item === 'string'
             ? [item, startCase(item)]
-            : [item.value, item.label];
+            : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
+              'label' in item
+              ? [item.value, item.label]
+              : [String(item), String(item)];
+
         const isActive = value === itemValue;
 
         return (
@@ -43,9 +48,10 @@ export function SwitchButton<T extends string>({
 
 const Container = withStyled<{ isDisabled?: boolean }, typeof View>(
   View,
-  (_theme, props) => [
+  (theme, props) => [
     {
       flexDirection: 'row',
+      gap: theme.space.small,
     },
     props.isDisabled && {
       opacity: 0.5,
@@ -62,6 +68,9 @@ const Label = withStyled<{ isActive?: boolean }, typeof Text>(
     props.isActive && {
       color: theme.pallette.active,
       fontWeight: 'bold',
+    },
+    !props.isActive && {
+      color: theme.pallette.grey[500],
     },
   ],
 );

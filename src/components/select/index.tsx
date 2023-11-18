@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { FullWindowOverlay } from 'react-native-screens';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Pressable, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
@@ -15,6 +14,7 @@ import { ListItem } from '../list.item';
 import { CloseBtn } from '../btn.close';
 import { LoadingOverlay } from '../loading.overlay';
 import { HorizontalDivider } from '../divider.horizontal';
+import { PortalWindowOverlay } from '../portal.window.overlay';
 
 type Props<T> = {
   description?: string;
@@ -62,7 +62,7 @@ export const Select = <T extends number | string>({
       </TouchableOpacity>
       {showOptions && (
         <Portal>
-          <FullWindowOverlay>
+          <PortalWindowOverlay>
             <Animated.View
               entering={FadeInDown}
               style={StyleSheet.absoluteFill}
@@ -93,6 +93,7 @@ export const Select = <T extends number | string>({
                           horizontalPadding="large"
                           icon={option.icon}
                           key={option.value}
+                          style={{ backgroundColor: theme.pallette.background }}
                           title={option.label}
                           titleStyle={[
                             value === option.value && {
@@ -100,7 +101,7 @@ export const Select = <T extends number | string>({
                               fontWeight: 'bold',
                             },
                           ]}
-                          verticalPadding="small"
+                          verticalPadding="medium"
                         />
                       </OptionItem>
                     </TouchableOpacity>
@@ -108,7 +109,7 @@ export const Select = <T extends number | string>({
                 </Options>
               </Content>
             </Animated.View>
-          </FullWindowOverlay>
+          </PortalWindowOverlay>
         </Portal>
       )}
     </>
@@ -129,23 +130,22 @@ const Label = withStyled<{ isPlaceholder?: boolean }, typeof Text>(
   ],
 );
 
-const Options = withStyled(View, () => [
+const Options = withStyled(View, (theme) => [
   {
+    borderRadius: theme.borderRadius,
     flexGrow: 1,
+    overflow: 'hidden',
   },
 ]);
 
-const OptionItem = withStyled(View, (theme) => [
+const OptionItem = withStyled(View, () => [
   {
     justifyContent: 'center',
-    paddingVertical: theme.space.tiny,
   },
 ]);
 
 const Content = withStyled(View, (theme) => [
   {
-    backgroundColor: theme.pallette.background,
-    borderRadius: theme.borderRadius,
     bottom: 0,
     left: 0,
     margin: theme.space.medium,

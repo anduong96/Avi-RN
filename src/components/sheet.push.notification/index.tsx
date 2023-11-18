@@ -4,6 +4,7 @@ import Animated from 'react-native-reanimated';
 
 import tinycolor from 'tinycolor2';
 import messaging from '@react-native-firebase/messaging';
+import { AuthorizationStatus } from '@notifee/react-native';
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 
 import { delay } from '@app/lib/delay';
@@ -37,7 +38,7 @@ export const PushNotificationSheet: React.FC = () => {
     if (
       isActive &&
       hasFlights &&
-      status !== messaging.AuthorizationStatus.NOT_DETERMINED
+      status === messaging.AuthorizationStatus.NOT_DETERMINED
     ) {
       logger.debug('Showing push notification sheet');
       delay(3 * 1000).then(() => {
@@ -56,9 +57,9 @@ export const PushNotificationSheet: React.FC = () => {
   React.useEffect(() => {
     logger.debug(
       format(
-        'Push notification status statusCode=%s changed=%s',
+        'Push notification status statusCode=%s options=%o',
         status,
-        messaging.AuthorizationStatus[status],
+        messaging.AuthorizationStatus,
       ),
     );
 
@@ -79,13 +80,7 @@ export const PushNotificationSheet: React.FC = () => {
         carPlay: true,
         sound: true,
       });
-      logger.debug(
-        format(
-          'Push permission statusCode=%s status=%s',
-          responseStatus,
-          messaging.AuthorizationStatus[responseStatus],
-        ),
-      );
+      logger.debug(format('Set Push permission statusCode=%s', responseStatus));
       useGlobalState.setState({
         _hasPushAsked: true,
         pushPermission: responseStatus,
@@ -101,7 +96,11 @@ export const PushNotificationSheet: React.FC = () => {
     prompt({
       description: 'Push notifications are core functionality of the app',
       onAccept: () => {
-        useGlobalState.setState({ _hasPushAsked: true });
+        useGlobalState.setState({
+          _hasPushAsked: true,
+          pushPermission: AuthorizationStatus.NOT_DETERMINED,
+        });
+
         sheet.current?.dismiss();
       },
       title: 'Are you sure?',

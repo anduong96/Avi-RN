@@ -20,3 +20,8 @@ export function useTheme() {
 
   return isDarkTheme ? DARK_THEME : LIGHT_THEME;
 }
+
+export function useIsDarkTheme() {
+  const theme = useTheme();
+  return theme.isDark;
+}

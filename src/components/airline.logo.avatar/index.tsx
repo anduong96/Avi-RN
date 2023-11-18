@@ -9,7 +9,6 @@ import Animated, {
 
 import { withStyled } from '@app/lib/styled';
 import { useAirlinesQuery } from '@app/generated/server.gql';
-import { useIsDarkMode } from '@app/lib/hooks/use.color.scheme';
 
 type Props = {
   airlineIata: string;
@@ -22,7 +21,6 @@ export const AirlineLogoAvatar: React.FC<Props> = ({
   size = 50,
   style,
 }) => {
-  const isDark = useIsDarkMode();
   const request = useAirlinesQuery();
   const airlines = request.data?.airlines;
   const isVisible = useSharedValue(false);
@@ -41,11 +39,6 @@ export const AirlineLogoAvatar: React.FC<Props> = ({
   return (
     <Container size={size} style={[style, containerStyle]}>
       <Logo
-        // defaultSource={
-        //   isDark
-        //     ? require('@app/assets/airline.png')
-        //     : require('@app/assets/airline-dark.png')
-        // }
         onError={handleLoad}
         onLoad={handleLoad}
         resizeMode={FastImage.resizeMode.contain}
@@ -72,7 +65,15 @@ const Container = withStyled<
   },
 ]);
 
-const Logo = withStyled(FastImage, () => ({
-  height: '100%',
-  width: '100%',
-}));
+const Logo = withStyled(
+  FastImage,
+  () => ({
+    height: '100%',
+    width: '100%',
+  }),
+  (theme) => ({
+    defaultSource: theme.isDark
+      ? require('@app/assets/airline.png')
+      : require('@app/assets/airline-dark.png'),
+  }),
+);

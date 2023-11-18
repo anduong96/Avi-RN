@@ -27,30 +27,40 @@ import { ForceUpdateShield } from '@app/components/force.update';
 import { BackgroundSync } from '@app/components/background.sync';
 import { PushNotificationSheet } from '@app/components/sheet.push.notification';
 
+import { logger } from './src/lib/logger';
+
 type NavigationRef = NavigationContainerRef<MainStackParam>;
 
 const Entry: React.FC = () => {
   const routeNameRef = React.useRef<string>();
   const navigationRef = React.useRef<NavigationRef>(null);
 
+  const handleNavigationReady = () => {
+    logger.info('Navigation ready');
+    const currentRoute = navigationRef.current?.getCurrentRoute();
+    routeNameRef.current = currentRoute?.name;
+  };
+
+  const handleStateChange = () => {
+    const previousRouteName = routeNameRef.current;
+    const currentRoute = navigationRef.current?.getCurrentRoute();
+    const currentRouteName = currentRoute?.name;
+    routeNameRef.current = currentRouteName;
+
+    if (previousRouteName !== currentRouteName && currentRouteName) {
+      Analytics.screen(currentRouteName);
+      logger.debug(
+        `Route changed from ${previousRouteName} to ${currentRouteName}`,
+      );
+    }
+  };
+
   return (
     <PortalProvider>
       <NavigationContainer<MainStackParam>
         linking={LINKING_CONFIG}
-        onReady={() => {
-          routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name;
-        }}
-        onStateChange={async () => {
-          const previousRouteName = routeNameRef.current;
-          const currentRouteName =
-            navigationRef.current?.getCurrentRoute()?.name;
-
-          if (previousRouteName !== currentRouteName && currentRouteName) {
-            Analytics.screen(currentRouteName);
-          }
-
-          routeNameRef.current = currentRouteName;
-        }}
+        onReady={handleNavigationReady}
+        onStateChange={handleStateChange}
         ref={navigationRef}
       >
         <ApolloProvider client={AppServerApolloClient}>

@@ -14,7 +14,6 @@ import { Portal, PortalHost } from '@gorhom/portal';
 import { BlurView } from '@react-native-community/blur';
 
 import { useTheme } from '@app/lib/hooks/use.theme';
-import { useIsDarkMode } from '@app/lib/hooks/use.color.scheme';
 
 import { ContextMenu } from './menu';
 import { MenuContext } from './context';
@@ -40,7 +39,6 @@ export const ContextMenuPortal: React.FC<Props> & {
   const container = React.useRef<View>(null);
   const context = React.useContext(MenuContext);
   const theme = useTheme();
-  const isDark = useIsDarkMode();
   const scaledDimensions = useSharedValue<LayoutRectangle>({ ...NIL_LAYOUT });
   const menuLayout = useSharedValue<LayoutRectangle>({ ...NIL_LAYOUT });
 
@@ -116,7 +114,7 @@ export const ContextMenuPortal: React.FC<Props> & {
       >
         <AnimatedBlur
           blurAmount={7}
-          blurType={isDark ? 'dark' : 'light'}
+          blurType={theme.isDark ? 'dark' : 'light'}
           entering={FadeIn.duration(100)}
           onLayout={collectScaledDimension}
           ref={container}

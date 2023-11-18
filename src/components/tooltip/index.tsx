@@ -9,7 +9,6 @@ import { BlurView } from '@react-native-community/blur';
 
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
-import { useIsDarkMode } from '@app/lib/hooks/use.color.scheme';
 
 type Props = {
   children: React.ReactElement;
@@ -20,11 +19,10 @@ export const Tooltip: React.FC<Props> = ({ children, content }) => {
   const theme = useTheme();
   const [visible, setVisible] = React.useState(false);
   const [style, setStyle] = React.useState<ViewStyle>();
-  const isDark = useIsDarkMode();
   const ref = React.useRef<View>(null);
 
   const handleDisplay = () => {
-    ref.current?.measureInWindow((x, y, width, _height) => {
+    ref.current?.measureInWindow((x, y, width) => {
       setStyle({
         left: x + width + theme.space.medium,
         top: y,
@@ -47,7 +45,7 @@ export const Tooltip: React.FC<Props> = ({ children, content }) => {
       <Portal>
         {visible && (
           <Container
-            blurType={isDark ? 'dark' : 'xlight'}
+            blurType={theme.isDark ? 'dark' : 'xlight'}
             entering={FadeIn.duration(200)}
             exiting={FadeOut.duration(200)}
             onTouchStart={handleHide}

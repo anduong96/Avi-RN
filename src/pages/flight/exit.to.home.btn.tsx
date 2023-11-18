@@ -11,9 +11,9 @@ import type { FlightStackParams } from '@app/navigation/flight.stack';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { useUserFlightQuery } from '@app/generated/server.gql';
-import { useIsDarkMode } from '@app/lib/hooks/use.color.scheme';
 
 import { useFlightID } from './context';
 
@@ -25,7 +25,7 @@ type Props = {
 
 export const ExitToHomeBtn: React.FC<Props> = ({ isVisible }) => {
   const flightID = useFlightID();
-  const isDark = useIsDarkMode();
+  const theme = useTheme();
   const navigation = useNavigation<Navigation>();
   const response = useUserFlightQuery({
     variables: {
@@ -46,7 +46,7 @@ export const ExitToHomeBtn: React.FC<Props> = ({ isVisible }) => {
     <Container>
       <Btn entering={SlideInDown} onPress={handleExit}>
         <BlurView
-          blurType={isDark ? 'light' : 'dark'}
+          blurType={theme.isDark ? 'light' : 'dark'}
           style={[StyleSheet.absoluteFillObject]}
         />
         <FaIcon name="arrow-down-to-line" size={30} />

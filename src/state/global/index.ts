@@ -40,5 +40,3 @@ export const useGlobalState = create<State>()(
     },
   ),
 );
-
-useGlobalState.persist;

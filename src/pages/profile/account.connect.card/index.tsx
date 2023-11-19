@@ -3,6 +3,7 @@ import FastImage from 'react-native-fast-image';
 import { FadeIn } from 'react-native-reanimated';
 import { TouchableOpacity, View } from 'react-native';
 
+import { IS_IOS } from '@app/lib/platform';
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
 import { useUser } from '@app/state/user/use.user';
@@ -52,13 +53,15 @@ export const AccountConnectCard: React.FC = () => {
     <Card gap="medium">
       <LoadingOverlay isDark isLoading={isLoading} type="blur" />
       <Content>
-        <AppleBtn
-          disabled={isAppleConnected}
-          onPress={() => handleSignin(APPLE_PROVIDER_ID)}
-        >
-          <AppleIcon name="apple" />
-          {isAppleConnected && <Status status="success" />}
-        </AppleBtn>
+        {IS_IOS && (
+          <AppleBtn
+            disabled={isAppleConnected}
+            onPress={() => handleSignin(APPLE_PROVIDER_ID)}
+          >
+            <AppleIcon name="apple" />
+            {isAppleConnected && <Status status="success" />}
+          </AppleBtn>
+        )}
         <GoogleBtn
           disabled={isGoogleConnected}
           onPress={() => handleSignin(GOOGLE_PROVIDER_ID)}

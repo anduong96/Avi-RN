@@ -12,6 +12,7 @@ export const SettingsCard: React.FC = () => {
   return (
     <Card>
       <ListItem
+        description="Coming soon!"
         extra={<ThemeSelector />}
         icon={<FaIcon name="palette" />}
         title="Theme"

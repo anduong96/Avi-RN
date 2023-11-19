@@ -4,9 +4,9 @@ import { ScrollView, View } from 'react-native';
 import { withStyled } from '@app/lib/styled';
 import { Avatar } from '@app/components/avatar';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
+import { vibrate } from '@app/lib/haptic.feedback';
 import { CloseBtn } from '@app/components/btn.close';
 import { ScrollUp } from '@app/components/scroll.up';
-import { vibrateFn } from '@app/lib/haptic.feedback';
 import { Typography } from '@app/components/typography';
 import { useExitPage } from '@app/lib/hooks/use.exit.page';
 import { PageContainer } from '@app/components/page.container';
@@ -23,6 +23,11 @@ export const ProfilePage: React.FC = () => {
   const exit = useExitPage();
   const content = React.useRef<ScrollView>(null);
   const scrollPosition = useScrollPosition();
+
+  const handleScrollUp = () => {
+    vibrate('impactLight');
+    content.current?.scrollTo({ y: 0 });
+  };
 
   return (
     <PageContainer>
@@ -62,15 +67,7 @@ export const ProfilePage: React.FC = () => {
         </Section>
         <ScrollUp
           isVisible={scrollPosition.isAtBottom}
-          onScrollUp={() =>
-            vibrateFn(
-              'effectClick',
-              () =>
-                content.current?.scrollTo({
-                  y: 0,
-                }),
-            )
-          }
+          onScrollUp={handleScrollUp}
         />
       </Content>
     </PageContainer>

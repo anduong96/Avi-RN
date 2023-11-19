@@ -30,13 +30,12 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
 
   const [add, { loading: adding }] = useAddUserFlightMutation({
     onCompleted() {
+      vibrate('notificationSuccess');
       toast({ title: 'Flight Added!' });
     },
     onError() {
-      toast({
-        preset: 'error',
-        title: 'Failed to add flight',
-      });
+      vibrate('notificationError');
+      toast({ preset: 'error', title: 'Failed to add flight' });
     },
     refetchQueries: [
       { query: UserActiveFlightsDocument },

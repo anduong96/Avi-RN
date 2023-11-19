@@ -25,10 +25,8 @@ export const RandomFlightBtn: React.FC<Props> = ({ onFlight, withLabel }) => {
       onFlight(data.randomFlight);
     },
     onError(error) {
-      toast({
-        preset: 'error',
-        title: error.message,
-      });
+      vibrate('notificationError');
+      toast({ preset: 'error', title: error.message });
     },
   });
 

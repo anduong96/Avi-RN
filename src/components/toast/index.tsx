@@ -44,7 +44,6 @@ type Props = {
   icon?: React.ReactElement;
   onFinish?: () => void;
   preset?: 'error' | 'info' | 'loading' | 'success' | 'warning';
-  sound?: boolean;
   style?: StyleProp<ViewStyle>;
   title: StringOrElement;
   titleStyle?: StyleProp<TextStyle>;
@@ -58,6 +57,7 @@ export const Toast: React.FC<Props> = ({
   icon,
   onFinish,
   preset = 'info',
+  style,
   title,
   titleStyle,
 }) => {
@@ -161,12 +161,7 @@ export const Toast: React.FC<Props> = ({
     >
       <Container
         entering={FadeInUp}
-        style={[
-          {
-            opacity,
-            transform: [{ translateY }],
-          },
-        ]}
+        style={[{ opacity, transform: [{ translateY }] }, style]}
       >
         <Background preset={preset} />
         <IconContainer>{getIcon()}</IconContainer>

@@ -10,6 +10,7 @@ import { vibrate } from '@app/lib/haptic.feedback';
 import { useRandomFlightLazyQuery } from '@app/generated/server.gql';
 
 import { FaIcon } from '../icons.fontawesome';
+import { useToast } from '../toast/use.toast';
 import { LoadingOverlay } from '../loading.overlay';
 
 type Props = {
@@ -18,16 +19,16 @@ type Props = {
 };
 
 export const RandomFlightBtn: React.FC<Props> = ({ onFlight, withLabel }) => {
+  const toast = useToast();
   const [getFlight, { loading }] = useRandomFlightLazyQuery({
     onCompleted(data) {
       onFlight(data.randomFlight);
     },
     onError(error) {
-      // ting.toast({
-      //   position: 'top',
-      //   preset: 'error',
-      //   title: error.message,
-      // });
+      toast({
+        preset: 'error',
+        title: error.message,
+      });
     },
   });
 

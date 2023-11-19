@@ -5,26 +5,26 @@ import * as React from 'react';
 import { useDebugFlightNotificationMutation } from '@app/generated/server.gql';
 
 import { Button } from '../button';
+import { useToast } from '../toast/use.toast';
 
 type Props = {
   flightID: string;
 };
 
 export const DebugNotificationFlightBtn: React.FC<Props> = ({ flightID }) => {
+  const toast = useToast();
   const [send, { loading }] = useDebugFlightNotificationMutation({
     onCompleted(data) {
-      // ting.toast({
-      //   position: 'top',
-      //   preset: 'done',
-      //   title: `Sent ${data._sendFlightNotification} notification`,
-      // });
+      toast({
+        preset: 'info',
+        title: `Sent ${data._sendFlightNotification} notification`,
+      });
     },
     onError(error) {
-      // ting.toast({
-      //   position: 'top',
-      //   preset: 'error',
-      //   title: error.message,
-      // });
+      toast({
+        preset: 'error',
+        title: error.message,
+      });
     },
     variables: {
       body: 'body',

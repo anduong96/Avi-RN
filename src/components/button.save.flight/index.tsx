@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { isNil } from 'lodash';
-// import * as ting from '@baronha/ting';
 
 import { vibrate } from '@app/lib/haptic.feedback';
 import {
@@ -14,12 +13,14 @@ import {
 } from '@app/generated/server.gql';
 
 import { Button } from '../button';
+import { useToast } from '../toast/use.toast';
 
 type Props = {
   flightID: string;
 };
 
 export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
+  const toast = useToast();
   const userFlightResp = useUserFlightQuery({
     errorPolicy: 'ignore',
     variables: {
@@ -29,16 +30,13 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
 
   const [add, { loading: adding }] = useAddUserFlightMutation({
     onCompleted() {
-      // ting.toast({
-      //   title: 'Flight Added!',
-      // });
+      toast({ title: 'Flight Added!' });
     },
     onError() {
-      // ting.toast({
-      //   position: 'top',
-      //   preset: 'error',
-      //   title: 'Failed to add flight',
-      // });
+      toast({
+        preset: 'error',
+        title: 'Failed to add flight',
+      });
     },
     refetchQueries: [
       { query: UserActiveFlightsDocument },
@@ -51,16 +49,13 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
   });
   const [remove, { loading: removing }] = useDeleteUserFlightMutation({
     onCompleted() {
-      // ting.toast({
-      //   title: 'Flight Removed!',
-      // });
+      toast({ title: 'Flight Removed!' });
     },
     onError() {
-      // ting.toast({
-      //   position: 'top',
-      //   preset: 'error',
-      //   title: 'Failed to remove flight',
-      // });
+      toast({
+        preset: 'error',
+        title: 'Failed to remove flight',
+      });
     },
     refetchQueries: [
       { query: UserActiveFlightsDocument },

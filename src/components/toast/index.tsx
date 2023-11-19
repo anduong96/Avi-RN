@@ -57,7 +57,7 @@ export const Toast: React.FC<Props> = ({
   durationMs = moment.duration({ seconds: 3 }).as('ms'),
   icon,
   onFinish,
-  preset,
+  preset = 'info',
   title,
   titleStyle,
 }) => {

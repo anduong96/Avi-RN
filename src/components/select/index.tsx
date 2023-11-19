@@ -18,6 +18,7 @@ import { PortalWindowOverlay } from '../portal.window.overlay';
 
 type Props<T> = {
   description?: string;
+  isDisabled?: boolean;
   isLoading?: boolean;
   onChange?: (value: T) => void;
   options: Array<{
@@ -32,6 +33,7 @@ type Props<T> = {
 };
 
 export const Select = <T extends number | string>({
+  isDisabled,
   isLoading,
   onChange,
   options,
@@ -54,9 +56,9 @@ export const Select = <T extends number | string>({
 
   return (
     <>
-      <TouchableOpacity onPress={() => setShowOptions(true)}>
+      <TouchableOpacity onPress={() => !isDisabled && setShowOptions(true)}>
         <LoadingOverlay isLoading={isLoading} size={'small'} />
-        <Label isPlaceholder={!Boolean(displayLabel)}>
+        <Label isDisabled={isDisabled} isPlaceholder={!Boolean(displayLabel)}>
           {displayLabel || placeholder}
         </Label>
       </TouchableOpacity>
@@ -116,19 +118,22 @@ export const Select = <T extends number | string>({
   );
 };
 
-const Label = withStyled<{ isPlaceholder?: boolean }, typeof Text>(
-  Text,
-  (theme, props) => [
-    theme.typography.presets.p1,
-    {
-      color: theme.pallette.active,
-      fontWeight: 'bold',
-    },
-    props.isPlaceholder && {
-      color: theme.pallette.grey[300],
-    },
-  ],
-);
+const Label = withStyled<
+  { isDisabled?: boolean; isPlaceholder?: boolean },
+  typeof Text
+>(Text, (theme, props) => [
+  theme.typography.presets.p1,
+  {
+    color: theme.pallette.active,
+    fontWeight: 'bold',
+  },
+  props.isPlaceholder && {
+    color: theme.pallette.grey[300],
+  },
+  props.isDisabled && {
+    opacity: 0.5,
+  },
+]);
 
 const Options = withStyled(View, (theme) => [
   {

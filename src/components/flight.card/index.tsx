@@ -32,8 +32,8 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
     data.origin.status === 'early' || data.origin.status === 'on-time'
       ? theme.pallette.success
       : data.origin.status === 'delayed'
-      ? theme.pallette.warn
-      : theme.pallette.danger;
+        ? theme.pallette.warn
+        : theme.pallette.danger;
 
   return (
     <Container>
@@ -79,11 +79,11 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
             Flight.status === FlightStatus.DELAYED
               ? format('Departed %s', departureTime.fromNow())
               : Flight.status === FlightStatus.ARRIVED ||
-                Flight.status === FlightStatus.ARCHIVED
-              ? format('Arrived %s', arrivalTime.fromNow())
-              : Flight.status === FlightStatus.CANCELED
-              ? format('Canceled %s', moment(Flight.updatedAt).fromNow())
-              : format('Land %s', arrivalTime.fromNow())}
+                  Flight.status === FlightStatus.ARCHIVED
+                ? format('Arrived %s', arrivalTime.fromNow())
+                : Flight.status === FlightStatus.CANCELED
+                  ? format('Canceled %s', moment(Flight.updatedAt).fromNow())
+                  : format('Land %s', arrivalTime.fromNow())}
           </TimeText>
           <TimeText>{DOT_SEPARATOR}</TimeText>
           <TimeText>{departureTime.format('MMM D')}</TimeText>
@@ -142,7 +142,12 @@ const FlightPoint = withStyled<{ type: 'destination' | 'origin' }, typeof View>(
   ],
 );
 
-const AirportIata = withStyled(Text, (theme) => [theme.typography.presets.h1]);
+const AirportIata = withStyled(Text, (theme) => [
+  theme.typography.presets.h1,
+  {
+    color: theme.pallette.text,
+  },
+]);
 
 const AirportCity = withStyled(Text, (theme) => [
   theme.typography.presets.p2,

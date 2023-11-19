@@ -33,6 +33,7 @@ export const AirlineLogoAvatar: React.FC<Props> = ({
   const containerStyle = useAnimatedStyle(() => ({
     opacity: withTiming(isVisible.value ? 1 : 0),
   }));
+  const hasSource = !!match?.logoCompactImageURL;
   const fallback = theme.isDark
     ? require('@app/assets/airline.png')
     : require('@app/assets/airline-dark.png');
@@ -42,8 +43,12 @@ export const AirlineLogoAvatar: React.FC<Props> = ({
   };
 
   return (
-    <Container size={size} style={[style, containerStyle]}>
-      {match?.logoCompactImageURL ? (
+    <Container
+      hasSource={hasSource}
+      size={size}
+      style={[style, containerStyle]}
+    >
+      {hasSource ? (
         <Logo
           fallback={fallback}
           onError={handleLoad}
@@ -67,7 +72,7 @@ export const AirlineLogoAvatar: React.FC<Props> = ({
 };
 
 const Container = withStyled<
-  Required<Pick<Props, 'size'>>,
+  Required<Pick<Props, 'size'> & { hasSource: boolean }>,
   typeof Animated.View
 >(Animated.View, (theme, props) => [
   theme.presets.centered,
@@ -77,6 +82,10 @@ const Container = withStyled<
     height: props.size,
     overflow: 'hidden',
     padding: props.size / 10,
+  },
+  !props.hasSource && {
+    backgroundColor: theme.pallette.grey[50],
+    padding: props.size / 5,
   },
 ]);
 

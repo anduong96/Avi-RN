@@ -9,6 +9,7 @@ export const ThemeSelector: React.FC = () => {
 
   return (
     <Select
+      isDisabled
       onChange={(value) => useGlobalState.setState({ theme: value })}
       options={[
         { label: 'Dark', value: ThemePreset.DARK },

@@ -20,13 +20,15 @@ export function usePrompt() {
   const prompt = (
     params: Omit<React.ComponentProps<typeof Prompt>, 'onFinish'>,
   ) => {
-    const portalName = uniqueId('portal');
+    const portalName = uniqueId('prompt');
     portal.addPortal(
       portalName,
       <PortalWindowOverlay>
-        <Prompt onFinish={() => portal.removePortal(portalName)} {...params} />
+        <Prompt {...params} onFinish={() => portal.removePortal(portalName)} />
       </PortalWindowOverlay>,
     );
+
+    return () => portal.removePortal(portalName);
   };
 
   return prompt;

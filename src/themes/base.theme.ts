@@ -24,11 +24,11 @@ const grey = {
   700: blackColor.clone().lighten(80).toHexString(),
   800: blackColor.clone().lighten(90).toHexString(),
   900: blackColor.clone().lighten(95).toHexString(),
-} as const;
+};
 
 const pallette = {
   active: '#0171E3',
-  background: blackColor.clone().lighten(5).toHexString(),
+  background: blackColor.clone().toHexString(),
   black: BLACK,
   borderColor: grey[200],
   card: grey[50],
@@ -36,7 +36,7 @@ const pallette = {
   disabled: grey[400],
   dividerColor: grey[100],
   grey,
-  primary: '#e8db28',
+  primary: '#DBCE1B',
   secondary: '#fff',
   success: '#00C851',
   text: WHITE,

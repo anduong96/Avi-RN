@@ -13,6 +13,7 @@ import { PageContainer } from '@app/components/page.container';
 import { SpaceVertical } from '@app/components/space.vertical';
 import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
 
+import { DevCard } from './dev.card';
 import { LegalCard } from './legal.card';
 import { SignOutBtn } from './sign.out.btn';
 import { SettingsCard } from './settings.card';
@@ -45,6 +46,12 @@ export const ProfilePage: React.FC = () => {
           <SectionTitle>Connect</SectionTitle>
           <AccountConnectCard />
         </Section>
+        {__DEV__ && (
+          <Section>
+            <SectionTitle>Dev</SectionTitle>
+            <DevCard />
+          </Section>
+        )}
         <Section>
           <SectionTitle>Settings</SectionTitle>
           <SettingsCard />

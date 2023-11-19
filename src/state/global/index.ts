@@ -21,7 +21,7 @@ type State = {
   theme: ThemePreset;
 };
 
-const GLOBAL_STATE_KEY = 'globalState_v1';
+const GLOBAL_STATE_KEY = 'globalState_v3';
 export const useGlobalState = create<State>()(
   persist(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -31,7 +31,7 @@ export const useGlobalState = create<State>()(
       _hasPushAsked: false,
       hasOnboard: false,
       pushPermission: messaging.AuthorizationStatus.NOT_DETERMINED,
-      theme: ThemePreset.SYSTEM,
+      theme: ThemePreset.DARK,
     }),
     {
       name: GLOBAL_STATE_KEY,

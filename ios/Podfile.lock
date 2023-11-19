@@ -1483,6 +1483,11 @@ PODS:
     - React-Core
   - RNSharedElement (0.8.9):
     - React-Core
+  - RNSound (0.11.2):
+    - React-Core
+    - RNSound/Core (= 0.11.2)
+  - RNSound/Core (0.11.2):
+    - React-Core
   - RNSVG (14.0.0):
     - React-Core
   - RSCrashReporter (1.0.0)
@@ -1584,6 +1589,7 @@ DEPENDENCIES:
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNShare (from `../node_modules/react-native-share`)
   - RNSharedElement (from `../node_modules/react-native-shared-element`)
+  - RNSound (from `../node_modules/react-native-sound`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -1801,6 +1807,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-share"
   RNSharedElement:
     :path: "../node_modules/react-native-shared-element"
+  RNSound:
+    :path: "../node_modules/react-native-sound"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   Yoga:
@@ -1928,6 +1936,7 @@ SPEC CHECKSUMS:
   RNSentry: 82667e9889782365bf801645ef4d2a731dcf60df
   RNShare: bed7c4fbe615f3d977f22feb0902af9a790c1660
   RNSharedElement: 3fd05877bd6bc95f71b332801bf4356ca69ab7f6
+  RNSound: 6c156f925295bdc83e8e422e7d8b38d33bc71852
   RNSVG: 255767813dac22db1ec2062c8b7e7b856d4e5ae6
   RSCrashReporter: e9ccaebd996263f8325a6cbef44ff74aa5f58e30
   Rudder: 18897c785af9cfe84c2be2a1d15a645edbeda6d0

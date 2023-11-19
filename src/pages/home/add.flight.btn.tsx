@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import tinycolor from 'tinycolor2';
 
+import { IS_IOS } from '@app/lib/platform';
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { FaIcon } from '@app/components/icons.fontawesome';
@@ -30,7 +31,9 @@ const Btn = withStyled(AnimatedTouchable, (theme) => [
     backgroundColor: theme.pallette.primary,
     borderRadius: theme.roundRadius,
     padding: theme.space.medium,
-    shadowColor: tinycolor(theme.pallette.primary).darken(30).toHexString(),
+    shadowColor: tinycolor(theme.pallette.primary)
+      .darken(IS_IOS ? 15 : 35)
+      .toHexString(),
     shadowOpacity: 1,
   },
 ]);

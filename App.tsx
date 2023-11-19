@@ -6,6 +6,7 @@ import './src/lib/analytics/start.up';
 import type { NavigationContainerRef } from '@react-navigation/native';
 
 import * as React from 'react';
+import { StatusBar } from 'react-native';
 import { default as CodePush } from 'react-native-code-push';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -79,6 +80,7 @@ const Entry: React.FC = () => {
 function App() {
   return (
     <SafeAreaProvider>
+      <StatusBar hidden />
       <React.Suspense>
         <ForceUpdateShield />
         <GestureHandlerRootView style={{ flex: 1 }}>

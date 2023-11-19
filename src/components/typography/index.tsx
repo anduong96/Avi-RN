@@ -5,11 +5,13 @@ import { Text } from 'react-native';
 
 import type { Theme } from '@app/themes';
 
+import { isNil } from '@app/lib/is.nil';
 import { withStyled } from '@app/lib/styled';
 
 type Props = {
   isBold?: boolean;
   isCentered?: boolean;
+  lineHeight?: number;
   status?: 'active' | 'danger' | 'secondary' | 'warn';
   type?: keyof Theme['typography']['presets'];
 } & TextProps;
@@ -17,6 +19,7 @@ type Props = {
 export const Typography: React.FC<Props> = ({
   isBold,
   isCentered,
+  lineHeight,
   type,
   ...props
 }) => {
@@ -24,6 +27,7 @@ export const Typography: React.FC<Props> = ({
     <DisplayText
       isBold={isBold}
       isCentered={isCentered}
+      lineHeight={lineHeight}
       type={type}
       {...props}
     />
@@ -31,12 +35,15 @@ export const Typography: React.FC<Props> = ({
 };
 
 const DisplayText = withStyled<
-  Pick<Props, 'isBold' | 'isCentered' | 'status' | 'type'>,
+  Pick<Props, 'isBold' | 'isCentered' | 'lineHeight' | 'status' | 'type'>,
   typeof Text
 >(Text, (theme, props) => [
   theme.typography.presets[props.type ?? 'p1'],
   {
     color: theme.pallette.text,
+  },
+  !isNil(props.lineHeight) && {
+    lineHeight: props.lineHeight,
   },
   props.isBold && {
     fontWeight: 'bold',

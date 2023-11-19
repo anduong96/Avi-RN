@@ -14,6 +14,10 @@ export function useTimeout(callback: () => void, timeoutMs: number) {
   const callbackRef = useEffectRef(callback);
 
   React.useEffect(() => {
+    if (!timeoutMs || timeoutMs < 0) {
+      return;
+    }
+
     const timeoutID = setTimeout(() => {
       callbackRef.current();
     }, timeoutMs);

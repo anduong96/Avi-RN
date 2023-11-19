@@ -81,9 +81,9 @@ export const Toast: React.FC<Props> = ({
       return;
     }
 
+    isHidden.current = true;
     translateY.value = withTiming(-100, { duration: 400 });
     opacity.value = withTiming(0, { duration: 200 });
-    isHidden.current = true;
 
     setTimeout(() => {
       logger.debug('Toast dismissed');
@@ -92,7 +92,7 @@ export const Toast: React.FC<Props> = ({
   };
 
   const handleTap = () => {
-    if (dismissType === 'touch') {
+    if (dismissType === 'touch' || dismissType === 'auto') {
       handleHide();
     }
   };

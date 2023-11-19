@@ -6,6 +6,8 @@ import { usePortal } from '@gorhom/portal';
 import { Toast } from '.';
 import { PortalWindowOverlay } from '../portal.window.overlay';
 
+export type ToastProps = React.ComponentProps<typeof Toast>;
+
 /**
  * The `useToast` function is a custom hook that creates and displays toast notifications using a
  * portal.
@@ -15,17 +17,25 @@ export function useToast() {
   const portal = usePortal();
 
   /**
-   * The `toast` function adds a toast message to a portal window overlay and removes it when finished.
-   * @param props - The `props` parameter is an object that contains the properties to be passed to the
-   * `Toast` component. The `Omit` utility type is used to exclude the `onFinish` property from the
-   * `React.ComponentProps` of the `Toast` component. This means that the `onFinish
+   * The `toast` function creates a toast notification and returns a function to remove the toast.
+   * @param {ToastProps} props - The `props` parameter is an object that contains the properties for
+   * the toast component. These properties can include things like the message to be displayed, the
+   * duration of the toast, the type of toast (success, error, warning, etc.), and any additional
+   * styling or customization options.
+   * @returns The `toast` function returns an object with a `remove` method.
    */
-  function toast(props: Omit<React.ComponentProps<typeof Toast>, 'onFinish'>) {
+  function toast(props: ToastProps) {
     const portalName = uniqueId('toast');
+
+    const handleFinish = () => {
+      portal.removePortal(portalName);
+      props?.onFinish?.();
+    };
+
     portal.addPortal(
       portalName,
       <PortalWindowOverlay>
-        <Toast {...props} onFinish={() => portal.removePortal(portalName)} />
+        <Toast {...props} onFinish={handleFinish} />
       </PortalWindowOverlay>,
     );
 

@@ -2,6 +2,7 @@ import * as React from 'react';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
+import { logger } from '@app/lib/logger';
 import { withStyled } from '@app/lib/styled';
 
 import { Typography } from '../typography';
@@ -40,6 +41,9 @@ export const Prompt: React.FC<Props> = ({
     setIsLoading(true);
     try {
       await onAccept?.();
+    } catch (e) {
+      logger.extend('Prompt').error('Failed onAccept');
+      logger.error(e);
     } finally {
       setIsLoading(false);
     }

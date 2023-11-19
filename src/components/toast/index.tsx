@@ -53,7 +53,7 @@ type Props = {
 export const Toast: React.FC<Props> = ({
   description,
   descriptionStyle,
-  dismissType = 'touch',
+  dismissType = 'auto',
   durationMs = moment.duration({ seconds: 3 }).as('ms'),
   icon,
   onFinish,

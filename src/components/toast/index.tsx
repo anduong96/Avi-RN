@@ -53,7 +53,7 @@ type Props = {
 export const Toast: React.FC<Props> = ({
   description,
   descriptionStyle,
-  dismissType = 'auto',
+  dismissType = 'touch',
   durationMs = moment.duration({ seconds: 3 }).as('ms'),
   icon,
   onFinish,
@@ -243,7 +243,7 @@ const Background = withStyled<Pick<Props, 'preset'>, typeof BlurView>(
     StyleSheet.absoluteFillObject,
     props.preset === 'error' && {
       backgroundColor: tinycolor(theme.pallette.danger)
-        .setAlpha(0.5)
+        .setAlpha(IS_IOS ? 0.4 : 0.1)
         .toRgbString(),
     },
   ],

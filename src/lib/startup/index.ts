@@ -9,8 +9,13 @@ import rudderClient, {
 
 import { ENV } from '@app/env';
 
+import { logger } from '../logger';
 import { handleBuildInfo } from './build.info';
 import { handleFcmToken } from './push.notification';
+
+if (__DEV__) {
+  logger.extend('ENV').debug(ENV);
+}
 
 export async function startup() {
   await Promise.allSettled([

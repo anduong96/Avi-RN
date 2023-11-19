@@ -1,7 +1,3 @@
-/**
- * @format
- */
-
 import './src/lib/startup/sentry';
 
 import { AppRegistry, LogBox } from 'react-native';

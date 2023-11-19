@@ -45,7 +45,6 @@ export const PushNotificationSheet: React.FC = () => {
         sheet.current?.present();
       });
     } else {
-      logger.debug('Not showing push notification sheet');
       sheet.current?.dismiss();
     }
   }, [isActive, hasFlights, status]);

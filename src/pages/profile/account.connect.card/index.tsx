@@ -3,6 +3,8 @@ import FastImage from 'react-native-fast-image';
 import { FadeIn } from 'react-native-reanimated';
 import { TouchableOpacity, View } from 'react-native';
 
+import { logger } from '@app/lib/logger';
+import { format } from '@app/lib/format';
 import { IS_IOS } from '@app/lib/platform';
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
@@ -33,6 +35,9 @@ export const AccountConnectCard: React.FC = () => {
           await signInWithApple();
           break;
       }
+    } catch (error) {
+      logger.error(format('Failed to sign in with provider=%s', providerID));
+      logger.error(error);
     } finally {
       setLoading(false);
     }
@@ -67,7 +72,7 @@ export const AccountConnectCard: React.FC = () => {
           onPress={() => handleSignin(GOOGLE_PROVIDER_ID)}
         >
           <GoogleIcon source={require('@app/assets/google.png')} />
-          {isAppleConnected && <Status status="success" />}
+          {isGoogleConnected && <Status status="success" />}
         </GoogleBtn>
       </Content>
     </Card>

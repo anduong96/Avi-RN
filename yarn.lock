@@ -9265,11 +9265,6 @@ react-native-gesture-handler@^2.13.4:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-react-native-google-one-tap-signin@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/react-native-google-one-tap-signin/-/react-native-google-one-tap-signin-1.0.5.tgz#a995ec6af37325c905765fa8774a346d775b736f"
-  integrity sha512-+mFv1vEQY5eU3PkC0t1SB7q7yEsWUC9cIBRVJT6TQMDO8Zz2cZ893AV4LkZS1ceiqmIiFVLBZEjwD3CQmzPWug==
-
 react-native-haptic-feedback@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/react-native-haptic-feedback/-/react-native-haptic-feedback-2.2.0.tgz"

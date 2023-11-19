@@ -1,13 +1,12 @@
-import { GoogleOneTapSignIn } from 'react-native-google-one-tap-signin';
-
 import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 import { ENV } from '@app/env';
 
 import { logger } from '../logger';
 import { format } from '../format';
 
-GoogleOneTapSignIn.configure({
+GoogleSignin.configure({
   offlineAccess: false,
   scopes: [
     'https://www.googleapis.com/auth/userinfo.profile',
@@ -28,7 +27,7 @@ export async function signInWithGoogle() {
   );
 
   // Check if your device supports Google Play
-  const arePlayServicesAvailable = await GoogleOneTapSignIn.hasPlayServices({
+  const arePlayServicesAvailable = await GoogleSignin.hasPlayServices({
     showPlayServicesUpdateDialog: true,
   });
 
@@ -37,7 +36,7 @@ export async function signInWithGoogle() {
   );
 
   // Get the users ID token
-  const userInfo = await GoogleOneTapSignIn.signIn();
+  const userInfo = await GoogleSignin.signIn();
   logger.debug(format('Google user=%o', userInfo));
   // Create a Google credential with the token
   const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);

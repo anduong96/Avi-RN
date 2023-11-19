@@ -18,6 +18,7 @@ export function useUserSync() {
       }
 
       AppServerApolloClient.mutate({
+        errorPolicy: 'ignore',
         mutation: SyncUserDocument,
       });
     });

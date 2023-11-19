@@ -3,6 +3,7 @@ import type { BlurViewProps } from '@react-native-community/blur';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
+import tinycolor from 'tinycolor2';
 import { BlurView } from '@react-native-community/blur';
 
 import { withStyled } from '@app/lib/styled';
@@ -16,7 +17,9 @@ export const BlurredBackground: React.FC<Props> = ({ blurType, style }) => {
   return (
     <Container
       blurType={displayBlurType}
-      overlayColor={theme.pallette.grey[50]}
+      overlayColor={tinycolor(theme.pallette.grey[50])
+        .setAlpha(0.6)
+        .toRgbString()}
       style={style}
     />
   );

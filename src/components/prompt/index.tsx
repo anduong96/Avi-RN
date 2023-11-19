@@ -2,16 +2,14 @@ import * as React from 'react';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import { BlurView } from '@react-native-community/blur';
-
 import { withStyled } from '@app/lib/styled';
-import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { Typography } from '../typography';
 import { StringRenderer } from '../string.renderer';
 import { LoadingOverlay } from '../loading.overlay';
 import { VerticalDivider } from '../divider.vertical';
 import { HorizontalDivider } from '../divider.horizontal';
+import { BlurredBackground } from '../blurred.background';
 
 type Props = {
   acceptStatus?: React.ComponentProps<typeof Typography>['status'];
@@ -36,7 +34,6 @@ export const Prompt: React.FC<Props> = ({
   onFinish,
   title,
 }) => {
-  const theme = useTheme();
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleAccept = async () => {
@@ -55,11 +52,8 @@ export const Prompt: React.FC<Props> = ({
   };
 
   return (
-    <Container
-      blurAmount={10}
-      blurType={theme.isDark ? 'dark' : 'light'}
-      entering={FadeIn}
-    >
+    <Container entering={FadeIn}>
+      <BlurredBackground />
       <Menu>
         <Content>
           <StringRenderer Container={Typography} isBold isCentered type="h2">
@@ -89,20 +83,17 @@ export const Prompt: React.FC<Props> = ({
   );
 };
 
-const Container = withStyled(
-  Animated.createAnimatedComponent(BlurView),
-  (theme) => [
-    theme.presets.centered,
-    StyleSheet.absoluteFillObject,
-    {
-      padding: theme.space.large,
-    },
-  ],
-);
+const Container = withStyled(Animated.View, (theme) => [
+  theme.presets.centered,
+  StyleSheet.absoluteFillObject,
+  {
+    padding: theme.space.large,
+  },
+]);
 
 const Menu = withStyled(View, (theme) => [
   {
-    borderRadius: theme.space.medium,
+    borderRadius: theme.borderRadius,
     maxWidth: 400,
     overflow: 'hidden',
     width: '100%',

@@ -87,10 +87,8 @@ export const InputBar: React.FC = () => {
 const Container = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
-    flexShrink: 0,
-    flexWrap: 'nowrap',
     gap: theme.space.tiny,
-    overflow: 'scroll',
+    overflow: 'hidden',
     paddingHorizontal: theme.space.medium,
   },
 ]);

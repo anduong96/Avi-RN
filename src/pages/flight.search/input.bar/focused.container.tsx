@@ -1,8 +1,5 @@
 import * as React from 'react';
-import Animated, {
-  useAnimatedStyle,
-  useDerivedValue,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 import { withStyled } from '@app/lib/styled';
 
@@ -12,19 +9,16 @@ type Props = {
 };
 
 export const FocusedContainer: React.FC<Props> = ({ children, isFocused }) => {
-  const isFocusedDerived = useDerivedValue(() => isFocused, [isFocused]);
-  const animatedStyle = useAnimatedStyle(() => ({
-    flexDirection: 'row',
-    flexGrow: isFocusedDerived.value ? 1 : 0,
-    justifyContent: 'flex-start',
-  }));
-
-  return <Container style={[animatedStyle]}>{children}</Container>;
+  return (
+    <Container style={[{ flexGrow: isFocused ? 2 : 1 }]}>{children}</Container>
+  );
 };
 
 const Container = withStyled(Animated.View, () => [
   {
     flexDirection: 'row',
+    flexWrap: 'nowrap',
+    justifyContent: 'flex-start',
     overflow: 'hidden',
   },
 ]);

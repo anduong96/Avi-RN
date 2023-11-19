@@ -157,7 +157,7 @@ const Item = withStyled<{ index?: number }, typeof ListItem>(
   ListItem,
   (theme, props) => [
     props.index === 0 && {
-      backgroundColor: theme.pallette.grey[100],
+      backgroundColor: theme.pallette.grey[50],
     },
   ],
   () => ({

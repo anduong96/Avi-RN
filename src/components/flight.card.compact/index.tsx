@@ -23,8 +23,8 @@ export const FlightCardCompact: React.FC<Props> = ({ flight }) => {
     data.origin.status === 'early' || data.origin.status === 'on-time'
       ? theme.pallette.success
       : data.origin.status === 'delayed'
-      ? theme.pallette.warn
-      : theme.pallette.danger;
+        ? theme.pallette.warn
+        : theme.pallette.danger;
 
   return (
     <Container>
@@ -100,7 +100,12 @@ const FlightPoint = withStyled<{ type: 'destination' | 'origin' }, typeof View>(
   ],
 );
 
-const AirportIata = withStyled(Text, (theme) => [theme.typography.presets.h1]);
+const AirportIata = withStyled(Text, (theme) => [
+  theme.typography.presets.h1,
+  {
+    color: theme.pallette.text,
+  },
+]);
 
 const AirportCity = withStyled(Text, (theme) => [
   theme.typography.presets.p2,

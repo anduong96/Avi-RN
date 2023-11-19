@@ -160,10 +160,12 @@ const Container = withStyled<
   {
     alignItems: 'center',
     borderRadius: theme.roundRadius,
+    flexBasis: 1,
     flexDirection: 'row',
     flexGrow: 1,
-    gap: theme.space.small,
+    gap: theme.space.tiny,
     justifyContent: 'center',
+    overflow: 'hidden',
     paddingHorizontal: theme.space.medium,
   },
   IS_IOS && {
@@ -184,9 +186,14 @@ const StyledInput = withStyled<Pick<Props, 'size'>, typeof TextInput>(
     {
       color: theme.pallette.text,
       flexGrow: 1,
-    },
-    props.size === 'medium' && {
       fontSize: theme.typography.presets.p1.fontSize,
+      justifyContent: 'center',
+      textAlign: 'left',
+      textAlignVertical: 'center',
+    },
+    IS_ANDROID && {
+      paddingHorizontal: 0,
+      paddingVertical: 5,
     },
     props.size === 'large' && {
       fontSize: theme.typography.presets.h2.fontSize,

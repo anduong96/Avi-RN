@@ -31,7 +31,7 @@ export type Aggregate = {
 };
 
 /** Asset system model */
-export type Asset = Node & {
+export type Asset = Entity & Node & {
   __typename?: 'Asset';
   /** The time the document was created */
   createdAt: Scalars['DateTime']['output'];
@@ -792,7 +792,7 @@ export type Entity = {
   stage: Stage;
 };
 
-/** This enumeration holds all typenames that implement the Entity interface. Components implement the Entity interface. At the moment models are not supported, models are listed in this enum to avoid an empty enum without any components. */
+/** This enumeration holds all typenames that implement the Entity interface. Components and models implement the Entity interface. */
 export const EntityTypeName = {
   /** Asset system model */
   Asset: 'Asset',
@@ -807,7 +807,7 @@ export const EntityTypeName = {
 } as const;
 
 export type EntityTypeName = typeof EntityTypeName[keyof typeof EntityTypeName];
-/** Allows to specify input to query components directly */
+/** Allows to specify input to query models and components directly */
 export type EntityWhereInput = {
   /** The ID of an object */
   id: Scalars['ID']['input'];
@@ -843,7 +843,7 @@ export type ImageTransformationInput = {
   resize?: InputMaybe<ImageResizeInput>;
 };
 
-export type Legal = Node & {
+export type Legal = Entity & Node & {
   __typename?: 'Legal';
   content: RichText;
   /** The time the document was created */
@@ -1972,7 +1972,7 @@ export type Node = {
   stage: Stage;
 };
 
-export type Onboard = Node & {
+export type Onboard = Entity & Node & {
   __typename?: 'Onboard';
   /** The time the document was created */
   createdAt: Scalars['DateTime']['output'];
@@ -2852,7 +2852,7 @@ export type RichText = {
 };
 
 /** Scheduled Operation system model */
-export type ScheduledOperation = Node & {
+export type ScheduledOperation = Entity & Node & {
   __typename?: 'ScheduledOperation';
   affectedDocuments: Array<ScheduledOperationAffectedDocument>;
   /** The time the document was created */
@@ -3289,7 +3289,7 @@ export type ScheduledOperationWhereUniqueInput = {
 };
 
 /** Scheduled Release system model */
-export type ScheduledRelease = Node & {
+export type ScheduledRelease = Entity & Node & {
   __typename?: 'ScheduledRelease';
   /** The time the document was created */
   createdAt: Scalars['DateTime']['output'];
@@ -3894,7 +3894,7 @@ export type UnpublishLocaleInput = {
 };
 
 /** User system model */
-export type User = Node & {
+export type User = Entity & Node & {
   __typename?: 'User';
   /** The time the document was created */
   createdAt: Scalars['DateTime']['output'];
@@ -4452,8 +4452,13 @@ export function usePrivacyPolicyLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<PrivacyPolicyQuery, PrivacyPolicyQueryVariables>(PrivacyPolicyDocument, options);
         }
+export function usePrivacyPolicySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<PrivacyPolicyQuery, PrivacyPolicyQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<PrivacyPolicyQuery, PrivacyPolicyQueryVariables>(PrivacyPolicyDocument, options);
+        }
 export type PrivacyPolicyQueryHookResult = ReturnType<typeof usePrivacyPolicyQuery>;
 export type PrivacyPolicyLazyQueryHookResult = ReturnType<typeof usePrivacyPolicyLazyQuery>;
+export type PrivacyPolicySuspenseQueryHookResult = ReturnType<typeof usePrivacyPolicySuspenseQuery>;
 export type PrivacyPolicyQueryResult = Apollo.QueryResult<PrivacyPolicyQuery, PrivacyPolicyQueryVariables>;
 export function refetchPrivacyPolicyQuery(variables?: PrivacyPolicyQueryVariables) {
       return { query: PrivacyPolicyDocument, variables: variables }
@@ -4489,8 +4494,13 @@ export function useTermsAndConditionsLazyQuery(baseOptions?: Apollo.LazyQueryHoo
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<TermsAndConditionsQuery, TermsAndConditionsQueryVariables>(TermsAndConditionsDocument, options);
         }
+export function useTermsAndConditionsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<TermsAndConditionsQuery, TermsAndConditionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<TermsAndConditionsQuery, TermsAndConditionsQueryVariables>(TermsAndConditionsDocument, options);
+        }
 export type TermsAndConditionsQueryHookResult = ReturnType<typeof useTermsAndConditionsQuery>;
 export type TermsAndConditionsLazyQueryHookResult = ReturnType<typeof useTermsAndConditionsLazyQuery>;
+export type TermsAndConditionsSuspenseQueryHookResult = ReturnType<typeof useTermsAndConditionsSuspenseQuery>;
 export type TermsAndConditionsQueryResult = Apollo.QueryResult<TermsAndConditionsQuery, TermsAndConditionsQueryVariables>;
 export function refetchTermsAndConditionsQuery(variables?: TermsAndConditionsQueryVariables) {
       return { query: TermsAndConditionsDocument, variables: variables }
@@ -4528,8 +4538,13 @@ export function useOnboardLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<On
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<OnboardQuery, OnboardQueryVariables>(OnboardDocument, options);
         }
+export function useOnboardSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<OnboardQuery, OnboardQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<OnboardQuery, OnboardQueryVariables>(OnboardDocument, options);
+        }
 export type OnboardQueryHookResult = ReturnType<typeof useOnboardQuery>;
 export type OnboardLazyQueryHookResult = ReturnType<typeof useOnboardLazyQuery>;
+export type OnboardSuspenseQueryHookResult = ReturnType<typeof useOnboardSuspenseQuery>;
 export type OnboardQueryResult = Apollo.QueryResult<OnboardQuery, OnboardQueryVariables>;
 export function refetchOnboardQuery(variables?: OnboardQueryVariables) {
       return { query: OnboardDocument, variables: variables }

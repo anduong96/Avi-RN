@@ -43,13 +43,7 @@ export const PageHeader: React.FC<Props> = ({
 
   return (
     <Container style={[style]} withoutInsets={withoutInsets}>
-      <View
-        style={{
-          alignItems: 'center',
-          flexDirection: 'row',
-          width: '100%',
-        }}
-      >
+      <Wrapper>
         <LeftActions align={align} isVisible={withBack || !isNil(leftActions)}>
           {withBack && <BackBtn onPress={props.onPressBack} />}
           {leftActions}
@@ -66,7 +60,7 @@ export const PageHeader: React.FC<Props> = ({
         <RightActions align={align} isVisible={!isNil(rightActions)}>
           {rightActions}
         </RightActions>
-      </View>
+      </Wrapper>
     </Container>
   );
 };
@@ -85,6 +79,14 @@ const Container = withStyled<Pick<Props, 'withoutInsets'>, typeof View>(
   ],
 );
 
+const Wrapper = withStyled(View, () => [
+  {
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '100%',
+  },
+]);
+
 const Content = withStyled<Pick<Props, 'align'>, typeof View>(
   View,
   (theme, props) => [
@@ -101,6 +103,7 @@ const Content = withStyled<Pick<Props, 'align'>, typeof View>(
 const Title = withStyled(Text, (theme) => [
   theme.typography.presets.h3,
   {
+    color: theme.pallette.text,
     fontWeight: 'bold',
   },
 ]);

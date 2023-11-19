@@ -129,6 +129,12 @@ export type Country = {
   name: Scalars['String']['output'];
 };
 
+export const DateFormatType = {
+  AMERICAN: 'AMERICAN',
+  WORLD: 'WORLD'
+} as const;
+
+export type DateFormatType = typeof DateFormatType[keyof typeof DateFormatType];
 export type Flight = {
   __typename?: 'Flight';
   Airline: Airline;
@@ -333,6 +339,7 @@ export type QueryUserFlightArgs = {
 };
 
 export type UpdateUserPreferenceInput = {
+  dateFormat?: InputMaybe<DateFormatType>;
   measurement?: InputMaybe<MeasurementType>;
 };
 
@@ -362,6 +369,7 @@ export type UserFlight = {
 
 export type UserPreference = {
   __typename?: 'UserPreference';
+  dateFormat: DateFormatType;
   id: Scalars['ID']['output'];
   measurement: MeasurementType;
   userID: Scalars['String']['output'];
@@ -501,7 +509,7 @@ export type SyncUserMutation = { __typename?: 'Mutation', syncUser: boolean };
 export type PreferenceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PreferenceQuery = { __typename?: 'Query', userPreference: { __typename?: 'UserPreference', measurement: MeasurementType } };
+export type PreferenceQuery = { __typename?: 'Query', userPreference: { __typename?: 'UserPreference', measurement: MeasurementType, dateFormat: DateFormatType } };
 
 export type UpdatePreferenceMutationVariables = Exact<{
   data: UpdateUserPreferenceInput;
@@ -612,8 +620,13 @@ export function useAircraftLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<A
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<AircraftQuery, AircraftQueryVariables>(AircraftDocument, options);
         }
+export function useAircraftSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AircraftQuery, AircraftQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AircraftQuery, AircraftQueryVariables>(AircraftDocument, options);
+        }
 export type AircraftQueryHookResult = ReturnType<typeof useAircraftQuery>;
 export type AircraftLazyQueryHookResult = ReturnType<typeof useAircraftLazyQuery>;
+export type AircraftSuspenseQueryHookResult = ReturnType<typeof useAircraftSuspenseQuery>;
 export type AircraftQueryResult = Apollo.QueryResult<AircraftQuery, AircraftQueryVariables>;
 export function refetchAircraftQuery(variables: AircraftQueryVariables) {
       return { query: AircraftDocument, variables: variables }
@@ -663,8 +676,13 @@ export function useAircraftPositionLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<AircraftPositionQuery, AircraftPositionQueryVariables>(AircraftPositionDocument, options);
         }
+export function useAircraftPositionSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AircraftPositionQuery, AircraftPositionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AircraftPositionQuery, AircraftPositionQueryVariables>(AircraftPositionDocument, options);
+        }
 export type AircraftPositionQueryHookResult = ReturnType<typeof useAircraftPositionQuery>;
 export type AircraftPositionLazyQueryHookResult = ReturnType<typeof useAircraftPositionLazyQuery>;
+export type AircraftPositionSuspenseQueryHookResult = ReturnType<typeof useAircraftPositionSuspenseQuery>;
 export type AircraftPositionQueryResult = Apollo.QueryResult<AircraftPositionQuery, AircraftPositionQueryVariables>;
 export function refetchAircraftPositionQuery(variables: AircraftPositionQueryVariables) {
       return { query: AircraftPositionDocument, variables: variables }
@@ -704,8 +722,13 @@ export function useAirlinesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<A
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<AirlinesQuery, AirlinesQueryVariables>(AirlinesDocument, options);
         }
+export function useAirlinesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AirlinesQuery, AirlinesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AirlinesQuery, AirlinesQueryVariables>(AirlinesDocument, options);
+        }
 export type AirlinesQueryHookResult = ReturnType<typeof useAirlinesQuery>;
 export type AirlinesLazyQueryHookResult = ReturnType<typeof useAirlinesLazyQuery>;
+export type AirlinesSuspenseQueryHookResult = ReturnType<typeof useAirlinesSuspenseQuery>;
 export type AirlinesQueryResult = Apollo.QueryResult<AirlinesQuery, AirlinesQueryVariables>;
 export function refetchAirlinesQuery(variables?: AirlinesQueryVariables) {
       return { query: AirlinesDocument, variables: variables }
@@ -748,8 +771,13 @@ export function useAirlineLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ai
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<AirlineQuery, AirlineQueryVariables>(AirlineDocument, options);
         }
+export function useAirlineSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AirlineQuery, AirlineQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AirlineQuery, AirlineQueryVariables>(AirlineDocument, options);
+        }
 export type AirlineQueryHookResult = ReturnType<typeof useAirlineQuery>;
 export type AirlineLazyQueryHookResult = ReturnType<typeof useAirlineLazyQuery>;
+export type AirlineSuspenseQueryHookResult = ReturnType<typeof useAirlineSuspenseQuery>;
 export type AirlineQueryResult = Apollo.QueryResult<AirlineQuery, AirlineQueryVariables>;
 export function refetchAirlineQuery(variables: AirlineQueryVariables) {
       return { query: AirlineDocument, variables: variables }
@@ -795,8 +823,13 @@ export function useAirportLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ai
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<AirportQuery, AirportQueryVariables>(AirportDocument, options);
         }
+export function useAirportSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AirportQuery, AirportQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AirportQuery, AirportQueryVariables>(AirportDocument, options);
+        }
 export type AirportQueryHookResult = ReturnType<typeof useAirportQuery>;
 export type AirportLazyQueryHookResult = ReturnType<typeof useAirportLazyQuery>;
+export type AirportSuspenseQueryHookResult = ReturnType<typeof useAirportSuspenseQuery>;
 export type AirportQueryResult = Apollo.QueryResult<AirportQuery, AirportQueryVariables>;
 export function refetchAirportQuery(variables: AirportQueryVariables) {
       return { query: AirportDocument, variables: variables }
@@ -841,8 +874,13 @@ export function useAirportTsaCheckpointsStatusLazyQuery(baseOptions?: Apollo.Laz
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<AirportTsaCheckpointsStatusQuery, AirportTsaCheckpointsStatusQueryVariables>(AirportTsaCheckpointsStatusDocument, options);
         }
+export function useAirportTsaCheckpointsStatusSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AirportTsaCheckpointsStatusQuery, AirportTsaCheckpointsStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AirportTsaCheckpointsStatusQuery, AirportTsaCheckpointsStatusQueryVariables>(AirportTsaCheckpointsStatusDocument, options);
+        }
 export type AirportTsaCheckpointsStatusQueryHookResult = ReturnType<typeof useAirportTsaCheckpointsStatusQuery>;
 export type AirportTsaCheckpointsStatusLazyQueryHookResult = ReturnType<typeof useAirportTsaCheckpointsStatusLazyQuery>;
+export type AirportTsaCheckpointsStatusSuspenseQueryHookResult = ReturnType<typeof useAirportTsaCheckpointsStatusSuspenseQuery>;
 export type AirportTsaCheckpointsStatusQueryResult = Apollo.QueryResult<AirportTsaCheckpointsStatusQuery, AirportTsaCheckpointsStatusQueryVariables>;
 export function refetchAirportTsaCheckpointsStatusQuery(variables: AirportTsaCheckpointsStatusQueryVariables) {
       return { query: AirportTsaCheckpointsStatusDocument, variables: variables }
@@ -881,8 +919,13 @@ export function useAirportTsaWaitTimeLazyQuery(baseOptions?: Apollo.LazyQueryHoo
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<AirportTsaWaitTimeQuery, AirportTsaWaitTimeQueryVariables>(AirportTsaWaitTimeDocument, options);
         }
+export function useAirportTsaWaitTimeSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AirportTsaWaitTimeQuery, AirportTsaWaitTimeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AirportTsaWaitTimeQuery, AirportTsaWaitTimeQueryVariables>(AirportTsaWaitTimeDocument, options);
+        }
 export type AirportTsaWaitTimeQueryHookResult = ReturnType<typeof useAirportTsaWaitTimeQuery>;
 export type AirportTsaWaitTimeLazyQueryHookResult = ReturnType<typeof useAirportTsaWaitTimeLazyQuery>;
+export type AirportTsaWaitTimeSuspenseQueryHookResult = ReturnType<typeof useAirportTsaWaitTimeSuspenseQuery>;
 export type AirportTsaWaitTimeQueryResult = Apollo.QueryResult<AirportTsaWaitTimeQuery, AirportTsaWaitTimeQueryVariables>;
 export function refetchAirportTsaWaitTimeQuery(variables: AirportTsaWaitTimeQueryVariables) {
       return { query: AirportTsaWaitTimeDocument, variables: variables }
@@ -968,8 +1011,13 @@ export function useFindFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<FindFlightsQuery, FindFlightsQueryVariables>(FindFlightsDocument, options);
         }
+export function useFindFlightsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FindFlightsQuery, FindFlightsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindFlightsQuery, FindFlightsQueryVariables>(FindFlightsDocument, options);
+        }
 export type FindFlightsQueryHookResult = ReturnType<typeof useFindFlightsQuery>;
 export type FindFlightsLazyQueryHookResult = ReturnType<typeof useFindFlightsLazyQuery>;
+export type FindFlightsSuspenseQueryHookResult = ReturnType<typeof useFindFlightsSuspenseQuery>;
 export type FindFlightsQueryResult = Apollo.QueryResult<FindFlightsQuery, FindFlightsQueryVariables>;
 export function refetchFindFlightsQuery(variables: FindFlightsQueryVariables) {
       return { query: FindFlightsDocument, variables: variables }
@@ -1008,8 +1056,13 @@ export function useFlightPromptnessLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<FlightPromptnessQuery, FlightPromptnessQueryVariables>(FlightPromptnessDocument, options);
         }
+export function useFlightPromptnessSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FlightPromptnessQuery, FlightPromptnessQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FlightPromptnessQuery, FlightPromptnessQueryVariables>(FlightPromptnessDocument, options);
+        }
 export type FlightPromptnessQueryHookResult = ReturnType<typeof useFlightPromptnessQuery>;
 export type FlightPromptnessLazyQueryHookResult = ReturnType<typeof useFlightPromptnessLazyQuery>;
+export type FlightPromptnessSuspenseQueryHookResult = ReturnType<typeof useFlightPromptnessSuspenseQuery>;
 export type FlightPromptnessQueryResult = Apollo.QueryResult<FlightPromptnessQuery, FlightPromptnessQueryVariables>;
 export function refetchFlightPromptnessQuery(variables: FlightPromptnessQueryVariables) {
       return { query: FlightPromptnessDocument, variables: variables }
@@ -1046,8 +1099,13 @@ export function useFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Fli
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<FlightQuery, FlightQueryVariables>(FlightDocument, options);
         }
+export function useFlightSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FlightQuery, FlightQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FlightQuery, FlightQueryVariables>(FlightDocument, options);
+        }
 export type FlightQueryHookResult = ReturnType<typeof useFlightQuery>;
 export type FlightLazyQueryHookResult = ReturnType<typeof useFlightLazyQuery>;
+export type FlightSuspenseQueryHookResult = ReturnType<typeof useFlightSuspenseQuery>;
 export type FlightQueryResult = Apollo.QueryResult<FlightQuery, FlightQueryVariables>;
 export function refetchFlightQuery(variables: FlightQueryVariables) {
       return { query: FlightDocument, variables: variables }
@@ -1083,8 +1141,13 @@ export function useRandomFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<RandomFlightQuery, RandomFlightQueryVariables>(RandomFlightDocument, options);
         }
+export function useRandomFlightSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<RandomFlightQuery, RandomFlightQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<RandomFlightQuery, RandomFlightQueryVariables>(RandomFlightDocument, options);
+        }
 export type RandomFlightQueryHookResult = ReturnType<typeof useRandomFlightQuery>;
 export type RandomFlightLazyQueryHookResult = ReturnType<typeof useRandomFlightLazyQuery>;
+export type RandomFlightSuspenseQueryHookResult = ReturnType<typeof useRandomFlightSuspenseQuery>;
 export type RandomFlightQueryResult = Apollo.QueryResult<RandomFlightQuery, RandomFlightQueryVariables>;
 export function refetchRandomFlightQuery(variables?: RandomFlightQueryVariables) {
       return { query: RandomFlightDocument, variables: variables }
@@ -1126,8 +1189,13 @@ export function useUserActiveFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHook
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<UserActiveFlightsQuery, UserActiveFlightsQueryVariables>(UserActiveFlightsDocument, options);
         }
+export function useUserActiveFlightsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserActiveFlightsQuery, UserActiveFlightsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserActiveFlightsQuery, UserActiveFlightsQueryVariables>(UserActiveFlightsDocument, options);
+        }
 export type UserActiveFlightsQueryHookResult = ReturnType<typeof useUserActiveFlightsQuery>;
 export type UserActiveFlightsLazyQueryHookResult = ReturnType<typeof useUserActiveFlightsLazyQuery>;
+export type UserActiveFlightsSuspenseQueryHookResult = ReturnType<typeof useUserActiveFlightsSuspenseQuery>;
 export type UserActiveFlightsQueryResult = Apollo.QueryResult<UserActiveFlightsQuery, UserActiveFlightsQueryVariables>;
 export function refetchUserActiveFlightsQuery(variables?: UserActiveFlightsQueryVariables) {
       return { query: UserActiveFlightsDocument, variables: variables }
@@ -1168,8 +1236,13 @@ export function useUserArchivedFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHo
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<UserArchivedFlightsQuery, UserArchivedFlightsQueryVariables>(UserArchivedFlightsDocument, options);
         }
+export function useUserArchivedFlightsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserArchivedFlightsQuery, UserArchivedFlightsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserArchivedFlightsQuery, UserArchivedFlightsQueryVariables>(UserArchivedFlightsDocument, options);
+        }
 export type UserArchivedFlightsQueryHookResult = ReturnType<typeof useUserArchivedFlightsQuery>;
 export type UserArchivedFlightsLazyQueryHookResult = ReturnType<typeof useUserArchivedFlightsLazyQuery>;
+export type UserArchivedFlightsSuspenseQueryHookResult = ReturnType<typeof useUserArchivedFlightsSuspenseQuery>;
 export type UserArchivedFlightsQueryResult = Apollo.QueryResult<UserArchivedFlightsQuery, UserArchivedFlightsQueryVariables>;
 export function refetchUserArchivedFlightsQuery(variables?: UserArchivedFlightsQueryVariables) {
       return { query: UserArchivedFlightsDocument, variables: variables }
@@ -1265,8 +1338,13 @@ export function useUserHasFlightsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<UserHasFlightsQuery, UserHasFlightsQueryVariables>(UserHasFlightsDocument, options);
         }
+export function useUserHasFlightsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserHasFlightsQuery, UserHasFlightsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserHasFlightsQuery, UserHasFlightsQueryVariables>(UserHasFlightsDocument, options);
+        }
 export type UserHasFlightsQueryHookResult = ReturnType<typeof useUserHasFlightsQuery>;
 export type UserHasFlightsLazyQueryHookResult = ReturnType<typeof useUserHasFlightsLazyQuery>;
+export type UserHasFlightsSuspenseQueryHookResult = ReturnType<typeof useUserHasFlightsSuspenseQuery>;
 export type UserHasFlightsQueryResult = Apollo.QueryResult<UserHasFlightsQuery, UserHasFlightsQueryVariables>;
 export function refetchUserHasFlightsQuery(variables?: UserHasFlightsQueryVariables) {
       return { query: UserHasFlightsDocument, variables: variables }
@@ -1304,8 +1382,13 @@ export function useUserFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<UserFlightQuery, UserFlightQueryVariables>(UserFlightDocument, options);
         }
+export function useUserFlightSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserFlightQuery, UserFlightQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserFlightQuery, UserFlightQueryVariables>(UserFlightDocument, options);
+        }
 export type UserFlightQueryHookResult = ReturnType<typeof useUserFlightQuery>;
 export type UserFlightLazyQueryHookResult = ReturnType<typeof useUserFlightLazyQuery>;
+export type UserFlightSuspenseQueryHookResult = ReturnType<typeof useUserFlightSuspenseQuery>;
 export type UserFlightQueryResult = Apollo.QueryResult<UserFlightQuery, UserFlightQueryVariables>;
 export function refetchUserFlightQuery(variables: UserFlightQueryVariables) {
       return { query: UserFlightDocument, variables: variables }
@@ -1344,6 +1427,7 @@ export const PreferenceDocument = gql`
     query Preference {
   userPreference {
     measurement
+    dateFormat
   }
 }
     `;
@@ -1371,8 +1455,13 @@ export function usePreferenceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<PreferenceQuery, PreferenceQueryVariables>(PreferenceDocument, options);
         }
+export function usePreferenceSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<PreferenceQuery, PreferenceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<PreferenceQuery, PreferenceQueryVariables>(PreferenceDocument, options);
+        }
 export type PreferenceQueryHookResult = ReturnType<typeof usePreferenceQuery>;
 export type PreferenceLazyQueryHookResult = ReturnType<typeof usePreferenceLazyQuery>;
+export type PreferenceSuspenseQueryHookResult = ReturnType<typeof usePreferenceSuspenseQuery>;
 export type PreferenceQueryResult = Apollo.QueryResult<PreferenceQuery, PreferenceQueryVariables>;
 export function refetchPreferenceQuery(variables?: PreferenceQueryVariables) {
       return { query: PreferenceDocument, variables: variables }

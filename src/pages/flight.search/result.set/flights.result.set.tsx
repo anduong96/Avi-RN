@@ -69,7 +69,7 @@ const Empty = withStyled(View, (theme) => [
   theme.presets.centered,
   theme.presets.shadows[100],
   {
-    backgroundColor: theme.pallette.grey[100],
+    backgroundColor: theme.pallette.grey[50],
     borderRadius: theme.borderRadius,
     margin: theme.space.medium,
     padding: theme.space.large,

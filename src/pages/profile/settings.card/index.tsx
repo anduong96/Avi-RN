@@ -6,6 +6,7 @@ import { FaIcon } from '@app/components/icons.fontawesome';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
 
 import { ThemeSelector } from './theme.selector';
+import { DateFormatSelector } from './date.format.selector';
 import { MeasurementSelector } from './measurement.selector';
 
 export const SettingsCard: React.FC = () => {
@@ -22,6 +23,12 @@ export const SettingsCard: React.FC = () => {
         extra={<MeasurementSelector />}
         icon={<FaIcon name="ruler" />}
         title="Measurement"
+      />
+      <HorizontalDivider />
+      <ListItem
+        extra={<DateFormatSelector />}
+        icon={<FaIcon name="calendar" />}
+        title="Date Format"
       />
     </Card>
   );

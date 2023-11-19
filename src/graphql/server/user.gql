@@ -5,6 +5,7 @@ mutation SyncUser {
 query Preference {
   userPreference {
     measurement
+    dateFormat
   }
 }
 

@@ -36,13 +36,13 @@ const Column = withStyled<
   Pick<Props, 'columnHeight' | 'isActive'>,
   typeof View
 >(View, (theme, props) => [
+  theme.presets.shadows[200],
   {
     backgroundColor: theme.pallette.grey[200],
     borderRadius: theme.borderRadius,
     height: props.columnHeight,
   },
-  theme.presets.shadows[200],
-  {
+  props.isActive && {
     backgroundColor: theme.pallette.active,
     shadowColor: theme.pallette.active,
   },

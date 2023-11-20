@@ -27,10 +27,10 @@ export const DepartStatus: React.FC = () => {
     formatted.origin.status === 'early'
       ? ['Early', theme.pallette.success]
       : formatted.origin.status === 'delayed'
-      ? ['Delayed', theme.pallette.warn]
-      : formatted.origin.status === 'late'
-      ? ['Late', theme.pallette.danger]
-      : ['On Time', theme.pallette.success];
+        ? ['Delayed', theme.pallette.warn]
+        : formatted.origin.status === 'late'
+          ? ['Late', theme.pallette.danger]
+          : ['On Time', theme.pallette.success];
 
   return (
     <Card
@@ -40,7 +40,6 @@ export const DepartStatus: React.FC = () => {
           backgroundColor: theme.pallette.background,
           borderColor: statusColor,
           borderWidth: theme.borderWidth,
-          shadowColor: statusColor,
         },
       ]}
     >

@@ -28,7 +28,9 @@ const Stack = createNativeStackNavigator<FlightStackParams>();
 
 export const FlightStack: React.FC = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{ headerShown: false, presentation: 'card' }}
+    >
       <Stack.Screen component={FlightPage} name="Flight" />
       <Stack.Screen component={FlightCoursePage} name="Course" />
       <Stack.Screen component={FlightRatingsPage} name="Ratings" />

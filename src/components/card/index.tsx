@@ -65,12 +65,7 @@ export const Card: React.FC<Props> = ({
   }));
 
   return (
-    <Container
-      hasShadow={hasShadow}
-      isOutlined={isOutlined}
-      margin={margin}
-      style={[style]}
-    >
+    <Container>
       {!isNil(title) && (
         <Header>
           <Meta>
@@ -102,8 +97,12 @@ export const Card: React.FC<Props> = ({
         <Content
           direction={direction}
           gap={gap}
+          hasShadow={hasShadow}
           isCentered={isCentered}
+          isOutlined={isOutlined}
+          margin={margin}
           padding={padding}
+          style={style}
         >
           <LoadingOverlay isDark isLoading={isLoading} type="solid" />
           {children}
@@ -113,16 +112,7 @@ export const Card: React.FC<Props> = ({
   );
 };
 
-const Container = withStyled<
-  Pick<Props, 'hasShadow' | 'isOutlined' | 'margin'>,
-  typeof View
->(View, (theme, props) => [
-  props.hasShadow && theme.presets.shadows[200],
-  {},
-  props.margin && {
-    margin: theme.space[props.margin],
-  },
-]);
+const Container = withStyled(View);
 
 const Header = withStyled(Animated.View, (theme) => [
   {
@@ -136,10 +126,20 @@ const Header = withStyled(Animated.View, (theme) => [
 ]);
 
 const Content = withStyled<
-  Pick<Props, 'direction' | 'gap' | 'isCentered' | 'padding'>,
+  Pick<
+    Props,
+    | 'direction'
+    | 'gap'
+    | 'hasShadow'
+    | 'isCentered'
+    | 'isOutlined'
+    | 'margin'
+    | 'padding'
+  >,
   typeof View
 >(View, (theme, props) => [
   props.isCentered && theme.presets.centered,
+  props.hasShadow && theme.presets.shadows[200],
   {
     backgroundColor: theme.pallette.card,
     borderRadius: theme.borderRadius,
@@ -151,6 +151,15 @@ const Content = withStyled<
   },
   props.padding && {
     padding: theme.space[props.padding],
+  },
+  props.margin && {
+    margin: theme.space[props.margin],
+  },
+  props.isOutlined && {
+    backgroundColor: theme.pallette.transparent,
+    borderColor: theme.pallette.borderColor,
+    borderWidth: theme.borderWidth,
+    shadowOpacity: 0,
   },
   !isNil(props.gap) && {
     gap: theme.space[props.gap],

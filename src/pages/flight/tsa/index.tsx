@@ -5,7 +5,6 @@ import { inRange } from 'lodash';
 
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
-import { FlightStatus } from '@app/generated/server.gql';
 import { getAdjustedDepartureTime } from '@app/lib/flight/get.adjusted.flight.time';
 
 import { Bar } from './bar';
@@ -23,7 +22,7 @@ export const TsaCard: React.FC = () => {
     inRange(entry.hour, minShowingHour, maxShowingHour),
   );
 
-  if (!displayTimes || flight.status !== FlightStatus.SCHEDULED) {
+  if (!displayTimes) {
     return null;
   }
 

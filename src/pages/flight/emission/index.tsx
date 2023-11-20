@@ -71,6 +71,16 @@ const Item = withStyled(View, (theme) => [
   },
 ]);
 
-const Label = withStyled(Text, (theme) => [theme.typography.presets.h3]);
+const Label = withStyled(Text, (theme) => [
+  theme.typography.presets.h3,
+  {
+    color: theme.pallette.text,
+  },
+]);
 
-const Value = withStyled(Text, (theme) => [theme.typography.presets.h3]);
+const Value = withStyled(Text, (theme) => [
+  theme.typography.presets.h3,
+  {
+    color: theme.pallette.text,
+  },
+]);

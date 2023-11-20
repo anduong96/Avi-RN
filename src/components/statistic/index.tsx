@@ -1,7 +1,7 @@
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import { Text, View } from 'react-native';
+
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import type { SpaceKeys } from '@app/themes';
 import type { StringOrElement } from '@app/types/string.or.component';
@@ -55,7 +55,12 @@ export const Container = withStyled(View, (theme) => ({
   gap: theme.space.small,
 }));
 
-export const Value = withStyled(Text, (theme) => [theme.typography.presets.h4]);
+export const Value = withStyled(Text, (theme) => [
+  theme.typography.presets.h4,
+  {
+    color: theme.pallette.text,
+  },
+]);
 
 export const IconContainer = withStyled(View, () => [{}]);
 
@@ -74,7 +79,9 @@ export const Meta = withStyled<Pick<Props, 'align' | 'gap'>, typeof View>(
   ],
 );
 
-export const Hint = withStyled(Text, () => ({}));
+export const Hint = withStyled(Text, (theme) => ({
+  color: theme.pallette.text,
+}));
 
 export const Label = withStyled(Text, (theme) => [
   theme.typography.presets.small,

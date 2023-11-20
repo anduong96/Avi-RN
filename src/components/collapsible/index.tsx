@@ -47,4 +47,8 @@ const Container = withStyled(Animated.View, {
   position: 'relative',
 });
 
-const Content = withStyled(View, { left: 0, position: 'absolute', right: 0 });
+const Content = withStyled(View, {
+  left: 0,
+  position: 'absolute',
+  right: 0,
+});

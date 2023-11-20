@@ -137,7 +137,7 @@ const DividerContainer = withStyled(View, (theme) => [
   {
     flexGrow: 1,
     overflow: 'hidden',
-    paddingTop: theme.typography.presets.h1.fontSize / 2,
+    top: theme.typography.presets.h1.fontSize / 2,
   },
 ]);
 

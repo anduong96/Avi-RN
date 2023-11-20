@@ -34,15 +34,18 @@ module.exports = {
         'custom-groups': {
           type: {
             react: 'react',
+            'react-native': 'react-native',
           },
           value: {
             react: ['react', 'react-*'],
+            'react-native': ['react-native', 'react-native-*'],
           },
         },
         groups: [
           'side-effect',
           'type',
           'react',
+          'react-native',
           'unknown',
           ['builtin', 'external'],
           'internal-type',

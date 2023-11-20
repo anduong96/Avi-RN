@@ -20,7 +20,7 @@ export const LegalCard: React.FC = () => {
   );
 
   return (
-    <Card>
+    <Card title="Legal">
       <TouchableOpacity onPress={() => navigation.push('TermsOfService')}>
         <ListItem
           extra={Extra}

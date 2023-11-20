@@ -7,7 +7,6 @@ import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { CloseBtn } from '@app/components/btn.close';
 import { ScrollUp } from '@app/components/scroll.up';
-import { Typography } from '@app/components/typography';
 import { useExitPage } from '@app/lib/hooks/use.exit.page';
 import { PageContainer } from '@app/components/page.container';
 import { SpaceVertical } from '@app/components/space.vertical';
@@ -48,21 +47,17 @@ export const ProfilePage: React.FC = () => {
         </AvatarContainer>
         <SpaceVertical size="medium" />
         <Section>
-          <SectionTitle>Connect</SectionTitle>
           <AccountConnectCard />
         </Section>
         {__DEV__ && (
           <Section>
-            <SectionTitle>Dev</SectionTitle>
             <DevCard />
           </Section>
         )}
         <Section>
-          <SectionTitle>Settings</SectionTitle>
           <SettingsCard />
         </Section>
         <Section>
-          <SectionTitle>Legal</SectionTitle>
           <LegalCard />
         </Section>
         <ScrollUp
@@ -104,10 +99,6 @@ const Section = withStyled(View, (theme) => [
     gap: theme.space.small,
   },
 ]);
-
-const SectionTitle = withStyled(Typography, undefined, {
-  type: 'h3',
-});
 
 const SignOut = withStyled(View, () => [
   {

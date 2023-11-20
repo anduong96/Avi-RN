@@ -10,6 +10,7 @@ import { useToast } from '@app/components/toast/use.toast';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
 
 export const DevCard: React.FC = () => {
+  const [isCollapsed, setCollapsed] = React.useState(true);
   const toast = useToast();
 
   const handleToast = (preset: ToastProps['preset']) => {
@@ -21,7 +22,12 @@ export const DevCard: React.FC = () => {
   };
 
   return (
-    <Card>
+    <Card
+      collapsible
+      isCollapsed={isCollapsed}
+      onCollapseState={() => setCollapsed((current) => !current)}
+      title="Dev"
+    >
       <TouchableOpacity onPress={() => handleToast('info')}>
         <ListItem icon={<FaIcon name="dev" />} title="Toast Info" />
       </TouchableOpacity>

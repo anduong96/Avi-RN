@@ -1,7 +1,7 @@
 import * as React from 'react';
 import FastImage from 'react-native-fast-image';
+import { TouchableOpacity } from 'react-native';
 import { FadeIn } from 'react-native-reanimated';
-import { TouchableOpacity, View } from 'react-native';
 
 import { logger } from '@app/lib/logger';
 import { format } from '@app/lib/format';
@@ -14,7 +14,6 @@ import { StatusIcon } from '@app/components/icon.status';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { signInWithApple } from '@app/lib/auth/apple.auth';
 import { signInWithGoogle } from '@app/lib/auth/google.auth';
-import { LoadingOverlay } from '@app/components/loading.overlay';
 
 const APPLE_PROVIDER_ID = 'apple.com' as const;
 const GOOGLE_PROVIDER_ID = 'google.com' as const;
@@ -55,36 +54,26 @@ export const AccountConnectCard: React.FC = () => {
   const isGoogleConnected = getIsConnected(GOOGLE_PROVIDER_ID);
 
   return (
-    <Card gap="medium">
-      <LoadingOverlay isDark isLoading={isLoading} type="blur" />
-      <Content>
-        {IS_IOS && (
-          <AppleBtn
-            disabled={isAppleConnected}
-            onPress={() => handleSignin(APPLE_PROVIDER_ID)}
-          >
-            <AppleIcon name="apple" />
-            {isAppleConnected && <Status status="success" />}
-          </AppleBtn>
-        )}
-        <GoogleBtn
-          disabled={isGoogleConnected}
-          onPress={() => handleSignin(GOOGLE_PROVIDER_ID)}
+    <Card direction="row" gap="medium" isLoading={isLoading} title="Connect">
+      {IS_IOS && (
+        <AppleBtn
+          disabled={isAppleConnected}
+          onPress={() => handleSignin(APPLE_PROVIDER_ID)}
         >
-          <GoogleIcon source={require('@app/assets/google.png')} />
-          {isGoogleConnected && <Status status="success" />}
-        </GoogleBtn>
-      </Content>
+          <AppleIcon name="apple" />
+          {isAppleConnected && <Status status="success" />}
+        </AppleBtn>
+      )}
+      <GoogleBtn
+        disabled={isGoogleConnected}
+        onPress={() => handleSignin(GOOGLE_PROVIDER_ID)}
+      >
+        <GoogleIcon source={require('@app/assets/google.png')} />
+        {isGoogleConnected && <Status status="success" />}
+      </GoogleBtn>
     </Card>
   );
 };
-
-const Content = withStyled(View, (theme) => [
-  {
-    flexDirection: 'row',
-    gap: theme.space.medium,
-  },
-]);
 
 const Btn = withStyled(TouchableOpacity, (theme) => [
   theme.presets.centered,

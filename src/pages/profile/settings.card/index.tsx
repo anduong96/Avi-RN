@@ -11,7 +11,7 @@ import { MeasurementSelector } from './measurement.selector';
 
 export const SettingsCard: React.FC = () => {
   return (
-    <Card>
+    <Card title="Settings">
       <ListItem
         description="Coming soon!"
         extra={<ThemeSelector />}

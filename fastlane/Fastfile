@@ -30,7 +30,6 @@ Dir.glob("../ios/*.xcworkspace") do |f|
 end
 
 before_all do |lane, options|
-  Dotenv.overload("../.env")
   platform = lane_context[SharedValues::PLATFORM_NAME]
 
   ensure_env_vars(
@@ -51,6 +50,25 @@ before_all do |lane, options|
     UI.message("AND_PACKAGE_ID: #{AND_PACKAGE_ID}")
     UI.message("AND_PACKAGE: #{lane_context["AND_PACKAGE"]}")
   end
+end
+
+lane :load_remote_env do
+  UI.message("Loading remote env from Doppler ... ⏳")
+  ensure_env_vars(
+    env_vars: [
+      "DOPPLER_TOKEN"
+    ]
+  )
+
+  result = sh("node ../scripts/load.env.js", log: false, print_command:false)
+  lines = result.split("\n")
+  lines.each do |line|
+    env_parts = line.split("=")
+    ENV[env_parts[0]] = env_parts[1]
+  end
+
+  UI.message("Loading local .env")
+  Dotenv.overload("../.env")
 end
 
 lane :liftoff do |options|
@@ -146,6 +164,8 @@ lane :update_version do |options|
 end
 
 platform :ios do
+  load_remote_env()
+
   before_all do
     if is_ci
       setup_circle_ci
@@ -398,6 +418,21 @@ platform :ios do
 end
 
 platform :android do
+  before_all do
+    load_remote_env()
+
+    ensure_env_vars(
+      env_vars: [
+        "GOOGLE_MAP_API_KEY"
+      ]
+    )
+    update_android_strings(
+      block: lambda { |strings|
+        strings["GOOGLE_MAP_API_KEY"] = ENV['GOOGLE_MAP_API_KEY']
+      }
+    )
+  end
+
   lane :build_application do |options|
     gradle(
       project_dir: "android",
@@ -419,10 +454,20 @@ platform :android do
     end
 
     begin
+      ensure_env_vars(
+        env_vars: [
+          "GOOGLE_MAP_API_KEY"
+        ]
+      )
+      update_android_strings(
+        block: lambda { |strings|
+          strings["GOOGLE_MAP_API_KEY"] = ENV["GOOGLE_MAP_API_KEY"]
+        }
+      )
+
       suffix_name(suffix: "D", lane: :develop)
       prepare_icons(platform: :android, lane: :develop)
       copy_assets(source: "../assets/fonts", destination: "../android/app/src/main/assets/fonts")
-
       sh "yarn localhost"
       sh "cd .. && adb -s #{options[:device]} reverse tcp:8081 tcp:8081 && npx react-native run-android #{device} #{variant} #{appId}"
     ensure

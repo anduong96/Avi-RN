@@ -9,7 +9,6 @@ import Animated, {
 
 import type { LayoutChangeEvent } from 'react-native';
 
-import { logger } from '@app/lib/logger';
 import { withStyled } from '@app/lib/styled';
 
 type Props = React.PropsWithChildren<{
@@ -31,7 +30,6 @@ export const Collapsible: React.FC<Props> = ({
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const onLayoutHeight = event.nativeEvent.layout.height;
-    logger.debug(`onLayoutHeight: ${onLayoutHeight}`);
     contentHeight.value = onLayoutHeight;
   };
 

@@ -1,7 +1,7 @@
-import type { StyleProp, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import Animated from 'react-native-reanimated';
+
+import type { StyleProp, ViewStyle } from 'react-native';
 
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
@@ -28,8 +28,8 @@ export const StatusIcon: React.FC<Props> = ({
     status === 'error'
       ? ['circle-exclamation', theme.pallette.danger]
       : status === 'success'
-      ? ['check', theme.pallette.success]
-      : '';
+        ? ['check', theme.pallette.success]
+        : '';
 
   return (
     <Container
@@ -37,6 +37,7 @@ export const StatusIcon: React.FC<Props> = ({
       entering={entering}
       exiting={exiting}
       hasShadow={hasShadow}
+      size={size}
       style={[style]}
     >
       <FaIcon color={theme.pallette.white} name={icon} size={size} />
@@ -45,16 +46,17 @@ export const StatusIcon: React.FC<Props> = ({
 };
 
 const Container = withStyled<
-  Pick<Props, 'hasShadow'> & { color: string },
+  Pick<Props, 'hasShadow' | 'size'> & { color: string },
   typeof Animated.View
 >(Animated.View, (theme, props) => [
   theme.presets.centered,
   props.hasShadow && theme.presets.shadows[100],
   props.hasShadow && { shadowColor: props.color },
   {
-    aspectRatio: 1,
     backgroundColor: props.color,
     borderRadius: theme.borderRadius,
+    height: props.size,
     padding: theme.space.tiny,
+    width: props.size,
   },
 ]);

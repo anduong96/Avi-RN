@@ -1,5 +1,5 @@
 diff --git a/node_modules/chrono-node/dist/cjs/index.js b/node_modules/chrono-node/dist/cjs/index.js
-index 8336e43..b8a2348 100644
+index 8336e43..102c092 100644
 --- a/node_modules/chrono-node/dist/cjs/index.js
 +++ b/node_modules/chrono-node/dist/cjs/index.js
 @@ -31,24 +31,24 @@ Object.defineProperty(exports, "ReferenceWithTimezone", { enumerable: true, get:

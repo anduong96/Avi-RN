@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import type {
@@ -8,10 +8,10 @@ import type {
   ViewStyle,
 } from 'react-native';
 
-import { BlurView } from '@react-native-community/blur';
-
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
+
+import { BlurredBackground } from '../blurred.background';
 
 type Props = {
   isDark?: boolean;
@@ -46,10 +46,7 @@ export const LoadingOverlay: React.FC<Props> = ({
       type={type}
     >
       <Content entering={FadeIn.delay(750)}>
-        {isLoading && type === 'blur' && (
-          <BlurView blurType="dark" style={[StyleSheet.absoluteFill]} />
-        )}
-
+        {isLoading && type === 'blur' && <BlurredBackground />}
         <ActivityIndicator color={_isDark ? 'white' : 'black'} size={size} />
       </Content>
     </Container>
@@ -62,12 +59,12 @@ const Container = withStyled<
 >(Animated.View, (theme, props) => [
   {
     bottom: 0,
-    elevation: 1,
+    elevation: 999,
     left: 0,
     position: 'absolute',
     right: 0,
     top: 0,
-    zIndex: 1,
+    zIndex: 999,
   },
   props.isRound && {
     borderRadius: theme.roundRadius,

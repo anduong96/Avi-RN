@@ -46,6 +46,7 @@
     "@react-native-community/blur": "^4.3.2",
     "@react-native-firebase/analytics": "^18.6.1",
     "@react-native-firebase/app": "^18.6.1",
+    "@react-native-firebase/app-distribution": "^18.6.1",
     "@react-native-firebase/auth": "^18.6.1",
     "@react-native-firebase/crashlytics": "^18.6.1",
     "@react-native-firebase/firestore": "^18.6.1",

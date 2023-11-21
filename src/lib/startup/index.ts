@@ -10,6 +10,7 @@ import rudderClient, {
 import { ENV } from '@app/env';
 
 import { logger } from '../logger';
+import { format } from '../format';
 import { handleBuildInfo } from './build.info';
 import { handleFcmToken } from './push.notification';
 
@@ -19,7 +20,21 @@ if (__DEV__) {
 
 export async function startup() {
   await Promise.allSettled([
-    remoteConfig().fetchAndActivate(),
+    remoteConfig()
+      .fetch(1000)
+      .then(() => remoteConfig().activate())
+      .then((configFetched) => {
+        logger.debug(
+          format(
+            'Remote config fetched=%s status=%s app=%s appID=%s config=%o',
+            configFetched,
+            remoteConfig().lastFetchStatus,
+            remoteConfig().app.options.projectId,
+            remoteConfig().app.options.appId,
+            Object.entries(remoteConfig().getAll()),
+          ),
+        );
+      }),
     handleFcmToken(),
     handleBuildInfo(),
     auth().currentUser

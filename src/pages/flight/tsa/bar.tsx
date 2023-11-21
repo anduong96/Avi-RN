@@ -29,6 +29,7 @@ const Container = withStyled(View, (theme) => [
     flexGrow: 1,
     gap: theme.space.small,
     justifyContent: 'flex-end',
+    width: 40,
   },
 ]);
 
@@ -49,7 +50,7 @@ const Column = withStyled<
 ]);
 
 const MinutesLabel = withStyled(Text, (theme) => [
-  theme.typography.presets.p2,
+  theme.typography.presets.small,
   {
     color: theme.pallette.text,
     textAlign: 'center',

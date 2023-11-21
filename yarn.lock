@@ -2545,6 +2545,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-18.6.1.tgz#15896634079c9fc5475eca6b2819fdabc2596530"
   integrity sha512-ae43ud4N4m6jLfuR4b7XVFwARVW2WIa+rrZt5FrbnRYvh3Fje21fttK3UsMB40KgRaz0S1orV3gGLuSxqr8RRQ==
 
+"@react-native-firebase/app-distribution@^18.6.1":
+  version "18.6.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app-distribution/-/app-distribution-18.6.1.tgz#1e56ba21b3d5ade861c4ee2990587ce483cf23ed"
+  integrity sha512-dy4T8cevUvN338y0OxeiXYIX0R/Kl4Pw1x3CMa/upP37LtAKHx8cn5tniwBlM0ug8GUNij2lcO/gPPODHsv4xQ==
+
 "@react-native-firebase/app@^18.6.1":
   version "18.6.1"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-18.6.1.tgz#9dd741b9b4e0493a7fa037c7e5717ba0c53086e4"

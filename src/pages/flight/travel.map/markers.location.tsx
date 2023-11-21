@@ -17,6 +17,7 @@ import { FlightStatus } from '@app/generated/server.gql';
 import { useFlight } from '../context';
 
 export const LocationMarkers: React.FC = () => {
+  const markerSize = 10;
   const flight = useFlight();
   const markerStyle = useAnimatedStyle(() => ({
     transform: [
@@ -33,6 +34,8 @@ export const LocationMarkers: React.FC = () => {
     ],
   }));
 
+  //TODO: Fix label not visible in android because it is overflowing
+
   return (
     <>
       <MapMarker
@@ -41,7 +44,7 @@ export const LocationMarkers: React.FC = () => {
           longitude: flight.Origin.longitude,
         }}
         identifier={flight.Origin.id}
-        style={{ aspectRatio: 1, width: 10 }}
+        style={{ aspectRatio: 1, width: markerSize }}
       >
         <MarkerPulse
           style={[
@@ -61,7 +64,7 @@ export const LocationMarkers: React.FC = () => {
           longitude: flight.Destination.longitude,
         }}
         identifier={flight.Destination.id}
-        style={{ aspectRatio: 1, width: 10 }}
+        style={{ aspectRatio: 1, width: markerSize }}
       >
         <MarkerPulse
           style={[

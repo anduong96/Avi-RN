@@ -36,6 +36,7 @@ export const AircraftMarker: React.FC = () => {
         coordinates={curvePoints}
         strokeColor={lineColor}
         strokeWidth={lineWidth}
+        zIndex={1}
       />
     );
   } else if (flight.status === FlightStatus.ARCHIVED) {
@@ -44,6 +45,7 @@ export const AircraftMarker: React.FC = () => {
         coordinates={curvePoints}
         strokeColor={completedLineColor}
         strokeWidth={lineWidth + 2}
+        zIndex={1}
       />
     );
   } else if (isNil(position?.latitude) || isNil(position!.longitude)) {
@@ -53,6 +55,7 @@ export const AircraftMarker: React.FC = () => {
         lineDashPattern={lineDashPattern}
         strokeColor={lineColor}
         strokeWidth={lineWidth}
+        zIndex={1}
       />
     );
   }
@@ -72,8 +75,9 @@ export const AircraftMarker: React.FC = () => {
           lineDashPattern={lineDashPattern}
           strokeColor={lineColor}
           strokeWidth={lineWidth}
+          zIndex={1}
         />
-        <MapMarker coordinate={coordinate}>
+        <MapMarker coordinate={coordinate} zIndex={2}>
           <Plane
             color={tinycolor(theme.pallette.danger).toHexString()}
             name="plane-engines"
@@ -104,13 +108,15 @@ export const AircraftMarker: React.FC = () => {
         lineDashPattern={lineDashPattern}
         strokeColor={lineColor}
         strokeWidth={lineWidth}
+        zIndex={1}
       />
       <Polyline
         coordinates={completeCoordinates}
         strokeColor={completedLineColor}
         strokeWidth={lineWidth + 2}
+        zIndex={2}
       />
-      <MapMarker coordinate={closetCoordinate}>
+      <MapMarker coordinate={closetCoordinate} zIndex={3}>
         <Plane
           color={tinycolor(theme.pallette.active).toHexString()}
           name="plane-engines"

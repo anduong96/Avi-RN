@@ -169,6 +169,7 @@ export const Toast: React.FC<Props> = ({
           <StringRenderer
             Container={Typography}
             isBold
+            isCentered
             numberOfLines={1}
             style={titleStyle}
             type="p1"
@@ -178,6 +179,7 @@ export const Toast: React.FC<Props> = ({
           {!isNil(description) && (
             <StringRenderer
               Container={Typography}
+              isCentered
               numberOfLines={2}
               style={descriptionStyle}
               type="p2"
@@ -208,7 +210,7 @@ const Content = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     flexGrow: 1,
-    paddingHorizontal: theme.space.large + theme.space.medium,
+    paddingHorizontal: theme.space.large + theme.space.large,
     paddingVertical: theme.space.small,
   },
   IS_IOS && {

@@ -17,7 +17,7 @@ export const DevCard: React.FC = () => {
     toast({
       description: 'This is a toast',
       preset,
-      title: 'Toast',
+      title: 'Title',
     });
   };
 

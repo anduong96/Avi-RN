@@ -1,8 +1,9 @@
-import type { ViewStyle } from 'react-native';
 import type { StyleProp } from 'react-native/types';
 
 import * as React from 'react';
 import { Text, View } from 'react-native';
+
+import type { ViewStyle } from 'react-native';
 
 import { isNil } from 'lodash';
 

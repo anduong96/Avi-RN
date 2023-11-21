@@ -9,11 +9,11 @@ import type { FlightStackParams } from '@app/navigation/flight.stack';
 
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
-import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { ScrollUp } from '@app/components/scroll.up';
 import { CloseBtn } from '@app/components/btn.close';
 import { useFlightQuery } from '@app/generated/server.gql';
+import { IS_ANDROID, WINDOW_HEIGHT } from '@app/lib/platform';
 import { PageContainer } from '@app/components/page.container';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
@@ -61,7 +61,7 @@ export const FlightPage: React.FC = () => {
             showsVerticalScrollIndicator={false}
             stickyHeaderIndices={[1]}
           >
-            <TravelMap />
+            <TravelMap height={IS_ANDROID ? 250 : 220} />
             <HeaderMeta />
             <FlightActions />
             <Content>

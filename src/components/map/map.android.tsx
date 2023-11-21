@@ -17,6 +17,8 @@ export const AndroidMap = React.forwardRef<
   MapView,
   Omit<MapViewProps, 'mapType'>
 >((props, ref) => {
+  //TODO: Cession mesh for android would be cool
+  // https://cloud.maptiler.com/tiles/terrain-quantized-mesh-v2/
   const theme = useTheme();
   const mapUrl = MAP_TILER_API_KEY
     ? theme.isDark

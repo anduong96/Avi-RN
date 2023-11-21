@@ -1,5 +1,3 @@
-import type { StyleProp, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import { Modal, Text, TouchableOpacity, View } from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
@@ -9,6 +7,8 @@ import Animated, {
   useDerivedValue,
   withTiming,
 } from 'react-native-reanimated';
+
+import type { StyleProp, ViewStyle } from 'react-native';
 
 import { BlurView } from '@react-native-community/blur';
 

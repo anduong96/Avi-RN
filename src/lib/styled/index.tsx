@@ -1,8 +1,9 @@
 import type { EdgeInsets } from 'react-native-safe-area-context';
-import type { ImageStyle, StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import * as React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import type { ImageStyle, StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import { compact, merge } from 'lodash';
 

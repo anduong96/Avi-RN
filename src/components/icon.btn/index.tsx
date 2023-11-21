@@ -1,7 +1,7 @@
-import type { StyleProp, TouchableOpacityProps, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
+
+import type { StyleProp, TouchableOpacityProps, ViewStyle } from 'react-native';
 
 import { withStyled } from '@app/lib/styled';
 

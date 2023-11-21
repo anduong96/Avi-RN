@@ -1,5 +1,3 @@
-import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import Animated from 'react-native-reanimated';
 import {
@@ -10,6 +8,8 @@ import {
   Text,
   View,
 } from 'react-native';
+
+import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native';
 
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';

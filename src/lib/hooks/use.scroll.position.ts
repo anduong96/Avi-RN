@@ -1,6 +1,6 @@
-import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
-
 import * as React from 'react';
+
+import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 
 import { WINDOW_HEIGHT } from '../platform';
 

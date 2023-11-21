@@ -1,8 +1,8 @@
-import type { ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+
+import type { ViewStyle } from 'react-native';
 
 import { Portal } from '@gorhom/portal';
 import { BlurView } from '@react-native-community/blur';

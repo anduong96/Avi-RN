@@ -1,7 +1,8 @@
-import type { LayoutRectangle } from 'react-native';
 import type { SharedValue } from 'react-native-reanimated';
 
 import * as React from 'react';
+
+import type { LayoutRectangle } from 'react-native';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 

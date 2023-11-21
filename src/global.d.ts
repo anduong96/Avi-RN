@@ -1,9 +1,9 @@
 declare module '@env';
 
 declare module 'react-native-markdown-package' {
-  import type { Linking } from 'react-native';
-
   import { Component } from 'react';
+
+  import type { Linking } from 'react-native';
 
   class Markdown extends Component<{
     bgImage?: unknown;

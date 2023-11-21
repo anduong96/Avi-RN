@@ -1,5 +1,4 @@
 import type { SharedValue } from 'react-native-reanimated';
-import type { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 
 import * as React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
@@ -9,6 +8,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+
+import type { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 
 import { Portal, PortalHost } from '@gorhom/portal';
 import { BlurView } from '@react-native-community/blur';

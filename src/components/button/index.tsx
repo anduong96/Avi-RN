@@ -1,5 +1,3 @@
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import { Text } from 'react-native';
 import {
@@ -7,6 +5,8 @@ import {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import { isNil } from 'lodash';
 import tinycolor from 'tinycolor2';

@@ -1,6 +1,6 @@
-import type { TextInput } from 'react-native';
-
 import * as React from 'react';
+
+import type { TextInput } from 'react-native';
 
 import moment from 'moment';
 

@@ -14,6 +14,7 @@ const regex = new RegExp(
  * function returns `null`.
  */
 export function parseFlightIata(iataString: string) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, iata, flightNumber] = iataString.match(regex) ?? [];
   if (iata && flightNumber) {
     return {

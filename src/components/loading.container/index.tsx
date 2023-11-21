@@ -1,5 +1,3 @@
-import type { StyleProp, ViewProps } from 'react-native';
-
 import * as React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import Animated, {
@@ -8,6 +6,8 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
+
+import type { StyleProp, ViewProps } from 'react-native';
 
 import { withStyled } from '@app/lib/styled';
 

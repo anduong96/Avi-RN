@@ -1,9 +1,10 @@
-import type { ViewStyle } from 'react-native';
 import type { ICarouselInstance } from 'react-native-reanimated-carousel';
 
 import * as React from 'react';
 import { interpolate } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
+
+import type { ViewStyle } from 'react-native';
 
 import { WINDOW_WIDTH } from '@app/lib/platform';
 

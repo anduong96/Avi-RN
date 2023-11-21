@@ -16,7 +16,11 @@ import { AircraftMarker } from './marker.aircraft';
 import { LocationMarkers } from './markers.location';
 import { useAircraftPosition } from '../hooks/use.aircraft.position';
 
-export const TravelMap: React.FC = () => {
+type Props = {
+  height?: number;
+};
+
+export const TravelMap: React.FC<Props> = ({ height = 300 }) => {
   const map = React.useRef<MapView>(null);
   const flight = useFlight();
   const aircraftPositionReq = useAircraftPosition();
@@ -52,11 +56,11 @@ export const TravelMap: React.FC = () => {
   }
 
   return (
-    <Container>
+    <Container height={height}>
       <Map
         pitchEnabled={IS_IOS}
         ref={map}
-        style={{ height: MAP_HEIGHT }}
+        style={{ height: height }}
         toolbarEnabled={IS_IOS}
         zoomControlEnabled={IS_IOS}
         zoomEnabled={IS_IOS}
@@ -69,10 +73,11 @@ export const TravelMap: React.FC = () => {
   );
 };
 
-const MAP_HEIGHT = 200;
-
-const Container = withStyled(View, () => [
-  {
-    height: MAP_HEIGHT,
-  },
-]);
+const Container = withStyled<Pick<Props, 'height'>, typeof View>(
+  View,
+  (_, props) => [
+    {
+      height: props.height,
+    },
+  ],
+);

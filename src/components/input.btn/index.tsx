@@ -1,7 +1,7 @@
-import type { TouchableOpacityProps } from 'react-native';
-
 import * as React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+
+import type { TouchableOpacityProps } from 'react-native';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 

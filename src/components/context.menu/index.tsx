@@ -1,9 +1,9 @@
-import type { LayoutRectangle } from 'react-native';
-
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import HapticFeedback from 'react-native-haptic-feedback';
+
+import type { LayoutRectangle } from 'react-native';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 

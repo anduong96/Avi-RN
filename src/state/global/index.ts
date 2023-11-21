@@ -1,7 +1,8 @@
-import type { AppStateStatus } from 'react-native';
 import type { FirebaseMessagingTypes } from '@react-native-firebase/messaging/lib';
 
 import { AppState } from 'react-native';
+
+import type { AppStateStatus } from 'react-native';
 
 import { omitBy } from 'lodash';
 import { create } from 'zustand';

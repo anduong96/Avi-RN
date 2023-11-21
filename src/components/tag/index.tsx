@@ -1,7 +1,7 @@
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import { Text, View } from 'react-native';
+
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import tinycolor from 'tinycolor2';
 

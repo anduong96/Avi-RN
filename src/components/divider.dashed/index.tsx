@@ -1,7 +1,7 @@
-import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import { View } from 'react-native';
+
+import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native';
 
 import { withStyled } from '@app/lib/styled';
 

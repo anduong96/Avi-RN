@@ -1,10 +1,11 @@
 import type { FormInstance } from 'rc-field-form';
 import type { Meta } from 'rc-field-form/es/interface';
 import type { FieldProps } from 'rc-field-form/es/Field';
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import * as React from 'react';
 import { Text, View } from 'react-native';
+
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import { isEmpty } from 'lodash';
 import { Field } from 'rc-field-form';

@@ -1,7 +1,7 @@
-import type { StyleProp, ViewProps, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import { View } from 'react-native';
+
+import type { StyleProp, ViewProps, ViewStyle } from 'react-native';
 
 import { isEmpty } from 'lodash';
 

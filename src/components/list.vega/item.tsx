@@ -1,5 +1,3 @@
-import type { LayoutChangeEvent } from 'react-native';
-
 import * as React from 'react';
 import { View } from 'react-native';
 import Animated, {
@@ -9,6 +7,8 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated';
+
+import type { LayoutChangeEvent } from 'react-native';
 
 type Props = {
   children: React.ReactElement;

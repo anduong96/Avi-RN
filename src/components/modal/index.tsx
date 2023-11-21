@@ -1,7 +1,7 @@
-import type { ModalProps } from 'react-native';
-
 import * as React from 'react';
 import { Modal as RnModal, View } from 'react-native';
+
+import type { ModalProps } from 'react-native';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 

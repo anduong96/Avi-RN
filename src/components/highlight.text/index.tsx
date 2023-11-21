@@ -1,8 +1,9 @@
 import type Fuse from 'fuse.js';
-import type { StyleProp, TextStyle } from 'react-native';
 
 import * as React from 'react';
 import { Text } from 'react-native';
+
+import type { StyleProp, TextStyle } from 'react-native';
 
 import { splitMatches } from './split.matches';
 

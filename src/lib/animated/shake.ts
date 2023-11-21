@@ -1,11 +1,11 @@
-import type { ViewStyle } from 'react-native';
-
 import {
   type LayoutAnimation,
   withRepeat,
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+
+import type { ViewStyle } from 'react-native';
 
 /**
  * The Shake function returns a LayoutAnimation object that animates a view by repeatedly translating

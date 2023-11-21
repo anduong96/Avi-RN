@@ -1,8 +1,9 @@
-import type { FlatListProps } from 'react-native';
 import type { FlashListProps } from '@shopify/flash-list';
 
 import * as React from 'react';
 import { useSharedValue } from 'react-native-reanimated';
+
+import type { FlatListProps } from 'react-native';
 
 import { FlashList } from '@shopify/flash-list';
 

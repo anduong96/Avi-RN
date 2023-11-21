@@ -1,7 +1,7 @@
-import type { StyleProp, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import type { StyleProp, ViewStyle } from 'react-native';
 
 import { useTheme } from '@app/lib/hooks/use.theme';
 

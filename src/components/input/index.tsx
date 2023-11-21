@@ -1,5 +1,3 @@
-import type { StyleProp, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import { TextInput } from 'react-native';
 import Animated, {
@@ -9,6 +7,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+
+import type { StyleProp, ViewStyle } from 'react-native';
 
 import mergeRefs from 'merge-refs';
 

@@ -1,7 +1,7 @@
-import type { StyleProp, ViewStyle } from 'react-native';
-
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
+
+import type { StyleProp, ViewStyle } from 'react-native';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';

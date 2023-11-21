@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { TouchableOpacity } from 'react-native';
 import Animated, { SlideInLeft } from 'react-native-reanimated';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { FlashList } from '@shopify/flash-list';
 
+import { logger } from '@app/lib/logger';
+import { format } from '@app/lib/format';
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { FlightCard } from '@app/components/flight.card';
@@ -20,6 +22,7 @@ export const ArchivedFlightsPage: React.FC = () => {
 
   const handlePress = (flightID: string) => {
     vibrate('effectClick');
+    logger.debug(format('ArchivedFlightsPage: pressed flightID=%s', flightID));
     rootNavigation.push('FlightStack', {
       params: {
         flightID,

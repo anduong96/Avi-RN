@@ -1,4 +1,5 @@
 import React from 'react';
+import RNBootSplash from 'react-native-bootsplash';
 
 import { isNil } from 'lodash';
 
@@ -7,7 +8,6 @@ import { useHasHydrated } from '@app/state/use.has.hydrated';
 import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 
 import { logger } from '../logger';
-import { bootApp } from '../boot.app';
 
 /**
  * The `useBootApp` function is a TypeScript function that uses React hooks to check if the user has
@@ -29,7 +29,7 @@ export function useBootApp() {
 
     if (canBoot && hasHydrated && userFlightsLoaded) {
       logger.debug('Booting App');
-      bootApp();
+      RNBootSplash.hide({ fade: true });
     }
   }, [canBoot, userFlightsLoaded, hasHydrated]);
 }

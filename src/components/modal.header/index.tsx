@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 
@@ -7,6 +7,7 @@ import { withStyled } from '@app/lib/styled';
 import { useExitPage } from '@app/lib/hooks/use.exit.page';
 
 import { CloseBtn } from '../btn.close';
+import { Typography } from '../typography';
 import { StringRenderer } from '../string.renderer';
 
 type Props = {
@@ -30,8 +31,10 @@ export const ModalHeader: React.FC<Props> = ({
   return (
     <Container>
       <Meta withPadding={withPadding}>
-        <StringRenderer Container={TitleText}>{title}</StringRenderer>
-        <StringRenderer Container={SubtitleText}>{subtitle}</StringRenderer>
+        <StringRenderer Container={Typography} isBold type="h3">
+          {title}
+        </StringRenderer>
+        <StringRenderer Container={Typography}>{subtitle}</StringRenderer>
       </Meta>
       <Actions>{withClose && <CloseBtn onPress={onClose ?? exit} />}</Actions>
     </Container>
@@ -66,15 +69,6 @@ const Meta = withStyled<Pick<Props, 'withPadding'>, typeof View>(
     },
   ],
 );
-
-const TitleText = withStyled(Text, (theme) => ({
-  ...theme.typography.presets.h2,
-  fontWeight: 'bold',
-}));
-
-const SubtitleText = withStyled(Text, (theme) => ({
-  color: theme.pallette.grey[500],
-}));
 
 const Actions = withStyled(View, (theme) => ({
   padding: theme.space.medium,

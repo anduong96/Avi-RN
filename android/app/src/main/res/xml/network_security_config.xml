@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <domain-config cleartextTrafficPermitted="true">
+    <!-- Add domains that require cleartext traffic here -->
+    <domain includeSubdomains="true">a.tile.openstreetmap.org</domain>
+    <domain includeSubdomains="true">c.tile.openstreetmap.org</domain>
+    <domain includeSubdomains="true">cartodb-basemaps-{s}.global.ssl.fastly.net</domain>
+  </domain-config>
+</network-security-config>

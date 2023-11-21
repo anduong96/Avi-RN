@@ -1,12 +1,12 @@
+import * as React from 'react';
+import { ActivityIndicator, StyleSheet } from 'react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+
 import type {
   ActivityIndicatorProps,
   StyleProp,
   ViewStyle,
 } from 'react-native';
-
-import * as React from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { BlurView } from '@react-native-community/blur';
 
@@ -61,8 +61,8 @@ const Container = withStyled<
   typeof Animated.View
 >(Animated.View, (theme, props) => [
   {
-    borderRadius: theme.borderRadius,
     bottom: 0,
+    elevation: 1,
     left: 0,
     position: 'absolute',
     right: 0,

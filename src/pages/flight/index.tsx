@@ -51,12 +51,7 @@ export const FlightPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <FlightContext.Provider
-        value={{
-          flight: flight!,
-          flightID,
-        }}
-      >
+      <FlightContext.Provider value={{ flight: flight!, flightID }}>
         <LoadingOverlay isDark isLoading={flightResponse.loading} />
         {flight && data && (
           <Container

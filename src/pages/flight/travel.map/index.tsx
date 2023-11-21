@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { MAP_TYPES, MapUrlTile } from 'react-native-maps';
 
 import { compact } from 'lodash';
 
 import { isNil } from '@app/lib/is.nil';
 import { logger } from '@app/lib/logger';
-import { IS_IOS } from '@app/lib/platform';
 import { withStyled } from '@app/lib/styled';
+import { IS_ANDROID } from '@app/lib/platform';
 
 import { useFlight } from '../context';
 import { AircraftMarker } from './marker.aircraft';
@@ -60,8 +60,14 @@ export const TravelMap: React.FC = () => {
         }}
         ref={map}
       >
-        <AircraftMarker />
-        <LocationMarkers />
+        <MapUrlTile
+          maximumZ={15}
+          style={{ elevation: 1000 }}
+          urlTemplate="http://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          zIndex={-1}
+        />
+        {/* <AircraftMarker /> */}
+        {/* <LocationMarkers /> */}
       </Map>
     </Container>
   );
@@ -78,7 +84,7 @@ const Map = withStyled(
   ],
   {
     liteMode: true,
-    mapType: IS_IOS ? 'terrain' : 'terrain',
+    mapType: IS_ANDROID ? MAP_TYPES.NONE : MAP_TYPES.TERRAIN,
   },
 );
 

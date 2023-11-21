@@ -8,10 +8,18 @@ import { HorizontalDivider } from '@app/components/divider.horizontal';
 import { ThemeSelector } from './theme.selector';
 import { DateFormatSelector } from './date.format.selector';
 import { MeasurementSelector } from './measurement.selector';
+import { PushNotificationSwitch } from './push.notification.switch';
 
 export const SettingsCard: React.FC = () => {
   return (
     <Card title="Settings">
+      <ListItem
+        description="Receive flight and other important updates"
+        extra={<PushNotificationSwitch />}
+        icon={<FaIcon name="bell" />}
+        title="Push Notifications"
+      />
+      <HorizontalDivider />
       <ListItem
         description="Coming soon!"
         extra={<ThemeSelector />}

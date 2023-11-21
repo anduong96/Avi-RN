@@ -6,10 +6,10 @@ import type { TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import type { MainStack } from '@app/navigation';
-import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
 import { RandomFlightBtn } from '@app/components/button.random.flight';
+import { type FullFlightFragmentFragment } from '@app/generated/server.gql';
 import { useKeyboardSubmitEvent } from '@app/components/input/use.keyboard.submit';
 
 import { useTopic } from '../publisher';

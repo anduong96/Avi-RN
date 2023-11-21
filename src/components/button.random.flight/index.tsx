@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-// import * as ting from '@baronha/ting';
-
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';

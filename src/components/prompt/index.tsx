@@ -18,6 +18,8 @@ type Props = {
   cancelStatus?: React.ComponentProps<typeof Typography>['status'];
   cancelText?: string;
   description?: string;
+  hasAccept?: boolean;
+  hasCancel?: boolean;
   onAccept?: () => Promise<void> | void;
   onCancel?: () => void;
   onFinish?: () => void;
@@ -30,6 +32,8 @@ export const Prompt: React.FC<Props> = ({
   cancelStatus,
   cancelText = 'Cancel',
   description = 'Are you sure you want to proceed?',
+  hasAccept = true,
+  hasCancel = true,
   onAccept,
   onCancel,
   onFinish,
@@ -69,18 +73,22 @@ export const Prompt: React.FC<Props> = ({
         </Content>
         <HorizontalDivider />
         <Actions>
-          <OptionBtn onPress={handleCancel}>
-            <OptionText isCentered status={cancelStatus}>
-              {cancelText}
-            </OptionText>
-          </OptionBtn>
+          {hasCancel && (
+            <OptionBtn onPress={handleCancel}>
+              <OptionText isCentered status={cancelStatus}>
+                {cancelText}
+              </OptionText>
+            </OptionBtn>
+          )}
           <VerticalDivider />
-          <OptionBtn onPress={handleAccept}>
-            <LoadingOverlay isLoading={isLoading} type="solid" />
-            <OptionText isCentered status={acceptStatus}>
-              {acceptText}
-            </OptionText>
-          </OptionBtn>
+          {hasAccept && (
+            <OptionBtn onPress={handleAccept}>
+              <LoadingOverlay isLoading={isLoading} type="solid" />
+              <OptionText isCentered status={acceptStatus}>
+                {acceptText}
+              </OptionText>
+            </OptionBtn>
+          )}
         </Actions>
       </Menu>
     </Container>

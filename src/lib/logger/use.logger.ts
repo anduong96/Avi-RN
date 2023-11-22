@@ -2,6 +2,6 @@ import * as React from 'react';
 
 import { logger } from '.';
 
-export function useLogger(name: string) {
-  return React.useMemo(() => logger.extend(name), [name]);
+export function useLogger(name: string | string[]) {
+  return React.useMemo(() => logger.getSubLogger(name), [name]);
 }

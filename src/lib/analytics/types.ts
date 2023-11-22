@@ -3,7 +3,7 @@ import type { User } from '@app/types/user';
 import { logger } from '../logger';
 
 export abstract class AnalyticPlugin {
-  protected logger = logger.extend(this.constructor.name);
+  protected logger = logger.getSubLogger(this.constructor.name);
 
   constructor(protected readonly user: User) {
     this.identify?.(user);

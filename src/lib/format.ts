@@ -9,6 +9,10 @@
  */
 export function format(value: string, ...args: unknown[]): string {
   let i = 0;
+  if (!value || typeof value !== 'string') {
+    return value;
+  }
+
   return value.replace(/%[sdifoOjJ]/g, (match) => {
     if (i >= args.length) {
       return match;

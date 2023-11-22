@@ -16,21 +16,23 @@
 fastlane_require "net/http"
 fastlane_require "dotenv"
 
-BUILD_SCHEMES  = %i[develop staging].freeze
-AND_GRAD_PATH  = "android/app/build.gradle"
-ICON_IMAGE_LOC =  "app.icon.png"
-AND_PACKAGE_ID = CredentialsManager::AppfileConfig.try_fetch_value(:package_name) || ""
-IOS_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) || ""
-
-Dir.glob("../ios/*.xcworkspace") do |f|
-  IOS_PROJ_NAME = File.basename(f, File.extname(f))
-  IOS_DIRECTORY = "ios/#{IOS_PROJ_NAME}"
-  IOS_PROJ_PATH = "#{IOS_DIRECTORY}.xcodeproj"
-  IOS_WORK_PATH = "#{IOS_DIRECTORY}.xcworkspace"
-end
-
 before_all do |lane, options|
   platform = lane_context[SharedValues::PLATFORM_NAME]
+
+  BUILD_SCHEMES  = %i[develop staging].freeze
+  AND_GRAD_PATH  = "android/app/build.gradle"
+  ICON_IMAGE_LOC =  "app.icon.png"
+  AND_PACKAGE_ID = CredentialsManager::AppfileConfig.try_fetch_value(:package_name) || ""
+  IOS_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) || ""
+
+  Dir.glob("../ios/*.xcworkspace") do |f|
+    UI.message("Found workspace: #{f}")
+    IOS_PROJ_NAME = File.basename(f, File.extname(f))
+    IOS_DIRECTORY = "ios/#{IOS_PROJ_NAME}"
+    IOS_PROJ_PATH = "#{IOS_DIRECTORY}.xcodeproj"
+    IOS_WORK_PATH = "#{IOS_DIRECTORY}.xcworkspace"
+  end
+
 
   ensure_env_vars(
     env_vars: [
@@ -194,6 +196,7 @@ platform :ios do
 
   lane :fetch_profiles do |options|
     if ENV['GITHUB_ACCESS_TOKEN'] != nil
+      UI.message("Fetching provisioning profiles using github...")
       match(
         type: options[:type],
         readonly: is_ci,
@@ -202,6 +205,7 @@ platform :ios do
         git_basic_authorization: Base64.strict_encode64(ENV['GITHUB_USERNAME'] + ":" + ENV['GITHUB_ACCESS_TOKEN']),
       )
     else
+      UI.message("Fetching provisioning profiles using ssh...")
       match(
         type: options[:type],
         readonly: is_ci,
@@ -277,6 +281,7 @@ platform :ios do
 
       suffix_name(suffix: "D")
       prepare_icons(platform: :ios, lane: :develop)
+
       sh('npm', 'run', 'localhost')
       sh "cd .. && npx react-native run-ios #{scheme} #{device ? device : simulator}"
     ensure
@@ -553,6 +558,8 @@ lane :update_bundle_identifier do |options|
 
   if platform == :ios
     app_identifier = options[:suffix] ? lane_context["IOS_APP_ID"] : "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    UI.message("Updating App identifier=#{app_identifier}")
+    UI.message("Updating Display Name=#{display_name}")
 
     update_info_plist(
       xcodeproj: IOS_PROJ_PATH,
@@ -562,6 +569,8 @@ lane :update_bundle_identifier do |options|
     )
   elsif platform == :android
     bundle_id = lane_context["AND_PACKAGE"]
+    UI.message("Updating Bundle ID=#{bundle_id}")
+    UI.message("Updating Display Name=#{display_name}")
 
     update_android_strings(
       block: lambda { |strings|
@@ -592,7 +601,7 @@ lane :prepare_icons do |options|
     )
   end
 
-  if lane != nil
+  if lane != nil and lane != :release
     UI.message("Adding badge for platform=#{platform} lane=#{lane}")
     version = fetch_version(platform)
     shield = "#{version[:name]}-#{version[:code]}-blue"
@@ -608,12 +617,26 @@ lane :prepare_icons do |options|
         shield_gravity: "North",
         shield_no_resize: true
       )
+      add_badge(
+        shield: shield,
+        glob: "/ios/**/*/bootsplash_logo*.png",
+        no_badge: true,
+        shield_gravity: "South",
+        shield_no_resize: true
+      )
     elsif platform == :android
       add_badge(
         no_badge: true,
         shield: shield,
         glob: "/android/**/*/ic_launcher*.png",
         shield_gravity: "North",
+        shield_no_resize: true
+      )
+      add_badge(
+        no_badge: true,
+        shield: shield,
+        glob: "/android/**/*/bootsplash_logo.png",
+        shield_gravity: "South",
         shield_no_resize: true
       )
     end
@@ -628,9 +651,16 @@ lane :reset do |options|
     Dir.glob("../ios/**/*.appiconset") do |file|
       files << File.expand_path(file)
     end
+    Dir.glob("../ios/**/*/bootsplash_logo*.png") do |file|
+      files << File.expand_path(file)
+    end
   elsif platform == :android
     files << File.expand_path("../android/app/src/main/res/values/strings.xml")
     files << File.expand_path("../android/app/src/main/AndroidManifest.xml")
+
+    Dir.glob("../android/**/*/bootsplash_logo.png") do |file|
+      files << File.expand_path(file)
+    end
 
     Dir.glob("../android/**/*/ic_launcher*.png") do |file|
       files << File.expand_path(file)

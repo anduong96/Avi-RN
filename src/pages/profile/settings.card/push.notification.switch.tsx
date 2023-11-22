@@ -1,13 +1,10 @@
 import * as React from 'react';
+import { openSettings } from 'react-native-permissions';
 import { ActivityIndicator, Switch } from 'react-native';
-import {
-  checkNotifications,
-  openSettings,
-  requestNotifications,
-} from 'react-native-permissions';
 
 import moment from 'moment';
 import { useQuery } from '@tanstack/react-query';
+import messaging from '@react-native-firebase/messaging';
 
 import { logger } from '@app/lib/logger';
 import { vibrate } from '@app/lib/haptic.feedback';
@@ -20,17 +17,22 @@ export const PushNotificationSwitch: React.FC = () => {
   const toast = useToast();
   const theme = useTheme();
   const permission = useQuery({
-    queryFn: () => checkNotifications(),
+    queryFn: () => messaging().hasPermission(),
     queryKey: ['permission', 'notification'],
   });
-  const status = permission.data?.status;
-  const hasPermission = status === 'granted';
+  const status = permission.data;
+  const hasPermission = status === messaging.AuthorizationStatus.AUTHORIZED;
 
   const handleChange = async () => {
     logger.debug('Changing push notification permission', { status });
     if (!hasPermission) {
       try {
-        await requestNotifications(['alert', 'badge', 'sound']);
+        await messaging().requestPermission({
+          alert: true,
+          announcement: true,
+          carPlay: true,
+          sound: true,
+        });
         await permission.refetch();
       } catch (error) {
         logger.error('Failed to request notifications', error);

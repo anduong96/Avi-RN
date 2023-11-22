@@ -1,16 +1,24 @@
-import type { Notification } from '@notifee/react-native';
+import type { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
+import type {
+  Notification,
+  NotificationAndroid,
+  NotificationIOS,
+} from '@notifee/react-native';
 
 import * as React from 'react';
 import { Linking } from 'react-native';
 
 import { isEmpty } from 'lodash';
-import notifee from '@notifee/react-native';
+import { merge } from 'merge-anything';
 import messaging from '@react-native-firebase/messaging';
+import notifee, { AndroidVisibility } from '@notifee/react-native';
 
 import { logger as Logger } from '../logger';
+import { IS_ANDROID, IS_IOS } from '../platform';
 import { useAppActive } from '../hooks/use.app.state';
+import { AndroidPushChannel } from '../android.push.channels/constants';
 
-const logger = Logger.extend('[Notification]');
+const logger = Logger.getSubLogger('Notification');
 
 export async function handleFcmToken() {
   if (!__DEV__) {
@@ -28,7 +36,6 @@ export function useNotificationHandling() {
   const handleInitialNotification = React.useCallback(
     async (isActive: boolean) => {
       if (!isActive) {
-        logger.debug('App is not active');
         return;
       }
 
@@ -63,9 +70,56 @@ export function useNotificationHandling() {
   }, [handleInitialNotification, appIsActive]);
 }
 
-messaging().onMessage((data) => {
-  logger.debug('Message received', { data });
+function modForAndroidMessage(payload: Notification) {
+  if (!IS_ANDROID) {
+    return;
+  }
 
+  //TODO: handle more channels
+  payload.android = {
+    channelId: AndroidPushChannel.FLIGHT,
+    visibility: AndroidVisibility.PUBLIC,
+  };
+}
+
+function modForFcmImage(
+  payload: Notification,
+  data: FirebaseMessagingTypes.RemoteMessage,
+) {
+  const fcmOptions = data.data?.fcm_options;
+  const isFcmObject = typeof fcmOptions === 'object';
+  const fcmImage =
+    isFcmObject && 'image' in fcmOptions && typeof fcmOptions.image === 'string'
+      ? fcmOptions.image
+      : undefined;
+
+  if (!fcmImage) {
+    return;
+  }
+
+  logger.debug('fcmImage=%s', fcmImage);
+  if (IS_IOS) {
+    const iosAttachments: NotificationIOS = {
+      attachments: [
+        {
+          id: 'fcmImage',
+          url: fcmImage,
+        },
+      ],
+    };
+
+    payload.ios = merge(iosAttachments, payload.ios);
+  } else if (IS_ANDROID) {
+    const androidAttachments: NotificationAndroid = {
+      largeIcon: fcmImage,
+    };
+
+    payload.android = merge(androidAttachments, payload.android);
+  }
+}
+
+function handleMessage(data: FirebaseMessagingTypes.RemoteMessage) {
+  logger.debug('Message received data=%j', data);
   if (!data.notification) {
     return;
   }
@@ -81,30 +135,18 @@ messaging().onMessage((data) => {
     title: data.notification.title,
   };
 
-  const fcmOptions = data.data?.fcm_options;
-  const isFcmObject = typeof fcmOptions === 'object';
-  const fcmImage =
-    isFcmObject && 'image' in fcmOptions && typeof fcmOptions.image === 'string'
-      ? fcmOptions.image
-      : undefined;
+  modForFcmImage(payload, data);
+  modForAndroidMessage(payload);
 
-  if (fcmImage) {
-    payload.ios = {
-      attachments: [
-        {
-          url: fcmImage,
-        },
-      ],
-    };
-  }
-
+  logger.debug('displaying notification payloadID=%s', payload.id);
   notifee.displayNotification(payload);
-});
+}
 
-// notifee.onBackgroundEvent(async (e) => {
-//   logger.debug(e);
-// });
+function handleNotificationOpenedApp(
+  notification: FirebaseMessagingTypes.RemoteMessage,
+) {
+  logger.debug('Opened notification', notification);
+}
 
-// messaging().onNotificationOpenedApp((message) => {
-//   logger.debug('Opened notification', message);
-// });
+messaging().onMessage(handleMessage);
+messaging().onNotificationOpenedApp(handleNotificationOpenedApp);

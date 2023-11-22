@@ -18,6 +18,7 @@ type State = {
   _hasFinishStartup: boolean;
   _hasPushAsked: boolean;
   hasOnboard: boolean;
+  isFirstOpened: boolean;
   pushPermission: FirebaseMessagingTypes.AuthorizationStatus;
   theme: ThemePreset;
 };
@@ -31,6 +32,7 @@ export const useGlobalState = create<State>()(
       _hasFinishStartup: false,
       _hasPushAsked: false,
       hasOnboard: false,
+      isFirstOpened: true,
       pushPermission: messaging.AuthorizationStatus.NOT_DETERMINED,
       theme: ThemePreset.DARK,
     }),

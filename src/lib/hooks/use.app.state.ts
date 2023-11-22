@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { AppState } from 'react-native';
+
+import * as RnHooks from '@react-native-community/hooks';
 
 import { useGlobalState } from '@app/state/global';
 
@@ -8,13 +9,11 @@ import { useGlobalState } from '@app/state/global';
  * @returns A function that returns the current app state.
  */
 export function useAppStateSync() {
-  React.useEffect(() => {
-    useGlobalState.setState({ appState: AppState.currentState });
+  const _appState = RnHooks.useAppState();
 
-    AppState.addEventListener('change', (state) => {
-      useGlobalState.setState({ appState: state });
-    });
-  }, []);
+  React.useEffect(() => {
+    useGlobalState.setState({ _appState });
+  }, [_appState]);
 }
 
 /**
@@ -22,7 +21,7 @@ export function useAppStateSync() {
  * @returns the value of the `appState` property from the global state.
  */
 export function useAppState() {
-  return useGlobalState((s) => s.appState);
+  return useGlobalState((s) => s._appState);
 }
 
 /**

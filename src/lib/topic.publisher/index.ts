@@ -1,15 +1,16 @@
 import { noop } from 'lodash';
 
 import type { TopicListener } from './types';
+import type { Logger } from '../logger/_instance';
 
 import { logger } from '../logger';
 
 export class TopicPublisher<T extends Record<string, unknown>> {
   private readonly listeners: Map<keyof T, TopicListener[]> = new Map();
-  private readonly logger: ReturnType<(typeof logger)['extend']>;
+  private readonly logger: Logger;
 
   constructor(name?: string) {
-    this.logger = logger.extend('TopicPublisher::' + (name || 'UNKNOWN'));
+    this.logger = logger.getSubLogger('TopicPublisher::' + (name || 'UNKNOWN'));
   }
 
   private getTopicListeners<K extends keyof T>(topic: K) {

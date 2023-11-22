@@ -13,7 +13,7 @@ import { FirebasePlugin } from './plugins/firebase.plugin';
 import { RudderstackPlugin } from './plugins/rudder.stack.plugin';
 
 export class Analytics {
-  private static logger = logger.extend('Analytics');
+  private static logger = logger.getSubLogger('Analytics');
   private static options = compact([
     FirebasePlugin,
     SentryPlugin,

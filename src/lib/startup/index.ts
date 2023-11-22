@@ -15,7 +15,7 @@ import { handleBuildInfo } from './build.info';
 import { handleFcmToken } from './push.notification';
 
 if (__DEV__) {
-  logger.extend('ENV').debug(ENV);
+  logger.getSubLogger('ENV').debug(ENV);
 }
 
 export async function startup() {
@@ -31,7 +31,7 @@ export async function startup() {
             remoteConfig().lastFetchStatus,
             remoteConfig().app.options.projectId,
             remoteConfig().app.options.appId,
-            Object.entries(remoteConfig().getAll()),
+            Object.keys(remoteConfig().getAll()),
           ),
         );
       }),

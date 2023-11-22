@@ -8,7 +8,7 @@ export async function handleBuildInfo() {
   }
 
   const bundleID = device.getBundleId();
-  logger.extend('[BUILD]').debug({
+  logger.getSubLogger('BUILD').debug({
     bundleID,
   });
 }

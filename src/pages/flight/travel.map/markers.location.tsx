@@ -11,6 +11,8 @@ import Animated, {
 import tinycolor from 'tinycolor2';
 
 import { withStyled } from '@app/lib/styled';
+import { IS_ANDROID } from '@app/lib/platform';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { Typography } from '@app/components/typography';
 import { FlightStatus } from '@app/generated/server.gql';
 
@@ -18,6 +20,8 @@ import { useFlight } from '../context';
 
 export const LocationMarkers: React.FC = () => {
   const markerSize = 10;
+  const latitudeOffset = IS_ANDROID ? 1 : 0;
+  const theme = useTheme();
   const flight = useFlight();
   const markerStyle = useAnimatedStyle(() => ({
     transform: [
@@ -34,17 +38,22 @@ export const LocationMarkers: React.FC = () => {
     ],
   }));
 
-  //TODO: Fix label not visible in android because it is overflowing
-
   return (
     <>
       <MapMarker
         coordinate={{
-          latitude: flight.Origin.latitude,
+          latitude: flight.Origin.latitude - latitudeOffset,
           longitude: flight.Origin.longitude,
         }}
         identifier={flight.Origin.id}
-        style={{ aspectRatio: 1, width: markerSize }}
+        style={[
+          {
+            aspectRatio: 1,
+            marginTop: 20,
+            width: markerSize,
+          },
+          theme.presets.centered,
+        ]}
       >
         <MarkerPulse
           style={[
@@ -60,11 +69,14 @@ export const LocationMarkers: React.FC = () => {
       </MapMarker>
       <MapMarker
         coordinate={{
-          latitude: flight.Destination.latitude,
+          latitude: flight.Destination.latitude - latitudeOffset,
           longitude: flight.Destination.longitude,
         }}
         identifier={flight.Destination.id}
-        style={{ aspectRatio: 1, width: markerSize }}
+        style={{
+          aspectRatio: 1,
+          width: markerSize,
+        }}
       >
         <MarkerPulse
           style={[
@@ -98,6 +110,7 @@ const MarkerPulse = withStyled(Animated.View, (theme) => [
       .setAlpha(0.4)
       .toRgbString(),
     borderRadius: theme.roundRadius,
+    elevation: 1,
     height: '100%',
     position: 'absolute',
     width: '100%',

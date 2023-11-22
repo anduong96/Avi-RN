@@ -46,7 +46,7 @@ export const Prompt: React.FC<Props> = ({
     try {
       await onAccept?.();
     } catch (e) {
-      logger.extend('Prompt').error('Failed onAccept');
+      logger.getSubLogger('Prompt').error('Failed onAccept');
       logger.error(e);
     } finally {
       setIsLoading(false);

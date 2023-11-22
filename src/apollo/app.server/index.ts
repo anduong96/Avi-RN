@@ -1,5 +1,5 @@
+import auth from '@react-native-firebase/auth';
 import { onError } from '@apollo/client/link/error';
-import { firebase } from '@react-native-firebase/auth';
 import { setContext } from '@apollo/client/link/context';
 import { MMKVStorageWrapper, persistCache } from 'apollo3-cache-persist';
 import {
@@ -14,10 +14,10 @@ import { logger } from '@app/lib/logger';
 import { storage } from '@app/lib/storage';
 import { Analytics } from '@app/lib/analytics';
 
-const gqlLogger = logger.extend('[Apollo GraphQL]');
+const gqlLogger = logger.getSubLogger('Apollo GraphQL');
 const httpLink = createHttpLink({ uri: `${ENV.SERVER}/graphql` });
 const authLink = setContext(async (_, { headers }) => {
-  const token = await firebase.auth().currentUser?.getIdToken();
+  const token = await auth().currentUser?.getIdToken();
   return {
     headers: {
       ...headers,

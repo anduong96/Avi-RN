@@ -2,6 +2,9 @@ import type { RouteProp } from '@react-navigation/native';
 
 import * as React from 'react';
 import { ScrollView, View } from 'react-native';
+import { useSharedValue } from 'react-native-reanimated';
+
+import type { ScrollViewProps } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
 
@@ -9,11 +12,11 @@ import type { FlightStackParams } from '@app/navigation/flight.stack';
 
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
+import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { ScrollUp } from '@app/components/scroll.up';
 import { CloseBtn } from '@app/components/btn.close';
 import { useFlightQuery } from '@app/generated/server.gql';
-import { IS_ANDROID, WINDOW_HEIGHT } from '@app/lib/platform';
 import { PageContainer } from '@app/components/page.container';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
@@ -28,7 +31,7 @@ import { FlightActions } from './actions';
 import { EmissionCard } from './emission';
 import { FlightContext } from './context';
 import { HeaderMeta } from './header.meta';
-import { SmartStatus } from './smart.status';
+import { ProgressBar } from './progress.bar';
 import { ExitToHomeBtn } from './exit.to.home.btn';
 import { PromptnessCompact } from './promptness.compact';
 
@@ -38,6 +41,7 @@ export const FlightPage: React.FC = () => {
   const route = useRoute<Route>();
   const flightID = route.params.flightID;
   const isFromSearch = route.params.isFromSearch;
+  const scrollPositionY = useSharedValue(0);
   const container = React.useRef<ScrollView>(null);
   const scrollPosition = useScrollPosition();
   const flightResponse = useFlightQuery({ variables: { flightID } });
@@ -46,7 +50,15 @@ export const FlightPage: React.FC = () => {
 
   const handleScrollUp = () => {
     vibrate('effectClick');
-    container.current?.scrollTo({ animated: true, y: 0 });
+    container.current?.scrollTo({
+      animated: true,
+      y: 0,
+    });
+  };
+
+  const handleScroll: ScrollViewProps['onScroll'] = (event) => {
+    scrollPosition.handleScroll(event);
+    scrollPositionY.value = event.nativeEvent.contentOffset.y;
   };
 
   return (
@@ -55,17 +67,16 @@ export const FlightPage: React.FC = () => {
         <LoadingOverlay isDark isLoading={flightResponse.loading} />
         {flight && data && (
           <Container
-            onScroll={scrollPosition.handleScroll}
+            onScroll={handleScroll}
             ref={container}
             scrollEventThrottle={16}
             showsVerticalScrollIndicator={false}
             stickyHeaderIndices={[1]}
           >
-            <TravelMap height={IS_ANDROID ? 250 : 220} />
+            <TravelMap height={250} />
             <HeaderMeta />
             <FlightActions />
             <Content>
-              <SmartStatus />
               <Card hasShadow>
                 <FlightPageLocationSection {...data.origin} type="origin" />
                 <FlightPageDistanceSeparator />
@@ -87,6 +98,7 @@ export const FlightPage: React.FC = () => {
         )}
         <CloseBtn isAbsolute />
         <ExitToHomeBtn isVisible={isFromSearch} />
+        <ProgressBar scrollPositionY={scrollPositionY} />
       </FlightContext.Provider>
     </PageContainer>
   );

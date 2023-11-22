@@ -1,5 +1,5 @@
 import { tryNice } from 'try-nice';
-import { firebase } from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
 
 import { logger } from '@app/lib/logger';
 import { format } from '@app/lib/format';
@@ -11,6 +11,6 @@ export function enableFlightPush(flightID: string) {
   const current = state.getFlightPush(flightID);
   current.pushEnabled = true;
   state.setFlightPush(flightID, current);
-  tryNice(() => firebase.messaging().subscribeToTopic(flightID));
+  tryNice(() => messaging().subscribeToTopic(flightID));
   logger.warn(format('Enabled push notifications for flight[%s]', flightID));
 }

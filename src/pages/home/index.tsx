@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
-import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler';
+import { Swipeable } from 'react-native-gesture-handler';
+import { Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
   FadeInDown,
   SlideInLeft,
@@ -13,6 +13,8 @@ import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
 
 import type { UserActiveFlightsQuery } from '@app/generated/server.gql';
 
+import { logger } from '@app/lib/logger';
+import { format } from '@app/lib/format';
 import { withStyled } from '@app/lib/styled';
 import { Button } from '@app/components/button';
 import { vibrate } from '@app/lib/haptic.feedback';
@@ -83,12 +85,8 @@ export const HomePage: React.FC = () => {
 
   const handleOpenFlight = (flightID: string) => {
     vibrate('impactMedium');
-    rootNav.push('FlightStack', {
-      params: {
-        flightID,
-      },
-      screen: 'Flight',
-    });
+    logger.debug(format('Home: pressed flightID=%s', flightID));
+    rootNav.push('FlightStack', { params: { flightID }, screen: 'Flight' });
   };
 
   return (

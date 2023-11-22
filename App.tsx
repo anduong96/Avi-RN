@@ -13,6 +13,7 @@ import * as Sentry from '@sentry/react-native';
 import { ApolloProvider } from '@apollo/client';
 import { PortalHost, PortalProvider } from '@gorhom/portal';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { AppNavigator } from '@app/navigation';
 import { APP_PORTAL_HOST } from '@app/lib/portal';
@@ -21,24 +22,27 @@ import { ForceUpdateShield } from '@app/components/force.update';
 import { BackgroundSync } from '@app/components/background.sync';
 import { PushNotificationSheet } from '@app/components/sheet.push.notification';
 
+const queryClient = new QueryClient();
 function App() {
   return (
     <SafeAreaProvider>
       <StatusBar hidden />
       <ApolloProvider client={AppServerApolloClient}>
-        <React.Suspense>
-          <ForceUpdateShield />
-          <PortalProvider>
-            <PortalHost name={APP_PORTAL_HOST} />
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <BottomSheetModalProvider>
-                <BackgroundSync />
-                <AppNavigator />
-                <PushNotificationSheet />
-              </BottomSheetModalProvider>
-            </GestureHandlerRootView>
-          </PortalProvider>
-        </React.Suspense>
+        <QueryClientProvider client={queryClient}>
+          <React.Suspense>
+            <ForceUpdateShield />
+            <PortalProvider>
+              <PortalHost name={APP_PORTAL_HOST} />
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <BottomSheetModalProvider>
+                  <BackgroundSync />
+                  <AppNavigator />
+                  <PushNotificationSheet />
+                </BottomSheetModalProvider>
+              </GestureHandlerRootView>
+            </PortalProvider>
+          </React.Suspense>
+        </QueryClientProvider>
       </ApolloProvider>
     </SafeAreaProvider>
   );

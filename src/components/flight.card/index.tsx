@@ -55,8 +55,12 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
           <ActiveDivider progressPercent={Flight.progressPercent} />
         </DividerContainer>
         <FlightPoint type="destination">
-          <AirportIata>{Flight.Destination.iata}</AirportIata>
-          <AirportCity>{Flight.Destination.cityName}</AirportCity>
+          <AirportIata style={{ textAlign: 'right' }}>
+            {Flight.Destination.iata}
+          </AirportIata>
+          <AirportCity style={{ textAlign: 'right' }}>
+            {Flight.Destination.cityName}
+          </AirportCity>
         </FlightPoint>
       </Body>
       <Footer>

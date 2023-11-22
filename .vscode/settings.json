@@ -41,5 +41,6 @@
   // "editor.formatOnSave": true,
   "editor.acceptSuggestionOnEnter": "smart",
   "editor.tabCompletion": "on",
-  "java.configuration.updateBuildConfiguration": "automatic"
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.compile.nullAnalysis.mode": "automatic"
 }

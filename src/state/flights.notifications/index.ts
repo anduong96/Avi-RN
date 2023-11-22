@@ -8,8 +8,6 @@ import { zustandMmkvStorage } from '../_plugins/zustand.mmkv.storage';
 
 type PushState = { pushEnabled: boolean };
 type State = {
-  _hydrated: boolean;
-  _setHydrated: (value: boolean) => void;
   getFlightPush: (flightID: Flight['id']) => PushState;
   removeFlightPush: (flightID: Flight['id']) => void;
   setFlightPush: (flightID: Flight['id'], value: PushState) => void;
@@ -20,12 +18,6 @@ const FLIGHT_NOTIFICATIONS_STATE_KEY = 'flightNotificationsState';
 export const useFlightNotificationsState = create<State>()(
   persist(
     (set, get) => ({
-      _hydrated: false,
-      _setHydrated: (value: boolean) => {
-        set({
-          _hydrated: value,
-        });
-      },
       getFlightPush(flightID) {
         return get()['subscriptions'][flightID] ?? { pushEnabled: false };
       },

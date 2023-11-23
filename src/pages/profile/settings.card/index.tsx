@@ -15,15 +15,6 @@ import { PushNotificationSwitch } from './push.notification.switch';
 export const SettingsCard: React.FC = () => {
   return (
     <Card title="Settings">
-      <TouchableOpacity onPress={() => openSettings()}>
-        <ListItem
-          description={'Go to system settings'}
-          extra={<FaIcon color="active" name="chevron-right" />}
-          icon={<FaIcon name="gear" />}
-          title="System Settings"
-        />
-      </TouchableOpacity>
-      <HorizontalDivider />
       <ListItem
         description="Receive flight and other important updates"
         extra={<PushNotificationSwitch />}
@@ -49,6 +40,15 @@ export const SettingsCard: React.FC = () => {
         icon={<FaIcon name="calendar" />}
         title="Date Format"
       />
+      <HorizontalDivider />
+      <TouchableOpacity onPress={() => openSettings()}>
+        <ListItem
+          description={'Go to system settings'}
+          extra={<FaIcon color="active" name="chevron-right" />}
+          icon={<FaIcon name="gear" />}
+          title="System Settings"
+        />
+      </TouchableOpacity>
     </Card>
   );
 };

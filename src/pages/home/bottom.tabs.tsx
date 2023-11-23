@@ -8,7 +8,7 @@ import type { MainStack } from '@app/navigation';
 import { withStyled } from '@app/lib/styled';
 import { IconBtn } from '@app/components/icon.btn';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { BlurredBackground } from '@app/components/blurred.background';
+import { BlurredBackground } from '@app/components/blurred/background';
 
 export const BottomTabs: React.FC = () => {
   const navigation = useNavigation<MainStack<'Home'>>();

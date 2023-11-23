@@ -10,13 +10,12 @@ import Animated, {
 
 import type { StyleProp, ViewStyle } from 'react-native';
 
-import { BlurView } from '@react-native-community/blur';
-
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { List } from '../list';
 import { FaIcon } from '../icons.fontawesome';
+import { BlurredView } from '../blurred/view';
 import { RotateUpsideDown } from './animation';
 import { HorizontalDivider } from '../divider.horizontal';
 type Option = {
@@ -167,7 +166,7 @@ const ModalBg = withStyled(View, (theme) => [
 ]);
 
 const Options = withStyled(
-  Animated.createAnimatedComponent(BlurView),
+  Animated.createAnimatedComponent(BlurredView),
   (theme) => [
     {
       borderRadius: theme.borderRadius,

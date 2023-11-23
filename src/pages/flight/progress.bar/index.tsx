@@ -7,7 +7,7 @@ import Animated, { SlideInDown } from 'react-native-reanimated';
 import { withStyled } from '@app/lib/styled';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { DividerDashed } from '@app/components/divider.dashed';
-import { BlurredBackground } from '@app/components/blurred.background';
+import { BlurredBackground } from '@app/components/blurred/background';
 
 type Props = {
   scrollPositionY: SharedValue<number>;
@@ -15,9 +15,9 @@ type Props = {
 
 export const ProgressBar: React.FC<Props> = ({}) => {
   return (
-    <Container entering={SlideInDown}>
+    <Container entering={SlideInDown.delay(500)}>
       <Content>
-        <BlurredBackground />
+        <BlurredBackground blurType="dark" />
         <DividerContainer>
           <DividerDashed dashSize={4} dashThickness={3} />
         </DividerContainer>

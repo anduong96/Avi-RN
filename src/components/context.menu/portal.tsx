@@ -12,14 +12,12 @@ import Animated, {
 import type { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 
 import { Portal, PortalHost } from '@gorhom/portal';
-import { BlurView } from '@react-native-community/blur';
 
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { ContextMenu } from './menu';
 import { MenuContext } from './context';
-
-const AnimatedBlur = Animated.createAnimatedComponent(BlurView);
+import { AnimatedBlurredView } from '../blurred/view';
 
 type Props = {
   childrenDim: SharedValue<LayoutRectangle>;
@@ -113,7 +111,7 @@ export const ContextMenuPortal: React.FC<Props> & {
         onPress={() => handleClose()}
         style={[StyleSheet.absoluteFill, { zIndex: 1 }]}
       >
-        <AnimatedBlur
+        <AnimatedBlurredView
           blurAmount={7}
           blurType={theme.isDark ? 'dark' : 'light'}
           entering={FadeIn.duration(100)}

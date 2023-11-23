@@ -21,6 +21,7 @@ import { useFlight } from '../context';
 export const LocationMarkers: React.FC = () => {
   const markerSize = 10;
   const latitudeOffset = IS_ANDROID ? 1 : 0;
+  const longitudeOffset = IS_ANDROID ? 1 : 0;
   const theme = useTheme();
   const flight = useFlight();
   const markerStyle = useAnimatedStyle(() => ({
@@ -43,7 +44,7 @@ export const LocationMarkers: React.FC = () => {
       <MapMarker
         coordinate={{
           latitude: flight.Origin.latitude - latitudeOffset,
-          longitude: flight.Origin.longitude,
+          longitude: flight.Origin.longitude - longitudeOffset,
         }}
         identifier={flight.Origin.id}
         style={[
@@ -70,7 +71,7 @@ export const LocationMarkers: React.FC = () => {
       <MapMarker
         coordinate={{
           latitude: flight.Destination.latitude - latitudeOffset,
-          longitude: flight.Destination.longitude,
+          longitude: flight.Destination.longitude - longitudeOffset,
         }}
         identifier={flight.Destination.id}
         style={{

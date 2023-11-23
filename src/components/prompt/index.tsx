@@ -4,13 +4,13 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { logger } from '@app/lib/logger';
 import { withStyled } from '@app/lib/styled';
+import { BlurredBackground } from '@app/components/blurred/background';
 
 import { Typography } from '../typography';
 import { StringRenderer } from '../string.renderer';
 import { LoadingOverlay } from '../loading.overlay';
 import { VerticalDivider } from '../divider.vertical';
 import { HorizontalDivider } from '../divider.horizontal';
-import { BlurredBackground } from '../blurred.background';
 
 type Props = {
   acceptStatus?: React.ComponentProps<typeof Typography>['status'];

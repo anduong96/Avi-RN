@@ -1,15 +1,13 @@
 import type { BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
 
 import * as React from 'react';
-import Animated, {
+import {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
 
-import { BlurView } from '@react-native-community/blur';
-
-import { withStyled } from '@app/lib/styled';
+import { AnimatedBlurredView } from '../blurred/view';
 type Props = BottomSheetBackdropProps;
 
 export const BlurredSheetBackdrop: React.FC<Props> = ({
@@ -25,7 +23,5 @@ export const BlurredSheetBackdrop: React.FC<Props> = ({
     ),
   }));
 
-  return <Container blurType="dark" style={[animatedStyle, style]} />;
+  return <AnimatedBlurredView blurType="dark" style={[animatedStyle, style]} />;
 };
-
-const Container = withStyled(Animated.createAnimatedComponent(BlurView));

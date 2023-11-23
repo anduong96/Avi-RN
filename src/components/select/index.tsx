@@ -4,7 +4,6 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { Pressable, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { Portal } from '@gorhom/portal';
-import { BlurView } from '@react-native-community/blur';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
@@ -12,6 +11,7 @@ import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { ListItem } from '../list.item';
 import { CloseBtn } from '../btn.close';
+import { BlurredView } from '../blurred/view';
 import { LoadingOverlay } from '../loading.overlay';
 import { HorizontalDivider } from '../divider.horizontal';
 import { PortalWindowOverlay } from '../portal.window.overlay';
@@ -73,7 +73,7 @@ export const Select = <T extends number | string>({
                 onPress={() => setShowOptions(false)}
                 style={StyleSheet.absoluteFill}
               >
-                <BlurView blurType="dark" style={StyleSheet.absoluteFill} />
+                <BlurredView blurType="dark" style={StyleSheet.absoluteFill} />
               </Pressable>
               <Content>
                 <CloseBtn

@@ -1,4 +1,3 @@
-import type { BlurViewProps } from '@react-native-community/blur';
 import type { PanGestureHandlerProps } from 'react-native-gesture-handler';
 
 import * as React from 'react';
@@ -22,7 +21,6 @@ import {
 import moment from 'moment';
 import { isNil } from 'lodash';
 import tinycolor from 'tinycolor2';
-import { BlurView } from '@react-native-community/blur';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 
@@ -34,6 +32,7 @@ import { IS_ANDROID, IS_IOS, WINDOW_WIDTH } from '@app/lib/platform';
 
 import { Typography } from '../typography';
 import { FaIcon } from '../icons.fontawesome';
+import { BlurredView } from '../blurred/view';
 import { StringRenderer } from '../string.renderer';
 
 type Props = {
@@ -234,8 +233,8 @@ const IconContainer = withStyled(
   },
 );
 
-const Background = withStyled<Pick<Props, 'preset'>, typeof BlurView>(
-  BlurView,
+const Background = withStyled<Pick<Props, 'preset'>, typeof BlurredView>(
+  BlurredView,
   (theme, props) => [
     StyleSheet.absoluteFillObject,
     props.preset === 'error' && {
@@ -244,7 +243,7 @@ const Background = withStyled<Pick<Props, 'preset'>, typeof BlurView>(
         .toRgbString(),
     },
   ],
-  (theme): BlurViewProps => ({
+  (theme) => ({
     blurAmount: 5,
     blurRadius: 25,
     blurType: theme.isDark ? (IS_ANDROID ? 'light' : 'dark') : 'xlight',

@@ -4,7 +4,6 @@ import * as React from 'react';
 import Animated, { SlideInDown } from 'react-native-reanimated';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import { BlurView } from '@react-native-community/blur';
 import { useNavigation } from '@react-navigation/native';
 
 import type { FlightStackParams } from '@app/navigation/flight.stack';
@@ -13,6 +12,7 @@ import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { FaIcon } from '@app/components/icons.fontawesome';
+import { BlurredView } from '@app/components/blurred/view';
 import { useUserFlightQuery } from '@app/generated/server.gql';
 
 import { useFlightID } from './context';
@@ -45,7 +45,7 @@ export const ExitToHomeBtn: React.FC<Props> = ({ isVisible }) => {
   return (
     <Container>
       <Btn entering={SlideInDown} onPress={handleExit}>
-        <BlurView
+        <BlurredView
           blurType={theme.isDark ? 'light' : 'dark'}
           style={[StyleSheet.absoluteFillObject]}
         />

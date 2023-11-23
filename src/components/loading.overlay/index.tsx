@@ -10,8 +10,7 @@ import type {
 
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
-
-import { BlurredBackground } from '../blurred.background';
+import { BlurredBackground } from '@app/components/blurred/background';
 
 type Props = {
   isDark?: boolean;

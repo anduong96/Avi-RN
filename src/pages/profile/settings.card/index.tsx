@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { TouchableOpacity } from 'react-native';
+import { openSettings } from 'react-native-permissions';
 
 import { Card } from '@app/components/card';
 import { ListItem } from '@app/components/list.item';
@@ -13,6 +15,15 @@ import { PushNotificationSwitch } from './push.notification.switch';
 export const SettingsCard: React.FC = () => {
   return (
     <Card title="Settings">
+      <TouchableOpacity onPress={() => openSettings()}>
+        <ListItem
+          description={'Go to system settings'}
+          extra={<FaIcon color="active" name="chevron-right" />}
+          icon={<FaIcon name="gear" />}
+          title="System Settings"
+        />
+      </TouchableOpacity>
+      <HorizontalDivider />
       <ListItem
         description="Receive flight and other important updates"
         extra={<PushNotificationSwitch />}

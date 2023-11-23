@@ -8,7 +8,6 @@ import { useHasHydrated } from '@app/state/use.has.hydrated';
 import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 
 import { logger } from '../logger';
-import { IS_ANDROID } from '../platform';
 
 /**
  * The `useBootApp` function is a TypeScript function that uses React hooks to check if the user has
@@ -30,10 +29,6 @@ export function useBootApp() {
     );
 
     if (canBoot && hasGlobalStateHydrated && userFlightsLoaded) {
-      if (IS_ANDROID) {
-        return;
-      }
-
       logger.debug('Booting App');
       RNBootSplash.hide({
         fade: true,

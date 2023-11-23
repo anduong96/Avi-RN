@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome6Pro';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = {
-  color?: string;
+  color?: 'active' | string;
   disabled?: boolean;
   size?: number;
 } & Pick<
@@ -29,7 +29,9 @@ export const FaIcon: React.FC<Props> = ({
   const theme = useTheme();
   const iconColor = disabled
     ? theme.pallette.grey[200]
-    : color || theme.pallette.grey[900];
+    : color === 'active'
+      ? theme.pallette.active
+      : color || theme.pallette.grey[900];
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
@@ -8,6 +8,7 @@ import type { StringOrElement } from '@app/types/string.or.component';
 
 import { withStyled } from '@app/lib/styled';
 
+import { Typography } from '../typography';
 import { StringRenderer } from '../string.renderer';
 
 type Props = {
@@ -37,13 +38,15 @@ export const Statistic: React.FC<Props> = ({
     <Container style={[style]}>
       {icon && <IconContainer>{icon}</IconContainer>}
       <Meta align={align} gap={gap}>
-        <StringRenderer Container={Label} style={labelStyle}>
+        <StringRenderer Container={Typography} style={labelStyle} type="small">
           {label}
         </StringRenderer>
-        <StringRenderer Container={Value} style={valueStyle}>
+        <StringRenderer Container={Typography} style={valueStyle} type="p1">
           {value}
         </StringRenderer>
-        <StringRenderer Container={Hint}>{hint}</StringRenderer>
+        <StringRenderer Container={Typography} type="tiny">
+          {hint}
+        </StringRenderer>
       </Meta>
     </Container>
   );
@@ -54,13 +57,6 @@ export const Container = withStyled(View, (theme) => ({
   flexDirection: 'row',
   gap: theme.space.small,
 }));
-
-export const Value = withStyled(Text, (theme) => [
-  theme.typography.presets.h4,
-  {
-    color: theme.pallette.text,
-  },
-]);
 
 export const IconContainer = withStyled(View, () => [{}]);
 
@@ -78,14 +74,3 @@ export const Meta = withStyled<Pick<Props, 'align' | 'gap'>, typeof View>(
     },
   ],
 );
-
-export const Hint = withStyled(Text, (theme) => ({
-  color: theme.pallette.text,
-}));
-
-export const Label = withStyled(Text, (theme) => [
-  theme.typography.presets.small,
-  {
-    color: theme.pallette.textSecondary,
-  },
-]);

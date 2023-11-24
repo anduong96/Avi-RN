@@ -14,6 +14,7 @@ type Props = {
   | 'duotone'
   | 'light'
   | 'name'
+  | 'selectionColor'
   | 'sharpSolid'
   | 'solid'
   | 'style'

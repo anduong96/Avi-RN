@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useColorScheme } from 'react-native';
 
+import { useThemeSync } from '@app/lib/hooks/use.theme';
 import { useStartup } from '@app/lib/startup/use.startup';
 import { useUserSync } from '@app/state/user/use.user.sync';
 import { useAppStateSync } from '@app/lib/hooks/use.app.state';
@@ -13,8 +13,8 @@ export const BackgroundSync: React.FC = () => {
   useUserSync();
   useFlightPushSync();
   useStartup();
+  useThemeSync();
   useFirstOpenSync();
-  useColorScheme();
   useAppStateSync();
   useNotificationHandling();
   useAndroidPushChannelsSync();

@@ -57,7 +57,7 @@ export const FlightCardCompact: React.FC<Props> = ({ flight }) => {
           </MovementText>
         </Movement>
         <Actions>
-          <FaIcon color={theme.pallette.active} name="arrow-right" size={30} />
+          <FaIcon color={theme.pallette.active} name="arrow-right" size={20} />
         </Actions>
       </Footer>
     </Container>

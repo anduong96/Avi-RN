@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native';
 
 import moment from 'moment';
@@ -10,6 +10,7 @@ import type { ComponentProps } from '@app/types/component.props';
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 
+import { Typography } from '../typography';
 import { CellType, generateCalendar } from './generate.calendar';
 
 type Props = ComponentProps<
@@ -61,8 +62,10 @@ export const Calendar: React.FC<Props> = ({
         return (
           <Month>
             <MonthHeader>
-              <MonthText>{item.month.format('MMMM')}</MonthText>
-              <YearText>{item.month.format('YYYY')}</YearText>
+              <Typography type="h1">{item.month.format('MMMM')}</Typography>
+              <Typography isThin type="h1">
+                {item.month.format('YYYY')}
+              </Typography>
             </MonthHeader>
             <FlatList
               data={item.dates}
@@ -73,12 +76,15 @@ export const Calendar: React.FC<Props> = ({
                 } else if (day.type === CellType.HEADER) {
                   return (
                     <Weekday>
-                      <WeekdayText>{day.label}</WeekdayText>
+                      <Typography isCentered type="small">
+                        {day.label}
+                      </Typography>
                     </Weekday>
                   );
                 }
                 const isToday = highlightToday && day.date.isSame(today, 'day');
                 const isActive = hasValue && day.date.isSame(value, 'day');
+
                 return (
                   <Day
                     isActive={isActive}
@@ -86,9 +92,9 @@ export const Calendar: React.FC<Props> = ({
                   >
                     {onRenderDay?.(day.date) ?? (
                       <>
-                        <DayText isActive={isActive}>
+                        <Typography isBold={isActive}>
                           {day.date.format('D')}
-                        </DayText>
+                        </Typography>
                         {isToday && <Dot />}
                       </>
                     )}
@@ -125,17 +131,6 @@ const Day = withStyled<{ isActive?: boolean }, typeof TouchableOpacity>(
   ],
 );
 
-const DayText = withStyled<{ isActive?: boolean }, typeof Text>(
-  Text,
-  (theme, props) => [
-    theme.typography.presets.h3,
-
-    props.isActive && {
-      fontWeight: 'bold',
-    },
-  ],
-);
-
 const Month = withStyled(View, (theme) => [
   {
     paddingBottom: theme.space.large,
@@ -152,22 +147,9 @@ const Weekday = withStyled(View, (theme) => [
   },
 ]);
 
-const WeekdayText = withStyled(Text, (theme) => [
-  theme.typography.presets.small,
-  {
-    textAlign: 'center',
-  },
-]);
-
-const YearText = withStyled(Text, (theme) => [theme.typography.presets.h3]);
-
-const MonthText = withStyled(Text, (theme) => [
-  theme.typography.presets.h3,
-  { fontWeight: 'bold' },
-]);
-
 const MonthHeader = withStyled(View, (theme) => [
   {
+    alignItems: 'center',
     flexDirection: 'row',
     gap: theme.space.tiny,
     padding: theme.space.small,

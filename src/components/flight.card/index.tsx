@@ -1,20 +1,19 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
-import moment from 'moment';
-
 import type {
   Flight,
   UserArchivedFlightsQuery,
 } from '@app/generated/server.gql';
 
-import { format } from '@app/lib/format';
 import { withStyled } from '@app/lib/styled';
 import { DOT_SEPARATOR } from '@app/constants';
-import { useTheme } from '@app/lib/hooks/use.theme';
-import { FlightStatus } from '@app/generated/server.gql';
-import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
+import {
+  transformFlightData,
+  useFlightStatusColor,
+} from '@app/lib/transformers/transform.flight.data';
 
+import { Typography } from '../typography';
 import { FaIcon } from '../icons.fontawesome';
 import { DividerDashed } from '../divider.dashed';
 import { AirlineLogoAvatar } from '../airline.logo.avatar';
@@ -24,16 +23,9 @@ type Props = {
 };
 
 export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
-  const theme = useTheme();
   const data = transformFlightData(Flight);
   const departureTime = data.origin.time;
-  const arrivalTime = data.destination.time;
-  const statusColor =
-    data.origin.status === 'early' || data.origin.status === 'on-time'
-      ? theme.pallette.success
-      : data.origin.status === 'delayed'
-        ? theme.pallette.warn
-        : theme.pallette.danger;
+  const departureStatusColor = useFlightStatusColor(data.origin.status);
 
   return (
     <Container>
@@ -44,6 +36,13 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
             {Flight.airlineIata} {Flight.flightNumber}
           </AirlineFlightNumber>
         </AirlineContainer>
+        <Time>
+          <TimeText color="secondary" isBold>
+            {departureTime.fromNow()}
+          </TimeText>
+          <TimeText isBold>{DOT_SEPARATOR}</TimeText>
+          <TimeText>{departureTime.format('MMM D')}</TimeText>
+        </Time>
       </Header>
       <Body>
         <FlightPoint type="origin">
@@ -67,31 +66,15 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
         <Movement>
           <MovementIconContainer>
             <FaIcon
-              color={statusColor}
+              color={departureStatusColor}
               name="circle-arrow-up-right"
               size={20}
-              solid
             />
           </MovementIconContainer>
-          <MovementText color={statusColor}>
+          <MovementText color={departureStatusColor}>
             {departureTime.format('LT')}
           </MovementText>
         </Movement>
-        <Time>
-          <TimeText bold>
-            {Flight.status === FlightStatus.SCHEDULED ||
-            Flight.status === FlightStatus.DELAYED
-              ? format('Departed %s', departureTime.fromNow())
-              : Flight.status === FlightStatus.ARRIVED ||
-                  Flight.status === FlightStatus.ARCHIVED
-                ? format('Arrived %s', arrivalTime.fromNow())
-                : Flight.status === FlightStatus.CANCELED
-                  ? format('Canceled %s', moment(Flight.updatedAt).fromNow())
-                  : format('Land %s', arrivalTime.fromNow())}
-          </TimeText>
-          <TimeText>{DOT_SEPARATOR}</TimeText>
-          <TimeText>{departureTime.format('MMM D')}</TimeText>
-        </Time>
       </Footer>
     </Container>
   );
@@ -110,8 +93,10 @@ const Container = withStyled(View, (theme) => [
 
 const Header = withStyled(View, (theme) => [
   {
+    alignItems: 'center',
     flexDirection: 'row',
     gap: theme.space.medium,
+    justifyContent: 'space-between',
   },
 ]);
 
@@ -210,7 +195,7 @@ const Movement = withStyled(View, (theme) => [
   },
 ]);
 
-const MovementText = withStyled<{ color: string }, typeof Text>(
+const MovementText = withStyled<{ color?: string }, typeof Text>(
   Text,
   (theme, props) => [
     theme.typography.presets.h3,
@@ -223,20 +208,15 @@ const MovementText = withStyled<{ color: string }, typeof Text>(
 
 const MovementIconContainer = withStyled(View, () => [{}]);
 
-const Time = withStyled(View, () => [
+const Time = withStyled(View, (theme) => [
   {
+    alignItems: 'center',
     flexDirection: 'row',
+    gap: theme.space.tiny,
+    justifyContent: 'center',
   },
 ]);
 
-const TimeText = withStyled<{ bold?: boolean }, typeof Text>(
-  Text,
-  (theme, props) => [
-    {
-      color: theme.pallette.textSecondary,
-    },
-    props.bold && {
-      fontWeight: 'bold',
-    },
-  ],
-);
+const TimeText = withStyled(Typography, undefined, {
+  type: 'small',
+});

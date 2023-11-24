@@ -5,6 +5,7 @@ import { isNil } from 'lodash';
 import tinycolor from 'tinycolor2';
 
 import { withStyled } from '@app/lib/styled';
+import { IS_ANDROID } from '@app/lib/platform';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { FlightStatus } from '@app/generated/server.gql';
 import { FaIcon } from '@app/components/icons.fontawesome';
@@ -25,8 +26,8 @@ export const AircraftMarker: React.FC = () => {
     flight.Destination,
     position,
   );
-  const lineDashPattern = [2];
-  const lineWidth = 1;
+  const lineWidth = IS_ANDROID ? 4 : 1;
+  const lineDashPattern = IS_ANDROID ? [lineWidth, lineWidth + 4] : [lineWidth];
   const lineColor = theme.pallette.grey[600];
   const completedLineColor = theme.pallette.primary;
 

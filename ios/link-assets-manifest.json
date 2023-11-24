@@ -1,0 +1,33 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/FontAwesome6_Pro_Brands.ttf",
+      "sha1": "12c99dd60d3016fa111c31cedfa610a89140fdb3"
+    },
+    {
+      "path": "assets/fonts/FontAwesome6_Pro_Duotone.ttf",
+      "sha1": "b0b37af94a151aba1cd5a8841004f56948262a77"
+    },
+    {
+      "path": "assets/fonts/FontAwesome6_Pro_Light.ttf",
+      "sha1": "220cdfee8751cf72d733c52380f019650f214910"
+    },
+    {
+      "path": "assets/fonts/FontAwesome6_Pro_Regular.ttf",
+      "sha1": "43732a2e69214f663b2d7b0a78b0fb6480bc7a0c"
+    },
+    {
+      "path": "assets/fonts/FontAwesome6_Pro_Sharp_Solid.ttf",
+      "sha1": "6996a8102a3392a6a0d3f08bd8a47667061417d1"
+    },
+    {
+      "path": "assets/fonts/FontAwesome6_Pro_Solid.ttf",
+      "sha1": "1fd11a0a5caa695e5392a0a856c40469359d9cb9"
+    },
+    {
+      "path": "assets/fonts/FontAwesome6_Pro_Thin.ttf",
+      "sha1": "a78e775e6fb05bd08d3943439331acd37c200268"
+    }
+  ]
+}

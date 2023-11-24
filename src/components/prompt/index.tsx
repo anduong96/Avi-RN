@@ -13,9 +13,9 @@ import { VerticalDivider } from '../divider.vertical';
 import { HorizontalDivider } from '../divider.horizontal';
 
 type Props = {
-  acceptStatus?: React.ComponentProps<typeof Typography>['status'];
+  acceptStatus?: React.ComponentProps<typeof Typography>['color'];
   acceptText?: string;
-  cancelStatus?: React.ComponentProps<typeof Typography>['status'];
+  cancelStatus?: React.ComponentProps<typeof Typography>['color'];
   cancelText?: string;
   description?: string;
   hasAccept?: boolean;
@@ -75,7 +75,7 @@ export const Prompt: React.FC<Props> = ({
         <Actions>
           {hasCancel && (
             <OptionBtn onPress={handleCancel}>
-              <OptionText isCentered status={cancelStatus}>
+              <OptionText color={cancelStatus} isCentered>
                 {cancelText}
               </OptionText>
             </OptionBtn>
@@ -84,7 +84,7 @@ export const Prompt: React.FC<Props> = ({
           {hasAccept && (
             <OptionBtn onPress={handleAccept}>
               <LoadingOverlay isLoading={isLoading} type="solid" />
-              <OptionText isCentered status={acceptStatus}>
+              <OptionText color={acceptStatus} isCentered>
                 {acceptText}
               </OptionText>
             </OptionBtn>

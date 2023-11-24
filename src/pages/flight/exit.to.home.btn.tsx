@@ -10,7 +10,6 @@ import type { FlightStackParams } from '@app/navigation/flight.stack';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { useTheme } from '@app/lib/hooks/use.theme';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { BlurredView } from '@app/components/blurred/view';
 import { useUserFlightQuery } from '@app/generated/server.gql';
@@ -19,13 +18,8 @@ import { useFlightID } from './context';
 
 type Navigation = NativeStackNavigationProp<FlightStackParams, 'Flight'>;
 
-type Props = {
-  isVisible?: boolean;
-};
-
-export const ExitToHomeBtn: React.FC<Props> = ({ isVisible }) => {
+export const ExitToHomeBtn: React.FC = () => {
   const flightID = useFlightID();
-  const theme = useTheme();
   const navigation = useNavigation<Navigation>();
   const response = useUserFlightQuery({
     variables: {
@@ -38,17 +32,14 @@ export const ExitToHomeBtn: React.FC<Props> = ({ isVisible }) => {
     navigation.popToTop();
   };
 
-  if (!response.data?.userFlight || !isVisible) {
+  if (!response.data?.userFlight) {
     return null;
   }
 
   return (
     <Container>
       <Btn entering={SlideInDown} onPress={handleExit}>
-        <BlurredView
-          blurType={theme.isDark ? 'light' : 'dark'}
-          style={[StyleSheet.absoluteFillObject]}
-        />
+        <BlurredView style={[StyleSheet.absoluteFill]} />
         <FaIcon name="arrow-down-to-line" size={30} />
       </Btn>
     </Container>

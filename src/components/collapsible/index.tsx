@@ -1,40 +1,44 @@
 import * as React from 'react';
 import { type StyleProp, View, type ViewStyle } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
 
 import type { LayoutChangeEvent } from 'react-native';
 
 import { withStyled } from '@app/lib/styled';
 
 type Props = React.PropsWithChildren<{
+  collapsedHeight?: number;
   isCollapsed?: boolean;
   style?: StyleProp<ViewStyle>;
 }>;
 
 export const Collapsible: React.FC<Props> = ({
   children,
+  collapsedHeight = 0,
   isCollapsed = false,
   style,
 }) => {
-  const contentHeight = useSharedValue(0);
-  const isCollapsedDerived = useDerivedValue(() => isCollapsed, [isCollapsed]);
-  const animatedStyle = useAnimatedStyle(() => ({
-    height: withTiming(isCollapsedDerived.value ? 0 : contentHeight.value),
-    opacity: withTiming(isCollapsedDerived.value ? 0 : 1),
-  }));
+  const [contentHeight, setContentHeight] = React.useState(0);
+  const height = useSharedValue(0);
+  const opacity = useSharedValue(1);
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const onLayoutHeight = event.nativeEvent.layout.height;
-    contentHeight.value = onLayoutHeight;
+    setContentHeight(onLayoutHeight);
   };
 
+  React.useEffect(() => {
+    if (isCollapsed) {
+      height.value = withTiming(collapsedHeight);
+      opacity.value = withTiming(0);
+    } else {
+      height.value = withTiming(contentHeight);
+      opacity.value = withTiming(1);
+    }
+  }, [contentHeight, isCollapsed, collapsedHeight, height, opacity]);
+
   return (
-    <Container style={[animatedStyle]}>
+    <Container style={[{ height, opacity }]}>
       <Content onLayout={handleLayout} style={style}>
         {children}
       </Content>

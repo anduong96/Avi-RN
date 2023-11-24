@@ -28,7 +28,7 @@ setJSExceptionHandler((error, isFatal) => {
   logger.debug({ error, isFatal });
   Sentry.captureException(error);
 
-  if (isFatal) {
+  if (isFatal && !__DEV__) {
     Alert.alert(
       'Unexpected error occurred',
       `

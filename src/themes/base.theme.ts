@@ -2,6 +2,8 @@ import { type ImageStyle, type TextStyle, type ViewStyle } from 'react-native';
 
 import tinycolor from 'tinycolor2';
 
+import { IS_ANDROID } from '@app/lib/platform';
+
 const WHITE = '#fff';
 const BLACK = '#000';
 
@@ -27,7 +29,7 @@ const grey = {
 };
 
 const pallette = {
-  active: '#0171E3',
+  active: IS_ANDROID ? '#3f63f2' : '#007bff',
   background: blackColor.clone().toHexString(),
   black: BLACK,
   borderColor: grey[200],

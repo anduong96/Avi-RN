@@ -24,6 +24,13 @@
 		EBEA591D2B091DDC00C42456 /* FontAwesome6_Pro_Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBEA59162B091DDC00C42456 /* FontAwesome6_Pro_Thin.ttf */; };
 		EBEA591E2B091DDC00C42456 /* FontAwesome6_Pro_Duotone.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBEA59172B091DDC00C42456 /* FontAwesome6_Pro_Duotone.ttf */; };
 		EBEA591F2B091DDC00C42456 /* FontAwesome6_Pro_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBEA59182B091DDC00C42456 /* FontAwesome6_Pro_Light.ttf */; };
+		F28B61F6D90F4673A4E4A00D /* FontAwesome6_Pro_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CACFB7A396D148A982240710 /* FontAwesome6_Pro_Brands.ttf */; };
+		4025035098F04587B7DD03FA /* FontAwesome6_Pro_Duotone.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F8C0539170F943F3A4F1099E /* FontAwesome6_Pro_Duotone.ttf */; };
+		9E635C125B8B4B778BABBFE0 /* FontAwesome6_Pro_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D65C8394D35419CA4082FE3 /* FontAwesome6_Pro_Light.ttf */; };
+		82A73788781B40E59D660CC9 /* FontAwesome6_Pro_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06A6C741996241B18B7D22EB /* FontAwesome6_Pro_Regular.ttf */; };
+		3017733BE01F4659849D2ABA /* FontAwesome6_Pro_Sharp_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67F614D67F894931848725E8 /* FontAwesome6_Pro_Sharp_Solid.ttf */; };
+		DA2B951D2F4C491FB0636EC6 /* FontAwesome6_Pro_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA584B18A2540FFA82F1E73 /* FontAwesome6_Pro_Solid.ttf */; };
+		FE66031FAE2B4C03BA95EC68 /* FontAwesome6_Pro_Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 16453611723D4508B6EBD8D3 /* FontAwesome6_Pro_Thin.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +89,13 @@
 		EBEA59172B091DDC00C42456 /* FontAwesome6_Pro_Duotone.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome6_Pro_Duotone.ttf; path = ../../../assets/fonts/FontAwesome6_Pro_Duotone.ttf; sourceTree = "<group>"; };
 		EBEA59182B091DDC00C42456 /* FontAwesome6_Pro_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome6_Pro_Light.ttf; path = ../../../assets/fonts/FontAwesome6_Pro_Light.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		CACFB7A396D148A982240710 /* FontAwesome6_Pro_Brands.ttf */ = {isa = PBXFileReference; name = "FontAwesome6_Pro_Brands.ttf"; path = "../assets/fonts/FontAwesome6_Pro_Brands.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F8C0539170F943F3A4F1099E /* FontAwesome6_Pro_Duotone.ttf */ = {isa = PBXFileReference; name = "FontAwesome6_Pro_Duotone.ttf"; path = "../assets/fonts/FontAwesome6_Pro_Duotone.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0D65C8394D35419CA4082FE3 /* FontAwesome6_Pro_Light.ttf */ = {isa = PBXFileReference; name = "FontAwesome6_Pro_Light.ttf"; path = "../assets/fonts/FontAwesome6_Pro_Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		06A6C741996241B18B7D22EB /* FontAwesome6_Pro_Regular.ttf */ = {isa = PBXFileReference; name = "FontAwesome6_Pro_Regular.ttf"; path = "../assets/fonts/FontAwesome6_Pro_Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		67F614D67F894931848725E8 /* FontAwesome6_Pro_Sharp_Solid.ttf */ = {isa = PBXFileReference; name = "FontAwesome6_Pro_Sharp_Solid.ttf"; path = "../assets/fonts/FontAwesome6_Pro_Sharp_Solid.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1AA584B18A2540FFA82F1E73 /* FontAwesome6_Pro_Solid.ttf */ = {isa = PBXFileReference; name = "FontAwesome6_Pro_Solid.ttf"; path = "../assets/fonts/FontAwesome6_Pro_Solid.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		16453611723D4508B6EBD8D3 /* FontAwesome6_Pro_Thin.ttf */ = {isa = PBXFileReference; name = "FontAwesome6_Pro_Thin.ttf"; path = "../assets/fonts/FontAwesome6_Pro_Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +180,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				E44902A6C6754CAD838BD314 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -209,6 +224,21 @@
 			name = Fonts;
 			path = "../node_modules/react-native-vector-icons/Fonts";
 			sourceTree = "<group>";
+		};
+		E44902A6C6754CAD838BD314 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				CACFB7A396D148A982240710 /* FontAwesome6_Pro_Brands.ttf */,
+				F8C0539170F943F3A4F1099E /* FontAwesome6_Pro_Duotone.ttf */,
+				0D65C8394D35419CA4082FE3 /* FontAwesome6_Pro_Light.ttf */,
+				06A6C741996241B18B7D22EB /* FontAwesome6_Pro_Regular.ttf */,
+				67F614D67F894931848725E8 /* FontAwesome6_Pro_Sharp_Solid.ttf */,
+				1AA584B18A2540FFA82F1E73 /* FontAwesome6_Pro_Solid.ttf */,
+				16453611723D4508B6EBD8D3 /* FontAwesome6_Pro_Thin.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -322,6 +352,13 @@
 				EBC3A3EC2963CFDD0016A4C1 /* GoogleService-Info.plist in Resources */,
 				EBEA591B2B091DDC00C42456 /* FontAwesome6_Pro_Regular.ttf in Resources */,
 				EBEA591F2B091DDC00C42456 /* FontAwesome6_Pro_Light.ttf in Resources */,
+				F28B61F6D90F4673A4E4A00D /* FontAwesome6_Pro_Brands.ttf in Resources */,
+				4025035098F04587B7DD03FA /* FontAwesome6_Pro_Duotone.ttf in Resources */,
+				9E635C125B8B4B778BABBFE0 /* FontAwesome6_Pro_Light.ttf in Resources */,
+				82A73788781B40E59D660CC9 /* FontAwesome6_Pro_Regular.ttf in Resources */,
+				3017733BE01F4659849D2ABA /* FontAwesome6_Pro_Sharp_Solid.ttf in Resources */,
+				DA2B951D2F4C491FB0636EC6 /* FontAwesome6_Pro_Solid.ttf in Resources */,
+				FE66031FAE2B4C03BA95EC68 /* FontAwesome6_Pro_Thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

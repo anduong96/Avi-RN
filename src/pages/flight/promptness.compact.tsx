@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
 
 import moment from 'moment';
 import { isNil } from 'lodash';
 
 import { Card } from '@app/components/card';
-import { withStyled } from '@app/lib/styled';
-import { Statistic } from '@app/components/statistic';
-import { VerticalDivider } from '@app/components/divider.vertical';
+import { Group } from '@app/components/group';
+import { Typography } from '@app/components/typography';
+import { LoadingOverlay } from '@app/components/loading.overlay';
 import { useFlightPromptnessQuery } from '@app/generated/server.gql';
 
 import { useFlightID } from './context';
@@ -28,73 +27,46 @@ export const PromptnessCompact: React.FC = () => {
   const getContent = () => {
     if (isNil(onTimePercent) || isNil(averageDelayTimeMs)) {
       return (
-        <Content>
-          <InfoText>
+        <Group>
+          <Typography type="h1">
             ⚠️ Delay information is not available for this flight.
-          </InfoText>
-        </Content>
+          </Typography>
+        </Group>
       );
     }
 
     return (
-      <Content>
-        <Item
-          align="center"
-          label="Delay Chance"
-          value={hasData ? `${100 - onTimePercent}%` : 'N/A'}
-        />
-        <VerticalDivider />
-        <Item
-          align="center"
-          label="Delay Average"
-          value={
-            hasData
-              ? `${moment.duration(averageDelayTimeMs).minutes()} min`
-              : 'N/A'
-          }
-        />
-      </Content>
+      <Group direction="row" gap="tiny">
+        <Group flexBasis={1} flexGrow={1}>
+          <Card isCentered padding={'medium'}>
+            <Typography color="secondary" type="p2">
+              Delay Chance
+            </Typography>
+            <Typography type="h1">
+              {hasData ? `${100 - onTimePercent}%` : 'N/A'}
+            </Typography>
+          </Card>
+        </Group>
+        <Group flexBasis={1} flexGrow={1}>
+          <Card isCentered padding={'medium'}>
+            <Typography color="secondary" type="p2">
+              Delay Average
+            </Typography>
+            <Typography type="h1">
+              {hasData
+                ? `${moment.duration(averageDelayTimeMs).minutes()} min`
+                : 'N/A'}
+            </Typography>
+          </Card>
+        </Group>
+      </Group>
     );
   };
 
-  return <Card isLoading={response.loading}>{getContent()}</Card>;
+  return (
+    <Group>
+      <LoadingOverlay isLoading={response.loading} />
+      {getContent()}
+    </Group>
+  );
 };
-
-const InfoText = withStyled(Text, (theme) => [
-  theme.typography.presets.p1,
-  {
-    color: theme.pallette.textSecondary,
-  },
-]);
-
-const Item = withStyled(
-  Statistic,
-  (theme) => [
-    theme.presets.centered,
-    {
-      flexBasis: 1,
-      flexGrow: 1,
-    },
-  ],
-  (theme) => ({
-    labelStyle: [
-      theme.typography.presets.p2,
-      {
-        color: theme.pallette.textSecondary,
-      },
-    ],
-    valueStyle: [
-      theme.typography.presets.h2,
-      {
-        lineHeight: 50,
-      },
-    ],
-  }),
-);
-
-const Content = withStyled(View, () => [
-  {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-]);

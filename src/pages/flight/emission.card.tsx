@@ -8,7 +8,7 @@ import { withStyled } from '@app/lib/styled';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
 import { useMeasurementDisplay } from '@app/lib/hooks/use.measurement.display';
 
-import { useFlight } from '../context';
+import { useFlight } from './context';
 
 export const EmissionCard: React.FC = () => {
   const flight = useFlight();
@@ -29,7 +29,7 @@ export const EmissionCard: React.FC = () => {
   }
 
   return (
-    <Card gap="medium">
+    <Card gap="medium" padding="medium">
       <CardTitle>Emission</CardTitle>
       <Content>
         {[

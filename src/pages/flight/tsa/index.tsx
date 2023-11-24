@@ -3,6 +3,7 @@ import { ScrollView, Text } from 'react-native';
 
 import { inRange, isEmpty } from 'lodash';
 
+import { logger } from '@app/lib/logger';
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
@@ -27,21 +28,34 @@ export const TsaCard: React.FC = () => {
   );
 
   React.useEffect(() => {
+    if (!content.current) {
+      return;
+    }
+
     const indexToShow = Math.max(0, minShowingHour - 1);
+    logger.debug('TsaCard: indexToShow=%s', indexToShow);
+
     content.current?.scrollTo({
       animated: false,
       x: indexToShow * 40 + theme.space.tiny * indexToShow,
     });
-  }, [minShowingHour, theme]);
+  }, [minShowingHour, theme, waitTimes]);
 
   if (isEmpty(displayTimes)) {
     return null;
   }
 
   return (
-    <Card gap="large">
-      <Title>Average TSA Wait Time</Title>
-      <Content ref={content}>
+    <Card gap="large" style={{ paddingVertical: theme.space.medium }}>
+      <Title style={{ paddingHorizontal: theme.space.medium }}>
+        Average TSA Wait Time
+      </Title>
+      <Content
+        contentContainerStyle={{
+          padding: theme.space.medium,
+        }}
+        ref={content}
+      >
         {displayTimes.map((entry) => (
           <Bar
             columnHeight={(entry.maxWaitMinute / highestMaxWaitMinute) * 100}

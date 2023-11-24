@@ -62,8 +62,8 @@ export const TravelMap: React.FC<Props> = ({ height = 300 }) => {
         toolbarEnabled
         userInterfaceStyle={theme.isDark ? 'dark' : 'light'}
       >
-        <LocationMarkers />
         <AircraftMarker />
+        <LocationMarkers />
       </Map>
     </Container>
   );

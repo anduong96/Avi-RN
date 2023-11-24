@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { TouchableOpacity } from 'react-native';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 
 import { withStyled } from '@app/lib/styled';
 
-import { IconBtn } from '../icon.btn';
+import { FaIcon } from '../icons.fontawesome';
+import { BlurredBackground } from '../blurred/background';
 
 type Props = {
   isAbsolute?: boolean;
@@ -26,7 +28,10 @@ export const ScrollUp: React.FC<Props> = ({
       exiting={FadeOutDown}
       isAbsolute={isAbsolute}
     >
-      <Btn icon="arrow-up-to-line" onPress={onScrollUp} size={25} />
+      <Btn onPress={onScrollUp}>
+        <BlurredBackground blurType="light" />
+        <FaIcon name="arrow-up-to-line" size={25} />
+      </Btn>
     </Container>
   );
 };
@@ -36,10 +41,9 @@ const Container = withStyled<Pick<Props, 'isAbsolute'>, typeof Animated.View>(
   (theme, props) => [
     theme.presets.centered,
     props.isAbsolute && {
+      alignSelf: 'center',
       bottom: theme.insets.bottom || theme.space.medium,
-      left: 0,
       position: 'absolute',
-      right: 0,
     },
     {
       padding: theme.space.medium,
@@ -47,11 +51,12 @@ const Container = withStyled<Pick<Props, 'isAbsolute'>, typeof Animated.View>(
   ],
 );
 
-const Btn = withStyled(IconBtn, (theme) => [
+const Btn = withStyled(TouchableOpacity, (theme) => [
+  theme.presets.centered,
   {
-    borderColor: theme.pallette.borderColor,
+    aspectRatio: 1,
     borderRadius: theme.roundRadius,
-    borderWidth: theme.borderWidth,
+    overflow: 'hidden',
     padding: theme.space.medium,
   },
 ]);

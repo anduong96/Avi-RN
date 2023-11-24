@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import Qty from 'js-quantities';
 
 import { MeasurementType, usePreferenceQuery } from '@app/generated/server.gql';
@@ -15,7 +16,7 @@ export function useMeasurementDisplay(
   const preference = usePreferenceQuery();
   const preferredSystem = preference.data?.userPreference.measurement;
 
-  if (!preferredSystem || !value) {
+  if (!preferredSystem || isNil(value)) {
     return null;
   }
 

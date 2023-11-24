@@ -14,8 +14,9 @@ import type { SpaceKeys } from '@app/themes';
 import type { StringOrElement } from '@app/types/string.or.component';
 
 import { withStyled } from '@app/lib/styled';
+import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
-import { vibrateFn } from '@app/lib/haptic.feedback';
+import { getSpaceValue } from '@app/lib/get.space.value';
 
 import { Typography } from '../typography';
 import { Collapsible } from '../collapsible';
@@ -32,9 +33,11 @@ type Props = React.PropsWithChildren<{
   isCollapsed?: boolean;
   isLoading?: boolean;
   isOutlined?: boolean;
-  margin?: SpaceKeys;
+  margin?: SpaceKeys | number;
+  marginHorizontal?: SpaceKeys | number;
+  marginVertical?: SpaceKeys | number;
   onCollapseState?: (isCollapsed: boolean) => void;
-  padding?: SpaceKeys;
+  padding?: SpaceKeys | number;
   style?: StyleProp<ViewStyle>;
   title?: StringOrElement;
 }>;
@@ -50,6 +53,8 @@ export const Card: React.FC<Props> = ({
   isLoading,
   isOutlined,
   margin,
+  marginHorizontal,
+  marginVertical,
   onCollapseState,
   padding,
   style,
@@ -59,7 +64,9 @@ export const Card: React.FC<Props> = ({
   const isCollapsedDerived = useDerivedValue(() => isCollapsed, [isCollapsed]);
   const collapseBtnAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
-      { rotate: withTiming(isCollapsedDerived.value ? '0deg' : '180deg') },
+      {
+        rotate: withTiming(isCollapsedDerived.value ? '0deg' : '180deg'),
+      },
     ],
   }));
 
@@ -72,24 +79,7 @@ export const Card: React.FC<Props> = ({
               {title}
             </StringRenderer>
           </Meta>
-          <Actions>
-            {collapsible && (
-              <CollapsibleBtn
-                onPress={() =>
-                  vibrateFn(
-                    'effectClick',
-                    () => onCollapseState?.(!isCollapsed),
-                  )
-                }
-                style={[collapseBtnAnimatedStyle]}
-              >
-                <FaIcon
-                  color={theme.pallette.active}
-                  name="circle-chevron-down"
-                />
-              </CollapsibleBtn>
-            )}
-          </Actions>
+          <Actions></Actions>
         </Header>
       )}
       <Collapsible isCollapsed={isCollapsed}>
@@ -100,6 +90,8 @@ export const Card: React.FC<Props> = ({
           isCentered={isCentered}
           isOutlined={isOutlined}
           margin={margin}
+          marginHorizontal={marginHorizontal}
+          marginVertical={marginVertical}
           padding={padding}
           style={style}
         >
@@ -107,11 +99,30 @@ export const Card: React.FC<Props> = ({
           {children}
         </Content>
       </Collapsible>
+      {collapsible && (
+        <CollapsibleBtn
+          onPress={() => {
+            vibrate('effectClick');
+            onCollapseState?.(!isCollapsed);
+          }}
+        >
+          <Animated.View style={collapseBtnAnimatedStyle}>
+            <FaIcon
+              color={theme.pallette.grey[400]}
+              name="circle-chevron-down"
+            />
+          </Animated.View>
+        </CollapsibleBtn>
+      )}
     </Container>
   );
 };
 
-const Container = withStyled(View);
+const Container = withStyled(View, (theme) => [
+  {
+    gap: theme.space.tiny,
+  },
+]);
 
 const Header = withStyled(Animated.View, (theme) => [
   {
@@ -133,6 +144,8 @@ const Content = withStyled<
     | 'isCentered'
     | 'isOutlined'
     | 'margin'
+    | 'marginHorizontal'
+    | 'marginVertical'
     | 'padding'
   >,
   typeof View
@@ -143,16 +156,21 @@ const Content = withStyled<
     backgroundColor: theme.pallette.card,
     borderRadius: theme.borderRadius,
     gap: theme.space.medium,
-    padding: theme.space.medium,
   },
   props.direction && {
     flexDirection: props.direction,
   },
-  props.padding && {
-    padding: theme.space[props.padding],
+  !isNil(props.padding) && {
+    padding: getSpaceValue(props.padding, theme),
   },
-  props.margin && {
-    margin: theme.space[props.margin],
+  !isNil(props.margin) && {
+    margin: getSpaceValue(props.margin, theme),
+  },
+  !isNil(props.marginHorizontal) && {
+    marginHorizontal: getSpaceValue(props.marginHorizontal, theme),
+  },
+  !isNil(props.marginVertical) && {
+    marginVertical: getSpaceValue(props.marginVertical, theme),
   },
   props.isOutlined && {
     backgroundColor: theme.pallette.transparent,
@@ -179,8 +197,9 @@ const CollapsibleBtn = withStyled(
   (theme) => [
     theme.presets.centered,
     {
-      borderRadius: theme.roundRadius,
-      padding: theme.space.tiny,
+      backgroundColor: theme.pallette.card,
+      borderRadius: theme.borderRadius,
+      padding: theme.space.medium,
     },
   ],
   {

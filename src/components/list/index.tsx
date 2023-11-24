@@ -16,7 +16,7 @@ type Props<T> = {
   horizontal?: boolean;
   keyExtractor?: (item: T, index: number) => number | string;
   renderItem: (item: T, index: number) => React.ReactElement | null | undefined;
-  separator?: () => React.ReactElement;
+  separator?: (item: T, index: number) => React.ReactElement;
   style?: StyleProp<ViewStyle>;
   type?: 'clear' | 'fill' | 'outline';
   wrap?: boolean;
@@ -40,7 +40,7 @@ export function List<T>({
   const lastIndex = data.length - 1;
   const children = data.map((item, index) => (
     <React.Fragment key={keyExtractor?.(item, index) || index}>
-      {lastIndex !== -1 && index !== 0 && separator?.()}
+      {lastIndex !== -1 && index !== 0 && separator?.(item, index)}
       {renderItem(item, index)}
     </React.Fragment>
   ));

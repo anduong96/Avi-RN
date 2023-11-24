@@ -52,6 +52,7 @@
     "@react-native-firebase/crashlytics": "^18.6.1",
     "@react-native-firebase/firestore": "^18.6.1",
     "@react-native-firebase/in-app-messaging": "^18.6.1",
+    "@react-native-firebase/installations": "^18.6.2",
     "@react-native-firebase/messaging": "^18.6.1",
     "@react-native-firebase/perf": "^18.6.1",
     "@react-native-firebase/remote-config": "^18.6.1",

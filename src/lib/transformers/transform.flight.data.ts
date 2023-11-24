@@ -1,9 +1,13 @@
+import * as React from 'react';
+
 import moment from 'moment';
 
 import type {
   AirportQuery,
   FullFlightFragmentFragment,
 } from '@app/generated/server.gql';
+
+import { useTheme } from '../hooks/use.theme';
 
 export type FlightTimeStatus = 'delayed' | 'early' | 'late' | 'on-time';
 
@@ -35,6 +39,31 @@ function getStatus(
   } else {
     return 'late';
   }
+}
+
+/**
+ * The function `useFlightStatusColor` returns a color based on the flight status provided.
+ * @param {FlightTimeStatus} status - The `status` parameter is of type `FlightTimeStatus`, which is a
+ * custom type representing the status of a flight. It can have the following values:
+ * @returns the color value based on the flight status.
+ */
+export function useFlightStatusColor(status?: FlightTimeStatus) {
+  const theme = useTheme();
+  const [color, setColor] = React.useState<string>();
+
+  React.useEffect(() => {
+    setColor(
+      status === 'early' || status === 'on-time'
+        ? theme.pallette.success
+        : status === 'delayed'
+          ? theme.pallette.warn
+          : status === 'late'
+            ? theme.pallette.danger
+            : undefined,
+    );
+  }, [theme, status]);
+
+  return color;
 }
 
 export function transformFlightData(flight: FullFlightFragmentFragment): {
@@ -74,8 +103,8 @@ export function transformFlightData(flight: FullFlightFragmentFragment): {
       dayDiff > 0
         ? `+${dayDiff}`
         : dayDiff === 0
-        ? undefined
-        : dayDiff.toString(),
+          ? undefined
+          : dayDiff.toString(),
     gate: flight.destinationGate,
     status: getStatus(flight.scheduledGateArrival, flight.estimatedGateArrival),
     terminal: flight.destinationTerminal,

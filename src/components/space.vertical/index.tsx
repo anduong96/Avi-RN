@@ -3,29 +3,21 @@ import { View } from 'react-native';
 
 import type { StyleProp, ViewStyle } from 'react-native';
 
+import type { SpaceKeys } from '@app/themes';
+
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { getSpaceValue } from '@app/lib/get.space.value';
 
-type Props = React.PropsWithChildren<
-  (
-    | {
-        height: number;
-      }
-    | {
-        size: 'large' | 'medium' | 'small';
-      }
-  ) & { style?: StyleProp<ViewStyle> }
->;
+type Props = React.PropsWithChildren<{
+  size?: SpaceKeys | number;
+  style?: StyleProp<ViewStyle>;
+}>;
 
-export const SpaceVertical: React.FC<Props> = (props) => {
+export const SpaceVertical: React.FC<Props> = ({ size = 'medium', style }) => {
   const theme = useTheme();
   return (
     <View
-      {...props}
-      style={[
-        'height' in props && { paddingVertical: props.height / 2 },
-        'size' in props && { paddingVertical: theme.space[props.size] / 2 },
-        props.style,
-      ]}
+      style={[{ paddingVertical: getSpaceValue(size, theme) / 2 }, style]}
     />
   );
 };

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RefreshControl } from 'react-native-gesture-handler';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -9,6 +9,7 @@ import type { FindFlightsQuery } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { Typography } from '@app/components/typography';
 import { useFindFlightsQuery } from '@app/generated/server.gql';
 import { FlightCardCompact } from '@app/components/flight.card.compact';
 
@@ -47,7 +48,9 @@ export const FlightsResultSet: React.FC = () => {
         !result.loading &&
         !result.data?.flights.length && (
           <Empty>
-            <EmptyText>No flights found</EmptyText>
+            <Typography isBold type="h4">
+              No flight(s) found
+            </Typography>
           </Empty>
         )
       }
@@ -73,13 +76,6 @@ const Empty = withStyled(View, (theme) => [
     borderRadius: theme.borderRadius,
     margin: theme.space.medium,
     padding: theme.space.large,
-  },
-]);
-
-const EmptyText = withStyled(Text, (theme) => [
-  theme.typography.presets.h4,
-  {
-    fontWeight: 'bold',
   },
 ]);
 

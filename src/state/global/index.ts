@@ -9,6 +9,9 @@ import { create } from 'zustand';
 import messaging from '@react-native-firebase/messaging';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+import type { Theme } from '@app/themes';
+
+import { DARK_THEME } from '@app/themes';
 import { ThemePreset } from '@app/themes/constants';
 
 import { zustandMmkvStorage } from '../_plugins/zustand.mmkv.storage';
@@ -17,6 +20,7 @@ type State = {
   _appState: AppStateStatus;
   _hasFinishStartup: boolean;
   _hasPushAsked: boolean;
+  _theme: Theme;
   hasOnboard: boolean;
   isFirstOpened: boolean;
   pushPermission: FirebaseMessagingTypes.AuthorizationStatus;
@@ -31,6 +35,7 @@ export const useGlobalState = create<State>()(
       _appState: AppState.currentState,
       _hasFinishStartup: false,
       _hasPushAsked: false,
+      _theme: DARK_THEME,
       hasOnboard: false,
       isFirstOpened: true,
       pushPermission: messaging.AuthorizationStatus.NOT_DETERMINED,

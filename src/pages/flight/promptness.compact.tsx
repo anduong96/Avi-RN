@@ -3,13 +3,13 @@ import * as React from 'react';
 import moment from 'moment';
 import { isNil } from 'lodash';
 
-import { Card } from '@app/components/card';
 import { Group } from '@app/components/group';
 import { Typography } from '@app/components/typography';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 import { useFlightPromptnessQuery } from '@app/generated/server.gql';
 
 import { useFlightID } from './context';
+import { SectionTile, TileLabel, TileValue } from './styles';
 
 export const PromptnessCompact: React.FC = () => {
   const flightID = useFlightID();
@@ -37,28 +37,18 @@ export const PromptnessCompact: React.FC = () => {
 
     return (
       <Group direction="row" gap="tiny">
-        <Group flexBasis={1} flexGrow={1}>
-          <Card isCentered padding={'medium'}>
-            <Typography color="secondary" type="p2">
-              Delay Chance
-            </Typography>
-            <Typography type="h1">
-              {hasData ? `${100 - onTimePercent}%` : 'N/A'}
-            </Typography>
-          </Card>
-        </Group>
-        <Group flexBasis={1} flexGrow={1}>
-          <Card isCentered padding={'medium'}>
-            <Typography color="secondary" type="p2">
-              Delay Average
-            </Typography>
-            <Typography type="h1">
-              {hasData
-                ? `${moment.duration(averageDelayTimeMs).minutes()} min`
-                : 'N/A'}
-            </Typography>
-          </Card>
-        </Group>
+        <SectionTile>
+          <TileLabel>Delay Chance</TileLabel>
+          <TileValue>{hasData ? `${100 - onTimePercent}%` : 'N/A'}</TileValue>
+        </SectionTile>
+        <SectionTile>
+          <TileLabel>Delay Average</TileLabel>
+          <TileValue>
+            {hasData
+              ? `${moment.duration(averageDelayTimeMs).minutes()} min`
+              : 'N/A'}
+          </TileValue>
+        </SectionTile>
       </Group>
     );
   };

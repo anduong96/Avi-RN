@@ -11,51 +11,47 @@ import type { ScrollViewProps, ViewProps } from 'react-native';
 import { WINDOW_HEIGHT, WINDOW_WIDTH } from '@gorhom/bottom-sheet';
 
 import { ENV } from '@app/env';
+import { FILLER } from '@app/constants';
 import { logger } from '@app/lib/logger';
+import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
 import { Group } from '@app/components/group';
-import { DOT_SEPARATOR } from '@app/constants';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
-import { Typography } from '@app/components/typography';
-import { FaIcon } from '@app/components/icons.fontawesome';
-import { SpaceVertical } from '@app/components/space.vertical';
 import { VerticalDivider } from '@app/components/divider.vertical';
 import { SaveFlightButton } from '@app/components/button.save.flight';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
 import { BlurredBackground } from '@app/components/blurred/background';
-import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
 import { ShareFlightButton } from '@app/components/button.share.flight';
-import { FlightArrivalIcon } from '@app/components/icon.flight.arrival';
 import { AlertFlightButton } from '@app/components/button.alerts.flight';
-import { FlightDepartureIcon } from '@app/components/icon.flight.departure';
 import { DebugNotificationFlightBtn } from '@app/components/button.debug.notification.flight';
-import {
-  transformFlightData,
-  useFlightStatusColor,
-} from '@app/lib/transformers/transform.flight.data';
 
+import { Meta } from './meta';
 import { TsaCard } from './tsa';
+import { Header } from './header';
 import { TravelMap } from './travel.map';
 import { ProgressBar } from './progress.bar';
+import { AirportCard } from './airport.card';
 import { AircraftCard } from './aircraft.card';
 import { EmissionCard } from './emission.card';
+import { FlightSectionEnum } from './constants';
+import { GateTimeCard } from './gate.time.card';
+import { SectionHeader } from './section.header';
 import { useFlight, useFlightID } from './context';
 import { PromptnessCompact } from './promptness.compact';
-import { useSectionColor } from './hooks/use.section.color';
-import { FlightDistanceCard } from './flight.distance.card';
-import { FlightDurationCard } from './flight.duration.card';
-import { FlightSection, FlightSectionEnum } from './constants';
+import { TimezoneChangeCard } from './timezone.change.card';
+import { useFlightDuration } from './hooks/use.flight.duration';
+import { useFlightDistance } from './hooks/use.flight.distance';
+import { Section, SectionTile, TileLabel, TileValue } from './styles';
 
 export const FlightContent: React.FC = () => {
-  const theme = useTheme();
   const flight = useFlight();
+  const theme = useTheme();
   const flightID = useFlightID();
-  const data = transformFlightData(flight);
+  const flightDuration = useFlightDuration();
+  const flightDistance = useFlightDistance();
   const container = React.useRef<ScrollView>(null);
   const scrollPositionY = useSharedValue(0);
-  const arrivalColor = useFlightStatusColor(data?.destination.status);
-  const departureColor = useFlightStatusColor(data?.origin.status);
   const metaSection = React.useRef<View>(null);
   const arrivalSection = React.useRef<View>(null);
   const departureSection = React.useRef<View>(null);
@@ -65,7 +61,6 @@ export const FlightContent: React.FC = () => {
   const inFlightSectionY = useSharedValue(0);
   const metaSectionY = useSharedValue(0);
   const metaSectionHeight = React.useRef(0);
-  const getSectionColor = useSectionColor();
   const metaMarginHorizontal = useSharedValue(theme.space.medium);
   const metaBorderRadius = useSharedValue(theme.borderRadius);
 
@@ -159,38 +154,19 @@ export const FlightContent: React.FC = () => {
             ref={metaSection}
             style={[
               {
-                borderRadius: metaBorderRadius,
-                margin: metaMarginHorizontal,
+                borderRadius: theme.borderRadius,
+                margin: theme.space.medium,
                 overflow: 'hidden',
                 padding: theme.space.medium,
+              },
+              {
+                borderRadius: metaBorderRadius,
+                margin: metaMarginHorizontal,
               },
             ]}
           >
             <BlurredBackground blurType="dark" />
-            <Group
-              direction="row"
-              gap="small"
-              horizontalAlign="center"
-              verticalAlign="center"
-            >
-              <Group direction="row" gap="tiny" verticalAlign="center">
-                <AirlineLogoAvatar
-                  airlineIata={flight.airlineIata}
-                  size={theme.typography.presets.h2.fontSize}
-                />
-                <Typography isBold type="p1">
-                  {flight.airlineIata}
-                  {` `}
-                  {flight.flightNumber}
-                </Typography>
-              </Group>
-              <Typography isBold type="p1">
-                {DOT_SEPARATOR}
-              </Typography>
-              <Typography isBold type="p1">
-                {data.origin.time.format('MMM D, YYYY')}
-              </Typography>
-            </Group>
+            <Meta />
           </Animated.View>
         </Group>
         <Group gap="large" paddingVertical="large">
@@ -198,38 +174,7 @@ export const FlightContent: React.FC = () => {
           /*                           Flight Overview Section                          */
           /* -------------------------------------------------------------------------- */}
           <Group direction="row" paddingHorizontal="medium">
-            <Group horizontalAlign="left">
-              <Typography type="massive">{flight.Origin.iata}</Typography>
-              <Typography color="secondary" type="p1">
-                {flight.Origin.cityName || flight.Origin.cityCode}
-              </Typography>
-              <SpaceVertical />
-              <Group direction="row" gap={'small'} isCentered>
-                <FlightDepartureIcon color={departureColor} />
-                <Typography color={departureColor} isBold type="h2">
-                  {data.origin.time.format('h:mm A')}
-                </Typography>
-              </Group>
-            </Group>
-            <Group flexGrow={1} horizontalAlign="center">
-              <SpaceVertical
-                size={theme.typography.presets.massive.fontSize / 2}
-              />
-              <FaIcon name="arrow-right" />
-            </Group>
-            <Group horizontalAlign="right">
-              <Typography type="massive">{flight.Destination.iata}</Typography>
-              <Typography color="secondary" type="p1">
-                {flight.Destination.cityName || flight.Destination.cityCode}
-              </Typography>
-              <SpaceVertical />
-              <Group direction="row" gap={'small'} isCentered>
-                <Typography color={arrivalColor} isBold type="h2">
-                  {data.destination.time.format('h:mm A')}
-                </Typography>
-                <FlightArrivalIcon color={arrivalColor} />
-              </Group>
-            </Group>
+            <Header />
           </Group>
           <HorizontalDivider size="medium" />
           {/* -------------------------------------------------------------------------- */
@@ -268,29 +213,34 @@ export const FlightContent: React.FC = () => {
               onLayout={handleSectionLayout(FlightSectionEnum.DEPARTURE)}
               ref={departureSection}
             >
-              <Group gap="medium">
-                <Group
-                  direction="row"
-                  gap="medium"
-                  paddingHorizontal="medium"
-                  verticalAlign="center"
-                >
-                  <FaIcon
-                    color={getSectionColor(FlightSectionEnum.DEPARTURE)}
-                    name={FlightSection[FlightSectionEnum.DEPARTURE].icon}
-                    size={15}
-                  />
-                  <Typography isBold type="h1">
-                    {FlightSection[FlightSectionEnum.DEPARTURE].label}
-                  </Typography>
-                </Group>
-                <Group paddingHorizontal="medium">
+              <Card
+                gap="medium"
+                title={<SectionHeader section={FlightSectionEnum.DEPARTURE} />}
+                type="transparent"
+              >
+                <Section>
+                  <AirportCard type="departure" />
+                </Section>
+                <Section direction="row" gap="tiny">
+                  <SectionTile>
+                    <TileLabel>Terminal</TileLabel>
+                    <TileValue>{flight.originTerminal ?? FILLER}</TileValue>
+                  </SectionTile>
+                  <SectionTile>
+                    <TileLabel>Gate</TileLabel>
+                    <TileValue>{flight.originGate ?? FILLER}</TileValue>
+                  </SectionTile>
+                </Section>
+                <Section>
+                  <GateTimeCard type="departure" />
+                </Section>
+                <Section>
                   <PromptnessCompact />
-                </Group>
-                <Group paddingHorizontal="medium">
+                </Section>
+                <Section>
                   <TsaCard />
-                </Group>
-              </Group>
+                </Section>
+              </Card>
             </View>
             {/* -------------------------------------------------------------------------- */
             /*                              In-Flight Section                             */
@@ -300,37 +250,28 @@ export const FlightContent: React.FC = () => {
               onLayout={handleSectionLayout(FlightSectionEnum.IN_FLIGHT)}
               ref={inFlightSection}
             >
-              <Group gap="medium">
-                <Group
-                  direction="row"
-                  gap="medium"
-                  paddingHorizontal="medium"
-                  verticalAlign="center"
-                >
-                  <FaIcon
-                    color={getSectionColor(FlightSectionEnum.IN_FLIGHT)}
-                    name={FlightSection[FlightSectionEnum.IN_FLIGHT].icon}
-                    size={15}
-                  />
-                  <Typography isBold type="h1">
-                    {FlightSection[FlightSectionEnum.IN_FLIGHT].label}
-                  </Typography>
-                </Group>
-                <Group direction="row" gap="tiny" paddingHorizontal="medium">
-                  <Group flexBasis={1} flexGrow={1} height={'100%'}>
-                    <FlightDurationCard />
-                  </Group>
-                  <Group flexBasis={1} flexGrow={1} height={'100%'}>
-                    <FlightDistanceCard />
-                  </Group>
-                </Group>
-                <Group paddingHorizontal="medium">
+              <Card
+                gap="medium"
+                title={<SectionHeader section={FlightSectionEnum.IN_FLIGHT} />}
+                type="transparent"
+              >
+                <Section direction="row" gap="tiny">
+                  <SectionTile>
+                    <TileLabel>Duration</TileLabel>
+                    <TileValue>{flightDuration}</TileValue>
+                  </SectionTile>
+                  <SectionTile>
+                    <TileLabel>Distance</TileLabel>
+                    <TileValue>{flightDistance}</TileValue>
+                  </SectionTile>
+                </Section>
+                <Section>
                   <AircraftCard />
-                </Group>
-                <Group paddingHorizontal="medium">
+                </Section>
+                <Section>
                   <EmissionCard />
-                </Group>
-              </Group>
+                </Section>
+              </Card>
             </View>
             {/* -------------------------------------------------------------------------- */
             /*                              Arrival Section                              */
@@ -340,23 +281,39 @@ export const FlightContent: React.FC = () => {
               onLayout={handleSectionLayout(FlightSectionEnum.ARRIVAL)}
               ref={arrivalSection}
             >
-              <Group gap="medium">
-                <Group
-                  direction="row"
-                  gap="medium"
-                  paddingHorizontal="medium"
-                  verticalAlign="center"
-                >
-                  <FaIcon
-                    color={getSectionColor(FlightSectionEnum.ARRIVAL)}
-                    name={FlightSection[FlightSectionEnum.ARRIVAL].icon}
-                    size={15}
-                  />
-                  <Typography isBold type="h1">
-                    {FlightSection[FlightSectionEnum.ARRIVAL].label}
-                  </Typography>
-                </Group>
-              </Group>
+              <Card
+                gap="medium"
+                title={<SectionHeader section={FlightSectionEnum.ARRIVAL} />}
+                type="transparent"
+              >
+                <Section>
+                  <AirportCard type="arrival" />
+                </Section>
+                <Section direction="row" gap="tiny">
+                  <SectionTile>
+                    <TileLabel>Terminal</TileLabel>
+                    <TileValue>
+                      {flight.destinationTerminal ?? FILLER}
+                    </TileValue>
+                  </SectionTile>
+                  <SectionTile>
+                    <TileLabel>Gate</TileLabel>
+                    <TileValue>{flight.destinationGate ?? FILLER}</TileValue>
+                  </SectionTile>
+                  <SectionTile>
+                    <TileLabel>Baggage</TileLabel>
+                    <TileValue>
+                      {flight.destinationBaggageClaim ?? FILLER}
+                    </TileValue>
+                  </SectionTile>
+                </Section>
+                <Section>
+                  <GateTimeCard type="arrival" />
+                </Section>
+                <Section>
+                  <TimezoneChangeCard />
+                </Section>
+              </Card>
             </View>
           </Group>
         </Group>

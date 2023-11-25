@@ -40,31 +40,27 @@ export const AircraftCard: React.FC = () => {
     <Container entering={FadeIn}>
       <Content>
         <LoadingOverlay isLoading={isLoading} />
-        {aircraft && (
-          <>
-            <Image
-              onError={handleError}
-              onLoadEnd={() => setImageLoaded(true)}
-              resizeMode={FastImage.resizeMode.cover}
-              source={{ uri: aircraft.imageURL! }}
-            />
-            <Meta>
-              <StatItem
-                align="center"
-                label="Tail Number"
-                value={aircraft.tailNumber}
-              />
-              <StatItem align="center" label="Model" value={aircraft.model} />
-              <StatItem
-                align="center"
-                label="Age"
-                value={moment
-                  .duration(moment().diff(aircraft.firstFlight))
-                  .humanize()}
-              />
-            </Meta>
-          </>
-        )}
+        <Image
+          onError={handleError}
+          onLoadEnd={() => setImageLoaded(true)}
+          resizeMode={FastImage.resizeMode.cover}
+          source={{ uri: aircraft.imageURL! }}
+        />
+        <Meta>
+          <StatItem
+            align="center"
+            label="Tail Number"
+            value={aircraft.tailNumber}
+          />
+          <StatItem align="center" label="Model" value={aircraft.model} />
+          <StatItem
+            align="center"
+            label="Age"
+            value={moment
+              .duration(moment().diff(aircraft.firstFlight))
+              .humanize()}
+          />
+        </Meta>
       </Content>
     </Container>
   );

@@ -75,7 +75,7 @@ export function transformFlightData(flight: FullFlightFragmentFragment): {
   );
 
   const destinationTime = moment(flight.estimatedGateArrival).utcOffset(
-    flight.Destination.timezone,
+    flight.destinationUtcHourOffset,
   );
 
   const dayDiff =

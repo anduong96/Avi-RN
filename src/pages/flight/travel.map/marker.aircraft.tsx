@@ -78,7 +78,11 @@ export const AircraftMarker: React.FC = () => {
           strokeWidth={lineWidth}
           zIndex={1}
         />
-        <MapMarker coordinate={coordinate} zIndex={2}>
+        <MapMarker
+          coordinate={coordinate}
+          style={{ elevation: 2, zIndex: 2 }}
+          zIndex={2}
+        >
           <Plane
             color={tinycolor(theme.pallette.danger).toHexString()}
             name="plane-engines"
@@ -117,7 +121,10 @@ export const AircraftMarker: React.FC = () => {
         strokeWidth={lineWidth + 2}
         zIndex={2}
       />
-      <MapMarker coordinate={closetCoordinate} zIndex={3}>
+      <MapMarker
+        coordinate={closetCoordinate}
+        style={{ elevation: 3, zIndex: 3 }}
+      >
         <Plane
           color={tinycolor(theme.pallette.active).toHexString()}
           name="plane-engines"

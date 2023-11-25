@@ -63,8 +63,8 @@ export function withStyled<
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       <Component
-        {...props}
         {...resolvedPropsObj}
+        {...props}
         ref={ref}
         style={[resolvedStyle, props?.style]}
       />

@@ -40,6 +40,7 @@ type Props = React.PropsWithChildren<{
   padding?: SpaceKeys | number;
   style?: StyleProp<ViewStyle>;
   title?: StringOrElement;
+  type?: 'filled' | 'outlined' | 'transparent';
 }>;
 
 export const Card: React.FC<Props> = ({
@@ -59,6 +60,7 @@ export const Card: React.FC<Props> = ({
   padding,
   style,
   title,
+  type = 'filled',
 }) => {
   const theme = useTheme();
   const isCollapsedDerived = useDerivedValue(() => isCollapsed, [isCollapsed]);
@@ -94,6 +96,7 @@ export const Card: React.FC<Props> = ({
           marginVertical={marginVertical}
           padding={padding}
           style={style}
+          type={type}
         >
           <LoadingOverlay isDark isLoading={isLoading} type="solid" />
           {children}
@@ -147,15 +150,23 @@ const Content = withStyled<
     | 'marginHorizontal'
     | 'marginVertical'
     | 'padding'
+    | 'type'
   >,
   typeof View
 >(View, (theme, props) => [
   props.isCentered && theme.presets.centered,
   props.hasShadow && theme.presets.shadows[200],
   {
-    backgroundColor: theme.pallette.card,
     borderRadius: theme.borderRadius,
     gap: theme.space.medium,
+  },
+  props.type === 'filled' && {
+    backgroundColor: theme.pallette.card,
+  },
+  props.type === 'outlined' && {
+    borderColor: theme.pallette.card,
+    borderStyle: 'solid',
+    borderWidth: theme.borderWidth,
   },
   props.direction && {
     flexDirection: props.direction,

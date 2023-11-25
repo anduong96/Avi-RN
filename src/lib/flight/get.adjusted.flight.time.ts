@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import type { Flight } from '@app/generated/server.gql';
 

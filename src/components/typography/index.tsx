@@ -11,6 +11,7 @@ import { withStyled } from '@app/lib/styled';
 type Props = {
   color?: 'active' | 'danger' | 'secondary' | 'warn' | string;
   isBold?: boolean;
+  isBoldest?: boolean;
   isCentered?: boolean;
   isThin?: boolean;
   lineHeight?: number;
@@ -21,6 +22,7 @@ type Props = {
 export const Typography: React.FC<Props> = ({
   color,
   isBold,
+  isBoldest,
   isCentered,
   isThin,
   lineHeight,
@@ -32,6 +34,7 @@ export const Typography: React.FC<Props> = ({
     <DisplayText
       color={color}
       isBold={isBold}
+      isBoldest={isBoldest}
       isCentered={isCentered}
       isThin={isThin}
       lineHeight={lineHeight}
@@ -58,6 +61,9 @@ const DisplayText = withStyled<Props, typeof Text>(Text, (theme, props) => [
   },
   props.isBold && {
     fontWeight: 'bold',
+  },
+  props.isBoldest && {
+    fontWeight: '900',
   },
   props.isCentered && {
     textAlign: 'center',

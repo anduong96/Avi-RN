@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
 
 import { isNil } from 'lodash';
 
-import { Card } from '@app/components/card';
-import { withStyled } from '@app/lib/styled';
+import { List } from '@app/components/list';
+import { Group } from '@app/components/group';
+import { Typography } from '@app/components/typography';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
 import { useMeasurementDisplay } from '@app/lib/hooks/use.measurement.display';
 
 import { useFlight } from './context';
+import { SectionTile, TileLabel } from './styles';
 
 export const EmissionCard: React.FC = () => {
   const flight = useFlight();
@@ -29,58 +30,24 @@ export const EmissionCard: React.FC = () => {
   }
 
   return (
-    <Card gap="medium" padding="medium">
-      <CardTitle>Emission</CardTitle>
-      <Content>
-        {[
+    <SectionTile>
+      <TileLabel>Emission</TileLabel>
+      <List
+        data={[
           ['Economy', economyEmission],
           ['Eco+', ecoEmission],
           ['Business Class', businessEmission],
           ['First Class', firstEmission],
-        ]
-          .filter(([, value]) => !isNil(value))
-          .map(([label, value], index) => (
-            <React.Fragment key={label}>
-              {index > 0 && <HorizontalDivider size="large" />}
-              <Item>
-                <Label>{label}</Label>
-                <Value>{value}</Value>
-              </Item>
-            </React.Fragment>
-          ))}
-      </Content>
-    </Card>
+        ]}
+        renderItem={([label, value]) => (
+          <Group direction="row" style={{ justifyContent: 'space-between' }}>
+            <Typography type="h3">{label}</Typography>
+            <Typography type="h3">{value}</Typography>
+          </Group>
+        )}
+        separator={() => <HorizontalDivider size="large" />}
+        style={{ width: '100%' }}
+      />
+    </SectionTile>
   );
 };
-
-const CardTitle = withStyled(Text, (theme) => [
-  theme.typography.presets.p2,
-  {
-    color: theme.pallette.textSecondary,
-  },
-]);
-
-const Content = withStyled(View, () => [{}]);
-
-const Item = withStyled(View, (theme) => [
-  {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space.medium,
-    justifyContent: 'space-between',
-  },
-]);
-
-const Label = withStyled(Text, (theme) => [
-  theme.typography.presets.h3,
-  {
-    color: theme.pallette.text,
-  },
-]);
-
-const Value = withStyled(Text, (theme) => [
-  theme.typography.presets.h3,
-  {
-    color: theme.pallette.text,
-  },
-]);

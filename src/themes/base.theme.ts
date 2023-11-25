@@ -76,6 +76,10 @@ const borderWidth = 2;
 
 const typography = {
   presets: {
+    h0: makeStyle({
+      fontSize: 50,
+      lineHeight: 60,
+    }),
     h1: makeStyle({
       fontSize: 35,
       lineHeight: 41,

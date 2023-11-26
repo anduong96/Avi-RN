@@ -5,6 +5,7 @@ import moment from 'moment-timezone';
 
 import { format } from '@app/lib/format';
 import { Group } from '@app/components/group';
+import { useMinuteRefresh } from '@app/lib/hooks/use.refresh.interval';
 
 import { useFlight } from './context';
 import {
@@ -17,11 +18,16 @@ import {
 } from './styles';
 
 export const TimezoneChangeCard: React.FC = () => {
+  useMinuteRefresh();
   const flight = useFlight();
   const { destinationUtcHourOffset, originUtcHourOffset } = flight;
   const hourChanges = originUtcHourOffset - destinationUtcHourOffset;
   const originCity = flight.Origin.cityName;
   const destinationCity = flight.Destination.cityName;
+
+  if (!hourChanges) {
+    return null;
+  }
 
   if (hourChanges === 0) {
     return null;

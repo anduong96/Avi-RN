@@ -36,3 +36,28 @@ query AirportTsaWaitTime($airportIata: String!) {
     maxWaitMinute
   }
 }
+
+query AirportWeather(
+  $hour: Int!
+  $date: Int!
+  $month: Int!
+  $year: Int!
+  $airportIata: String!
+) {
+  airportWeather(
+    hour: $hour
+    date: $date
+    month: $month
+    year: $year
+    airportIata: $airportIata
+  ) {
+    id
+    airportIata
+    airTemperatureCelsius
+    precipitationAmountMillimeter
+    windSpeedMeterPerSecond
+    windFromDirectionDegrees
+    status
+    iconURL
+  }
+}

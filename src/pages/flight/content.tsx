@@ -40,6 +40,7 @@ import { SectionHeader } from './section.header';
 import { useFlight, useFlightID } from './context';
 import { PromptnessCompact } from './promptness.compact';
 import { TimezoneChangeCard } from './timezone.change.card';
+import { AirportWeatherCard } from './airport.weather.card';
 import { useFlightDuration } from './hooks/use.flight.duration';
 import { useFlightDistance } from './hooks/use.flight.distance';
 import { Section, SectionTile, TileLabel, TileValue } from './styles';
@@ -240,6 +241,9 @@ export const FlightContent: React.FC = () => {
                 <Section>
                   <TsaCard />
                 </Section>
+                <Section>
+                  <AirportWeatherCard type="departure" />
+                </Section>
               </Card>
             </View>
             {/* -------------------------------------------------------------------------- */
@@ -312,6 +316,9 @@ export const FlightContent: React.FC = () => {
                 </Section>
                 <Section>
                   <TimezoneChangeCard />
+                </Section>
+                <Section>
+                  <AirportWeatherCard type="departure" />
                 </Section>
               </Card>
             </View>

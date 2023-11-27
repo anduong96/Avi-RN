@@ -113,6 +113,24 @@ export type AirportTsaWaitTime = {
   updatedAt: Scalars['DateTimeISO']['output'];
 };
 
+export type AirportWeather = {
+  __typename?: 'AirportWeather';
+  airTemperatureCelsius: Scalars['Int']['output'];
+  airportIata: Scalars['String']['output'];
+  createdAt: Scalars['DateTimeISO']['output'];
+  date: Scalars['Int']['output'];
+  hour: Scalars['Int']['output'];
+  iconURL: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  month: Scalars['Int']['output'];
+  precipitationAmountMillimeter: Scalars['Int']['output'];
+  status: Scalars['String']['output'];
+  updatedAt: Scalars['DateTimeISO']['output'];
+  windFromDirectionDegrees: Scalars['Int']['output'];
+  windSpeedMeterPerSecond: Scalars['Int']['output'];
+  year: Scalars['Int']['output'];
+};
+
 export const CheckPointStatus = {
   CLOSE: 'CLOSE',
   OPEN: 'OPEN'
@@ -271,6 +289,7 @@ export type Query = {
   airport: Airport;
   airportTsaCheckpointsStatus?: Maybe<Array<AirportTsaCheckPointTerminal>>;
   airportTsaWaitTime?: Maybe<Array<AirportTsaWaitTime>>;
+  airportWeather?: Maybe<AirportWeather>;
   flight: Flight;
   flightPromptness: FlightPromptness;
   flights: Array<Flight>;
@@ -315,6 +334,15 @@ export type QueryAirportTsaWaitTimeArgs = {
 };
 
 
+export type QueryAirportWeatherArgs = {
+  airportIata: Scalars['String']['input'];
+  date: Scalars['Int']['input'];
+  hour: Scalars['Int']['input'];
+  month: Scalars['Int']['input'];
+  year: Scalars['Int']['input'];
+};
+
+
 export type QueryFlightArgs = {
   flightID: Scalars['String']['input'];
 };
@@ -327,10 +355,10 @@ export type QueryFlightPromptnessArgs = {
 
 export type QueryFlightsArgs = {
   airlineIata: Scalars['String']['input'];
-  date: Scalars['Float']['input'];
+  date: Scalars['Int']['input'];
   flightNumber: Scalars['String']['input'];
-  month: Scalars['Float']['input'];
-  year: Scalars['Float']['input'];
+  month: Scalars['Int']['input'];
+  year: Scalars['Int']['input'];
 };
 
 
@@ -423,6 +451,17 @@ export type AirportTsaWaitTimeQueryVariables = Exact<{
 
 export type AirportTsaWaitTimeQuery = { __typename?: 'Query', airportTsaWaitTime?: Array<{ __typename?: 'AirportTsaWaitTime', dayOfWeek: number, hour: number, maxWaitMinute: number }> | null };
 
+export type AirportWeatherQueryVariables = Exact<{
+  hour: Scalars['Int']['input'];
+  date: Scalars['Int']['input'];
+  month: Scalars['Int']['input'];
+  year: Scalars['Int']['input'];
+  airportIata: Scalars['String']['input'];
+}>;
+
+
+export type AirportWeatherQuery = { __typename?: 'Query', airportWeather?: { __typename?: 'AirportWeather', id: string, airportIata: string, airTemperatureCelsius: number, precipitationAmountMillimeter: number, windSpeedMeterPerSecond: number, windFromDirectionDegrees: number, status: string, iconURL: string } | null };
+
 export type DebugFlightNotificationMutationVariables = Exact<{
   flightID: Scalars['String']['input'];
   title: Scalars['String']['input'];
@@ -438,9 +477,9 @@ export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, ai
 export type FindFlightsQueryVariables = Exact<{
   airlineIata: Scalars['String']['input'];
   flightNumber: Scalars['String']['input'];
-  year: Scalars['Float']['input'];
-  month: Scalars['Float']['input'];
-  date: Scalars['Float']['input'];
+  year: Scalars['Int']['input'];
+  month: Scalars['Int']['input'];
+  date: Scalars['Int']['input'];
 }>;
 
 
@@ -930,6 +969,66 @@ export type AirportTsaWaitTimeQueryResult = Apollo.QueryResult<AirportTsaWaitTim
 export function refetchAirportTsaWaitTimeQuery(variables: AirportTsaWaitTimeQueryVariables) {
       return { query: AirportTsaWaitTimeDocument, variables: variables }
     }
+export const AirportWeatherDocument = gql`
+    query AirportWeather($hour: Int!, $date: Int!, $month: Int!, $year: Int!, $airportIata: String!) {
+  airportWeather(
+    hour: $hour
+    date: $date
+    month: $month
+    year: $year
+    airportIata: $airportIata
+  ) {
+    id
+    airportIata
+    airTemperatureCelsius
+    precipitationAmountMillimeter
+    windSpeedMeterPerSecond
+    windFromDirectionDegrees
+    status
+    iconURL
+  }
+}
+    `;
+
+/**
+ * __useAirportWeatherQuery__
+ *
+ * To run a query within a React component, call `useAirportWeatherQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAirportWeatherQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAirportWeatherQuery({
+ *   variables: {
+ *      hour: // value for 'hour'
+ *      date: // value for 'date'
+ *      month: // value for 'month'
+ *      year: // value for 'year'
+ *      airportIata: // value for 'airportIata'
+ *   },
+ * });
+ */
+export function useAirportWeatherQuery(baseOptions: Apollo.QueryHookOptions<AirportWeatherQuery, AirportWeatherQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AirportWeatherQuery, AirportWeatherQueryVariables>(AirportWeatherDocument, options);
+      }
+export function useAirportWeatherLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AirportWeatherQuery, AirportWeatherQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AirportWeatherQuery, AirportWeatherQueryVariables>(AirportWeatherDocument, options);
+        }
+export function useAirportWeatherSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AirportWeatherQuery, AirportWeatherQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AirportWeatherQuery, AirportWeatherQueryVariables>(AirportWeatherDocument, options);
+        }
+export type AirportWeatherQueryHookResult = ReturnType<typeof useAirportWeatherQuery>;
+export type AirportWeatherLazyQueryHookResult = ReturnType<typeof useAirportWeatherLazyQuery>;
+export type AirportWeatherSuspenseQueryHookResult = ReturnType<typeof useAirportWeatherSuspenseQuery>;
+export type AirportWeatherQueryResult = Apollo.QueryResult<AirportWeatherQuery, AirportWeatherQueryVariables>;
+export function refetchAirportWeatherQuery(variables: AirportWeatherQueryVariables) {
+      return { query: AirportWeatherDocument, variables: variables }
+    }
 export const DebugFlightNotificationDocument = gql`
     mutation DebugFlightNotification($flightID: String!, $title: String!, $body: String!, $data: JSON) {
   _sendFlightNotification(
@@ -970,7 +1069,7 @@ export type DebugFlightNotificationMutationHookResult = ReturnType<typeof useDeb
 export type DebugFlightNotificationMutationResult = Apollo.MutationResult<DebugFlightNotificationMutation>;
 export type DebugFlightNotificationMutationOptions = Apollo.BaseMutationOptions<DebugFlightNotificationMutation, DebugFlightNotificationMutationVariables>;
 export const FindFlightsDocument = gql`
-    query FindFlights($airlineIata: String!, $flightNumber: String!, $year: Float!, $month: Float!, $date: Float!) {
+    query FindFlights($airlineIata: String!, $flightNumber: String!, $year: Int!, $month: Int!, $date: Int!) {
   flights(
     airlineIata: $airlineIata
     flightNumber: $flightNumber

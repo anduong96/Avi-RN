@@ -5,7 +5,6 @@ import type { StyleProp, ViewStyle } from 'react-native';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { useExitPage } from '@app/lib/hooks/use.exit.page';
 
 import { FaIcon } from '../icons.fontawesome';
 
@@ -26,8 +25,6 @@ export const CloseBtn: React.FC<Props> = ({
   style,
   withFeedback = true,
 }) => {
-  const exit = useExitPage();
-
   const handlePress = () => {
     if (withFeedback) {
       vibrate('effectClick');
@@ -35,8 +32,6 @@ export const CloseBtn: React.FC<Props> = ({
 
     if (onPress) {
       onPress();
-    } else {
-      exit();
     }
   };
 

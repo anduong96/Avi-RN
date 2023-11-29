@@ -8,6 +8,7 @@ import type { FlightStackParams } from '@app/navigation/flight.stack';
 
 import { CloseBtn } from '@app/components/btn.close';
 import { useFlightQuery } from '@app/generated/server.gql';
+import { useExitPage } from '@app/lib/hooks/use.exit.page';
 import { PageContainer } from '@app/components/page.container';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 
@@ -18,6 +19,7 @@ import { ExitToHomeBtn } from './exit.to.home.btn';
 type Route = RouteProp<FlightStackParams, 'Flight'>;
 
 export const FlightPage: React.FC = () => {
+  const exit = useExitPage();
   const route = useRoute<Route>();
   const flightID = route.params.flightID;
   const isFromSearch = route.params.isFromSearch;
@@ -30,7 +32,7 @@ export const FlightPage: React.FC = () => {
         <LoadingOverlay isDark isLoading={flightResponse.loading} />
         {flight && <FlightContent />}
         {isFromSearch && <ExitToHomeBtn />}
-        <CloseBtn isAbsolute />
+        <CloseBtn isAbsolute onPress={exit} />
       </FlightContext.Provider>
     </PageContainer>
   );

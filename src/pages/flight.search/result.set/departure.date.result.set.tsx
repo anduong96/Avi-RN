@@ -135,6 +135,9 @@ const CalendarContainer = withStyled(
       right: 0,
       top: 0,
     },
+    !theme.isDark && {
+      backgroundColor: theme.pallette.background,
+    },
   ],
   {
     entering: FadeInDown,
@@ -150,6 +153,11 @@ const DismissBtn = withStyled(TouchableOpacity, (theme) => [
       .toRgbString(),
     height: 50,
     width: '100%',
+  },
+  !theme.isDark && {
+    backgroundColor: tinycolor(theme.pallette.background)
+      .setAlpha(0.95)
+      .toRgbString(),
   },
 ]);
 

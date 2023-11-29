@@ -51,7 +51,7 @@ const Container = withStyled<
 >(Animated.View, (theme, props) => [
   theme.presets.centered,
   props.hasShadow && theme.presets.shadows[100],
-  props.hasShadow && { shadowColor: props.color },
+  props.hasShadow && { elevation: 10, shadowColor: props.color },
   {
     backgroundColor: props.color,
     borderRadius: theme.borderRadius,

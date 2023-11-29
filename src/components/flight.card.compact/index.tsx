@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import type { Flight } from '@app/generated/server.gql';
 import type { FindFlightsQuery } from '@app/generated/server.gql';
@@ -8,6 +8,9 @@ import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
 
+import type { ShadowProps } from '../shadow';
+
+import { Shadow } from '../shadow';
 import { FaIcon } from '../icons.fontawesome';
 import { DividerDashed } from '../divider.dashed';
 
@@ -27,45 +30,64 @@ export const FlightCardCompact: React.FC<Props> = ({ flight }) => {
         : theme.pallette.danger;
 
   return (
-    <Container>
-      <Main>
-        <FlightPoint type="origin">
-          <AirportIata>{flight.Origin.iata}</AirportIata>
-          <AirportCity>{flight.Origin.cityName}</AirportCity>
-        </FlightPoint>
-        <DividerContainer>
-          <DividerDashed />
-          <ActiveDivider progressPercent={flight.progressPercent} />
-        </DividerContainer>
-        <FlightPoint type="destination">
-          <AirportIata>{flight.Destination.iata}</AirportIata>
-          <AirportCity>{flight.Destination.cityName}</AirportCity>
-        </FlightPoint>
-      </Main>
-      <Footer>
-        <Movement>
-          <MovementIconContainer>
+    <ShadowWrapper>
+      <Container>
+        <Main>
+          <FlightPoint type="origin">
+            <AirportIata>{flight.Origin.iata}</AirportIata>
+            <AirportCity>{flight.Origin.cityName}</AirportCity>
+          </FlightPoint>
+          <DividerContainer>
+            <DividerDashed />
+            <ActiveDivider progressPercent={flight.progressPercent} />
+          </DividerContainer>
+          <FlightPoint type="destination">
+            <AirportIata>{flight.Destination.iata}</AirportIata>
+            <AirportCity>{flight.Destination.cityName}</AirportCity>
+          </FlightPoint>
+        </Main>
+        <Footer>
+          <Movement>
+            <MovementIconContainer>
+              <FaIcon
+                color={statusColor}
+                name="circle-arrow-up-right"
+                size={20}
+                solid
+              />
+            </MovementIconContainer>
+            <MovementText color={statusColor}>
+              {departure.format('LT')}
+            </MovementText>
+          </Movement>
+          <Actions>
             <FaIcon
-              color={statusColor}
-              name="circle-arrow-up-right"
+              color={theme.pallette.active}
+              name="arrow-right"
               size={20}
-              solid
             />
-          </MovementIconContainer>
-          <MovementText color={statusColor}>
-            {departure.format('LT')}
-          </MovementText>
-        </Movement>
-        <Actions>
-          <FaIcon color={theme.pallette.active} name="arrow-right" size={20} />
-        </Actions>
-      </Footer>
-    </Container>
+          </Actions>
+        </Footer>
+      </Container>
+    </ShadowWrapper>
   );
 };
 
+const ShadowWrapper = withStyled(
+  Shadow,
+  (theme) => [
+    {
+      borderRadius: theme.borderRadius,
+    },
+  ],
+  (theme): ShadowProps => ({
+    disabled: theme.isDark,
+    distance: 1,
+    level: 2,
+  }),
+);
+
 const Container = withStyled(View, (theme) => [
-  theme.presets.shadows[200],
   {
     backgroundColor: theme.pallette.card,
     borderRadius: theme.borderRadius,
@@ -73,13 +95,20 @@ const Container = withStyled(View, (theme) => [
     paddingHorizontal: theme.space.medium,
     paddingVertical: theme.space.medium,
   },
+  !theme.isDark && [
+    {
+      backgroundColor: theme.pallette.background,
+      borderColor: theme.pallette.borderColor,
+      borderStyle: 'solid',
+      borderWidth: StyleSheet.hairlineWidth,
+    },
+  ],
 ]);
 
 const Main = withStyled(View, (theme) => [
   {
     flexDirection: 'row',
     gap: theme.space.medium,
-    overflow: 'hidden',
   },
 ]);
 

@@ -2,8 +2,10 @@ import * as React from 'react';
 
 import tinycolor from 'tinycolor2';
 
-import { IS_IOS } from '@app/lib/platform';
+import type { ShadowProps } from '@app/components/shadow';
+
 import { withStyled } from '@app/lib/styled';
+import { Shadow } from '@app/components/shadow';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { AnimatedTouchable } from '@app/components/animated.touchable';
@@ -18,23 +20,34 @@ export const AddFlightBtn: React.FC = () => {
   };
 
   return (
-    <Btn activeOpacity={0.8} onPress={handlePress}>
-      <Icon name="plus" size={30} />
-    </Btn>
+    <ShadowWrapper>
+      <Btn activeOpacity={0.8} onPress={handlePress}>
+        <Icon name="plus" size={30} />
+      </Btn>
+    </ShadowWrapper>
   );
 };
 
+const ShadowWrapper = withStyled(
+  Shadow,
+  (theme) => [
+    {
+      borderRadius: theme.roundRadius,
+    },
+  ],
+  (theme): ShadowProps => ({
+    color: tinycolor(theme.pallette.primary).darken(10).toRgbString(),
+    level: 1,
+    opacity: 0.7,
+  }),
+);
+
 const Btn = withStyled(AnimatedTouchable, (theme) => [
-  theme.presets.shadows[100],
   {
     aspectRatio: 1,
     backgroundColor: theme.pallette.primary,
     borderRadius: theme.roundRadius,
     padding: theme.space.medium,
-    shadowColor: tinycolor(theme.pallette.primary)
-      .darken(IS_IOS ? 15 : 35)
-      .toHexString(),
-    shadowOpacity: 1,
   },
 ]);
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { FlatList, Pressable, View } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
-import { FlatList, TouchableOpacity, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -70,7 +70,6 @@ export const FlightsResultSet: React.FC = () => {
 
 const Empty = withStyled(View, (theme) => [
   theme.presets.centered,
-  theme.presets.shadows[100],
   {
     backgroundColor: theme.pallette.grey[50],
     borderRadius: theme.borderRadius,
@@ -79,8 +78,9 @@ const Empty = withStyled(View, (theme) => [
   },
 ]);
 
-const Item = withStyled(TouchableOpacity, (theme) => [
+const Item = withStyled(Pressable, (theme) => [
   {
     paddingHorizontal: theme.space.medium,
+    paddingVertical: theme.space.medium / 2,
   },
 ]);

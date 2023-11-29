@@ -29,7 +29,7 @@ export const ScrollUp: React.FC<Props> = ({
       isAbsolute={isAbsolute}
     >
       <Btn onPress={onScrollUp}>
-        <BlurredBackground blurType="light" />
+        <BlurredBackground />
         <FaIcon name="arrow-up-to-line" size={25} />
       </Btn>
     </Container>

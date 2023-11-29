@@ -17,9 +17,11 @@ export const AirportCard: React.FC<Props> = ({ type }) => {
   return (
     <SectionTile>
       <TileLabel>Departure Airport</TileLabel>
-      <Group gap="tiny" isCentered>
-        <Typography type="h1">{airport.name}</Typography>
-        <Typography type="h4">
+      <Group gap="tiny">
+        <Typography isCentered type="h1">
+          {airport.name}
+        </Typography>
+        <Typography isCentered type="h4">
           {airport.cityName}, {airport.countryCode}
         </Typography>
       </Group>

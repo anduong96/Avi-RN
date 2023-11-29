@@ -5,6 +5,7 @@ import { withStyled } from '@app/lib/styled';
 import { Avatar } from '@app/components/avatar';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { CloseBtn } from '@app/components/btn.close';
 import { ScrollUp } from '@app/components/scroll.up';
 import { useExitPage } from '@app/lib/hooks/use.exit.page';
@@ -19,6 +20,7 @@ import { SettingsCard } from './settings.card';
 import { AccountConnectCard } from './account.connect.card';
 
 export const ProfilePage: React.FC = () => {
+  const theme = useTheme();
   const exit = useExitPage();
   const content = React.useRef<ScrollView>(null);
   const scrollPosition = useScrollPosition();
@@ -43,7 +45,7 @@ export const ProfilePage: React.FC = () => {
           <SignOutBtn />
         </SignOut>
         <AvatarContainer>
-          <Avatar hasShadow size={150} />
+          <Avatar hasShadow={theme.isDark} size={150} />
         </AvatarContainer>
         <SpaceVertical size="medium" />
         <Section>

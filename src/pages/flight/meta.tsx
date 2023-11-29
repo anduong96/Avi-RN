@@ -43,12 +43,6 @@ export const Meta: React.FC = () => {
       <Typography isBold type="p1">
         {data.origin.time.format(dateFormat)}
       </Typography>
-      <Typography isBold type="p1">
-        {DOT_SEPARATOR}
-      </Typography>
-      <Typography isBold type="p1">
-        {data.origin.time.format('ddd')}
-      </Typography>
     </Group>
   );
 };

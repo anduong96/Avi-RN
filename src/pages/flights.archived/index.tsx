@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Pressable } from 'react-native';
 import Animated, { SlideInLeft } from 'react-native-reanimated';
 
 import { FlashList } from '@shopify/flash-list';
@@ -42,7 +42,7 @@ export const ArchivedFlightsPage: React.FC = () => {
         refreshing={response.loading}
         renderItem={(entry) => {
           return (
-            <TouchableOpacity onPress={() => handlePress(entry.item.flightID)}>
+            <Pressable onPress={() => handlePress(entry.item.flightID)}>
               <ListItem
                 entering={
                   entry.index < 10
@@ -52,7 +52,7 @@ export const ArchivedFlightsPage: React.FC = () => {
               >
                 <FlightCard value={entry.item} />
               </ListItem>
-            </TouchableOpacity>
+            </Pressable>
           );
         }}
       />

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import type {
   Flight,
@@ -13,6 +13,9 @@ import {
   useFlightStatusColor,
 } from '@app/lib/transformers/transform.flight.data';
 
+import type { ShadowProps } from '../shadow';
+
+import { Shadow } from '../shadow';
 import { Typography } from '../typography';
 import { FaIcon } from '../icons.fontawesome';
 import { DividerDashed } from '../divider.dashed';
@@ -28,67 +31,90 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
   const departureStatusColor = useFlightStatusColor(data.origin.status);
 
   return (
-    <Container>
-      <Header>
-        <AirlineContainer>
-          <AirlineLogoAvatar airlineIata={Flight.airlineIata} size={25} />
-          <AirlineFlightNumber>
-            {Flight.airlineIata} {Flight.flightNumber}
-          </AirlineFlightNumber>
-        </AirlineContainer>
-        <Time>
-          <TimeText color="secondary" isBold>
-            {departureTime.fromNow()}
-          </TimeText>
-          <TimeText isBold>{DOT_SEPARATOR}</TimeText>
-          <TimeText>{departureTime.format('MMM D')}</TimeText>
-        </Time>
-      </Header>
-      <Body>
-        <FlightPoint type="origin">
-          <AirportIata>{Flight.Origin.iata}</AirportIata>
-          <AirportCity>{Flight.Origin.cityName}</AirportCity>
-        </FlightPoint>
-        <DividerContainer>
-          <DividerDashed />
-          <ActiveDivider progressPercent={Flight.progressPercent} />
-        </DividerContainer>
-        <FlightPoint type="destination">
-          <AirportIata style={{ textAlign: 'right' }}>
-            {Flight.Destination.iata}
-          </AirportIata>
-          <AirportCity style={{ textAlign: 'right' }}>
-            {Flight.Destination.cityName}
-          </AirportCity>
-        </FlightPoint>
-      </Body>
-      <Footer>
-        <Movement>
-          <MovementIconContainer>
-            <FaIcon
-              color={departureStatusColor}
-              name="circle-arrow-up-right"
-              size={20}
-            />
-          </MovementIconContainer>
-          <MovementText color={departureStatusColor}>
-            {departureTime.format('LT')}
-          </MovementText>
-        </Movement>
-      </Footer>
-    </Container>
+    <ShadowWrapper>
+      <Container>
+        <Header>
+          <AirlineContainer>
+            <AirlineLogoAvatar airlineIata={Flight.airlineIata} size={25} />
+            <AirlineFlightNumber>
+              {Flight.airlineIata} {Flight.flightNumber}
+            </AirlineFlightNumber>
+          </AirlineContainer>
+          <Time>
+            <TimeText color="secondary" isBold>
+              {departureTime.fromNow()}
+            </TimeText>
+            <TimeText isBold>{DOT_SEPARATOR}</TimeText>
+            <TimeText>{departureTime.format('MMM D')}</TimeText>
+          </Time>
+        </Header>
+        <Body>
+          <FlightPoint type="origin">
+            <AirportIata>{Flight.Origin.iata}</AirportIata>
+            <AirportCity>{Flight.Origin.cityName}</AirportCity>
+          </FlightPoint>
+          <DividerContainer>
+            <DividerDashed />
+            <ActiveDivider progressPercent={Flight.progressPercent} />
+          </DividerContainer>
+          <FlightPoint type="destination">
+            <AirportIata style={{ textAlign: 'right' }}>
+              {Flight.Destination.iata}
+            </AirportIata>
+            <AirportCity style={{ textAlign: 'right' }}>
+              {Flight.Destination.cityName}
+            </AirportCity>
+          </FlightPoint>
+        </Body>
+        <Footer>
+          <Movement>
+            <MovementIconContainer>
+              <FaIcon
+                color={departureStatusColor}
+                name="circle-arrow-up-right"
+                size={20}
+              />
+            </MovementIconContainer>
+            <MovementText color={departureStatusColor}>
+              {departureTime.format('LT')}
+            </MovementText>
+          </Movement>
+        </Footer>
+      </Container>
+    </ShadowWrapper>
   );
 };
 
+const ShadowWrapper = withStyled(
+  Shadow,
+  (theme) => [
+    {
+      borderRadius: theme.borderRadius,
+    },
+  ],
+  (theme): ShadowProps => ({
+    disabled: theme.isDark,
+    distance: 1,
+    level: 2,
+  }),
+);
+
 const Container = withStyled(View, (theme) => [
-  theme.presets.shadows[200],
   {
     backgroundColor: theme.pallette.grey[50],
     borderRadius: theme.borderRadius,
     gap: theme.space.small,
     paddingHorizontal: theme.space.medium,
-    paddingVertical: theme.space.small,
+    paddingVertical: theme.space.medium,
   },
+  !theme.isDark && [
+    {
+      backgroundColor: theme.pallette.background,
+      borderColor: theme.pallette.borderColor,
+      borderStyle: 'solid',
+      borderWidth: StyleSheet.hairlineWidth,
+    },
+  ],
 ]);
 
 const Header = withStyled(View, (theme) => [

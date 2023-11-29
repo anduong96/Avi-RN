@@ -60,7 +60,7 @@ const shadows = {
     shadowRadius: 5,
   }),
   [200]: makeStyle({
-    elevation: 5,
+    elevation: 3,
     shadowColor: BLACK,
     shadowOffset: {
       height: 4,

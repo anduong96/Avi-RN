@@ -49,7 +49,7 @@ export const ExitToHomeBtn: React.FC = () => {
 const Container = withStyled(View, (theme) => [
   theme.presets.centered,
   {
-    bottom: theme.insets.bottom,
+    bottom: theme.insets.bottom || theme.space.medium,
     left: 0,
     position: 'absolute',
     right: 0,

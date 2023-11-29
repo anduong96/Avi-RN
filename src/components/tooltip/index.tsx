@@ -70,7 +70,6 @@ const Container = withStyled(AnimatedBlurredView, () => ({
 const Content = withStyled(View, (theme) => ({
   backgroundColor: theme.pallette.background,
   borderRadius: theme.borderRadius,
-  padding: theme.space.medium,
-  ...theme.presets.shadows[200],
   maxWidth: 200,
+  padding: theme.space.medium,
 }));

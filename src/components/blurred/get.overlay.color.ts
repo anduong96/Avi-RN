@@ -22,9 +22,9 @@ export function useOverlayColor(blurType: BlurViewProps['blurType']) {
 
   switch (blurType) {
     case 'light':
-      return tinycolor(theme.pallette.grey[500]).setAlpha(0.5).toRgbString();
+      return tinycolor(theme.pallette.grey[50]).setAlpha(0.5).toRgbString();
     case 'xlight':
-      return tinycolor(theme.pallette.grey[900]).setAlpha(0.5).toRgbString();
+      return tinycolor(theme.pallette.grey[50]).setAlpha(0.7).toRgbString();
     case 'dark':
       return tinycolor(theme.pallette.grey[100]).setAlpha(0.5).toRgbString();
     default:

@@ -77,4 +77,10 @@ const Rounded = withStyled(View, (theme) => [
     borderRadius: theme.roundRadius,
     overflow: 'hidden',
   },
+  !theme.isDark && [
+    {
+      borderColor: theme.pallette.borderColor,
+      borderWidth: StyleSheet.hairlineWidth,
+    },
+  ],
 ]);

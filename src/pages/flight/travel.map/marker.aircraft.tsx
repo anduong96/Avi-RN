@@ -26,7 +26,7 @@ export const AircraftMarker: React.FC = () => {
     flight.Destination,
     position,
   );
-  const lineWidth = IS_ANDROID ? 1 : 1;
+  const lineWidth = IS_ANDROID ? 3 : 1;
   const lineDashPattern = IS_ANDROID ? [lineWidth, lineWidth + 4] : [lineWidth];
   const lineColor = theme.pallette.grey[600];
   const completedLineColor = theme.pallette.primary;

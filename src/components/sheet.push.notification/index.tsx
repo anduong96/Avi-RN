@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
-import tinycolor from 'tinycolor2';
 import messaging from '@react-native-firebase/messaging';
 import { AuthorizationStatus } from '@notifee/react-native';
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
@@ -14,10 +13,12 @@ import { withStyled } from '@app/lib/styled';
 import { Shake } from '@app/lib/animated/shake';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useGlobalState } from '@app/state/global';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { useAppActive } from '@app/lib/hooks/use.app.state';
 import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 
 import { Button } from '../button';
+import { Shadow } from '../shadow';
 import { ListItem } from '../list.item';
 import { usePrompt } from '../prompt/use.prompt';
 import { SpaceVertical } from '../space.vertical';
@@ -26,6 +27,7 @@ import { BlurredSheetBackdrop } from '../sheet.backdrop.blurred';
 export const PushNotificationSheet: React.FC = () => {
   const sheet = React.useRef<BottomSheetModal>(null);
   const prompt = usePrompt();
+  const theme = useTheme();
   const hasPushAsked = useGlobalState((s) => s._hasPushAsked);
   const status = useGlobalState((s) => s.pushPermission);
   const userFlights = useUserHasFlightsQuery();
@@ -139,16 +141,23 @@ export const PushNotificationSheet: React.FC = () => {
           </Body>
           <SpaceVertical size="small" />
           <Footer>
-            <EnableBtn
-              isBold
-              isLoading={loading}
-              isSolid
-              onPress={handleEnable}
-              size="large"
-              type="primary"
+            <Shadow
+              color={theme.pallette.primary}
+              darken={30}
+              level={2}
+              style={{ borderRadius: theme.roundRadius }}
             >
-              Enable
-            </EnableBtn>
+              <EnableBtn
+                isBold
+                isLoading={loading}
+                isSolid
+                onPress={handleEnable}
+                size="large"
+                type="primary"
+              >
+                Enable
+              </EnableBtn>
+            </Shadow>
             <DismissBtn
               disabled={loading}
               isBold
@@ -168,7 +177,7 @@ const Container = withStyled(BottomSheetView, (theme) => [
   {
     flexGrow: 1,
     justifyContent: 'flex-end',
-    paddingBottom: theme.insets.bottom || theme.space.medium,
+    paddingBottom: theme.insets.bottom || theme.space.large,
     paddingHorizontal: theme.space.medium,
     paddingTop: theme.insets.top || theme.space.medium,
   },
@@ -180,7 +189,7 @@ const Content = withStyled(View, (theme) => [
     borderRadius: theme.borderRadius,
     gap: theme.space.large,
     padding: theme.space.large,
-    paddingBottom: theme.insets.bottom,
+    paddingBottom: theme.insets.bottom || theme.space.large,
   },
 ]);
 
@@ -203,13 +212,7 @@ const Footer = withStyled(View, (theme) => [
 
 const Title = withStyled(Text, (theme) => [theme.typography.presets.h1]);
 
-const EnableBtn = withStyled(Button, (theme) => [
-  theme.presets.shadows[200],
-  {
-    shadowColor: tinycolor(theme.pallette.primary).darken(30).toHexString(),
-    shadowOpacity: 1,
-  },
-]);
+const EnableBtn = withStyled(Button);
 
 const DismissBtn = withStyled(
   Button,

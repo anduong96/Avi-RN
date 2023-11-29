@@ -81,13 +81,13 @@ export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
           />
           <Group direction="row" horizontalAlign="left" verticalAlign="top">
             <Typography isBold type="massive">
-              {isAmericanSystem && temperature
-                ? celsiusToFahrenheit(temperature)
+              {isAmericanSystem
+                ? celsiusToFahrenheit(temperature ?? 0)
                 : temperature}
             </Typography>
             <Typography type="h2">
               {DEGREE}
-              {isAmericanSystem ? CELSIUS : FAHRENHEIT}
+              {isAmericanSystem ? FAHRENHEIT : CELSIUS}
             </Typography>
           </Group>
         </Group>

@@ -54,7 +54,13 @@ export const AccountConnectCard: React.FC = () => {
   const isGoogleConnected = getIsConnected(GOOGLE_PROVIDER_ID);
 
   return (
-    <Card direction="row" gap="medium" isLoading={isLoading} title="Connect">
+    <Card
+      direction="row"
+      gap="medium"
+      isLoading={isLoading}
+      padding={'medium'}
+      title="Connect"
+    >
       {IS_IOS && (
         <AppleBtn
           disabled={isAppleConnected}

@@ -26,6 +26,7 @@ export const DevCard: React.FC = () => {
       collapsible
       isCollapsed={isCollapsed}
       onCollapseState={() => setCollapsed((current) => !current)}
+      padding={'medium'}
       title="Dev"
     >
       <TouchableOpacity onPress={() => handleToast('info')}>

@@ -202,7 +202,7 @@ const Container = withStyled<
   },
   props.size === 'small' && {
     paddingHorizontal: theme.space.small,
-    paddingVertical: 0,
+    paddingVertical: theme.space.tiny,
   },
   props.size === 'large' && {
     paddingHorizontal: theme.space.xLarge,

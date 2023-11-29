@@ -14,7 +14,7 @@ import { PushNotificationSwitch } from './push.notification.switch';
 
 export const SettingsCard: React.FC = () => {
   return (
-    <Card title="Settings">
+    <Card padding={'medium'} title="Settings">
       <ListItem
         description="Receive flight and other important updates"
         extra={<PushNotificationSwitch />}

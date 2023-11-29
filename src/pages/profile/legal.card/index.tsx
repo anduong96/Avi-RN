@@ -20,7 +20,7 @@ export const LegalCard: React.FC = () => {
   );
 
   return (
-    <Card title="Legal">
+    <Card padding={'medium'} title="Legal">
       <TouchableOpacity onPress={() => navigation.push('TermsOfService')}>
         <ListItem
           extra={Extra}

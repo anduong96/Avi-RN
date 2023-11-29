@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Group } from '@app/components/group';
 import { DOT_SEPARATOR } from '@app/constants';
+import { useGlobalState } from '@app/state/global';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { Typography } from '@app/components/typography';
 import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
@@ -13,6 +14,7 @@ export const Meta: React.FC = () => {
   const theme = useTheme();
   const flight = useFlight();
   const data = transformFlightData(flight);
+  const dateFormat = useGlobalState((s) => s._dateFormat);
 
   return (
     <Group
@@ -21,7 +23,7 @@ export const Meta: React.FC = () => {
       horizontalAlign="center"
       verticalAlign="center"
     >
-      <Group direction="row" gap="tiny" verticalAlign="center">
+      <Group direction="row" verticalAlign="center">
         <AirlineLogoAvatar
           airlineIata={flight.airlineIata}
           size={theme.typography.presets.h2.fontSize}
@@ -36,7 +38,13 @@ export const Meta: React.FC = () => {
         {DOT_SEPARATOR}
       </Typography>
       <Typography isBold type="p1">
-        {data.origin.time.format('MMM D, YYYY')}
+        {data.origin.time.format(dateFormat)}
+      </Typography>
+      <Typography isBold type="p1">
+        {DOT_SEPARATOR}
+      </Typography>
+      <Typography isBold type="p1">
+        {data.origin.time.format('ddd')}
       </Typography>
     </Group>
   );

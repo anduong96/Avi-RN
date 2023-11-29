@@ -2,18 +2,25 @@ import * as React from 'react';
 import FastImage from 'react-native-fast-image';
 
 import moment from 'moment';
+import Qty from 'js-quantities';
 
-import { DEGREE } from '@app/constants';
 import { format } from '@app/lib/format';
-import { List } from '@app/components/list';
 import { Group } from '@app/components/group';
 import { Typography } from '@app/components/typography';
+import { CELSIUS, DEGREE, FAHRENHEIT } from '@app/constants';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 import { useAirportWeatherQuery } from '@app/generated/server.gql';
-import { useGetTemperatureDisplay } from '@app/lib/hooks/use.measurement.display';
+import { celsiusToFahrenheit } from '@app/lib/celsius.to.fahrenheit';
+import { useIsAmericanSystem } from '@app/lib/hooks/use.measurement.system';
 
 import { useFlight } from './context';
-import { SectionTile, TileLabel } from './styles';
+import {
+  InnerTile,
+  InnerTileLabel,
+  InnerTileValue,
+  SectionTile,
+  TileLabel,
+} from './styles';
 
 type Props = {
   type: 'arrival' | 'departure';
@@ -21,7 +28,7 @@ type Props = {
 
 export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
   const flight = useFlight();
-  const getTemperature = useGetTemperatureDisplay('celsius');
+  const isAmericanSystem = useIsAmericanSystem();
   const isDeparture = type === 'departure';
   const [airport, utcOffset, time] = isDeparture
     ? [flight.Origin, flight.originUtcHourOffset, flight.estimatedGateDeparture]
@@ -44,60 +51,72 @@ export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
     },
   });
 
+  const airportWeather = weather.data?.airportWeather;
+  const windSpeed = airportWeather?.windSpeedMeterPerSecond;
+  const rainAmount = airportWeather?.precipitationAmountMillimeter;
+  const temperature = airportWeather?.airTemperatureCelsius;
+  const [windSpeedMeasurement, rainMeasurement] = isAmericanSystem
+    ? ['mi/h', 'in']
+    : ['m/s', 'mm'];
+
+  if (!airportWeather) {
+    return null;
+  }
+
   return (
     <SectionTile style={{ minHeight: 100 }}>
       <LoadingOverlay isLoading={weather.loading} />
-      <TileLabel>{airport.name} Weather at Departure</TileLabel>
-      {weather.data?.airportWeather ? (
-        <Group direction="row">
-          <Group>
-            <List
-              data={[
-                [
-                  'Temp',
-                  getTemperature(
-                    weather.data.airportWeather.airTemperatureCelsius,
-                  ),
-                ],
-                [
-                  'Wind Speed',
-                  weather.data.airportWeather.windSpeedMeterPerSecond,
-                  'm/s',
-                ],
-                [
-                  'Wind Direction',
-                  format(
-                    '%s%s',
-                    weather.data.airportWeather.windFromDirectionDegrees,
-                    DEGREE,
-                  ),
-                ],
-              ]}
-              renderItem={([label, value]) => {
-                return (
-                  <Group
-                    direction="row"
-                    style={{ justifyContent: 'space-between' }}
-                    verticalAlign="center"
-                  >
-                    <Typography type="p1">{label}</Typography>
-                    <Typography type="p1">{value}</Typography>
-                  </Group>
-                );
-              }}
-            />
-          </Group>
-          <Group gap="small">
-            <FastImage
-              source={{
-                uri: weather.data.airportWeather.iconURL,
-              }}
-            />
+      <TileLabel>{airport.cityName} weather</TileLabel>
+      <Group gap="medium" style={{ width: '100%' }}>
+        <Group
+          direction="row"
+          gap="large"
+          horizontalAlign="center"
+          verticalAlign="center"
+        >
+          <FastImage
+            resizeMode="contain"
+            source={{ uri: airportWeather.iconURL }}
+            style={{ aspectRatio: 1, width: 120 }}
+          />
+          <Group direction="row" horizontalAlign="left" verticalAlign="top">
+            <Typography isBold type="massive">
+              {isAmericanSystem && temperature
+                ? celsiusToFahrenheit(temperature)
+                : temperature}
+            </Typography>
+            <Typography type="h2">
+              {DEGREE}
+              {isAmericanSystem ? CELSIUS : FAHRENHEIT}
+            </Typography>
           </Group>
         </Group>
-      ) : (
-        <Typography type="h1">Unavailable at this moment</Typography>
-      )}
+        <Group direction="row" gap="medium">
+          <InnerTile flexBasis={1} flexGrow={1}>
+            <InnerTileLabel>Wind Speed</InnerTileLabel>
+            <InnerTileValue>
+              {Math.round(
+                Qty.swiftConverter('m/s', windSpeedMeasurement)(windSpeed!),
+              )}{' '}
+              {windSpeedMeasurement}
+            </InnerTileValue>
+          </InnerTile>
+          <InnerTile flexBasis={1} flexGrow={1}>
+            <InnerTileLabel>Rain</InnerTileLabel>
+            <InnerTileValue>
+              {rainAmount
+                ? format(
+                    '%s%s',
+                    Math.round(
+                      Qty.swiftConverter('mm', rainMeasurement)(rainAmount),
+                    ),
+                    rainMeasurement,
+                  )
+                : 'None'}
+            </InnerTileValue>
+          </InnerTile>
+        </Group>
+      </Group>
     </SectionTile>
   );
 };

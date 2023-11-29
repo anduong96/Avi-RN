@@ -318,7 +318,7 @@ export const FlightContent: React.FC = () => {
                   <TimezoneChangeCard />
                 </Section>
                 <Section>
-                  <AirportWeatherCard type="departure" />
+                  <AirportWeatherCard type="arrival" />
                 </Section>
               </Card>
             </View>

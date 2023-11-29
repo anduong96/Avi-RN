@@ -1,31 +1,31 @@
 import * as React from 'react';
 
 import { isNil } from 'lodash';
+import Qty from 'js-quantities';
 
 import { List } from '@app/components/list';
 import { Group } from '@app/components/group';
+import { KILOGRAMS, POUNDS } from '@app/constants';
 import { Typography } from '@app/components/typography';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
-import { useMeasurementDisplay } from '@app/lib/hooks/use.measurement.display';
+import { useIsAmericanSystem } from '@app/lib/hooks/use.measurement.system';
 
 import { useFlight } from './context';
 import { SectionTile, TileLabel } from './styles';
 
 export const EmissionCard: React.FC = () => {
   const flight = useFlight();
-  const {
-    co2EmissionKgBusiness: business,
-    co2EmissionKgEco: eco,
-    co2EmissionKgEconomy: economy,
-    co2EmissionKgFirst: first,
-  } = flight;
+  const isAmericanSystem = useIsAmericanSystem();
+  const displayMeasurement = isAmericanSystem ? POUNDS : KILOGRAMS;
+  const converter = Qty.swiftConverter('kg', displayMeasurement);
+  const data = [
+    ['Economy', flight.co2EmissionKgEconomy],
+    ['Eco+', flight.co2EmissionKgEco],
+    ['Business Class', flight.co2EmissionKgBusiness],
+    ['First Class', flight.co2EmissionKgFirst],
+  ];
 
-  const firstEmission = useMeasurementDisplay('kg', first);
-  const ecoEmission = useMeasurementDisplay('kg', eco);
-  const economyEmission = useMeasurementDisplay('kg', economy);
-  const businessEmission = useMeasurementDisplay('kg', business);
-
-  if ([eco, economy, business, first].every(isNil)) {
+  if (data.every((entry) => isNil(entry[1]))) {
     return null;
   }
 
@@ -33,16 +33,13 @@ export const EmissionCard: React.FC = () => {
     <SectionTile>
       <TileLabel>Emission</TileLabel>
       <List
-        data={[
-          ['Economy', economyEmission],
-          ['Eco+', ecoEmission],
-          ['Business Class', businessEmission],
-          ['First Class', firstEmission],
-        ]}
+        data={data}
         renderItem={([label, value]) => (
           <Group direction="row" style={{ justifyContent: 'space-between' }}>
             <Typography type="h3">{label}</Typography>
-            <Typography type="h3">{value}</Typography>
+            <Typography type="h3">
+              {Math.ceil(converter(Number(value)))} {displayMeasurement}
+            </Typography>
           </Group>
         )}
         separator={() => <HorizontalDivider size="large" />}

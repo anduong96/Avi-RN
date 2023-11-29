@@ -243,7 +243,6 @@ export const ImageType = {
 export type ImageType = typeof ImageType[keyof typeof ImageType];
 export const MeasurementType = {
   AMERICAN: 'AMERICAN',
-  IMPERIAL: 'IMPERIAL',
   METRIC: 'METRIC'
 } as const;
 

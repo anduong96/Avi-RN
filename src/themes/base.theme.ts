@@ -78,31 +78,24 @@ const typography = {
   presets: {
     h0: makeStyle({
       fontSize: 50,
-      lineHeight: 60,
     }),
     h1: makeStyle({
       fontSize: 35,
-      lineHeight: 41,
     }),
     h2: makeStyle({
       fontSize: 24,
-      lineHeight: 33,
     }),
     h3: makeStyle({
       fontSize: 20,
-      lineHeight: 25,
     }),
     h4: makeStyle({
       fontSize: 18,
-      lineHeight: 19,
     }),
     massive: makeStyle({
       fontSize: 60,
-      lineHeight: 75,
     }),
     p1: makeStyle({
       fontSize: 17,
-      lineHeight: 25,
     }),
     p2: makeStyle({
       fontSize: 14,

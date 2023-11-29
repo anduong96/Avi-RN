@@ -5,6 +5,7 @@ import { DOT_SEPARATOR } from '@app/constants';
 import { useGlobalState } from '@app/state/global';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { Typography } from '@app/components/typography';
+import { DateFormatType } from '@app/generated/server.gql';
 import { AirlineLogoAvatar } from '@app/components/airline.logo.avatar';
 import { transformFlightData } from '@app/lib/transformers/transform.flight.data';
 
@@ -14,7 +15,9 @@ export const Meta: React.FC = () => {
   const theme = useTheme();
   const flight = useFlight();
   const data = transformFlightData(flight);
-  const dateFormat = useGlobalState((s) => s._dateFormat);
+  const dateFormat = useGlobalState((s) =>
+    s._dateFormat === DateFormatType.AMERICAN ? 'MM/DD/YYYY' : 'DD/MM/YYYY',
+  );
 
   return (
     <Group

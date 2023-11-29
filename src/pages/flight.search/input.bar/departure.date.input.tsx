@@ -6,21 +6,20 @@ import moment from 'moment';
 
 import { Input } from '@app/components/input';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { DateFormatType, usePreferenceQuery } from '@app/generated/server.gql';
+import { useGlobalState } from '@app/state/global';
+import { DateFormatType } from '@app/generated/server.gql';
 
 import { useFlightSearchState } from '../state';
 
 export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
-  const preference = usePreferenceQuery();
-  const userPreference = preference.data?.userPreference;
-  const dateFormat = userPreference?.dateFormat;
+  const dateFormat = useGlobalState((s) =>
+    s._dateFormat === DateFormatType.AMERICAN ? 'MM/DD/YYYY' : 'DD/MM/YYYY',
+  );
   const inputValue = useFlightSearchState((state) =>
     state.focusInput === 'departureDate'
       ? state.textSearch
       : state.departureDate
-        ? moment(state.departureDate).format(
-            dateFormat === DateFormatType.AMERICAN ? 'MM/DD/YY' : 'DD/MM/YY',
-          )
+        ? moment(state.departureDate).format(dateFormat)
         : undefined,
   );
 

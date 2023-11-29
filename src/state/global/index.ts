@@ -13,13 +13,14 @@ import type { Theme } from '@app/themes';
 
 import { DARK_THEME } from '@app/themes';
 import { ThemePreset } from '@app/themes/constants';
+import { DateFormatType } from '@app/generated/server.gql';
 import { MeasurementType } from '@app/generated/server.gql';
 
 import { zustandMmkvStorage } from '../_plugins/zustand.mmkv.storage';
 
 type State = {
   _appState: AppStateStatus;
-  _dateFormat: string;
+  _dateFormat: DateFormatType;
   _hasFinishStartup: boolean;
   _hasPushAsked: boolean;
   _measurementType: MeasurementType;
@@ -36,7 +37,7 @@ export const useGlobalState = create<State>()(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (_set) => ({
       _appState: AppState.currentState,
-      _dateFormat: 'mm-dd-yyyy',
+      _dateFormat: DateFormatType.AMERICAN,
       _hasFinishStartup: false,
       _hasPushAsked: false,
       _measurementType: MeasurementType.AMERICAN,

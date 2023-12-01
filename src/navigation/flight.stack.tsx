@@ -1,8 +1,8 @@
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
 import * as React from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import type { NavigationStack } from '@app/types/navigation';
 
 import { FlightPage } from '@app/pages/flight';
 import { FlightCoursePage } from '@app/pages/flight.course';
@@ -21,8 +21,7 @@ export type FlightStackParams = {
   };
 };
 
-export type FlightStack<K extends keyof FlightStackParams> =
-  NativeStackNavigationProp<FlightStackParams, K>;
+export type FlightStack = NavigationStack<FlightStackParams>;
 
 const Stack = createNativeStackNavigator<FlightStackParams>();
 

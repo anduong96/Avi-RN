@@ -11,7 +11,11 @@ type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const HorizontalDivider: React.FC<Props> = ({ color, size, style }) => {
+export const HorizontalDivider: React.FC<Props> = ({
+  color,
+  size = 'medium',
+  style,
+}) => {
   return (
     <Container size={size} style={[style]}>
       <Line color={color} />
@@ -41,6 +45,7 @@ const Line = withStyled<Pick<Props, 'color'>, typeof View>(
     {
       backgroundColor: props.color || theme.pallette.dividerColor,
       height: theme.dividerSize,
+      width: '100%',
     },
   ],
 );

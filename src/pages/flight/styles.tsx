@@ -11,9 +11,9 @@ export const TileValue = withStyled(Typography, undefined, {
   type: 'h1',
 });
 
-export const Section = withStyled(Group, undefined, {
-  paddingHorizontal: 'medium',
-});
+export const Section = withStyled(Group, undefined, (theme) => ({
+  paddingHorizontal: theme.pagePadding,
+}));
 
 export const SectionTile = withStyled(
   Group,

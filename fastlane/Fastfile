@@ -62,13 +62,25 @@ lane :load_remote_env do
     ]
   )
 
+  UI.message("Loading remote .env")
   result = sh("node ../scripts/load.env.js", log: false, print_command:false)
   lines = result.split("\n")
+  envKeys = []
+
   lines.each do |line|
+    if (!line.include?("="))
+      next
+    end
+
     env_parts = line.split("=")
-    ENV[env_parts[0]] = env_parts[1]
+    key = env_parts[0]
+    value = env_parts[1]
+
+    ENV[key] = value
+    envKeys << key
   end
 
+  UI.message("Remote env loaded: #{envKeys.join(", ")}")
   UI.message("Loading local .env")
   Dotenv.overload("../.env")
 end

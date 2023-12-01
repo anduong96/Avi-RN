@@ -2,16 +2,14 @@ import * as React from 'react';
 import FastImage from 'react-native-fast-image';
 
 import moment from 'moment';
-import Qty from 'js-quantities';
 
-import { format } from '@app/lib/format';
 import { Group } from '@app/components/group';
 import { Typography } from '@app/components/typography';
-import { CELSIUS, DEGREE, FAHRENHEIT } from '@app/constants';
 import { LoadingOverlay } from '@app/components/loading.overlay';
 import { useAirportWeatherQuery } from '@app/generated/server.gql';
-import { celsiusToFahrenheit } from '@app/lib/celsius.to.fahrenheit';
-import { useIsAmericanSystem } from '@app/lib/hooks/use.measurement.system';
+import { useRainConverter } from '@app/lib/weather/hooks/use.rain.converter';
+import { useWindSpeedConverter } from '@app/lib/weather/hooks/use.wind.speed.converter';
+import { useTemperatureConverter } from '@app/lib/weather/hooks/use.temperature.convert';
 
 import { useFlight } from './context';
 import {
@@ -28,7 +26,9 @@ type Props = {
 
 export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
   const flight = useFlight();
-  const isAmericanSystem = useIsAmericanSystem();
+  const rainConverter = useRainConverter();
+  const windSpeedConverter = useWindSpeedConverter();
+  const temperatureConverter = useTemperatureConverter();
   const isDeparture = type === 'departure';
   const [airport, utcOffset, time] = isDeparture
     ? [flight.Origin, flight.originUtcHourOffset, flight.estimatedGateDeparture]
@@ -55,25 +55,23 @@ export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
   const windSpeed = airportWeather?.windSpeedMeterPerSecond;
   const rainAmount = airportWeather?.precipitationAmountMillimeter;
   const temperature = airportWeather?.airTemperatureCelsius;
-  const [windSpeedMeasurement, rainMeasurement] = isAmericanSystem
-    ? ['mi/h', 'in']
-    : ['m/s', 'mm'];
 
   if (!airportWeather) {
     return null;
   }
 
   return (
-    <SectionTile style={{ minHeight: 100 }}>
+    <SectionTile gap={'large'} style={{ minHeight: 100 }}>
       <LoadingOverlay isLoading={weather.loading} />
       <TileLabel>
-        {airport.cityName}'s {type} weather
+        {airport.name.trim()} Airport's {type} weather
       </TileLabel>
-      <Group gap="medium" style={{ width: '100%' }}>
+      <Group width={'100%'}>
         <Group
           direction="row"
           gap="large"
           horizontalAlign="center"
+          paddingVertical={'medium'}
           verticalAlign="center"
         >
           <FastImage
@@ -84,40 +82,28 @@ export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
           />
           <Group direction="row" horizontalAlign="left" verticalAlign="top">
             <Typography isBold type="massive">
-              {isAmericanSystem
-                ? celsiusToFahrenheit(temperature ?? 0)
-                : temperature}
+              {temperatureConverter(temperature).value}
             </Typography>
             <Typography type="h2">
-              {DEGREE}
-              {isAmericanSystem ? FAHRENHEIT : CELSIUS}
+              {temperatureConverter(temperature).unit}
             </Typography>
           </Group>
         </Group>
-        <Group direction="row" gap="medium">
-          <InnerTile flexBasis={1} flexGrow={1}>
-            <InnerTileLabel>Wind Speed</InnerTileLabel>
-            <InnerTileValue>
-              {Math.round(
-                Qty.swiftConverter('m/s', windSpeedMeasurement)(windSpeed!),
-              )}{' '}
-              {windSpeedMeasurement}
-            </InnerTileValue>
-          </InnerTile>
-          <InnerTile flexBasis={1} flexGrow={1}>
-            <InnerTileLabel>Rain</InnerTileLabel>
-            <InnerTileValue>
-              {rainAmount
-                ? format(
-                    '%s%s',
-                    Math.round(
-                      Qty.swiftConverter('mm', rainMeasurement)(rainAmount),
-                    ),
-                    rainMeasurement,
-                  )
-                : 'None'}
-            </InnerTileValue>
-          </InnerTile>
+        <Group>
+          <Group direction="row" gap="medium" marginTop={'medium'}>
+            <InnerTile flexBasis={1} flexGrow={1}>
+              <InnerTileLabel>Wind Speed</InnerTileLabel>
+              <InnerTileValue>
+                {windSpeed ? windSpeedConverter(windSpeed).label : 'None'}
+              </InnerTileValue>
+            </InnerTile>
+            <InnerTile flexBasis={1} flexGrow={1}>
+              <InnerTileLabel>Rain</InnerTileLabel>
+              <InnerTileValue>
+                {rainAmount ? rainConverter(rainAmount).label : 'None'}
+              </InnerTileValue>
+            </InnerTile>
+          </Group>
         </Group>
       </Group>
     </SectionTile>

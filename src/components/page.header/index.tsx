@@ -93,7 +93,7 @@ const Content = withStyled<Pick<Props, 'align'>, typeof View>(
   (theme, props) => [
     {
       flexGrow: 1,
-      paddingHorizontal: theme.space.medium,
+      paddingHorizontal: theme.pagePadding,
     },
     props.align === 'center' && {
       alignItems: 'center',

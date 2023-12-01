@@ -8,11 +8,14 @@ import type {
   ViewStyle,
 } from 'react-native';
 
+import { isNil } from 'lodash';
+
 import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { BlurredBackground } from '@app/components/blurred/background';
 
 type Props = {
+  backgroundColor?: string;
   isDark?: boolean;
   isLoading?: boolean;
   isRound?: boolean;
@@ -22,6 +25,7 @@ type Props = {
 };
 
 export const LoadingOverlay: React.FC<Props> = ({
+  backgroundColor,
   isDark,
   isLoading,
   isRound,
@@ -38,6 +42,7 @@ export const LoadingOverlay: React.FC<Props> = ({
 
   return (
     <Container
+      backgroundColor={backgroundColor}
       exiting={FadeOut}
       isDark={_isDark}
       isRound={isRound}
@@ -52,39 +57,42 @@ export const LoadingOverlay: React.FC<Props> = ({
   );
 };
 
-const Container = withStyled<
-  Pick<Props, 'isDark' | 'isRound' | 'type'>,
-  typeof Animated.View
->(Animated.View, (theme, props) => [
-  {
-    bottom: 0,
-    elevation: 999,
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 999,
-  },
-  props.isRound && {
-    borderRadius: theme.roundRadius,
-  },
-  props.type === 'translucent' &&
-    props.isDark && {
-      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+const Container = withStyled<Props, typeof Animated.View>(
+  Animated.View,
+  (theme, props) => [
+    {
+      bottom: 0,
+      elevation: 999,
+      left: 0,
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      zIndex: 999,
     },
-  props.type === 'translucent' &&
-    !props.isDark && {
-      backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    props.isRound && {
+      borderRadius: theme.roundRadius,
     },
-  props.type === 'solid' &&
-    props.isDark && {
-      backgroundColor: theme.pallette.grey[50],
+    props.type === 'translucent' &&
+      props.isDark && {
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+      },
+    props.type === 'translucent' &&
+      !props.isDark && {
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+      },
+    props.type === 'solid' &&
+      props.isDark && {
+        backgroundColor: theme.pallette.grey[50],
+      },
+    props.type === 'solid' &&
+      !props.isDark && {
+        backgroundColor: theme.pallette.grey[50],
+      },
+    !isNil(props.backgroundColor) && {
+      backgroundColor: props.backgroundColor,
     },
-  props.type === 'solid' &&
-    !props.isDark && {
-      backgroundColor: theme.pallette.grey[50],
-    },
-]);
+  ],
+);
 
 const Content = withStyled(Animated.View, (theme) => [
   theme.presets.centered,

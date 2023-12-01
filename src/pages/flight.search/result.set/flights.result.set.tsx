@@ -16,7 +16,7 @@ import { FlightCardCompact } from '@app/components/flight.card.compact';
 import { useFlightSearchState } from '../state';
 
 export const FlightsResultSet: React.FC = () => {
-  const navigation = useNavigation<MainStack<'FlightSearch'>>();
+  const navigation = useNavigation<MainStack>();
   const airlineIata = useFlightSearchState((s) => s.airlineIata!);
   const flightNumber = useFlightSearchState((s) => s.flightNumber!);
   const departureDate = useFlightSearchState((s) => s.departureDate!);

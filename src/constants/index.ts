@@ -14,6 +14,8 @@ export const MILES = 'mi';
 
 export const KILOMETERS = 'km';
 
+export const MILLIMETER = 'mm';
+
 export const KILOGRAMS = 'kg';
 
 export const POUNDS = 'lbs';

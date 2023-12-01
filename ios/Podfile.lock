@@ -1410,49 +1410,49 @@ PODS:
     - React-Core
     - SDWebImage (~> 5.11.1)
     - SDWebImageWebPCoder (~> 0.8.4)
-  - RNFBAnalytics (18.6.2):
+  - RNFBAnalytics (18.7.1):
     - Firebase/Analytics (= 10.18.0)
     - React-Core
     - RNFBApp
-  - RNFBApp (18.6.2):
+  - RNFBApp (18.7.1):
     - Firebase/CoreOnly (= 10.18.0)
     - React-Core
-  - RNFBAppDistribution (18.6.2):
+  - RNFBAppDistribution (18.7.1):
     - Firebase/AppDistribution (= 10.18.0)
     - React-Core
     - RNFBApp
-  - RNFBAuth (18.6.2):
+  - RNFBAuth (18.7.1):
     - Firebase/Auth (= 10.18.0)
     - React-Core
     - RNFBApp
-  - RNFBCrashlytics (18.6.2):
+  - RNFBCrashlytics (18.7.1):
     - Firebase/Crashlytics (= 10.18.0)
     - FirebaseCoreExtension (= 10.18.0)
     - React-Core
     - RNFBApp
-  - RNFBFirestore (18.6.2):
+  - RNFBFirestore (18.7.1):
     - Firebase/Firestore (= 10.18.0)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - React-Core
     - RNFBApp
-  - RNFBInAppMessaging (18.6.2):
+  - RNFBInAppMessaging (18.7.1):
     - Firebase/InAppMessaging (= 10.18.0)
     - React-Core
     - RNFBApp
-  - RNFBInstallations (18.6.2):
+  - RNFBInstallations (18.7.1):
     - Firebase/Installations (= 10.18.0)
     - React-Core
     - RNFBApp
-  - RNFBMessaging (18.6.2):
+  - RNFBMessaging (18.7.1):
     - Firebase/Messaging (= 10.18.0)
     - FirebaseCoreExtension (= 10.18.0)
     - React-Core
     - RNFBApp
-  - RNFBPerf (18.6.2):
+  - RNFBPerf (18.7.1):
     - Firebase/Performance (= 10.18.0)
     - React-Core
     - RNFBApp
-  - RNFBRemoteConfig (18.6.2):
+  - RNFBRemoteConfig (18.7.1):
     - Firebase/RemoteConfig (= 10.18.0)
     - React-Core
     - RNFBApp
@@ -1473,7 +1473,7 @@ PODS:
     - React-Core
   - RNReactNativeHapticFeedback (2.2.0):
     - React-Core
-  - RNReanimated (3.6.0):
+  - RNReanimated (3.6.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
@@ -1483,10 +1483,12 @@ PODS:
   - RNScreens (3.27.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNSentry (5.13.0):
+  - RNSentry (5.14.1):
+    - hermes-engine
     - React-Core
+    - React-hermes
     - Sentry/HybridSDK (= 8.15.2)
-  - RNShare (10.0.1):
+  - RNShare (10.0.2):
     - React-Core
   - RNSharedElement (0.8.9):
     - React-Core
@@ -1936,28 +1938,28 @@ SPEC CHECKSUMS:
   RNBootSplash: 970faaa2ab1322758c6545c88d3b23f424b86a2f
   RNDeviceInfo: db5c64a060e66e5db3102d041ebe3ef307a85120
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
-  RNFBAnalytics: b87a1be35b0aee6087a45edbc2306c3ddcc0546f
-  RNFBApp: 09fd96441b0f556a1ef50ee70fa72160ae71ecb9
-  RNFBAppDistribution: f21c5a4d6d8f40558d4ff35f563b2eac9c06f57e
-  RNFBAuth: acaa6d305555c99497bb10ab8199a506c4d2481c
-  RNFBCrashlytics: 0866393a9fbca1d8d353052243e21d1cdeb55394
-  RNFBFirestore: df782994cdc4b06be3f532f769698af7f34658f7
-  RNFBInAppMessaging: 11ac74246b2965716c5f4122d148ecd3664a6bd5
-  RNFBInstallations: 956eaed7d2229ea4dab796e6032e68b100d8587e
-  RNFBMessaging: 95fa608c79d3378b1a958a64f8be82e4699368a9
-  RNFBPerf: f74154e97535d7e0ae3a70cab908945a80d82f93
-  RNFBRemoteConfig: dd7ec68c51d35223c47431eb4fd74f4594856942
+  RNFBAnalytics: d6a492cc177d777578afdc5db3bbd17c3aa5347a
+  RNFBApp: 3d518e0ea7f945ae546facc0e6034806d9ddfde7
+  RNFBAppDistribution: f2a469ce870ea379710197362c01b7a802440e42
+  RNFBAuth: 9cea77b4b216e77e10ed30b433f3778e21c1fd1a
+  RNFBCrashlytics: 9f9b3b35f4db6f39c2a365e55b59a0668617cb33
+  RNFBFirestore: 8d1ebb9a5af12838a15c8e9572435daca761767f
+  RNFBInAppMessaging: 701575c22d51f168fc4e8d92f8a6be67377643ce
+  RNFBInstallations: 954cb84a951b9c37a1890b751144a23fc5a73043
+  RNFBMessaging: 5c909e97a0c81c4a03c56ca17f0fe79256941ec9
+  RNFBPerf: 2ede08328341ff005f296e56ac9926b2c9ec25f8
+  RNFBRemoteConfig: 9a4276365005fd9668c7bfd83bc35e36c0c1caca
   RNFlashList: 4b4b6b093afc0df60ae08f9cbf6ccd4c836c667a
   RNGestureHandler: a5039da2ac028b073ae801289476060b34d559b1
   RNGoogleSignin: aac5c1ec73422109dec1da770247a1e410dcc620
   RNNotifee: f3c01b391dd8e98e67f539f9a35a9cbcd3bae744
   RNPermissions: 02f96a0b64cc7380d2d522fd0760540c2795ab41
   RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
-  RNReanimated: 8ace147c4bcfeccba91eb97cde784c773c91850e
+  RNReanimated: 8a6a83984cb4d61ebf1065b6137150b6b31ce609
   RNRudderSdk: eaeeae19b067e82270726ec19fdf1bdefee569fd
   RNScreens: 3e56c56bd35436215a56f48a753e30e8ce018a09
-  RNSentry: 82667e9889782365bf801645ef4d2a731dcf60df
-  RNShare: bed7c4fbe615f3d977f22feb0902af9a790c1660
+  RNSentry: ee1a9a80996414205d84ce9180c31bd855fd4641
+  RNShare: 859ff710211285676b0bcedd156c12437ea1d564
   RNSharedElement: 3fd05877bd6bc95f71b332801bf4356ca69ab7f6
   RNSound: 6c156f925295bdc83e8e422e7d8b38d33bc71852
   RNSVG: 255767813dac22db1ec2062c8b7e7b856d4e5ae6

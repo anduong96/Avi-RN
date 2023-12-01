@@ -288,7 +288,8 @@ export type Query = {
   airport: Airport;
   airportTsaCheckpointsStatus?: Maybe<Array<AirportTsaCheckPointTerminal>>;
   airportTsaWaitTime?: Maybe<Array<AirportTsaWaitTime>>;
-  airportWeather?: Maybe<AirportWeather>;
+  airportWeather: AirportWeather;
+  airportWeatherDay: Array<AirportWeather>;
   flight: Flight;
   flightPromptness: FlightPromptness;
   flights: Array<Flight>;
@@ -342,6 +343,14 @@ export type QueryAirportWeatherArgs = {
 };
 
 
+export type QueryAirportWeatherDayArgs = {
+  airportIata: Scalars['String']['input'];
+  date: Scalars['Int']['input'];
+  month: Scalars['Int']['input'];
+  year: Scalars['Int']['input'];
+};
+
+
 export type QueryFlightArgs = {
   flightID: Scalars['String']['input'];
 };
@@ -374,6 +383,7 @@ export type User = {
   __typename?: 'User';
   UserFlight: Array<UserFlight>;
   UserPreference?: Maybe<UserPreference>;
+  UserWaitList: Array<UserWaitList>;
   avatarURL?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTimeISO']['output'];
   displayName?: Maybe<Scalars['String']['output']>;
@@ -399,6 +409,14 @@ export type UserPreference = {
   dateFormat: DateFormatType;
   id: Scalars['ID']['output'];
   measurement: MeasurementType;
+  userID: Scalars['String']['output'];
+};
+
+export type UserWaitList = {
+  __typename?: 'UserWaitList';
+  createdAt: Scalars['DateTimeISO']['output'];
+  feature: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   userID: Scalars['String']['output'];
 };
 
@@ -459,7 +477,17 @@ export type AirportWeatherQueryVariables = Exact<{
 }>;
 
 
-export type AirportWeatherQuery = { __typename?: 'Query', airportWeather?: { __typename?: 'AirportWeather', id: string, airportIata: string, airTemperatureCelsius: number, precipitationAmountMillimeter: number, windSpeedMeterPerSecond: number, windFromDirectionDegrees: number, status: string, iconURL: string } | null };
+export type AirportWeatherQuery = { __typename?: 'Query', airportWeather: { __typename?: 'AirportWeather', id: string, airportIata: string, airTemperatureCelsius: number, precipitationAmountMillimeter: number, windSpeedMeterPerSecond: number, windFromDirectionDegrees: number, status: string, iconURL: string } };
+
+export type AirportWeatherDayQueryVariables = Exact<{
+  date: Scalars['Int']['input'];
+  month: Scalars['Int']['input'];
+  year: Scalars['Int']['input'];
+  airportIata: Scalars['String']['input'];
+}>;
+
+
+export type AirportWeatherDayQuery = { __typename?: 'Query', airportWeatherDay: Array<{ __typename?: 'AirportWeather', id: string, airportIata: string, airTemperatureCelsius: number, precipitationAmountMillimeter: number, windSpeedMeterPerSecond: number, windFromDirectionDegrees: number, status: string, iconURL: string, date: number, hour: number, month: number, year: number }> };
 
 export type DebugFlightNotificationMutationVariables = Exact<{
   flightID: Scalars['String']['input'];
@@ -1027,6 +1055,68 @@ export type AirportWeatherSuspenseQueryHookResult = ReturnType<typeof useAirport
 export type AirportWeatherQueryResult = Apollo.QueryResult<AirportWeatherQuery, AirportWeatherQueryVariables>;
 export function refetchAirportWeatherQuery(variables: AirportWeatherQueryVariables) {
       return { query: AirportWeatherDocument, variables: variables }
+    }
+export const AirportWeatherDayDocument = gql`
+    query AirportWeatherDay($date: Int!, $month: Int!, $year: Int!, $airportIata: String!) {
+  airportWeatherDay(
+    date: $date
+    month: $month
+    year: $year
+    airportIata: $airportIata
+  ) {
+    id
+    airportIata
+    airTemperatureCelsius
+    precipitationAmountMillimeter
+    windSpeedMeterPerSecond
+    windFromDirectionDegrees
+    status
+    iconURL
+    date
+    hour
+    month
+    year
+  }
+}
+    `;
+
+/**
+ * __useAirportWeatherDayQuery__
+ *
+ * To run a query within a React component, call `useAirportWeatherDayQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAirportWeatherDayQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAirportWeatherDayQuery({
+ *   variables: {
+ *      date: // value for 'date'
+ *      month: // value for 'month'
+ *      year: // value for 'year'
+ *      airportIata: // value for 'airportIata'
+ *   },
+ * });
+ */
+export function useAirportWeatherDayQuery(baseOptions: Apollo.QueryHookOptions<AirportWeatherDayQuery, AirportWeatherDayQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AirportWeatherDayQuery, AirportWeatherDayQueryVariables>(AirportWeatherDayDocument, options);
+      }
+export function useAirportWeatherDayLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AirportWeatherDayQuery, AirportWeatherDayQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AirportWeatherDayQuery, AirportWeatherDayQueryVariables>(AirportWeatherDayDocument, options);
+        }
+export function useAirportWeatherDaySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AirportWeatherDayQuery, AirportWeatherDayQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AirportWeatherDayQuery, AirportWeatherDayQueryVariables>(AirportWeatherDayDocument, options);
+        }
+export type AirportWeatherDayQueryHookResult = ReturnType<typeof useAirportWeatherDayQuery>;
+export type AirportWeatherDayLazyQueryHookResult = ReturnType<typeof useAirportWeatherDayLazyQuery>;
+export type AirportWeatherDaySuspenseQueryHookResult = ReturnType<typeof useAirportWeatherDaySuspenseQuery>;
+export type AirportWeatherDayQueryResult = Apollo.QueryResult<AirportWeatherDayQuery, AirportWeatherDayQueryVariables>;
+export function refetchAirportWeatherDayQuery(variables: AirportWeatherDayQueryVariables) {
+      return { query: AirportWeatherDayDocument, variables: variables }
     }
 export const DebugFlightNotificationDocument = gql`
     mutation DebugFlightNotification($flightID: String!, $title: String!, $body: String!, $data: JSON) {

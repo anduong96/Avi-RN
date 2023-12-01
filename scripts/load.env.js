@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-const fetch = require('node-fetch');
+const fetch = require('./fetch');
 
 dotenv.config();
 
@@ -42,10 +42,13 @@ fetch(route, {
      * @type {Record<string, { raw: any, computed: any }>}
      */
     const secrets = data.secrets;
-
     for (const [key, value] of Object.entries(secrets)) {
       console.log(key + '=' + value.computed);
-      // process.env[key] = value.computed;
+      process.env[key] = value.computed;
     }
+  })
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
   })
   .finally(() => process.exit(0));

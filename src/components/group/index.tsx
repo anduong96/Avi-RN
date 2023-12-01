@@ -20,6 +20,12 @@ type Props = React.PropsWithChildren<{
   horizontalAlign?: 'center' | 'left' | 'right';
   isCentered?: boolean;
   margin?: SpaceKeys | number;
+  marginBottom?: SpaceKeys | number;
+  marginHorizontal?: SpaceKeys | number;
+  marginLeft?: SpaceKeys | number;
+  marginRight?: SpaceKeys | number;
+  marginTop?: SpaceKeys | number;
+  marginVertical?: SpaceKeys | number;
   overflow?: 'hidden' | 'visible';
   padding?: SpaceKeys | number;
   paddingHorizontal?: SpaceKeys | number;
@@ -90,6 +96,24 @@ const Container = withStyled<Props, typeof View>(View, (theme, props) => [
   },
   !isNil(props.margin) && {
     margin: getSpaceValue(props.margin, theme),
+  },
+  !isNil(props.marginTop) && {
+    marginTop: getSpaceValue(props.marginTop, theme),
+  },
+  !isNil(props.marginRight) && {
+    marginRight: getSpaceValue(props.marginRight, theme),
+  },
+  !isNil(props.marginBottom) && {
+    marginBottom: getSpaceValue(props.marginBottom, theme),
+  },
+  !isNil(props.marginLeft) && {
+    marginLeft: getSpaceValue(props.marginLeft, theme),
+  },
+  !isNil(props.marginHorizontal) && {
+    marginHorizontal: getSpaceValue(props.marginHorizontal, theme),
+  },
+  !isNil(props.marginVertical) && {
+    marginVertical: getSpaceValue(props.marginVertical, theme),
   },
   !isNil(props.padding) && {
     padding: getSpaceValue(props.padding, theme),

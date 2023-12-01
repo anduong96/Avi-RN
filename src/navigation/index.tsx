@@ -1,7 +1,4 @@
-import type {
-  NativeStackNavigationOptions,
-  NativeStackNavigationProp,
-} from '@react-navigation/native-stack';
+import type { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import type {
   NavigationContainerProps,
   NavigationContainerRef,
@@ -14,6 +11,8 @@ import { Platform } from 'react-native';
 import { last } from 'lodash';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import type { NavigationStack } from '@app/types/navigation';
 
 import { format } from '@app/lib/format';
 import { HomePage } from '@app/pages/home';
@@ -32,8 +31,10 @@ import type { FlightStackParams } from './flight.stack';
 
 import { FlightStack } from './flight.stack';
 import { ROOT_NAVIGATOR_ID } from './_constants';
+import { AirportStack, type AirportStackParams } from './airport.stack';
 
-export type MainStackParam = {
+export type MainStackParams = {
+  AirportStack: NavigatorScreenParams<AirportStackParams>;
   Debug: undefined;
   FlightSearch: undefined;
   FlightStack: NavigatorScreenParams<FlightStackParams>;
@@ -44,14 +45,14 @@ export type MainStackParam = {
   TermsOfService: undefined;
 };
 
-type NavigationRef = NavigationContainerRef<MainStackParam>;
-export type MainStack<T extends keyof MainStackParam = 'Home'> =
-  NativeStackNavigationProp<MainStackParam, T>;
+type NavigationRef = NavigationContainerRef<MainStackParams>;
+export type MainStack = NavigationStack<MainStackParams>;
 
-const Stack = createNativeStackNavigator<MainStackParam>();
+const Stack = createNativeStackNavigator<MainStackParams>();
 
 export const AppNavigator: React.FC = () => {
   useBootApp();
+
   const logger = useLogger('Navigation');
   const routeNameRef = React.useRef<string>();
   const navigationRef = React.useRef<NavigationRef>(null);
@@ -83,7 +84,7 @@ export const AppNavigator: React.FC = () => {
   };
 
   return (
-    <NavigationContainer<MainStackParam>
+    <NavigationContainer<MainStackParams>
       linking={LINKING_CONFIG}
       onReady={handleNavigationReady}
       onStateChange={handleStateChange}
@@ -106,6 +107,7 @@ export const AppNavigator: React.FC = () => {
             },
           })}
         >
+          <Stack.Screen component={AirportStack} name="AirportStack" />
           <Stack.Screen component={FlightStack} name="FlightStack" />
           <Stack.Screen component={FlightSearchPage} name="FlightSearch" />
           <Stack.Screen component={DebugMenuPage} name="Debug" />

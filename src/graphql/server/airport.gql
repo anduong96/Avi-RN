@@ -61,3 +61,30 @@ query AirportWeather(
     iconURL
   }
 }
+
+query AirportWeatherDay(
+  $date: Int!
+  $month: Int!
+  $year: Int!
+  $airportIata: String!
+) {
+  airportWeatherDay(
+    date: $date
+    month: $month
+    year: $year
+    airportIata: $airportIata
+  ) {
+    id
+    airportIata
+    airTemperatureCelsius
+    precipitationAmountMillimeter
+    windSpeedMeterPerSecond
+    windFromDirectionDegrees
+    status
+    iconURL
+    date
+    hour
+    month
+    year
+  }
+}

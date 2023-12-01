@@ -1,17 +1,37 @@
 import type { LinkingOptions } from '@react-navigation/native';
 
-import type { MainStackParam } from './navigation';
+import type { MainStackParams } from './navigation';
 
-import { APP_LINK, DOM_LINK, FLIGHT_URL, WEB_LINK } from './lib/deep.link';
+import {
+  AIRPORT_URL,
+  APP_LINK,
+  DOM_LINK,
+  FLIGHT_URL,
+  WEB_LINK,
+} from './lib/deep.link';
 
 function buildPath(...parts: string[]) {
   return parts.join('/');
 }
 
-export const LINKING_CONFIG: LinkingOptions<MainStackParam> = {
+export const LINKING_CONFIG: LinkingOptions<MainStackParams> = {
   config: {
     initialRouteName: 'Home',
     screens: {
+      AirportStack: {
+        screens: {
+          Weather: {
+            path: buildPath(
+              AIRPORT_URL,
+              'weather',
+              ':year',
+              ':month',
+              ':date',
+              ':hour',
+            ),
+          },
+        },
+      },
       FlightSearch: buildPath('flights', 'search'),
       FlightStack: {
         screens: {

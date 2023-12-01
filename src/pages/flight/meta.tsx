@@ -26,7 +26,7 @@ export const Meta: React.FC = () => {
       horizontalAlign="center"
       verticalAlign="center"
     >
-      <Group direction="row" verticalAlign="center">
+      <Group direction="row" gap="small" verticalAlign="center">
         <AirlineLogoAvatar
           airlineIata={flight.airlineIata}
           size={theme.typography.presets.h2.fontSize}

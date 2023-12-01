@@ -42,13 +42,28 @@ export const Point: React.FC<Props> = ({ type }) => {
   const Icon = isDeparture ? FlightDepartureIcon : FlightArrivalIcon;
   const alignment = isDeparture ? 'left' : 'right';
   const hasDayDiff = Boolean(!isDeparture && data.destination.dayDiff);
+  const parts = [
+    ['Terminal %s', terminal],
+    ['Gate %s', gate],
+  ] as const;
 
   return (
     <Group flexBasis={1} flexGrow={1} horizontalAlign={alignment}>
       <Typography type="massive">{iata}</Typography>
-      <Typography color="secondary" textAlign={alignment} type="small">
-        {format('Terminal %s, Gate %s', terminal ?? FILLER, gate ?? FILLER)}
-      </Typography>
+      <Group direction="row">
+        {parts.map(([template, value], index) => (
+          <Typography
+            color="secondary"
+            isBold
+            key={template}
+            textAlign={alignment}
+            type="small"
+          >
+            {index !== 0 && ', '}
+            {format(template, value ?? FILLER)}
+          </Typography>
+        ))}
+      </Group>
       <SpaceVertical />
       <Group
         direction="row"

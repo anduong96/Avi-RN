@@ -66,7 +66,9 @@ export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
   return (
     <SectionTile style={{ minHeight: 100 }}>
       <LoadingOverlay isLoading={weather.loading} />
-      <TileLabel>{airport.cityName} weather</TileLabel>
+      <TileLabel>
+        {airport.cityName}'s {type} weather
+      </TileLabel>
       <Group gap="medium" style={{ width: '100%' }}>
         <Group
           direction="row"
@@ -75,9 +77,10 @@ export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
           verticalAlign="center"
         >
           <FastImage
+            fallback={require('@app/assets/airline.png')}
             resizeMode="contain"
             source={{ uri: airportWeather.iconURL }}
-            style={{ aspectRatio: 1, width: 120 }}
+            style={{ aspectRatio: 1, height: 64 }}
           />
           <Group direction="row" horizontalAlign="left" verticalAlign="top">
             <Typography isBold type="massive">

@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import { isNil } from 'lodash';
-
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useToast } from '@app/components/toast/use.toast';
 import {
@@ -10,10 +8,10 @@ import {
   UserHasFlightsDocument,
   useAddUserFlightMutation,
   useDeleteUserFlightMutation,
-  useUserFlightQuery,
 } from '@app/generated/server.gql';
 
 import { ActionBtn } from './action.btn';
+import { useIsSavedFlight } from '../hooks/use.is.saved.flight';
 
 type Props = {
   flightID: string;
@@ -21,13 +19,7 @@ type Props = {
 
 export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
   const toast = useToast();
-  const userFlightResp = useUserFlightQuery({
-    errorPolicy: 'ignore',
-    variables: {
-      flightID,
-    },
-  });
-
+  const isSaved = useIsSavedFlight();
   const [add, { loading: adding }] = useAddUserFlightMutation({
     onCompleted() {
       vibrate('notificationSuccess');
@@ -66,19 +58,18 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
     },
   });
 
-  const isSaved = !isNil(userFlightResp.data?.userFlight?.id);
-  const isLoading = userFlightResp.loading || adding || removing;
+  const isLoading = isSaved.loading || adding || removing;
 
   const handlePress = async () => {
     vibrate('impactHeavy');
     isSaved ? await remove() : await add();
-    await userFlightResp.refetch();
+    await isSaved.refetch();
   };
 
   return (
     <ActionBtn
       icon="bookmark"
-      isActive={isSaved}
+      isActive={isSaved.value}
       isLoading={isLoading}
       label={isSaved ? 'Saved' : 'Save'}
       onPress={handlePress}

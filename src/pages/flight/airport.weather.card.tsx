@@ -89,7 +89,7 @@ export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
           </Group>
         </Group>
         <Group>
-          <Group direction="row" gap="medium" marginTop={'medium'}>
+          <Group direction="row" gap="small" marginTop={'medium'}>
             <InnerTile flexBasis={1} flexGrow={1}>
               <InnerTileLabel>Wind Speed</InnerTileLabel>
               <InnerTileValue>

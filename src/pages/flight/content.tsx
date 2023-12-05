@@ -35,6 +35,7 @@ import { GateTimeCard } from './gate.time.card';
 import { SectionHeader } from './section.header';
 import { useFlight, useFlightID } from './context';
 import { PromptnessCompact } from './promptness.compact';
+import { PlaneLocationCard } from './plane.location.card';
 import { TimezoneChangeCard } from './timezone.change.card';
 import { AirportWeatherCard } from './airport.weather.card';
 import { SaveFlightButton } from './actions/save.flight.btn';
@@ -168,14 +169,16 @@ export const FlightContent: React.FC = () => {
             <Meta />
           </Animated.View>
         </Group>
-        <Group gap="large" paddingVertical="large">
+
+        <Group gap="large" paddingVertical={'medium'}>
           {/* -------------------------------------------------------------------------- */
           /*                           Flight Overview Section                          */
           /* -------------------------------------------------------------------------- */}
           <Group direction="row" paddingHorizontal="medium">
             <Header />
           </Group>
-          <SpaceVertical size="medium" />
+          <PlaneLocationCard />
+          <SpaceVertical size="small" />
           {/* -------------------------------------------------------------------------- */
           /*                                 Action Section                              */
           /* -------------------------------------------------------------------------- */}

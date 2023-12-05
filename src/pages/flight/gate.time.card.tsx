@@ -6,6 +6,7 @@ import { Group } from '@app/components/group';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { Typography } from '@app/components/typography';
 import { FlightArrivalIcon } from '@app/components/icon.flight.arrival';
+import { formatMillisToDuration } from '@app/lib/format.milis.to.duration';
 import { FlightDepartureIcon } from '@app/components/icon.flight.departure';
 import {
   transformFlightData,
@@ -13,7 +14,14 @@ import {
 } from '@app/lib/transformers/transform.flight.data';
 
 import { useFlight } from './context';
-import { SectionTile, TileLabel, TileValue } from './styles';
+import {
+  InnerTile,
+  InnerTileLabel,
+  InnerTileValue,
+  SectionTile,
+  TileLabel,
+  TileValue,
+} from './styles';
 
 type Props = {
   type: 'arrival' | 'departure';
@@ -67,14 +75,24 @@ export const GateTimeCard: React.FC<Props> = ({ type }) => {
         )}
       </Group>
       {status !== 'on-time' && (
-        <Typography
-          color="secondary"
-          isBold
-          style={{ textDecorationLine: 'line-through' }}
-          type="p1"
-        >
-          {moment(scheduledTime).utcOffset(utcOffset).format('LT')}
-        </Typography>
+        <Group direction="row" gap={'small'}>
+          <InnerTile flexBasis={1} flexGrow={1}>
+            <InnerTileLabel>Original Time</InnerTileLabel>
+            <InnerTileValue>
+              {moment(scheduledTime).utcOffset(utcOffset).format('LT')}
+            </InnerTileValue>
+          </InnerTile>
+          <InnerTile flexBasis={1} flexGrow={1}>
+            <InnerTileLabel>Difference</InnerTileLabel>
+            <InnerTileValue>
+              {moment(scheduledTime).isBefore(estimatedTime) ? '+' : '-'}
+              {` `}
+              {formatMillisToDuration(
+                Math.abs(moment(scheduledTime).diff(estimatedTime)),
+              )}
+            </InnerTileValue>
+          </InnerTile>
+        </Group>
       )}
     </SectionTile>
   );

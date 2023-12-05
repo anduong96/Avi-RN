@@ -15,12 +15,14 @@ import { getHeadingOnQuadraticBezier } from '@app/lib/geolocation/get.bezier.cur
 
 import { useFlight } from '../context';
 import { useAircraftPosition } from '../hooks/use.aircraft.position';
+import { useIsOnDifferentFlight } from '../hooks/use.is.on.different.flight';
 
 export const AircraftMarker: React.FC = () => {
   const theme = useTheme();
   const flight = useFlight();
   const request = useAircraftPosition();
   const position = request.data?.aircraftPosition;
+  const isOnDifferentFlight = useIsOnDifferentFlight();
   const curvePoints = createQuadraticBezierCurve(
     flight.Origin,
     flight.Destination,
@@ -67,11 +69,8 @@ export const AircraftMarker: React.FC = () => {
   const latitude = position!.latitude;
   const longitude = position!.longitude;
   const coordinate = { latitude, longitude };
-  const isSameFlight =
-    position!.destinationIata === flight.destinationIata &&
-    position!.originIata === flight.originIata;
 
-  if (!isSameFlight) {
+  if (isOnDifferentFlight) {
     return (
       <>
         <Polyline

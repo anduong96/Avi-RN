@@ -3,7 +3,7 @@ import { type StyleProp, View, type ViewStyle } from 'react-native';
 
 import type { ViewProps } from 'react-native';
 
-import { isNil } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 
 import type { SpaceKeys } from '@app/themes';
 
@@ -37,6 +37,10 @@ type Props = React.PropsWithChildren<{
   Pick<ViewProps, 'onLayout'>;
 
 export const Group: React.FC<Props> = ({ direction = 'column', ...props }) => {
+  if (isNil(props.children) || isEmpty(props.children)) {
+    return null;
+  }
+
   return <Container direction={direction} {...props} />;
 };
 

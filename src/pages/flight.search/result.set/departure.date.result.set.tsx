@@ -164,6 +164,9 @@ const DismissBtn = withStyled(TouchableOpacity, (theme) => [
 const Item = withStyled<{ index?: number }, typeof ListItem>(
   ListItem,
   (theme, props) => [
+    {
+      marginHorizontal: theme.pagePadding,
+    },
     props.index === 0 && {
       backgroundColor: theme.pallette.grey[50],
       borderRadius: theme.borderRadius,

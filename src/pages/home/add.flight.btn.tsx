@@ -43,6 +43,7 @@ const ShadowWrapper = withStyled(
 );
 
 const Btn = withStyled(AnimatedTouchable, (theme) => [
+  theme.presets.centered,
   {
     aspectRatio: 1,
     backgroundColor: theme.pallette.primary,

@@ -8,6 +8,7 @@ import { format } from '@app/lib/format';
 import { IS_IOS } from '@app/lib/platform';
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
+import { Shadow } from '@app/components/shadow';
 import { useUser } from '@app/state/user/use.user';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { StatusIcon } from '@app/components/icon.status';
@@ -62,28 +63,31 @@ export const AccountConnectCard: React.FC = () => {
       title="Connect"
     >
       {IS_IOS && (
-        <AppleBtn
-          disabled={isAppleConnected}
-          onPress={() => handleSignin(APPLE_PROVIDER_ID)}
-        >
-          <AppleIcon name="apple" />
-          {isAppleConnected && <Status status="success" />}
-        </AppleBtn>
+        <Shadow level={2}>
+          <AppleBtn
+            disabled={isAppleConnected}
+            onPress={() => handleSignin(APPLE_PROVIDER_ID)}
+          >
+            <AppleIcon name="apple" />
+            {isAppleConnected && <Status status="success" />}
+          </AppleBtn>
+        </Shadow>
       )}
-      <GoogleBtn
-        disabled={isGoogleConnected}
-        onPress={() => handleSignin(GOOGLE_PROVIDER_ID)}
-      >
-        <GoogleIcon source={require('@app/assets/google.png')} />
-        {isGoogleConnected && <Status status="success" />}
-      </GoogleBtn>
+      <Shadow level={2}>
+        <GoogleBtn
+          disabled={isGoogleConnected}
+          onPress={() => handleSignin(GOOGLE_PROVIDER_ID)}
+        >
+          <GoogleIcon source={require('@app/assets/google.png')} />
+          {isGoogleConnected && <Status status="success" />}
+        </GoogleBtn>
+      </Shadow>
     </Card>
   );
 };
 
 const Btn = withStyled(TouchableOpacity, (theme) => [
   theme.presets.centered,
-  theme.presets.shadows[200],
   {
     aspectRatio: 1,
     borderRadius: theme.borderRadius,

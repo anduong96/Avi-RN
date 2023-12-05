@@ -10,6 +10,7 @@ import tinycolor from 'tinycolor2';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props = React.PropsWithChildren<{
+  borderRadius?: 'default' | 'round' | number;
   color?: string;
   darken?: number;
   disabled?: boolean;
@@ -40,6 +41,7 @@ const levels: Record<
 };
 
 export const Shadow: React.FC<Props> = ({
+  borderRadius = 'default',
   children,
   color,
   darken = 0,
@@ -65,7 +67,17 @@ export const Shadow: React.FC<Props> = ({
         .setAlpha(opacity)
         .toRgbString()}
       stretch
-      style={style}
+      style={[
+        {
+          borderRadius:
+            borderRadius === 'default'
+              ? theme.borderRadius
+              : borderRadius === 'round'
+                ? theme.roundRadius
+                : borderRadius,
+        },
+        style,
+      ]}
     >
       {children}
     </RnShadow>

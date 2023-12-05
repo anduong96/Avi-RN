@@ -23,7 +23,6 @@ export const SettingsCard: React.FC = () => {
       />
       <HorizontalDivider />
       <ListItem
-        description="Coming soon!"
         extra={<ThemeSelector />}
         icon={<FaIcon name="palette" />}
         title="Theme"

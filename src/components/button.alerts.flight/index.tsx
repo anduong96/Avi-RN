@@ -7,6 +7,7 @@ import { enableFlightPush } from '@app/state/flights.notifications/flight.push.e
 import { disableFlightPush } from '@app/state/flights.notifications/flight.push.disable';
 
 import { Button } from '../button';
+import { Shadow } from '../shadow';
 
 type Props = {
   flightID: string;
@@ -39,18 +40,19 @@ export const AlertFlightButton: React.FC<Props> = ({ flightID }) => {
   };
 
   return (
-    <Button
-      disabled={isDisabled}
-      hasShadow={isPushEnabled}
-      icon={icon}
-      iconProps={{ solid: isPushEnabled }}
-      isBold={isPushEnabled}
-      isLoading={isLoading}
-      isSolid={isPushEnabled}
-      onPress={handleToggle}
-      type={type}
-    >
-      Alerts
-    </Button>
+    <Shadow borderRadius={'round'} disabled={!isPushEnabled} level={1}>
+      <Button
+        disabled={isDisabled}
+        icon={icon}
+        iconProps={{ solid: isPushEnabled }}
+        isBold={isPushEnabled}
+        isLoading={isLoading}
+        isSolid={isPushEnabled}
+        onPress={handleToggle}
+        type={type}
+      >
+        Alerts
+      </Button>
+    </Shadow>
   );
 };

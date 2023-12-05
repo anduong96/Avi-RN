@@ -29,8 +29,8 @@ const theme: DeepPartial<Theme> = {
   pallette: {
     background: BASE_THEME.pallette.white,
     borderColor: grey[100],
-    card: grey[50],
-    dividerColor: grey[50],
+    card: blackColor.clone().lighten(97).toHexString(),
+    dividerColor: grey[100],
     grey: grey,
     text: grey[900],
     white: BASE_THEME.pallette.white,

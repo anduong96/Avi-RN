@@ -17,6 +17,7 @@ import { withStyled } from '@app/lib/styled';
 import { Group } from '@app/components/group';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { SpaceVertical } from '@app/components/space.vertical';
 import { VerticalDivider } from '@app/components/divider.vertical';
 import { SaveFlightButton } from '@app/components/button.save.flight';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
@@ -163,7 +164,7 @@ export const FlightContent: React.FC = () => {
               },
             ]}
           >
-            <BlurredBackground blurType="dark" />
+            <BlurredBackground />
             <Meta />
           </Animated.View>
         </Group>
@@ -174,7 +175,7 @@ export const FlightContent: React.FC = () => {
           <Group direction="row" paddingHorizontal="medium">
             <Header />
           </Group>
-          <HorizontalDivider size="medium" />
+          <SpaceVertical size="medium" />
           {/* -------------------------------------------------------------------------- */
           /*                                 Action Section                              */
           /* -------------------------------------------------------------------------- */}

@@ -28,7 +28,10 @@ export const AircraftMarker: React.FC = () => {
   );
   const lineWidth = IS_ANDROID ? 3 : 1;
   const lineDashPattern = IS_ANDROID ? [lineWidth, lineWidth + 4] : [lineWidth];
-  const lineColor = theme.pallette.grey[600];
+  const lineColor = theme.isDark
+    ? theme.pallette.grey[600]
+    : theme.pallette.grey[100];
+
   const completedLineColor = theme.pallette.primary;
 
   if (flight.status === FlightStatus.CANCELED) {

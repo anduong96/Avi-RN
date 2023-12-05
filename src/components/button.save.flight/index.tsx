@@ -13,6 +13,7 @@ import {
 } from '@app/generated/server.gql';
 
 import { Button } from '../button';
+import { Shadow } from '../shadow';
 import { useToast } from '../toast/use.toast';
 
 type Props = {
@@ -79,17 +80,18 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
   };
 
   return (
-    <Button
-      hasShadow={isSaved}
-      icon="bookmark"
-      iconProps={{ light: !isSaved }}
-      isBold={isSaved}
-      isLoading={isLoading}
-      isSolid={isSaved}
-      onPress={handlePress}
-      type={type}
-    >
-      {label}
-    </Button>
+    <Shadow borderRadius={'round'} disabled={!isSaved} level={1}>
+      <Button
+        icon="bookmark"
+        iconProps={{ light: !isSaved }}
+        isBold={isSaved}
+        isLoading={isLoading}
+        isSolid={isSaved}
+        onPress={handlePress}
+        type={type}
+      >
+        {label}
+      </Button>
+    </Shadow>
   );
 };

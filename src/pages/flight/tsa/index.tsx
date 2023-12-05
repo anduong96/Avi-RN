@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { inRange, isEmpty } from 'lodash';
 
 import { logger } from '@app/lib/logger';
-import { withStyled } from '@app/lib/styled';
 import { Group } from '@app/components/group';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { SpaceVertical } from '@app/components/space.vertical';
 import { getAdjustedDepartureTime } from '@app/lib/flight/get.adjusted.flight.time';
 
 import { Bar } from './bar';
 import { useFlight } from '../context';
-import { SectionTile } from '../styles';
+import { SectionTile, TileLabel } from '../styles';
 import { useAirportTsaWait } from '../hooks/use.airport.tsa.wait';
 
 export const TsaCard: React.FC = () => {
@@ -46,10 +46,10 @@ export const TsaCard: React.FC = () => {
   }
 
   return (
-    <SectionTile gap="large" paddingHorizontal={0}>
-      <Title style={{ paddingHorizontal: theme.space.medium }}>
-        Average TSA Wait Time
-      </Title>
+    <SectionTile paddingHorizontal={0}>
+      <TileLabel>Typical TSA Wait Time</TileLabel>
+      <SpaceVertical size="large" />
+      <SpaceVertical size="small" />
       <ScrollView
         horizontal
         ref={content}
@@ -69,10 +69,3 @@ export const TsaCard: React.FC = () => {
     </SectionTile>
   );
 };
-
-const Title = withStyled(Text, (theme) => [
-  theme.typography.presets.p2,
-  {
-    color: theme.pallette.textSecondary,
-  },
-]);

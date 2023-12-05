@@ -87,7 +87,7 @@ const Content = withStyled(ScrollView, undefined, (theme) => ({
     gap: theme.space.large,
     padding: theme.space.medium,
     paddingBottom: WINDOW_HEIGHT * 0.5,
-    paddingHorizontal: theme.pagePadding,
+    paddingHorizontal: theme.space.small,
   },
 }));
 

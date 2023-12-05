@@ -60,6 +60,7 @@ export const Shadow: React.FC<Props> = ({
       disabled={disabled}
       distance={distance ?? config.distance}
       offset={offset ?? config.offset}
+      paintInside
       startColor={tinycolor(
         color ?? theme.pallette.grey[theme.isDark ? 50 : 100],
       )

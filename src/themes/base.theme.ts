@@ -73,7 +73,6 @@ const shadows = {
 
 const borderRadius = 20;
 const borderWidth = 2;
-const pagePadding = 10;
 
 const typography = {
   presets: {
@@ -132,7 +131,6 @@ export const BASE_THEME = {
   borderWidth,
   dividerSize: 1,
   isDark: true,
-  pagePadding,
   pallette,
   presets: {
     centered: makeStyle({

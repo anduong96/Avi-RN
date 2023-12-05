@@ -63,7 +63,7 @@ export const InputBar: React.FC = () => {
 
   if (!hasAirlineIata && !hasFlightNumber) {
     return (
-      <Group direction="row" gap={'tiny'} paddingHorizontal={theme.pagePadding}>
+      <Group direction="row" gap={'tiny'} paddingHorizontal={theme.space.small}>
         <TextSearchInput />
         <RandomFlightBtn onFlight={handleRandomFlight} />
       </Group>
@@ -71,7 +71,7 @@ export const InputBar: React.FC = () => {
   }
 
   return (
-    <Group direction="row" gap="tiny" paddingHorizontal={theme.pagePadding}>
+    <Group direction="row" gap="tiny" paddingHorizontal={theme.space.small}>
       <FocusedContainer isFocused={focusedInput === 'airlineIata'}>
         <AirlineInput ref={airlineInput} />
       </FocusedContainer>

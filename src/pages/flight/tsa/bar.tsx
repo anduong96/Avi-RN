@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import moment from 'moment';
 
 import type { AirportTsaWaitTime } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
+import { Typography } from '@app/components/typography';
 
 type Props = {
   columnHeight: number;
@@ -16,9 +17,13 @@ type Props = {
 export const Bar: React.FC<Props> = ({ columnHeight, isActive, value }) => {
   return (
     <Container>
-      <MinutesLabel>{value.maxWaitMinute}m</MinutesLabel>
+      <Typography isBold isCentered type="tiny">
+        {value.maxWaitMinute}m
+      </Typography>
       <Column columnHeight={columnHeight} isActive={isActive} />
-      <TimeLabel>{moment().set('hour', value.hour).format('h A')}</TimeLabel>
+      <Typography color={'secondary'} isBold isCentered type="small">
+        {moment().set('hour', value.hour).format('h A')}
+      </Typography>
     </Container>
   );
 };
@@ -37,7 +42,6 @@ const Column = withStyled<
   Pick<Props, 'columnHeight' | 'isActive'>,
   typeof View
 >(View, (theme, props) => [
-  theme.presets.shadows[200],
   {
     backgroundColor: theme.pallette.grey[200],
     borderRadius: theme.borderRadius,
@@ -46,21 +50,5 @@ const Column = withStyled<
   props.isActive && {
     backgroundColor: theme.pallette.active,
     shadowColor: theme.pallette.active,
-  },
-]);
-
-const MinutesLabel = withStyled(Text, (theme) => [
-  theme.typography.presets.small,
-  {
-    color: theme.pallette.text,
-    textAlign: 'center',
-  },
-]);
-
-const TimeLabel = withStyled(Text, (theme) => [
-  theme.typography.presets.tiny,
-  {
-    color: theme.pallette.textSecondary,
-    textAlign: 'center',
   },
 ]);

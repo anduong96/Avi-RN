@@ -130,7 +130,7 @@ const Item = withStyled<{ index: number }, typeof TouchableOpacity>(
   TouchableOpacity,
   (theme, props) => [
     {
-      marginHorizontal: theme.pagePadding,
+      marginHorizontal: theme.space.small,
     },
     props.index === 0 && {
       backgroundColor: theme.pallette.grey[50],

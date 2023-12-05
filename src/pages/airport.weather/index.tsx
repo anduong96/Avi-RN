@@ -84,7 +84,7 @@ export const AirportWeatherPage: React.FC = () => {
         rightActions={<CloseBtn onPress={exit} />}
         title={format("%s's Weather", airport.data?.airport?.name ?? '...')}
       />
-      <Group flexGrow={1} padding={theme.pagePadding}>
+      <Group flexGrow={1} padding={theme.space.small}>
         <LoadingOverlay
           backgroundColor={theme.pallette.background}
           isLoading={weather.loading}

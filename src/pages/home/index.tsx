@@ -198,7 +198,7 @@ const Item = withStyled(
   Animated.createAnimatedComponent(TouchableOpacity),
   (theme) => [
     {
-      paddingHorizontal: theme.pagePadding,
+      paddingHorizontal: theme.space.small,
       paddingVertical: theme.space.medium / 2,
     },
   ],

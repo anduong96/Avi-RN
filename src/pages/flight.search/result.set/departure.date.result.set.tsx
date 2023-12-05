@@ -130,7 +130,7 @@ const CalendarContainer = withStyled(
       bottom: 0,
       gap: theme.space.medium,
       left: 0,
-      paddingHorizontal: theme.pagePadding,
+      paddingHorizontal: theme.space.small,
       position: 'absolute',
       right: 0,
       top: 0,
@@ -165,7 +165,7 @@ const Item = withStyled<{ index?: number }, typeof ListItem>(
   ListItem,
   (theme, props) => [
     {
-      marginHorizontal: theme.pagePadding,
+      marginHorizontal: theme.space.small,
     },
     props.index === 0 && {
       backgroundColor: theme.pallette.grey[50],

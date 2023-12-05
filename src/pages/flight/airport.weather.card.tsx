@@ -2,6 +2,7 @@ import * as React from 'react';
 import FastImage from 'react-native-fast-image';
 
 import moment from 'moment';
+import { startCase } from 'lodash';
 
 import { Group } from '@app/components/group';
 import { Typography } from '@app/components/typography';
@@ -63,9 +64,7 @@ export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
   return (
     <SectionTile gap={'large'} style={{ minHeight: 100 }}>
       <LoadingOverlay isLoading={weather.loading} />
-      <TileLabel>
-        {airport.name.trim()} Airport's {type} weather
-      </TileLabel>
+      <TileLabel>{startCase(type)} weather</TileLabel>
       <Group width={'100%'}>
         <Group
           direction="row"

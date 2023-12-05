@@ -48,8 +48,10 @@ export const Point: React.FC<Props> = ({ type }) => {
   ] as const;
 
   return (
-    <Group flexBasis={1} flexGrow={1} horizontalAlign={alignment}>
-      <Typography type="massive">{iata}</Typography>
+    <Group flexBasis={2} flexGrow={2} horizontalAlign={alignment}>
+      <Typography numberOfLines={1} type="massive">
+        {iata}
+      </Typography>
       <Group direction="row">
         {parts.map(([template, value], index) => (
           <Typography
@@ -76,18 +78,20 @@ export const Point: React.FC<Props> = ({ type }) => {
         ]}
       >
         <Icon color={color} />
-        <Typography color={color} isBold type="h2">
-          {time.format('h:mm A')}
-        </Typography>
-        {hasDayDiff && (
-          <Typography
-            color={color}
-            isBold
-            style={{ position: 'absolute', right: -5, top: -10 }}
-          >
-            {data.destination.dayDiff}
+        <Group direction="row">
+          <Typography color={color} isBold type="h2">
+            {time.format('h:mm A')}
           </Typography>
-        )}
+          {hasDayDiff && (
+            <Typography
+              color={color}
+              isBold
+              style={{ position: 'absolute', right: -15, top: -10 }}
+            >
+              {data.destination.dayDiff}
+            </Typography>
+          )}
+        </Group>
       </Group>
     </Group>
   );

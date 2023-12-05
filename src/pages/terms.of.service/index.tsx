@@ -37,7 +37,7 @@ export const TermsOfServicePage: React.FC = () => {
             backgroundColor: theme.pallette.background,
             padding: theme.space.medium,
             paddingBottom: WINDOW_HEIGHT * 0.5,
-            paddingHorizontal: theme.pagePadding,
+            paddingHorizontal: theme.space.small,
           },
           scrollsToTop: true,
         }}

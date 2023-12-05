@@ -62,7 +62,7 @@ export const ArchivedFlightsPage: React.FC = () => {
 
 const ListItem = withStyled(Animated.View, (theme) => [
   {
-    paddingHorizontal: theme.space.medium,
+    paddingHorizontal: theme.space.small,
     paddingVertical: theme.space.medium / 2,
   },
 ]);

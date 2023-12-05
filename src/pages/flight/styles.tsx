@@ -4,6 +4,7 @@ import { Typography } from '@app/components/typography';
 
 export const TileLabel = withStyled(Typography, undefined, {
   color: 'secondary',
+  isBold: true,
   type: 'p2',
 });
 
@@ -12,7 +13,7 @@ export const TileValue = withStyled(Typography, undefined, {
 });
 
 export const Section = withStyled(Group, undefined, (theme) => ({
-  paddingHorizontal: theme.pagePadding,
+  paddingHorizontal: theme.space.small,
 }));
 
 export const SectionTile = withStyled(

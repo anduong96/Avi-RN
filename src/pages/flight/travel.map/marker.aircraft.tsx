@@ -30,7 +30,7 @@ export const AircraftMarker: React.FC = () => {
   const lineDashPattern = IS_ANDROID ? [lineWidth, lineWidth + 4] : [lineWidth];
   const lineColor = theme.isDark
     ? theme.pallette.grey[600]
-    : theme.pallette.grey[100];
+    : theme.pallette.grey[500];
 
   const completedLineColor = theme.pallette.primary;
 
@@ -111,6 +111,16 @@ export const AircraftMarker: React.FC = () => {
 
   return (
     <>
+      <MapMarker
+        coordinate={closetCoordinate}
+        style={{ elevation: 3, zIndex: 3 }}
+      >
+        <Plane
+          color={theme.pallette.primary}
+          name="plane-engines"
+          rotation={planeRotation}
+        />
+      </MapMarker>
       <Polyline
         coordinates={curvePoints}
         lineDashPattern={lineDashPattern}
@@ -124,16 +134,6 @@ export const AircraftMarker: React.FC = () => {
         strokeWidth={lineWidth + 2}
         zIndex={2}
       />
-      <MapMarker
-        coordinate={closetCoordinate}
-        style={{ elevation: 3, zIndex: 3 }}
-      >
-        <Plane
-          color={tinycolor(theme.pallette.active).toHexString()}
-          name="plane-engines"
-          rotation={planeRotation}
-        />
-      </MapMarker>
     </>
   );
 };
@@ -143,6 +143,7 @@ const Plane = withStyled<{ rotation?: number }, typeof FaIcon>(
   (theme, props) => [
     theme.presets.shadows[200],
     {
+      elevation: 20,
       shadowOffset: {
         height: -5,
         width: -5,

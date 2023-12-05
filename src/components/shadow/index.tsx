@@ -62,7 +62,7 @@ export const Shadow: React.FC<Props> = ({
       offset={offset ?? config.offset}
       paintInside
       startColor={tinycolor(
-        color ?? theme.pallette.grey[theme.isDark ? 50 : 100],
+        color ?? theme.pallette.grey[theme.isDark ? 50 : 300],
       )
         .darken(darken)
         .setAlpha(opacity)

@@ -3,6 +3,7 @@ import * as React from 'react';
 import { isNil } from 'lodash';
 
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useToast } from '@app/components/toast/use.toast';
 import {
   UserActiveFlightsDocument,
   UserArchivedFlightsDocument,
@@ -12,9 +13,7 @@ import {
   useUserFlightQuery,
 } from '@app/generated/server.gql';
 
-import { Button } from '../button';
-import { Shadow } from '../shadow';
-import { useToast } from '../toast/use.toast';
+import { ActionBtn } from './action.btn';
 
 type Props = {
   flightID: string;
@@ -69,9 +68,6 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
 
   const isSaved = !isNil(userFlightResp.data?.userFlight?.id);
   const isLoading = userFlightResp.loading || adding || removing;
-  const [label, type] = isSaved
-    ? (['Saved', 'primary'] as const)
-    : (['Save', 'default'] as const);
 
   const handlePress = async () => {
     vibrate('impactHeavy');
@@ -80,18 +76,12 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
   };
 
   return (
-    <Shadow borderRadius={'round'} disabled={!isSaved} level={1}>
-      <Button
-        icon="bookmark"
-        iconProps={{ light: !isSaved }}
-        isBold={isSaved}
-        isLoading={isLoading}
-        isSolid={isSaved}
-        onPress={handlePress}
-        type={type}
-      >
-        {label}
-      </Button>
-    </Shadow>
+    <ActionBtn
+      icon="bookmark"
+      isActive={isSaved}
+      isLoading={isLoading}
+      label={isSaved ? 'Saved' : 'Save'}
+      onPress={handlePress}
+    />
   );
 };

@@ -2,8 +2,6 @@ import { type ImageStyle, type TextStyle, type ViewStyle } from 'react-native';
 
 import tinycolor from 'tinycolor2';
 
-import { IS_ANDROID } from '@app/lib/platform';
-
 const WHITE = '#fff';
 const BLACK = '#000';
 
@@ -29,7 +27,7 @@ const grey = {
 };
 
 const pallette = {
-  active: IS_ANDROID ? '#3f63f2' : '#007bff',
+  active: '#0379DC',
   background: blackColor.clone().toHexString(),
   black: BLACK,
   borderColor: grey[200],
@@ -38,8 +36,8 @@ const pallette = {
   disabled: grey[400],
   dividerColor: grey[100],
   grey,
-  primary: '#DBCE1B',
-  secondary: '#fff',
+  primary: '#0379DC',
+  secondary: '#0DE3FE',
   success: '#00C851',
   text: WHITE,
   textSecondary: grey[500],

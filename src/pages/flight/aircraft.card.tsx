@@ -86,7 +86,7 @@ const Content = withStyled(View, (theme) => [
 const Meta = withStyled(View, (theme) => [
   {
     alignItems: 'flex-start',
-    backgroundColor: tinycolor(theme.pallette.card).setAlpha(0.8).toRgbString(),
+    backgroundColor: tinycolor(theme.pallette.card).setAlpha(0.5).toRgbString(),
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingHorizontal: theme.space.medium,
@@ -111,7 +111,8 @@ const StatItem = withStyled(
       flexShrink: 1,
     },
   ],
-  (theme) => ({
+  (theme): React.ComponentProps<typeof Statistic> => ({
+    labelStyle: [{ fontWeight: 'bold' }],
     valueStyle: [theme.typography.presets.p2],
   }),
 );

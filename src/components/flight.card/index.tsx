@@ -14,6 +14,7 @@ import {
 
 import type { ShadowProps } from '../shadow';
 
+import { Group } from '../group';
 import { Shadow } from '../shadow';
 import { Typography } from '../typography';
 import { FaIcon } from '../icons.fontawesome';
@@ -47,24 +48,35 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
             <TimeText isBold>{departureTime.format('MMM D')}</TimeText>
           </Time>
         </Header>
-        <Body>
-          <FlightPoint type="origin">
-            <AirportIata>{Flight.Origin.iata}</AirportIata>
-            <AirportCity>{Flight.Origin.cityName}</AirportCity>
-          </FlightPoint>
-          <DividerContainer>
-            <DividerDashed />
-            <ActiveDivider progressPercent={Flight.progressPercent} />
-          </DividerContainer>
-          <FlightPoint type="destination">
-            <AirportIata style={{ textAlign: 'right' }}>
-              {Flight.Destination.iata}
-            </AirportIata>
-            <AirportCity style={{ textAlign: 'right' }}>
-              {Flight.Destination.cityName}
-            </AirportCity>
-          </FlightPoint>
-        </Body>
+        <Group direction="column">
+          <Group direction="row" gap={'small'} verticalAlign="center">
+            <Group flexBasis={2} flexGrow={1} horizontalAlign="left">
+              <AirportIata textAlign="left">{Flight.Origin.iata}</AirportIata>
+            </Group>
+            <Group flexBasis={1} flexGrow={1}>
+              <DividerDashed dashThickness={2} />
+              <ActiveDivider progressPercent={Flight.progressPercent} />
+            </Group>
+            <Group flexBasis={2} flexGrow={1} horizontalAlign="right">
+              <AirportIata textAlign="right">
+                {Flight.Destination.iata}
+              </AirportIata>
+            </Group>
+          </Group>
+          <Group direction="row">
+            <Group flexBasis={2} flexGrow={1} horizontalAlign="left">
+              <AirportCity textAlign="left">
+                {Flight.Origin.cityName}
+              </AirportCity>
+            </Group>
+            <Group flexBasis={1} flexGrow={1} />
+            <Group flexBasis={2} flexGrow={1} horizontalAlign="right">
+              <AirportCity textAlign="right">
+                {Flight.Destination.cityName}
+              </AirportCity>
+            </Group>
+          </Group>
+        </Group>
         <Footer>
           <Movement>
             <MovementIconContainer>
@@ -102,7 +114,7 @@ const Container = withStyled(View, (theme) => [
   {
     backgroundColor: theme.pallette.grey[50],
     borderRadius: theme.borderRadius,
-    gap: theme.space.small,
+    gap: theme.space.medium,
     paddingHorizontal: theme.space.medium,
     paddingVertical: theme.space.medium,
   },
@@ -125,14 +137,6 @@ const Header = withStyled(View, (theme) => [
   },
 ]);
 
-const Body = withStyled(View, (theme) => [
-  {
-    flexDirection: 'row',
-    gap: theme.space.medium,
-    overflow: 'hidden',
-  },
-]);
-
 const Footer = withStyled(View, (theme) => [
   theme.presets.centered,
   {
@@ -143,52 +147,24 @@ const Footer = withStyled(View, (theme) => [
   },
 ]);
 
-const FlightPoint = withStyled<{ type: 'destination' | 'origin' }, typeof View>(
-  View,
-  (_, props) => [
-    {
-      flexBasis: 1,
-      flexGrow: 1,
-    },
-    props.type === 'destination' && {
-      alignItems: 'flex-end',
-    },
-  ],
-);
+const AirportIata = withStyled(Typography, undefined, {
+  type: 'h1',
+});
 
-const AirportIata = withStyled(Text, (theme) => [
-  theme.typography.presets.h1,
-  {
-    color: theme.pallette.text,
-  },
-]);
-
-const AirportCity = withStyled(Text, (theme) => [
-  theme.typography.presets.p2,
-  {
-    color: theme.pallette.textSecondary,
-  },
-]);
-
-const DividerContainer = withStyled(View, (theme) => [
-  {
-    alignSelf: 'center',
-    borderRadius: theme.roundRadius,
-    flexDirection: 'column',
-    flexGrow: 1,
-    justifyContent: 'center',
-    overflow: 'hidden',
-    paddingTop: theme.typography.presets.h1.fontSize / 2,
-  },
-]);
+const AirportCity = withStyled(Typography, undefined, {
+  color: 'secondary',
+  type: 'p2',
+});
 
 const ActiveDivider = withStyled<Pick<Flight, 'progressPercent'>, typeof View>(
   View,
   (theme, props) => [
     {
       alignSelf: 'center',
-      backgroundColor: theme.pallette.active,
-      height: 1,
+      backgroundColor: theme.pallette.primary,
+      borderRadius: theme.roundRadius,
+      height: theme.borderWidth,
+      overflow: 'hidden',
       position: 'absolute',
     },
     {
@@ -220,15 +196,17 @@ const Movement = withStyled(View, (theme) => [
   },
 ]);
 
-const MovementText = withStyled<{ color?: string }, typeof Text>(
-  Text,
+const MovementText = withStyled<{ color?: string }, typeof Typography>(
+  Typography,
   (theme, props) => [
-    theme.typography.presets.h3,
     {
       color: props.color || theme.pallette.text,
-      fontWeight: 'bold',
     },
   ],
+  {
+    isBold: true,
+    type: 'h3',
+  },
 );
 
 const MovementIconContainer = withStyled(View, () => [{}]);

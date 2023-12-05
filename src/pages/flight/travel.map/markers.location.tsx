@@ -10,6 +10,8 @@ import Animated, {
 
 import tinycolor from 'tinycolor2';
 
+import type { Coordinate } from '@app/types/coordinate';
+
 import { withStyled } from '@app/lib/styled';
 import { IS_ANDROID } from '@app/lib/platform';
 import { useTheme } from '@app/lib/hooks/use.theme';
@@ -24,6 +26,14 @@ export const LocationMarkers: React.FC = () => {
   const longitudeOffset = IS_ANDROID ? 1 : 0;
   const theme = useTheme();
   const flight = useFlight();
+  const origin: Coordinate = {
+    latitude: flight.Origin.latitude - latitudeOffset,
+    longitude: flight.Origin.longitude - longitudeOffset,
+  };
+  const destination: Coordinate = {
+    latitude: flight.Destination.latitude - latitudeOffset,
+    longitude: flight.Destination.longitude - longitudeOffset,
+  };
   const markerStyle = useAnimatedStyle(() => ({
     transform: [
       {
@@ -42,10 +52,7 @@ export const LocationMarkers: React.FC = () => {
   return (
     <>
       <MapMarker
-        coordinate={{
-          latitude: flight.Origin.latitude - latitudeOffset,
-          longitude: flight.Origin.longitude - longitudeOffset,
-        }}
+        coordinate={origin}
         identifier={flight.Origin.id}
         style={[
           {
@@ -69,10 +76,7 @@ export const LocationMarkers: React.FC = () => {
         </MarkerLabel>
       </MapMarker>
       <MapMarker
-        coordinate={{
-          latitude: flight.Destination.latitude - latitudeOffset,
-          longitude: flight.Destination.longitude - longitudeOffset,
-        }}
+        coordinate={destination}
         identifier={flight.Destination.id}
         style={{
           aspectRatio: 1,
@@ -99,7 +103,7 @@ const MarkerContent = withStyled(View, (theme) => [
   theme.presets.shadows[200],
   {
     aspectRatio: 1,
-    backgroundColor: theme.pallette.primary,
+    backgroundColor: theme.pallette.secondary,
     borderRadius: theme.roundRadius,
     height: '100%',
   },
@@ -111,7 +115,7 @@ const MarkerPulse = withStyled(Animated.View, (theme) => [
       .setAlpha(0.4)
       .toRgbString(),
     borderRadius: theme.roundRadius,
-    elevation: 1,
+    elevation: 3,
     height: '100%',
     position: 'absolute',
     width: '100%',

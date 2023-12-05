@@ -8,9 +8,8 @@ import Animated, {
 
 import type { ScrollViewProps, ViewProps } from 'react-native';
 
-import { WINDOW_HEIGHT, WINDOW_WIDTH } from '@gorhom/bottom-sheet';
+import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
 
-import { ENV } from '@app/env';
 import { FILLER } from '@app/constants';
 import { logger } from '@app/lib/logger';
 import { Card } from '@app/components/card';
@@ -22,9 +21,7 @@ import { VerticalDivider } from '@app/components/divider.vertical';
 import { SaveFlightButton } from '@app/components/button.save.flight';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
 import { BlurredBackground } from '@app/components/blurred/background';
-import { ShareFlightButton } from '@app/components/button.share.flight';
 import { AlertFlightButton } from '@app/components/button.alerts.flight';
-import { DebugNotificationFlightBtn } from '@app/components/button.debug.notification.flight';
 
 import { Meta } from './meta';
 import { TsaCard } from './tsa';
@@ -181,29 +178,19 @@ export const FlightContent: React.FC = () => {
           {/* -------------------------------------------------------------------------- */
           /*                                 Action Section                              */
           /* -------------------------------------------------------------------------- */}
-          <ScrollView
-            contentContainerStyle={{ paddingRight: WINDOW_WIDTH / 3 }}
-            horizontal
-            showsHorizontalScrollIndicator={false}
+
+          <Group
+            direction="row"
+            gap="small"
+            horizontalAlign="center"
+            paddingHorizontal="medium"
+            verticalAlign="center"
+            width="100%"
           >
-            <Group
-              direction="row"
-              gap="small"
-              paddingHorizontal="medium"
-              verticalAlign="center"
-            >
-              <SaveFlightButton flightID={flightID} />
-              <VerticalDivider />
-              <AlertFlightButton flightID={flightID} />
-              <ShareFlightButton flightID={flightID} />
-              {ENV.APP_ENV !== 'production' && (
-                <>
-                  <VerticalDivider />
-                  <DebugNotificationFlightBtn flightID={flightID} />
-                </>
-              )}
-            </Group>
-          </ScrollView>
+            <SaveFlightButton flightID={flightID} />
+            <VerticalDivider />
+            <AlertFlightButton flightID={flightID} />
+          </Group>
           <HorizontalDivider size="medium" />
           <Group gap="xLarge">
             {/* -------------------------------------------------------------------------- */

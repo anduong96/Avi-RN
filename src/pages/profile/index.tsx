@@ -13,7 +13,6 @@ import { PageContainer } from '@app/components/page.container';
 import { SpaceVertical } from '@app/components/space.vertical';
 import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
 
-import { DevCard } from './dev.card';
 import { LegalCard } from './legal.card';
 import { SignOutBtn } from './sign.out.btn';
 import { SettingsCard } from './settings.card';
@@ -51,11 +50,6 @@ export const ProfilePage: React.FC = () => {
         <Section>
           <AccountConnectCard />
         </Section>
-        {__DEV__ && (
-          <Section>
-            <DevCard />
-          </Section>
-        )}
         <Section>
           <SettingsCard />
         </Section>
@@ -93,6 +87,7 @@ const Content = withStyled(ScrollView, undefined, (theme) => ({
     gap: theme.space.large,
     padding: theme.space.medium,
     paddingBottom: WINDOW_HEIGHT * 0.5,
+    paddingHorizontal: theme.pagePadding,
   },
 }));
 

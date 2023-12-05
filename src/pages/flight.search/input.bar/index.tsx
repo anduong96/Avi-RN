@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { View } from 'react-native';
 
 import type { TextInput } from 'react-native';
 
@@ -7,7 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import type { MainStack } from '@app/navigation';
 
-import { withStyled } from '@app/lib/styled';
+import { Group } from '@app/components/group';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { RandomFlightBtn } from '@app/components/button.random.flight';
 import { type FullFlightFragmentFragment } from '@app/generated/server.gql';
 import { useKeyboardSubmitEvent } from '@app/components/input/use.keyboard.submit';
@@ -21,7 +21,8 @@ import { FlightNumberInput } from './flight.number.input';
 import { DepartureDateInput } from './departure.date.input';
 
 export const InputBar: React.FC = () => {
-  const navigation = useNavigation<MainStack<'FlightSearch'>>();
+  const theme = useTheme();
+  const navigation = useNavigation<MainStack>();
   const focusedInput = useFlightSearchState((s) => s.focusInput);
   const hasAirlineIata = useFlightSearchState((s) => s.hasValue('airlineIata'));
   const hasFlightNumber = useFlightSearchState((s) =>
@@ -62,15 +63,15 @@ export const InputBar: React.FC = () => {
 
   if (!hasAirlineIata && !hasFlightNumber) {
     return (
-      <Container>
+      <Group direction="row" gap={'tiny'} paddingHorizontal={theme.pagePadding}>
         <TextSearchInput />
         <RandomFlightBtn onFlight={handleRandomFlight} />
-      </Container>
+      </Group>
     );
   }
 
   return (
-    <Container>
+    <Group direction="row" gap="tiny" paddingHorizontal={theme.pagePadding}>
       <FocusedContainer isFocused={focusedInput === 'airlineIata'}>
         <AirlineInput ref={airlineInput} />
       </FocusedContainer>
@@ -80,15 +81,6 @@ export const InputBar: React.FC = () => {
       <FocusedContainer isFocused={focusedInput === 'departureDate'}>
         <DepartureDateInput ref={departureDateInput} />
       </FocusedContainer>
-    </Container>
+    </Group>
   );
 };
-
-const Container = withStyled(View, (theme) => [
-  {
-    flexDirection: 'row',
-    gap: theme.space.tiny,
-    overflow: 'hidden',
-    paddingHorizontal: theme.space.medium,
-  },
-]);

@@ -16,6 +16,7 @@ import type { UserActiveFlightsQuery } from '@app/generated/server.gql';
 import { logger } from '@app/lib/logger';
 import { format } from '@app/lib/format';
 import { withStyled } from '@app/lib/styled';
+import { Group } from '@app/components/group';
 import { Button } from '@app/components/button';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { ScrollUp } from '@app/components/scroll.up';
@@ -103,7 +104,7 @@ export const HomePage: React.FC = () => {
           }}
           ListHeaderComponent={() => {
             return (
-              <HeaderWrapper>
+              <Group gap={'large'}>
                 <Header>
                   <Title>Your</Title>
                   <Title>Flights ✈️</Title>
@@ -117,7 +118,7 @@ export const HomePage: React.FC = () => {
                     Past
                   </ArchivedFlightsBtn>
                 </Actions>
-              </HeaderWrapper>
+              </Group>
             );
           }}
           contentContainerStyle={{ paddingBottom: WINDOW_HEIGHT * 0.5 }}
@@ -169,12 +170,6 @@ const Page = withStyled(View, (theme) => [
   },
 ]);
 
-const HeaderWrapper = withStyled(View, (theme) => [
-  {
-    gap: theme.space.large,
-  },
-]);
-
 const Header = withStyled(View, (theme) => [
   {
     paddingBottom: theme.space.small,
@@ -203,7 +198,7 @@ const Item = withStyled(
   Animated.createAnimatedComponent(TouchableOpacity),
   (theme) => [
     {
-      paddingHorizontal: theme.space.medium,
+      paddingHorizontal: theme.pagePadding,
       paddingVertical: theme.space.medium / 2,
     },
   ],

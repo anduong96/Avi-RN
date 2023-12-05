@@ -36,7 +36,7 @@ export const PrivacyPoliciesPage: React.FC = () => {
           contentContainerStyle: {
             backgroundColor: theme.pallette.background,
             paddingBottom: WINDOW_HEIGHT * 0.5,
-            paddingHorizontal: theme.space.medium,
+            paddingHorizontal: theme.pagePadding,
           },
           scrollsToTop: true,
         }}

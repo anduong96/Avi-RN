@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { Portal } from '@gorhom/portal';
 
+import { List } from '@app/components/list';
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
@@ -83,31 +84,36 @@ export const Select = <T extends number | string>({
                   style={{ right: 0, top: -(30 + theme.space.small) }}
                 />
                 <Options>
-                  {options.map((option, index) => (
-                    <TouchableOpacity
-                      disabled={option.disabled}
-                      key={index}
-                      onPress={() => handleSelect(option.value)}
-                    >
-                      <OptionItem>
-                        {index > 0 && <HorizontalDivider />}
-                        <ListItem
-                          horizontalPadding="large"
-                          icon={option.icon}
-                          key={option.value}
-                          style={{ backgroundColor: theme.pallette.background }}
-                          title={option.label}
-                          titleStyle={[
-                            value === option.value && {
-                              color: theme.pallette.active,
-                              fontWeight: 'bold',
-                            },
-                          ]}
-                          verticalPadding="medium"
-                        />
-                      </OptionItem>
-                    </TouchableOpacity>
-                  ))}
+                  <List
+                    data={options}
+                    renderItem={(option, index) => (
+                      <TouchableOpacity
+                        disabled={option.disabled}
+                        key={index}
+                        onPress={() => handleSelect(option.value)}
+                      >
+                        <OptionItem>
+                          {index > 0 && <HorizontalDivider size="tiny" />}
+                          <ListItem
+                            horizontalPadding="large"
+                            icon={option.icon}
+                            key={option.value}
+                            style={{
+                              backgroundColor: theme.pallette.background,
+                            }}
+                            title={option.label}
+                            titleStyle={[
+                              value === option.value && {
+                                color: theme.pallette.active,
+                                fontWeight: 'bold',
+                              },
+                            ]}
+                            verticalPadding="medium"
+                          />
+                        </OptionItem>
+                      </TouchableOpacity>
+                    )}
+                  />
                 </Options>
               </Content>
             </Animated.View>

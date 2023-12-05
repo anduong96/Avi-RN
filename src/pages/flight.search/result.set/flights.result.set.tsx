@@ -80,7 +80,7 @@ const Empty = withStyled(View, (theme) => [
 
 const Item = withStyled(Pressable, (theme) => [
   {
-    paddingHorizontal: theme.space.medium,
+    paddingHorizontal: theme.pagePadding,
     paddingVertical: theme.space.medium / 2,
   },
 ]);

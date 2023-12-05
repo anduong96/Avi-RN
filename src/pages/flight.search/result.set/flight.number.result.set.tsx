@@ -48,7 +48,12 @@ export const FlightNumberResultSet: React.FC = () => {
           }
           horizontalPadding="medium"
           icon={<FaIcon light name="hashtag" size={20} />}
-          style={[{ backgroundColor: theme.pallette.grey[50] }]}
+          style={[
+            {
+              backgroundColor: theme.pallette.grey[50],
+              borderRadius: theme.borderRadius,
+            },
+          ]}
           title={value}
           verticalPadding="medium"
         />

@@ -11,7 +11,7 @@ import { vibrate } from '@app/lib/haptic.feedback';
 import { BlurredBackground } from '@app/components/blurred/background';
 
 export const BottomTabs: React.FC = () => {
-  const navigation = useNavigation<MainStack<'Home'>>();
+  const navigation = useNavigation<MainStack>();
 
   const handleNavigation = (
     ...params: Parameters<(typeof navigation)['push']>

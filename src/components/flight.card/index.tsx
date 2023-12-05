@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import type {
-  Flight,
-  UserArchivedFlightsQuery,
-} from '@app/generated/server.gql';
-
 import { withStyled } from '@app/lib/styled';
 import { DOT_SEPARATOR } from '@app/constants';
+import {
+  type Flight,
+  type UserArchivedFlightsQuery,
+} from '@app/generated/server.gql';
 import {
   transformFlightData,
   useFlightStatusColor,
@@ -45,7 +44,7 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
               {departureTime.fromNow()}
             </TimeText>
             <TimeText isBold>{DOT_SEPARATOR}</TimeText>
-            <TimeText>{departureTime.format('MMM D')}</TimeText>
+            <TimeText isBold>{departureTime.format('MMM D')}</TimeText>
           </Time>
         </Header>
         <Body>

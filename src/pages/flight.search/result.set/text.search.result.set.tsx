@@ -131,6 +131,7 @@ const Item = withStyled<{ index: number }, typeof TouchableOpacity>(
   (theme, props) => [
     props.index === 0 && {
       backgroundColor: theme.pallette.grey[50],
+      borderRadius: theme.borderRadius,
     },
   ],
 );

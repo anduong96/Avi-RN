@@ -17,6 +17,14 @@ definitions:
         success: true
         failure: true
   scripts:
+    - &install_doppler
+      name: Import Dopler secrets
+      script: |
+        doppler secrets download --no-read-env \
+          --no-file \
+          --format env-no-quotes \
+          --config $APP_ENV \
+          --token $DOPPLER_TOKEN >> $CM_ENV
     - &export_match_key
       name: Export key
       script: |
@@ -125,6 +133,7 @@ workflows:
         GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json
     scripts:
       - *export_match_key
+      - *install_doppler
       - *install_bundler
       - *install_imagemagick
       - *install_rn_dep

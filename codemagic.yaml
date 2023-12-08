@@ -110,7 +110,7 @@ workflows:
       - $CM_BUILD_DIR/ios/Pods
       - $CM_BUILD_DIR/node_modules
     environment:
-      xcode: 14.3
+      xcode: 15.0.1
       cocoapods: default
       groups:
         - Staging_iOS

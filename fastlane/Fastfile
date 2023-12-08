@@ -178,8 +178,6 @@ lane :update_version do |options|
 end
 
 platform :ios do
-  load_remote_env()
-
   before_all do
     if is_ci
       setup_circle_ci
@@ -207,23 +205,34 @@ platform :ios do
   end
 
   lane :fetch_profiles do |options|
-    if ENV['GITHUB_ACCESS_TOKEN'] != nil
-      UI.message("Fetching provisioning profiles using github...")
-      match(
-        type: options[:type],
-        readonly: is_ci,
-        generate_apple_certs: options[:type] == "appstore",
-        app_identifier: [lane_context["IOS_APP_ID"]],
-        git_basic_authorization: Base64.strict_encode64(ENV['GITHUB_USERNAME'] + ":" + ENV['GITHUB_ACCESS_TOKEN']),
-      )
-    else
+    generate_apple_certs = options[:type] == "appstore"
+    readonly = is_ci
+    type = options[:type]
+
+    if ENV['MATCH_SSH_KEY'] != nil
       UI.message("Fetching provisioning profiles using ssh...")
       match(
-        type: options[:type],
-        readonly: is_ci,
-        generate_apple_certs: options[:type] == "appstore",
+        type: type,
+        readonly: readonly,
+        generate_apple_certs: generate_apple_certs,
         app_identifier: [lane_context["IOS_APP_ID"]],
         git_private_key: ENV['MATCH_SSH_KEY']
+      )
+    else
+      UI.message("Fetching provisioning profiles using github...")
+      ensure_env_vars(
+        env_vars: [
+          "GITHUB_USERNAME",
+          "GITHUB_ACCESS_TOKEN"
+        ]
+      )
+      basic_auth = Base64.strict_encode64(ENV['GITHUB_USERNAME'] + ":" + ENV['GITHUB_ACCESS_TOKEN'])
+      match(
+        type: type,
+        readonly: readonly,
+        generate_apple_certs: generate_apple_certs,
+        app_identifier: [lane_context["IOS_APP_ID"]],
+        git_basic_authorization: basic_auth
       )
     end
   end
@@ -287,6 +296,8 @@ platform :ios do
   desc "Local development using iOS Simulator..."
   lane :develop do |options|
     begin
+      load_remote_env()
+
       scheme = "--scheme #{options[:scheme] || lane_context["IOS_SCHEME"]}"
       device = "--device" if options[:device]
       simulator = "--simulator #{options[:simulator] || '"iPhone 14"'}"
@@ -310,14 +321,17 @@ platform :ios do
         "FIREBASE_IOS_APP_ID",
         "FASTLANE_APPLE_USERNAME",
         "FASTLANE_APPLE_BUNDLE_IDENTIFIER",
-        "FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD",
+        # "FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD",
         "COMMIT_SHA",
         "REPO",
         "SERVER"
       ]
     )
 
-    disable_automatic_code_signing(path: IOS_PROJ_PATH)
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: IOS_PROJ_PATH
+    )
     increment_build(:ios)
     suffix_name(suffix: "S")
     prepare_icons(platform: :ios, lane: :staging)
@@ -372,7 +386,10 @@ platform :ios do
         is_key_content_base64: true
       )
 
-      disable_automatic_code_signing(path: IOS_PROJ_PATH)
+      update_code_signing_settings(
+        use_automatic_signing: false,
+        path: IOS_PROJ_PATH
+      )
       fetch_profiles(type: "appstore")
       build_application(scheme: lane_context["IOS_SCHEME"], configuration: "Release")
 

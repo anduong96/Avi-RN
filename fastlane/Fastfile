@@ -213,18 +213,19 @@ platform :ios do
     generate_apple_certs = options[:type] == "appstore"
     readonly = is_ci
     type = options[:type]
+    identifier = lane_context["IOS_APP_ID"]
 
     if ENV['MATCH_SSH_KEY'] != nil
-      UI.message("Fetching provisioning profiles using ssh...")
+      UI.message("Fetching provisioning profiles using ssh with identifier=#{identifier}")
       match(
         type: type,
         readonly: readonly,
         generate_apple_certs: generate_apple_certs,
-        app_identifier: [lane_context["IOS_APP_ID"]],
+        app_identifier: [identifier],
         git_private_key: ENV['MATCH_SSH_KEY']
       )
     else
-      UI.message("Fetching provisioning profiles using github...")
+      UI.message("Fetching provisioning profiles using github with identifier=#{identifier}")
       ensure_env_vars(
         env_vars: [
           "GITHUB_USERNAME",
@@ -236,7 +237,7 @@ platform :ios do
         type: type,
         readonly: readonly,
         generate_apple_certs: generate_apple_certs,
-        app_identifier: [lane_context["IOS_APP_ID"]],
+        app_identifier: [identifier],
         git_basic_authorization: basic_auth
       )
     end

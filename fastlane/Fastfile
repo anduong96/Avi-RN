@@ -17,7 +17,10 @@ fastlane_require "net/http"
 fastlane_require "dotenv"
 
 before_all do |lane, options|
-  UI.message("fastlane load in .env")
+  if !is_ci
+    UI.message("fastlane load in .env")
+    load_remote_env()
+  end
 
   platform = lane_context[SharedValues::PLATFORM_NAME]
 
@@ -36,7 +39,7 @@ before_all do |lane, options|
   end
 
   if platform == :ios
-    lane_context["IOS_SCHEME"]  = add_suffix_to(IOS_PROJ_NAME, lane)
+    lane_context["IOS_SCHEME"]  = IOS_PROJ_NAME
     lane_context["IOS_APP_ID"]  = add_suffix_to(IOS_IDENTIFIER, lane)
     UI.message("Setting lane context for iOS... 🏗️")
     UI.message("IOS_SCHEME: #{lane_context["IOS_SCHEME"]}")
@@ -58,7 +61,7 @@ lane :load_remote_env do
   )
 
   UI.message("Loading remote .env")
-  result = sh("node ../scripts/load.env.js", log: false, print_command:false)
+  result = sh("node ../scripts/load.env.js", log: false, print_command: false)
   lines = result.split("\n")
   envKeys = []
 
@@ -173,7 +176,6 @@ lane :update_version do |options|
 end
 
 lane :create_match_profiles do
-  load_remote_env()
   IDENTIFIER=ENV['FASTLANE_APPLE_BUNDLE_IDENTIFIER']
   UI.message("Creating match profiles for identifier=#{IDENTIFIER}")
 
@@ -202,7 +204,6 @@ platform :ios do
       xcargs: "-allowProvisioningUpdates",
       configuration: options[:configuration],
       export_options: {
-        provisioningProfiles: ENV['MATCH_PROVISIONING_PROFILE_MAPPING'],
         # http://docs.fastlane.tools/actions/sync_code_signing/#lane-variables
         signingStyle: "manual"
       }
@@ -222,7 +223,10 @@ platform :ios do
         readonly: readonly,
         generate_apple_certs: generate_apple_certs,
         app_identifier: identifier,
-        git_private_key: ENV['MATCH_SSH_KEY']
+        git_private_key: Base64.decode64(ENV['MATCH_SSH_KEY']),
+        git_branch: 'master',
+        clone_branch_directly: true,
+        force_for_new_devices: true,
       )
     else
       UI.message("Fetching provisioning profiles using github with identifier=#{identifier}")
@@ -238,16 +242,23 @@ platform :ios do
         readonly: readonly,
         generate_apple_certs: generate_apple_certs,
         app_identifier: identifier,
-        git_basic_authorization: basic_auth
+        git_basic_authorization: basic_auth,
+        git_branch: 'master',
+        clone_branch_directly: true,
+        force_for_new_devices: true,
       )
     end
   end
 
   lane :upload_sentry_ios do |options|
-    version = fetch_version(:ios)
-
     begin
-      commit = ENV['REPO'] + '@' + ENV['COMMIT_SHA']
+      if !is_ci
+        return
+      end
+
+      version = fetch_version(:ios)
+      commit = get_commit_identifier()
+
       sentry_set_commits(
         version: version[:name],
         app_identifier: lane_context["IOS_APP_ID"],
@@ -327,9 +338,6 @@ platform :ios do
         "FIREBASE_IOS_APP_ID",
         "FASTLANE_APPLE_USERNAME",
         "FASTLANE_APPLE_BUNDLE_IDENTIFIER",
-        # "FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD",
-        "COMMIT_SHA",
-        "REPO",
         "SERVER"
       ]
     )
@@ -362,7 +370,10 @@ platform :ios do
         notify_the_team(:ios, :staging)
       end
     ensure
-      enable_automatic_code_signing(path: IOS_PROJ_PATH)
+      update_code_signing_settings(
+        use_automatic_signing: true,
+        path: IOS_PROJ_PATH
+      )
       suffix_name(suffix: nil)
       reset(platform: :ios)
     end
@@ -432,7 +443,10 @@ platform :ios do
       upload_sentry_ios(env: 'beta')
       notify_the_team(:ios, :beta)
       ensure
-        enable_automatic_code_signing(path: IOS_PROJ_PATH)
+        update_code_signing_settings(
+          use_automatic_signing: true,
+          path: IOS_PROJ_PATH
+        )
       end
   end
 
@@ -707,6 +721,22 @@ lane :reset do |options|
   UI.message("Files count=#{files.size}")
   reset_git_repo(force: true, files: files)
 end
+
+def get_commit_identifier()
+  repo = ENV['REPO']
+  commit_identifier = ENV['COMMIT_SHA']
+
+  if !is_ci
+    host = sh("hostname")
+    commit_identifier = HOST
+  elsif commit_identifier == nil
+    commit_identifier = last_git_commit
+  end
+
+  commit = repo + '@' + commit_identifier
+  return commit
+end
+
 
 def fetch_teams(portal, tunes)
   client = Spaceship::ConnectAPI.login(

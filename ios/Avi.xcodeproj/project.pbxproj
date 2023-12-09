@@ -61,24 +61,24 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* AviTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AviTests.m; sourceTree = "<group>"; };
 		056F5808F4D149090A675F2D /* Pods_Avi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Avi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		06A6C741996241B18B7D22EB /* FontAwesome6_Pro_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Regular.ttf; path = ../assets/fonts/FontAwesome6_Pro_Regular.ttf; sourceTree = "<group>"; };
-		0D65C8394D35419CA4082FE3 /* FontAwesome6_Pro_Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Light.ttf; path = ../assets/fonts/FontAwesome6_Pro_Light.ttf; sourceTree = "<group>"; };
+		06A6C741996241B18B7D22EB /* FontAwesome6_Pro_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Regular.ttf; path = ../assets/fonts/FontAwesome6_Pro_Regular.ttf; sourceTree = "<group>"; };
+		0D65C8394D35419CA4082FE3 /* FontAwesome6_Pro_Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Light.ttf; path = ../assets/fonts/FontAwesome6_Pro_Light.ttf; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Avi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Avi/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Avi/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Avi/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Avi/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Avi/main.m; sourceTree = "<group>"; };
-		16453611723D4508B6EBD8D3 /* FontAwesome6_Pro_Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Thin.ttf; path = ../assets/fonts/FontAwesome6_Pro_Thin.ttf; sourceTree = "<group>"; };
-		1AA584B18A2540FFA82F1E73 /* FontAwesome6_Pro_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Solid.ttf; path = ../assets/fonts/FontAwesome6_Pro_Solid.ttf; sourceTree = "<group>"; };
+		16453611723D4508B6EBD8D3 /* FontAwesome6_Pro_Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Thin.ttf; path = ../assets/fonts/FontAwesome6_Pro_Thin.ttf; sourceTree = "<group>"; };
+		1AA584B18A2540FFA82F1E73 /* FontAwesome6_Pro_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Solid.ttf; path = ../assets/fonts/FontAwesome6_Pro_Solid.ttf; sourceTree = "<group>"; };
 		1E2B3C84F4AFFA7CEC72F17A /* Pods_Avi_AviTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Avi_AviTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50C58C7A217504BB2451A219 /* Pods-Avi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Avi.debug.xcconfig"; path = "Target Support Files/Pods-Avi/Pods-Avi.debug.xcconfig"; sourceTree = "<group>"; };
-		67F614D67F894931848725E8 /* FontAwesome6_Pro_Sharp_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Sharp_Solid.ttf; path = ../assets/fonts/FontAwesome6_Pro_Sharp_Solid.ttf; sourceTree = "<group>"; };
+		67F614D67F894931848725E8 /* FontAwesome6_Pro_Sharp_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Sharp_Solid.ttf; path = ../assets/fonts/FontAwesome6_Pro_Sharp_Solid.ttf; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Avi/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1A58AF66FFE48E89585BB90 /* Pods-Avi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Avi.release.xcconfig"; path = "Target Support Files/Pods-Avi/Pods-Avi.release.xcconfig"; sourceTree = "<group>"; };
 		ACF070119249FBB400511400 /* Pods-Avi-AviTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Avi-AviTests.staging.xcconfig"; path = "Target Support Files/Pods-Avi-AviTests/Pods-Avi-AviTests.staging.xcconfig"; sourceTree = "<group>"; };
 		BD4DD63E45930DBE85125EB5 /* Pods-Avi.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Avi.staging.xcconfig"; path = "Target Support Files/Pods-Avi/Pods-Avi.staging.xcconfig"; sourceTree = "<group>"; };
-		CACFB7A396D148A982240710 /* FontAwesome6_Pro_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Brands.ttf; path = ../assets/fonts/FontAwesome6_Pro_Brands.ttf; sourceTree = "<group>"; };
+		CACFB7A396D148A982240710 /* FontAwesome6_Pro_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Brands.ttf; path = ../assets/fonts/FontAwesome6_Pro_Brands.ttf; sourceTree = "<group>"; };
 		E5A11F9035668877DD875BE0 /* Pods-Avi-AviTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Avi-AviTests.release.xcconfig"; path = "Target Support Files/Pods-Avi-AviTests/Pods-Avi-AviTests.release.xcconfig"; sourceTree = "<group>"; };
 		E899C8CD3E6B0CA124E09238 /* Pods-Avi-AviTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Avi-AviTests.debug.xcconfig"; path = "Target Support Files/Pods-Avi-AviTests/Pods-Avi-AviTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EB0800992993625B003D6261 /* Avi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Avi.entitlements; path = Avi/Avi.entitlements; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 		EBEA59172B091DDC00C42456 /* FontAwesome6_Pro_Duotone.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome6_Pro_Duotone.ttf; path = ../../../assets/fonts/FontAwesome6_Pro_Duotone.ttf; sourceTree = "<group>"; };
 		EBEA59182B091DDC00C42456 /* FontAwesome6_Pro_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome6_Pro_Light.ttf; path = ../../../assets/fonts/FontAwesome6_Pro_Light.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F8C0539170F943F3A4F1099E /* FontAwesome6_Pro_Duotone.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Duotone.ttf; path = ../assets/fonts/FontAwesome6_Pro_Duotone.ttf; sourceTree = "<group>"; };
+		F8C0539170F943F3A4F1099E /* FontAwesome6_Pro_Duotone.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Duotone.ttf; path = ../assets/fonts/FontAwesome6_Pro_Duotone.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,7 +221,6 @@
 				16453611723D4508B6EBD8D3 /* FontAwesome6_Pro_Thin.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		EB3E244A2966686900AC0920 /* Fonts */ = {
@@ -575,7 +574,7 @@
 			baseConfigurationReference = E899C8CD3E6B0CA124E09238 /* Pods-Avi-AviTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 6W8X4HDS87;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -605,7 +604,7 @@
 			baseConfigurationReference = E5A11F9035668877DD875BE0 /* Pods-Avi-AviTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 6W8X4HDS87;
 				INFOPLIST_FILE = AviTests/Info.plist;
@@ -635,8 +634,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Avi/Avi.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 6W8X4HDS87;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Avi/Info.plist;
@@ -669,8 +668,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Avi/AviRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 6W8X4HDS87;
 				INFOPLIST_FILE = Avi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Avi;
@@ -954,9 +953,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Avi/AviStaging.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6W8X4HDS87;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 6W8X4HDS87;
 				INFOPLIST_FILE = Avi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Avi;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
@@ -973,6 +974,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.avitech.app.staging;
 				PRODUCT_NAME = Avi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match AdHoc com.avitech.app.staging";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -983,7 +985,7 @@
 			baseConfigurationReference = ACF070119249FBB400511400 /* Pods-Avi-AviTests.staging.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 6W8X4HDS87;
 				INFOPLIST_FILE = AviTests/Info.plist;

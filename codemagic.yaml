@@ -27,13 +27,13 @@ definitions:
           --format env-no-quotes \
           --config $APP_ENV \
           --token $DOPPLER_TOKEN >> $CM_ENV
-    # - &export_match_key
-    #   name: Export Match key
-    #   script: |
-    #     (echo $MATCH_SSH_KEY | base64 -d) > /tmp/match_ssh
-    #     chmod 600 /tmp/match_ssh
-    #     eval `ssh-agent -s`
-    #     ssh-add /tmp/match_ssh
+    - &export_match_key
+      name: Export Match key
+      script: |
+        (echo $MATCH_SSH_KEY | base64 -d) > /tmp/match_ssh
+        chmod 600 /tmp/match_ssh
+        eval `ssh-agent -s`
+        ssh-add /tmp/match_ssh
 
     - &install_bundler
       name: Install bundler
@@ -51,7 +51,7 @@ definitions:
     - &install_rn_dep
       name: Yarn install
       script: |
-        yarn
+        yarn --frozen-lockfile --production
     - &mod_google_service_plist
       name: Mod GoogleService-Info.plist
       script: |
@@ -63,7 +63,6 @@ definitions:
     - &compile
       name: Compile
       script: |
-        node ./scripts/make.env.js
         bundle exec fastlane $LANE
 
 workflows:
@@ -104,7 +103,6 @@ workflows:
       - *install_bundler
       - *install_rn_dep
       - *install_pod_dep
-      # - *export_match_key
       - *mod_google_service_plist
       - *create_firebase_credentials
       - *compile
@@ -131,6 +129,8 @@ workflows:
       cache_paths:
       - $CM_BUILD_DIR/ios/Pods
       - $CM_BUILD_DIR/node_modules
+      - $CM_BUILD_DIR/.bundle/packages
+      - $HOME/Library/Caches/Yarn
     environment:
       xcode: 15.0.1
       cocoapods: default
@@ -147,11 +147,11 @@ workflows:
         COMMIT_SHA: $CM_COMMIT
         GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json
     scripts:
-      - *install_doppler
-      # - *export_match_key
       - *install_bundler
       - *install_imagemagick
       - *install_rn_dep
+      - *install_pod_dep
+      - *install_doppler
       - *mod_google_service_plist
       - *create_firebase_credentials
       - *compile

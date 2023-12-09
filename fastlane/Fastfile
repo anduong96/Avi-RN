@@ -17,6 +17,8 @@ fastlane_require "net/http"
 fastlane_require "dotenv"
 
 before_all do |lane, options|
+  UI.message("fastlane load in .env")
+
   platform = lane_context[SharedValues::PLATFORM_NAME]
 
   BUILD_SCHEMES  = %i[develop staging].freeze
@@ -32,13 +34,6 @@ before_all do |lane, options|
     IOS_PROJ_PATH = "#{IOS_DIRECTORY}.xcodeproj"
     IOS_WORK_PATH = "#{IOS_DIRECTORY}.xcworkspace"
   end
-
-
-  ensure_env_vars(
-    env_vars: [
-      "FASTLANE_PRODUCT_NAME"
-    ]
-  )
 
   if platform == :ios
     lane_context["IOS_SCHEME"]  = add_suffix_to(IOS_PROJ_NAME, lane)
@@ -175,6 +170,16 @@ lane :update_version do |options|
     gradle_file_path: AND_GRAD_PATH,
     version_name: version
   )
+end
+
+lane :create_match_profiles do
+  load_remote_env()
+  IDENTIFIER=ENV['FASTLANE_APPLE_BUNDLE_IDENTIFIER']
+  UI.message("Creating match profiles for identifier=#{IDENTIFIER}")
+
+  match(type: "development", app_identifier: IDENTIFIER + ".develop")
+  match(type: "adhoc", app_identifier: IDENTIFIER + ".staging")
+  match(type: "appstore", app_identifier: IDENTIFIER)
 end
 
 platform :ios do
@@ -341,7 +346,10 @@ platform :ios do
       if options[:local]
         sh "cd .. && npx react-native run-ios --scheme #{options[:scheme] || lane_context["IOS_SCHEME"]} #{options[:device] ? "--device" : ""}"
       else
-        build_application(scheme: lane_context["IOS_SCHEME"], configuration: "Staging")
+        build_application(
+          scheme: lane_context["IOS_SCHEME"],
+          configuration: "Staging"
+        )
 
         firebase_app_distribution(
           app: ENV["FIREBASE_IOS_APP_ID"],
@@ -453,7 +461,6 @@ end
 
 platform :android do
   before_all do
-    load_remote_env()
 
     ensure_env_vars(
       env_vars: [
@@ -488,6 +495,7 @@ platform :android do
     end
 
     begin
+      load_remote_env()
       ensure_env_vars(
         env_vars: [
           "GOOGLE_MAP_API_KEY"

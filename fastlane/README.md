@@ -53,6 +53,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### create_match_profiles
+
+```sh
+[bundle exec] fastlane create_match_profiles
+```
+
+
+
 ### copy_assets
 
 ```sh

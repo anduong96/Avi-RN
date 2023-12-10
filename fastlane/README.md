@@ -101,6 +101,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### upload_sentry
+
+```sh
+[bundle exec] fastlane upload_sentry
+```
+
+
+
 ----
 
 
@@ -118,14 +126,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ```sh
 [bundle exec] fastlane ios fetch_profiles
-```
-
-
-
-### ios upload_sentry_ios
-
-```sh
-[bundle exec] fastlane ios upload_sentry_ios
 ```
 
 

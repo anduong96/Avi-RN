@@ -354,7 +354,7 @@ lane :reset do |options|
   reset_git_repo(force: true, files: files)
 end
 
-lane :upload_sentry do |options|
+lane :upload_to_sentry do |options|
   begin
     if !is_ci
       return
@@ -389,7 +389,7 @@ lane :upload_sentry do |options|
       version: version[:name],
       app_identifier: app_identifier,
       build: version[:code],
-      env: options[:env], # The environment for this deploy. Required.
+      env: options[:environment],
     )
 
     sentry_upload_dif(
@@ -397,7 +397,6 @@ lane :upload_sentry do |options|
       org_slug: ENV['SENTRY_ORG_SLUG'],
       project_slug: ENV['SENTRY_PROJECT_SLUG'],
       include_sources: true,
-      finalize: options[:finalize],
     )
 
     sentry_upload_file(
@@ -535,7 +534,7 @@ platform :ios do
         debug: true
       )
 
-      upload_sentry(finalize: false)
+      upload_to_sentry(finalize: false, environment: "staging")
       notify_the_team(:ios, :staging)
     ensure
       update_code_signing_settings(
@@ -612,7 +611,7 @@ platform :ios do
         }
       )
 
-      upload_sentry()
+      upload_to_sentry(environment: "production")
       notify_the_team(:ios, :beta)
       ensure
         update_code_signing_settings(
@@ -631,7 +630,7 @@ platform :ios do
       include_in_app_purchases: false
     )
 
-    upload_sentry()
+    upload_to_sentry()
 
     sentry_create_release(
       auth_token: ENV['SENTRY_AUTH_TOKEN'],

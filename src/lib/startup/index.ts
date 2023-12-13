@@ -1,6 +1,7 @@
 import './sentry';
 import './push.notification';
 
+import * as Sentry from '@sentry/react-native';
 import auth from '@react-native-firebase/auth';
 import remoteConfig from '@react-native-firebase/remote-config';
 import rudderClient, {
@@ -35,6 +36,7 @@ export async function startup() {
           ),
         );
       }),
+    Sentry.setExtra('SERVER', ENV.SERVER),
     handleFcmToken(),
     handleBuildInfo(),
     auth().currentUser

@@ -12,9 +12,9 @@ export class SentryPlugin extends AnalyticPlugin {
   async identify() {
     const ipAddress = await DeviceInfo.getIpAddress();
     Sentry.setUser({
-      id: this.user.id,
+      id: this.user.uid,
       ip_address: ipAddress || undefined,
-      name: this.user.fullName,
+      name: this.user.displayName,
     });
   }
 }

@@ -10,7 +10,7 @@ import { AnalyticPlugin } from '../types';
 export class RudderstackPlugin extends AnalyticPlugin {
   identify(): void {
     rudderClient.identify(
-      this.user.id,
+      this.user.uid,
       {
         batteryLevel: DeviceInfo.getBatteryLevelSync(),
         carrier: DeviceInfo.getCarrierSync(),
@@ -18,11 +18,11 @@ export class RudderstackPlugin extends AnalyticPlugin {
         deviceId: DeviceInfo.getDeviceId(),
         deviceName: DeviceInfo.getDeviceNameSync(),
         disk: DeviceInfo.getFreeDiskStorageSync(),
-        displayName: this.user.fullName,
+        displayName: this.user.displayName,
         email: this.user.email,
         fingerPrint: DeviceInfo.getFingerprintSync(),
         ipAddress: DeviceInfo.getIpAddressSync(),
-        profileURL: this.user.profileImageURL,
+        profileURL: this.user.photoURL,
       },
       {},
     );

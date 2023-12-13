@@ -101,10 +101,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
-### upload_sentry
+### upload_to_sentry
 
 ```sh
-[bundle exec] fastlane upload_sentry
+[bundle exec] fastlane upload_to_sentry
 ```
 
 

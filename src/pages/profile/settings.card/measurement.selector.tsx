@@ -24,7 +24,7 @@ export const MeasurementSelector: React.FC = () => {
 
   return (
     <Select
-      isLoading={updating || preference.loading}
+      isLoading={updating || !preference.data}
       onChange={(measurement) =>
         updatePreference({
           variables: {

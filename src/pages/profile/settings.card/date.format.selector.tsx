@@ -24,7 +24,7 @@ export const DateFormatSelector: React.FC = () => {
 
   return (
     <Select
-      isLoading={updating || preference.loading}
+      isLoading={updating || !preference.data}
       onChange={(dateFormat) =>
         updatePreference({
           variables: {

@@ -207,6 +207,14 @@ Once staging is approved, submit a production build to beta testers...
 
 Once beta is approved, promote beta build to production...
 
+### android update_google_map_key
+
+```sh
+[bundle exec] fastlane android update_google_map_key
+```
+
+
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

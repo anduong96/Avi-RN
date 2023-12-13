@@ -17,8 +17,13 @@ fastlane_require "net/http"
 fastlane_require "dotenv"
 
 before_all do |lane, options|
+  if (!is_ci)
+    UI.message('In CI mode')
+  else
+    UI.message('Not in CI mode')
+  end
+
   if !is_ci
-    UI.message("fastlane load in .env")
     load_remote_env()
   end
 
@@ -654,20 +659,6 @@ platform :ios do
 end
 
 platform :android do
-  before_all do
-
-    ensure_env_vars(
-      env_vars: [
-        "GOOGLE_MAP_API_KEY"
-      ]
-    )
-    update_android_strings(
-      block: lambda { |strings|
-        strings["GOOGLE_MAP_API_KEY"] = ENV['GOOGLE_MAP_API_KEY']
-      }
-    )
-  end
-
   lane :build_application do |options|
     gradle(
       project_dir: "android",
@@ -689,17 +680,7 @@ platform :android do
     end
 
     begin
-      ensure_env_vars(
-        env_vars: [
-          "GOOGLE_MAP_API_KEY"
-        ]
-      )
-      update_android_strings(
-        block: lambda { |strings|
-          strings["GOOGLE_MAP_API_KEY"] = ENV["GOOGLE_MAP_API_KEY"]
-        }
-      )
-
+      update_google_map_key()
       suffix_name(suffix: "D", lane: :develop)
       prepare_icons(platform: :android, lane: :develop)
       sh "yarn localhost"
@@ -720,6 +701,7 @@ platform :android do
       ]
     )
 
+    update_google_map_key()
     increment_build(:android)
     prepare_icons(platform: :android, lane: :staging)
     build_application(flavor: "staging", build_type: "release", task: "assemble")
@@ -737,6 +719,7 @@ platform :android do
 
   desc "Once staging is approved, submit a production build to beta testers..."
   lane :beta do
+    update_google_map_key()
     increment_build(:android)
     prepare_icons(platform: :android)
     build_application(flavor: "production")
@@ -748,6 +731,19 @@ platform :android do
   lane :release do
     upload_to_play_store(track: "beta", track_promote_to: "production")
     notify_the_team(:android, :production)
+  end
+
+  lane :update_google_map_key do
+    ensure_env_vars(
+      env_vars: [
+        "GOOGLE_MAP_API_KEY"
+      ]
+    )
+    update_android_strings(
+      block: lambda { |strings|
+        strings["GOOGLE_MAP_API_KEY"] = ENV['GOOGLE_MAP_API_KEY']
+      }
+    )
   end
 end
 

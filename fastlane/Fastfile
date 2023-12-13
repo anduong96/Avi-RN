@@ -486,8 +486,16 @@ platform :ios do
   desc "Local development using iOS Simulator..."
   lane :develop do |options|
     begin
+      if options[:device]
+        ensure_env_vars(
+          env_vars: [
+            "IPHONE_DEVICE"
+          ]
+        )
+      end
+
       scheme = "--scheme #{options[:scheme] || lane_context["IOS_SCHEME"]}"
-      device = "--device" if options[:device]
+      device = "--device \"#{ENV['IPHONE_DEVICE']}\"" if options[:device]
       simulator = "--simulator #{options[:simulator] || '"iPhone 14"'}"
 
       suffix_name(suffix: "D")

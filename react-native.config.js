@@ -9,6 +9,7 @@ module.exports = {
   project: {
     ios: {
       sourceDir: './ios',
+      automaticPodsInstallation: true,
     },
   },
   assets: ['./assets/fonts'],

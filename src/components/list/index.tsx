@@ -10,6 +10,7 @@ import { useTheme } from '@app/lib/hooks/use.theme';
 
 type Props<T> = {
   EmptyComponent?: React.FC | React.ReactElement;
+  ListFooterComponent?: React.FC | React.ReactElement;
   align?: 'center' | 'left' | 'right';
   data?: T[];
   gap?: number;
@@ -24,6 +25,7 @@ type Props<T> = {
 
 export function List<T>({
   EmptyComponent,
+  ListFooterComponent,
   align,
   data = [],
   gap,
@@ -71,7 +73,10 @@ export function List<T>({
           <EmptyComponent />
         )
       ) : (
-        children
+        <>
+          {children}
+          {ListFooterComponent}
+        </>
       )}
     </Container>
   );

@@ -45,11 +45,9 @@ const Container = withStyled<Pick<Props, 'withTopInset'>, typeof View>(
   View,
   (theme, props) => [
     {
-      backgroundColor: theme.pallette.background,
       flexDirection: 'row',
       justifyContent: 'space-between',
       paddingTop: theme.space.medium,
-      zIndex: 1,
     },
     props.withTopInset && {
       paddingTop: theme.insets.top,

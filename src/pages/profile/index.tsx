@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ScrollView, View } from 'react-native';
 
+import { ENV } from '@app/env';
 import { withStyled } from '@app/lib/styled';
 import { Avatar } from '@app/components/avatar';
 import { WINDOW_HEIGHT } from '@app/lib/platform';
@@ -13,6 +14,7 @@ import { PageContainer } from '@app/components/page.container';
 import { SpaceVertical } from '@app/components/space.vertical';
 import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
 
+import { DevCard } from './dev.card';
 import { LegalCard } from './legal.card';
 import { SignOutBtn } from './sign.out.btn';
 import { SettingsCard } from './settings.card';
@@ -50,6 +52,11 @@ export const ProfilePage: React.FC = () => {
         <Section>
           <AccountConnectCard />
         </Section>
+        {ENV.APP_ENV !== 'production' && (
+          <Section>
+            <DevCard />
+          </Section>
+        )}
         <Section>
           <SettingsCard />
         </Section>

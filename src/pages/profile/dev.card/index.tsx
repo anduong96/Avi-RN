@@ -1,25 +1,21 @@
 import * as React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Dimensions, ScrollView, TouchableOpacity } from 'react-native';
 
-import type { ToastProps } from '@app/components/toast/use.toast';
-
+import { ENV } from '@app/env';
 import { Card } from '@app/components/card';
+import { List } from '@app/components/list';
+import { Modal } from '@app/components/modal';
+import { Group } from '@app/components/group';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { ListItem } from '@app/components/list.item';
+import { Typography } from '@app/components/typography';
 import { FaIcon } from '@app/components/icons.fontawesome';
-import { useToast } from '@app/components/toast/use.toast';
-import { HorizontalDivider } from '@app/components/divider.horizontal';
+import { SpaceVertical } from '@app/components/space.vertical';
 
 export const DevCard: React.FC = () => {
-  const [isCollapsed, setCollapsed] = React.useState(true);
-  const toast = useToast();
-
-  const handleToast = (preset: ToastProps['preset']) => {
-    toast({
-      description: 'This is a toast',
-      preset,
-      title: 'Title',
-    });
-  };
+  const theme = useTheme();
+  const [isCollapsed, setCollapsed] = React.useState(false);
+  const [showEnv, setShowEnv] = React.useState(false);
 
   return (
     <Card
@@ -29,20 +25,41 @@ export const DevCard: React.FC = () => {
       padding={'medium'}
       title="Dev"
     >
-      <TouchableOpacity onPress={() => handleToast('info')}>
-        <ListItem icon={<FaIcon name="dev" />} title="Toast Info" />
-      </TouchableOpacity>
-      <HorizontalDivider />
-      <TouchableOpacity onPress={() => handleToast('warning')}>
-        <ListItem icon={<FaIcon name="dev" />} title="Toast warning" />
-      </TouchableOpacity>
-      <HorizontalDivider />
-      <TouchableOpacity onPress={() => handleToast('error')}>
-        <ListItem icon={<FaIcon name="dev" />} title="Toast error" />
-      </TouchableOpacity>
-      <HorizontalDivider />
-      <TouchableOpacity onPress={() => handleToast('loading')}>
-        <ListItem icon={<FaIcon name="dev" />} title="Toast loading" />
+      <TouchableOpacity onPress={() => setShowEnv((current) => !current)}>
+        <ListItem icon={<FaIcon name="dev" />} title="Show ENV" />
+        <Modal
+          onClose={() => setShowEnv(false)}
+          subtitle={'Environment variables'}
+          title={'ENV'}
+          visible={showEnv}
+        >
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <List
+              ListFooterComponent={
+                <SpaceVertical size={Dimensions.get('window').height / 3} />
+              }
+              data={Object.entries(ENV)}
+              gap={10}
+              renderItem={([key, value], index) => (
+                <Group
+                  gap="tiny"
+                  key={key + index}
+                  marginHorizontal={'medium'}
+                  padding={'medium'}
+                  style={{
+                    backgroundColor: theme.pallette.card,
+                    borderRadius: theme.borderRadius,
+                  }}
+                >
+                  <Typography isBold type="small">
+                    {String(key)}
+                  </Typography>
+                  <Typography type="h3">{String(value)}</Typography>
+                </Group>
+              )}
+            />
+          </ScrollView>
+        </Modal>
       </TouchableOpacity>
     </Card>
   );

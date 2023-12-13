@@ -5,6 +5,7 @@ import type { ModalProps } from 'react-native';
 
 import type { StringOrElement } from '@app/types/string.or.component';
 
+import { Group } from '../group';
 import { withStyled } from '../../lib/styled';
 import { ModalHeader } from '../modal.header';
 
@@ -32,17 +33,21 @@ export const Modal: React.FC<Props> = ({
       onRequestClose={onClose}
       presentationStyle="pageSheet"
     >
-      <ModalHeader
-        onClose={() => onClose?.()}
-        subtitle={subtitle}
-        title={title}
-      />
-      <Content>{children}</Content>
-      {external}
+      <Group direction="column" flexBasis={1} flexGrow={1} style={props.style}>
+        <ModalHeader
+          onClose={() => onClose?.()}
+          subtitle={subtitle}
+          title={title}
+        />
+        <Content>{children}</Content>
+        {external}
+      </Group>
     </RnModal>
   );
 };
 
 export const Content = withStyled(View, {
+  flex: 1,
   flexGrow: 1,
+  overflow: 'hidden',
 });

@@ -1,12 +1,14 @@
 const fs = require('fs');
 const { ENV } = require('../src/env');
+const { isNil } = require('lodash');
 
 // eslint-disable-next-line no-console
 console.log('Making env');
 
 try {
   const content = Object.keys(ENV)
-    .map((key) => `${key}=${process.env[key]}`)
+    .filter((key) => !isNil(process.env[key]))
+    .map((key) => `${key}=${process.env[key].trim()}`)
     .join('\n');
 
   fs.writeFileSync('.env', content, {

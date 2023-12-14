@@ -15,7 +15,10 @@ import { storage } from '@app/lib/storage';
 import { Analytics } from '@app/lib/analytics';
 
 const gqlLogger = logger.getSubLogger('Apollo GraphQL');
-const httpLink = createHttpLink({ uri: `${ENV.SERVER}/graphql` });
+const SERVER_URL = `${ENV.SERVER}/graphql`;
+gqlLogger.debug({ SERVER_URL });
+
+const httpLink = createHttpLink({ uri: SERVER_URL });
 const authLink = setContext(async (_, { headers }) => {
   const token = await auth().currentUser?.getIdToken();
   return {

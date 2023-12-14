@@ -39,25 +39,27 @@ export function useBootApp() {
   }, [canBoot, userFlightsLoaded, hasGlobalStateHydrated]);
 
   React.useEffect(() => {
-    RNBootSplash.hide({ fade: true });
-    // let timeout: number | undefined = undefined;
+    if (ENV.APP_ENV === 'production') {
+      return;
+    }
 
-    // if (ENV.APP_ENV !== 'production' && !canBoot) {
-    //   const waitTime = moment.duration({ seconds: 30 }).as('milliseconds');
-    //   timeout = setTimeout(() => {
-    //     if (hasBooted.current) {
-    //       return;
-    //     }
+    const waitTime = moment.duration({ seconds: 10 }).as('milliseconds');
+    logger.debug('Waiting %s ms', waitTime);
+    const timeout = setTimeout(() => {
+      if (hasBooted.current) {
+        logger.debug('App already booted');
+        return;
+      }
 
-    //     logger.debug('App boot timeout');
-    //     RNBootSplash.hide({ fade: true });
-    //   }, waitTime);
-    // }
+      logger.debug('App boot timeout');
+      hasBooted.current = true;
+      RNBootSplash.hide({ fade: true });
+    }, waitTime);
 
-    // return () => {
-    //   if (!isNil(timeout)) {
-    //     clearTimeout(timeout);
-    //   }
-    // };
+    return () => {
+      if (!isNil(timeout)) {
+        clearTimeout(timeout);
+      }
+    };
   }, [canBoot]);
 }

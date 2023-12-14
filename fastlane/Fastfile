@@ -17,14 +17,11 @@ fastlane_require "net/http"
 fastlane_require "dotenv"
 
 before_all do |lane, options|
-  if (!is_ci)
+  if !is_ci
     UI.message('In CI mode')
+    load_remote_env()
   else
     UI.message('Not in CI mode')
-  end
-
-  if !is_ci
-    load_remote_env()
   end
 
   platform = lane_context[SharedValues::PLATFORM_NAME]
@@ -660,11 +657,21 @@ end
 
 platform :android do
   lane :build_application do |options|
+    ensure_env_vars(
+      env_vars: [
+        "KEY_STORE_PASSWORD",
+      ]
+    )
     gradle(
       project_dir: "android",
       flavor: options[:flavor],
-      task: "clean #{options[:task] || "bundle"}",
-      build_type: options[:build_type] || "release"
+      task: "clean #{options[:task] || "assemble"}",
+      build_type: options[:build_type] || "release",
+      properties: {
+        "releaseKeyStorePassword" => ENV['KEY_STORE_PASSWORD'],
+        "releaseKeyAlias" => "keystore",
+        "releaseKeyPassword" => ENV['KEY_STORE_PASSWORD'],
+      }
     )
   end
 
@@ -700,20 +707,24 @@ platform :android do
       ]
     )
 
-    update_google_map_key()
-    increment_build(:android)
-    prepare_icons(platform: :android, lane: :staging)
-    build_application(flavor: "staging", build_type: "release", task: "assemble")
+    begin
+      update_google_map_key()
+      increment_build(:android)
+      prepare_icons(platform: :android, lane: :staging)
+      build_application(flavor: "staging", build_type: "release", task: "assemble")
+      firebase_app_distribution(
+        android_artifact_type: "APK",
+        groups: ENV["FIREBASE_GROUPS"],
+        app: ENV["FIREBASE_AND_APP_ID"],
+        android_artifact_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
+      )
+      notify_the_team(:android, :staging)
+    ensure
+      suffix_name(suffix: nil)
+      reset(platform: :android)
+    end
 
-    # firebase_app_distribution(
-    #   android_artifact_type: "APK",
-    #   groups: ENV["FIREBASE_GROUPS"],
-    #   app: ENV["FIREBASE_AND_APP_ID"],
-    #   android_artifact_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
-    # )
 
-    reset(platform: :android)
-    notify_the_team(:android, :staging)
   end
 
   desc "Once staging is approved, submit a production build to beta testers..."

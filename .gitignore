@@ -40,6 +40,7 @@ yarn-error.log
 
 *.keystore
 !debug.keystore
+!release.keystore
 
 # fastlane
 #

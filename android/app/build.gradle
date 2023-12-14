@@ -71,10 +71,6 @@ react {
  */
 def enableProguardInReleaseBuilds = false
 
-def keystorePropertiesFile= rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
 /**
  * The preferred build flavor of JavaScriptCore (JSC)
  *
@@ -110,10 +106,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
+            storeFile file('release.keystore')
+            storePassword project.property('releaseKeyStorePassword')
+            keyAlias project.property('releaseKeyAlias')
+            keyPassword project.property('releaseKeyPassword')
         }
     }
     buildTypes {

@@ -15,10 +15,6 @@ import { format } from '../format';
 import { handleBuildInfo } from './build.info';
 import { handleFcmToken } from './push.notification';
 
-if (__DEV__) {
-  logger.getSubLogger('ENV').debug(ENV);
-}
-
 export async function startup() {
   await Promise.allSettled([
     remoteConfig()

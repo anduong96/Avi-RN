@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import { onError } from '@apollo/client/link/error';
+import { persistCache } from 'apollo3-cache-persist';
 import { setContext } from '@apollo/client/link/context';
-import { MMKVStorageWrapper, persistCache } from 'apollo3-cache-persist';
 import {
   ApolloClient,
   ApolloLink,
@@ -11,12 +11,13 @@ import {
 
 import { ENV } from '@app/env';
 import { logger } from '@app/lib/logger';
-import { storage } from '@app/lib/storage';
 import { Analytics } from '@app/lib/analytics';
+import { getApolloStorage } from '@app/lib/storage';
 
 const gqlLogger = logger.getSubLogger('Apollo GraphQL');
 const SERVER_URL = `${ENV.SERVER}/graphql`;
-gqlLogger.debug({ SERVER_URL });
+
+gqlLogger.debug({ IS_DEV: ENV.IS_DEV, SERVER_URL });
 
 const httpLink = createHttpLink({ uri: SERVER_URL });
 const authLink = setContext(async (_, { headers }) => {
@@ -30,6 +31,8 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+  gqlLogger.debug({ graphQLErrors, networkError, operation });
+
   if (graphQLErrors) {
     graphQLErrors.forEach((error) => {
       Analytics.error(error);
@@ -47,18 +50,12 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 });
 
 const cache = new InMemoryCache();
+const storage = getApolloStorage();
 
 persistCache({
   cache,
-  storage: new MMKVStorageWrapper({
-    getItem: async (key) => storage.getString(key),
-    removeItem: async (key): Promise<undefined> => {
-      storage.delete(key);
-    },
-    setItem: async (key, value): Promise<undefined> => {
-      storage.set(key, value);
-    },
-  }),
+  key: SERVER_URL,
+  storage,
 });
 
 export const AppServerApolloClient = new ApolloClient({

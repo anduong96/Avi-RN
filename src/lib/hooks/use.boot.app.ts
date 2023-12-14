@@ -9,7 +9,9 @@ import { useGlobalState } from '@app/state/global';
 import { useHasHydrated } from '@app/state/use.has.hydrated';
 import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 
-import { logger } from '../logger';
+import { createLogger } from '../logger';
+
+const logger = createLogger('useBootApp');
 
 /**
  * The `useBootApp` function is a TypeScript function that uses React hooks to check if the user has

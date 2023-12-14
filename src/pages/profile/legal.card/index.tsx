@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { Card } from '@app/components/card';
-import { withStyled } from '@app/lib/styled';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { ListItem } from '@app/components/list.item';
 import { FaIcon } from '@app/components/icons.fontawesome';
@@ -13,11 +11,7 @@ import { useRootNavigation } from '@app/navigation/use.root.navigation';
 export const LegalCard: React.FC = () => {
   const theme = useTheme();
   const navigation = useRootNavigation();
-  const Extra = (
-    <Btn>
-      <FaIcon color={theme.pallette.active} name="chevron-right" />
-    </Btn>
-  );
+  const Extra = <FaIcon color={theme.pallette.active} name="chevron-right" />;
 
   return (
     <Card padding={'medium'} title="Legal">
@@ -39,9 +33,3 @@ export const LegalCard: React.FC = () => {
     </Card>
   );
 };
-
-const Btn = withStyled(View, (theme) => [
-  {
-    paddingHorizontal: theme.space.medium,
-  },
-]);

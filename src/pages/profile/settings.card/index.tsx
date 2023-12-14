@@ -42,7 +42,6 @@ export const SettingsCard: React.FC = () => {
       <HorizontalDivider />
       <TouchableOpacity onPress={() => openSettings()}>
         <ListItem
-          description={'Go to system settings'}
           extra={<FaIcon color="active" name="chevron-right" />}
           icon={<FaIcon name="gear" />}
           title="System Settings"

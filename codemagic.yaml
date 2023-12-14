@@ -1,16 +1,9 @@
 definitions:
-  rn_cache: &rn_cache
-    cache_paths:
-      - $CM_BUILD_DIR/node_modules
-      - $HOME/Library/Caches/Yarn
-      - $CM_BUILD_DIR/.bundle/packages
   rn_env: &rn_env
-    environment:
-      vars:
-        BUILD_NUMBER: $BUILD_NUMBER
-        REPO: $CM_REPO_SLUG
-        COMMIT_SHA: $CM_COMMIT
-        GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json
+    BUILD_NUMBER: $BUILD_NUMBER
+    REPO: $CM_REPO_SLUG
+    COMMIT_SHA: $CM_COMMIT
+    GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json
   notify_email: &notify_email
     email:
       recipients:
@@ -18,16 +11,12 @@ definitions:
       notify:
         success: true
         failure: true
-
-  android_cache: &android_cache
-    cache_paths:
-      - $CM_BUILD_DIR/android/.gradle
-      - $CM_BUILD_DIR/android/.idea
-
-  push_trigger: &push_trigger
+  production_triggering: &production_triggering
     cancel_previous_builds: true
     events:
       - push
+    branch_patterns:
+      - pattern: "main|beta"
   scripts:
     - &install_doppler
       name: Import Doppler secrets
@@ -72,33 +61,30 @@ definitions:
     - &build_app
       name: Build Application
       script: |
-        bundle exec fastlane $LANE
+        bundle exec fastlane $PLATFORM $LANE
 
-  android_build: &android_build
-    <<: [*rn_env]
-    name: Android Build
+  build_android: &build_android
     instance_type: linux_x2
     artifacts:
       - build/android/app/build/outputs/apk/release/*.apk
     publishing:
       <<: *notify_email
     cache:
-      <<: [*rn_cache]
       cache_paths:
+      - $CM_BUILD_DIR/node_modules
+      - $HOME/Library/Caches/Yarn
+      - $CM_BUILD_DIR/.bundle/packages
       - $CM_BUILD_DIR/android/.gradle
       - $CM_BUILD_DIR/android/.idea
     scripts:
       - *install_bundler
       - *install_imagemagick
-      - *install_rn_dep
       - *install_doppler
+      - *install_rn_dep
       - *make_env_file
       - *create_firebase_credentials
       - *build_app
-
-  ios_build: &ios_build
-    <<: [*rn_env]
-    name: iOS Build
+  build_ios: &build_ios
     instance_type: mac_mini_m1
     artifacts:
       - build/ios/ipa/*.ipa
@@ -108,22 +94,28 @@ definitions:
     environment:
       xcode: 15.1
       cocoapods: default
+      groups:
+        - Global
       vars:
+        <<: *rn_env
+        PLATFORM: ios
         SENTRY_DSYM_PATH: $CM_BUILD_DIR/ios/build/Avi.app.dSYM.zip
         GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json
     publishing:
       <<: *notify_email
     cache:
-      <<: [*rn_cache]
       cache_paths:
+      - $CM_BUILD_DIR/node_modules
+      - $HOME/Library/Caches/Yarn
+      - $CM_BUILD_DIR/.bundle/packages
       - $CM_BUILD_DIR/ios/Pods
       - $CM_BUILD_DIR/ios/build/DerivedData
     scripts:
       - *install_bundler
       - *install_imagemagick
+      - *install_doppler
       - *install_rn_dep
       - *install_pod_dep
-      - *install_doppler
       - *make_env_file
       - *mod_google_service_plist
       - *create_firebase_credentials
@@ -131,33 +123,56 @@ definitions:
 
 workflows:
   android-staging:
-    <<: [*android_build]
-    triggering:
-      <<: *push_trigger
-      branch_patterns:
-        - pattern: "staging"
+    <<: *build_android
+    name: Android Staging
     environment:
+      groups:
+        - Global
+        - Staging
       vars:
+        <<: *rn_env
+        PLATFORM: android
         APP_ENV: staging
-        LANE: android staging
+        LANE: staging
+
+  android-production:
+    <<: [*build_android]
+    name: Android Beta
+    triggering:
+      <<: *production_triggering
+    environment:
+      groups:
+        - Global
+        - Production
+      vars:
+        <<: *rn_env
+        PLATFORM: android
+        APP_ENV: production
+        LANE: beta
 
   ios-staging:
-    <<: [*ios_build]
-    triggering:
-      <<: *push_trigger
-      branch_patterns:
-        - pattern: "staging"
+    <<: [*build_ios]
+    name: iOS Staging
     environment:
+      groups:
+        - Global
+        - Staging
       vars:
+        <<: *rn_env
+        PLATFORM: ios
         APP_ENV: staging
-        LANE: ios staging
+        LANE: staging
   ios-beta:
-    <<: [*ios_build]
+    <<: [*build_ios]
+    name: iOS Beta
     triggering:
-      <<: *push_trigger
-      branch_patterns:
-        - pattern: "main|beta"
+      <<: *production_triggering
     environment:
+      groups:
+        - Global
+        - Production
       vars:
-        APP_ENV: beta
-        LANE: ios beta
+        <<: *rn_env
+        PLATFORM: ios
+        APP_ENV: production
+        LANE: beta

@@ -14,6 +14,7 @@ import { useThrottleCallback } from '@react-hook/throttle';
 
 import { ENV } from '@app/env';
 import { logger } from '@app/lib/logger';
+import { IS_IOS } from '@app/lib/platform';
 import { withStyled } from '@app/lib/styled';
 import { useAppActive } from '@app/lib/hooks/use.app.state';
 
@@ -33,7 +34,10 @@ export const CodepushShield: React.FC = () => {
   }));
 
   const sync = useThrottleCallback(async () => {
-    const deploymentKey = ENV.CODE_PUSH_DEPLOYMENT_KEY;
+    const deploymentKey = IS_IOS
+      ? ENV.CODE_PUSH_DEPLOYMENT_KEY_IOS
+      : ENV.CODE_PUSH_DEPLOYMENT_KEY_AND;
+
     if (deploymentKey) {
       const result = await codepush
         .checkForUpdate(deploymentKey)

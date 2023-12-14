@@ -345,11 +345,11 @@ lane :reset do |options|
     files << File.expand_path("../android/app/src/main/res/values/strings.xml")
     files << File.expand_path("../android/app/src/main/AndroidManifest.xml")
 
-    Dir.glob("../android/**/*/bootsplash_logo.png") do |file|
+    Dir.glob("../android/app/src/**/*/bootsplash_logo.png") do |file|
       files << File.expand_path(file)
     end
 
-    Dir.glob("../android/**/*/ic_launcher*.png") do |file|
+    Dir.glob("../android/app/src/**/*/ic_launcher*.png") do |file|
       files << File.expand_path(file)
     end
   end
@@ -670,8 +670,7 @@ platform :android do
 
   desc "Development..."
   lane :develop do |options|
-    appId = "--appIdSuffix=develop"
-    variant = "--variant=developDebug"
+    mode = "--mode=developDebug"
     device = ""
 
     if options[:device] != nil
@@ -684,7 +683,7 @@ platform :android do
       suffix_name(suffix: "D", lane: :develop)
       prepare_icons(platform: :android, lane: :develop)
       sh "yarn localhost"
-      sh "cd .. && adb -s #{options[:device]} reverse tcp:8081 tcp:8081 && npx react-native run-android #{device} #{variant} #{appId}"
+      sh "cd .. && adb -s #{options[:device]} reverse tcp:8081 tcp:8081 && npx react-native run-android #{device} #{mode}"
     ensure
       suffix_name(suffix: nil)
       reset(platform: :android)

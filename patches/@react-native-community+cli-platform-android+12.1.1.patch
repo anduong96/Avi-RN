@@ -1,0 +1,25 @@
+diff --git a/node_modules/@react-native-community/cli-platform-android/build/commands/runAndroid/tryInstallAppOnDevice.js b/node_modules/@react-native-community/cli-platform-android/build/commands/runAndroid/tryInstallAppOnDevice.js
+index 790de0d..2576899 100644
+--- a/node_modules/@react-native-community/cli-platform-android/build/commands/runAndroid/tryInstallAppOnDevice.js
++++ b/node_modules/@react-native-community/cli-platform-android/build/commands/runAndroid/tryInstallAppOnDevice.js
+@@ -38,7 +38,11 @@ function tryInstallAppOnDevice(args, adbPath, device, androidProject, selectedTa
+     const defaultVariant = (args.mode || 'debug').toLowerCase();
+ 
+     // handle if selected task from interactive mode includes build flavour as well, eg. installProductionDebug should create ['production','debug'] array
+-    const variantFromSelectedTask = selectedTask === null || selectedTask === void 0 ? void 0 : selectedTask.replace('install', '').split(/(?=[A-Z])/);
++    const variantFromSelectedTask = selectedTask === null || selectedTask === void 0
++      ? args.mode
++        ? args.mode.split(/(?=[A-Z])/)
++        : void 0
++      : selectedTask.replace('install', '').split(/(?=[A-Z])/);
+ 
+     // create path to output file, eg. `production/debug`
+     const variantPath = (variantFromSelectedTask === null || variantFromSelectedTask === void 0 ? void 0 : (_variantFromSelectedT = variantFromSelectedTask.join('/')) === null || _variantFromSelectedT === void 0 ? void 0 : _variantFromSelectedT.toLowerCase()) ?? defaultVariant;
+@@ -82,6 +86,7 @@ function getInstallApkName(appName, adbPath, variant, device, buildDirectory) {
+   if (_fs().default.existsSync(`${buildDirectory}/${apkName}`)) {
+     return apkName;
+   }
++
+   throw new Error('Could not find the correct install APK file.');
+ }
+ var _default = tryInstallAppOnDevice;

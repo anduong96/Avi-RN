@@ -7,9 +7,9 @@
   },
   "scripts": {
     "gradle::clean": "cd android && ./gradlew clean",
-    "android": "fastlane android develop --env development",
+    "android": "bundle exec fastlane android develop --env development",
     "android:device": "yarn gradle::clean && sh ./scripts/run.android.device.sh",
-    "ios": "fastlane ios develop --env development",
+    "ios": "bundle exec fastlane ios develop --env development",
     "ios:device": "bundle exec fastlane ios develop device:true",
     "start": "npm run localhost && react-native start",
     "test": "jest",

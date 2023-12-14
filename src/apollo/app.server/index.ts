@@ -65,8 +65,7 @@ export const AppServerApolloClient = new ApolloClient({
   cache,
   defaultOptions: {
     watchQuery: {
-      fetchPolicy:
-        ENV.APP_ENV === 'development' ? 'cache-and-network' : 'cache-first',
+      fetchPolicy: ENV.IS_DEV ? 'cache-and-network' : 'cache-first',
       pollInterval: 10 * 1000 * 60,
     },
   },

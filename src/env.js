@@ -1,13 +1,16 @@
 const { tryNice } = require('try-nice');
 const [_config] = tryNice(() => require('react-native-config').default);
 const Config = _config ?? {};
-const isDev = global.__DEV__ ?? false;
+
+/**
+ * @type {'production' | 'staging' | 'development'}
+ */
+const APP_ENV = Config.APP_ENV || 'development';
+const isDev = global.__DEV__ ?? APP_ENV === 'development';
 
 const ENV = {
-  /**
-   * @type {'production' | 'staging' | 'development'}
-   */
-  APP_ENV: Config.APP_ENV || 'development',
+  APP_ENV,
+  IS_DEV: isDev,
   CLARITY_PROJECT_ID: Config.CLARITY_PROJECT_ID,
   CODE_PUSH_DEPLOYMENT_KEY_IOS: Config.CODE_PUSH_DEPLOYMENT_KEY_IOS,
   CODE_PUSH_DEPLOYMENT_KEY_AND: Config.CODE_PUSH_DEPLOYMENT_KEY_AND,

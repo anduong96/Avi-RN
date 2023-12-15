@@ -620,12 +620,12 @@ platform :ios do
 
       upload_to_sentry(environment: "production")
       notify_the_team(:ios, :beta)
-      ensure
+    ensure
         update_code_signing_settings(
           use_automatic_signing: true,
           path: IOS_PROJ_PATH
         )
-      end
+    end
   end
 
   desc "Once beta is approved, promote beta build to App Store..."
@@ -660,6 +660,7 @@ platform :android do
       ]
     )
     gradle(
+      print_command: true,
       project_dir: "android",
       flavor: options[:flavor],
       task: "clean #{options[:task] || "assemble"}",
@@ -708,7 +709,11 @@ platform :android do
       update_google_map_key()
       increment_build(:android)
       prepare_icons(platform: :android, lane: :staging)
-      build_application(flavor: "staging", build_type: "release", task: "assemble")
+      build_application(
+        flavor: "staging",
+        build_type: "release",
+        task: "assemble"
+      )
       firebase_app_distribution(
         android_artifact_type: "APK",
         groups: ENV["FIREBASE_GROUPS"],
@@ -720,18 +725,39 @@ platform :android do
       suffix_name(suffix: nil)
       reset(platform: :android)
     end
-
-
   end
 
   desc "Once staging is approved, submit a production build to beta testers..."
   lane :beta do
-    update_google_map_key()
-    increment_build(:android)
-    prepare_icons(platform: :android)
-    build_application(flavor: "production")
-    upload_to_play_store(track: "beta")
-    notify_the_team(:android, :beta)
+    ensure_env_vars(
+      env_vars: [
+        "AND_PLAY_STORE_AUTH_JSON",
+        "FASTLANE_ANDROID_JSON_KEY_FILE",
+      ]
+    )
+    begin
+      update_google_map_key()
+      increment_build(:android)
+      build_application(
+        flavor: "production",
+        build_type: "release",
+        task: "assemble"
+      )
+      firebase_app_distribution(
+        android_artifact_type: "APK",
+        groups: ENV["FIREBASE_GROUPS"],
+        app: ENV["FIREBASE_AND_APP_ID"],
+        android_artifact_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
+      )
+      upload_to_play_store(
+        track: "beta",
+        release_status: "draft"
+      )
+      notify_the_team(:android, :beta)
+    ensure
+      suffix_name(suffix: nil)
+      reset(platform: :android)
+    end
   end
 
   desc "Once beta is approved, promote beta build to production..."
@@ -916,6 +942,8 @@ def increment_build(platform)
 
     prev_build_number = latest_release ? latest_release[:buildVersion]&.to_i : 0
     curr_build_number = prev_build_number + 1
+
+    UI.message("Version code: #{curr_build_number}")
 
     increment_version_code(
       gradle_file_path: AND_GRAD_PATH,

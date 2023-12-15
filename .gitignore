@@ -118,3 +118,5 @@ amplifytools.xcconfig
 /node_modules/react-native-vector-icons/Fonts/FontAwesome6_Pro_Sharp_Solid.ttf
 /node_modules/react-native-vector-icons/Fonts/FontAwesome6_Pro_Solid.ttf
 /node_modules/react-native-vector-icons/Fonts/FontAwesome6_Pro_Thin.ttf
+
+firebase_credentials.json

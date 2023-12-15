@@ -4,6 +4,7 @@ definitions:
     REPO: $CM_REPO_SLUG
     COMMIT_SHA: $CM_COMMIT
     GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json
+
   notify_email: &notify_email
     email:
       recipients:
@@ -49,7 +50,7 @@ definitions:
       name: Yarn install
       script: |
         yarn --version
-        yarn --immutable --immutable-cache --check-cache
+        yarn --production=false --frozen-lockfile
     - &mod_google_service_plist
       name: Mod GoogleService-Info.plist
       script: |
@@ -57,20 +58,25 @@ definitions:
     - &mod_google_service_json
       name: Mod google-services.json
       script: |
-        if [ -f "AND_GOOGLE_SERVICES_JSON" ]; then
-          echo "Modifying google-services.json"
-          echo "$AND_GOOGLE_SERVICES_JSON" > android/google-services.json
+        if [ -n "AND_GOOGLE_SERVICES_JSON" ]; then
+          GOOGLE_SERVICE_JSON_LOCATION=$CM_BUILD_DIR/android/app/google-services.json
+          echo "Modifying $GOOGLE_SERVICE_JSON_LOCATION"
+          echo "$AND_GOOGLE_SERVICES_JSON" | base64 -d > $GOOGLE_SERVICE_JSON_LOCATION
+        else
+          echo "Not modifying google-services.json"
         fi
     - &create_firebase_credentials
       name: Create Firebase Credentials
       script: |
-        echo "$FIREBASE_SERVICE_ACCOUNT" > $GOOGLE_APPLICATION_CREDENTIALS
+        echo "$FIREBASE_SERVICE_ACCOUNT" | base64 -d > $GOOGLE_APPLICATION_CREDENTIALS
+        echo "$AND_PLAY_STORE_AUTH_JSON" | base64 -d > $CM_BUILD_DIR/$FASTLANE_ANDROID_JSON_KEY_FILE.json
     - &build_app
       name: Build Application
       script: |
         bundle exec fastlane $PLATFORM $LANE
 
   build_android: &build_android
+    max_build_duration: 30
     instance_type: mac_mini_m1
     artifacts:
       - build/android/app/build/outputs/apk/release/*.apk
@@ -95,7 +101,7 @@ definitions:
       - build/ios/ipa/*.ipa
       - $CM_BUILD_DIR/ios/*.ipa
       - $CM_BUILD_DIR/ios/*.dSYM.zip
-    max_build_duration: 20
+    max_build_duration: 30
     cache:
       cache_paths:
       - $CM_BUILD_DIR/node_modules
@@ -135,6 +141,7 @@ workflows:
     publishing:
       <<: *notify_email
     environment:
+      java: 20
       groups:
         - Global
         - Production
@@ -159,7 +166,6 @@ workflows:
         APP_ENV: staging
         LANE: staging
         SENTRY_DSYM_PATH: $CM_BUILD_DIR/ios/build/Avi.app.dSYM.zip
-        GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json
   ios-beta:
     <<: [*build_ios]
     publishing:
@@ -177,4 +183,3 @@ workflows:
         APP_ENV: production
         LANE: beta
         SENTRY_DSYM_PATH: $CM_BUILD_DIR/ios/build/Avi.app.dSYM.zip
-        GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json

@@ -591,6 +591,11 @@ platform :ios do
         export_method: "app-store"
       )
 
+      firebase_app_distribution(
+        app: ENV["FIREBASE_IOS_APP_ID"],
+        groups: ENV["FIREBASE_GROUPS"],
+      )
+
       upload_to_testflight(
         skip_waiting_for_build_processing: true,
         reject_build_waiting_for_review: true,

@@ -1,3 +1,16 @@
+const getCircularReplacer = () => {
+  const seen = new WeakSet();
+  return (_key: unknown, value: unknown) => {
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
+
 /**
  * The `format` function takes a string and replaces placeholders with corresponding values from the
  * arguments array.
@@ -28,10 +41,10 @@ export function format(value: string, ...args: unknown[]): string {
       case '%f':
         return Number(arg).toString();
       case '%o':
-        return JSON.stringify(arg);
+        return JSON.stringify(arg, getCircularReplacer());
       case '%j':
         try {
-          return JSON.stringify(arg, null, 2);
+          return JSON.stringify(arg, getCircularReplacer(), 2);
         } catch (e) {
           return `[Circular]`;
         }

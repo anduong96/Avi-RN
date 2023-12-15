@@ -14,7 +14,6 @@
 		3017733BE01F4659849D2ABA /* FontAwesome6_Pro_Sharp_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67F614D67F894931848725E8 /* FontAwesome6_Pro_Sharp_Solid.ttf */; };
 		311E4427CA81C0D337110BA1 /* Pods_Avi_AviTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E2B3C84F4AFFA7CEC72F17A /* Pods_Avi_AviTests.framework */; };
 		4025035098F04587B7DD03FA /* FontAwesome6_Pro_Duotone.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F8C0539170F943F3A4F1099E /* FontAwesome6_Pro_Duotone.ttf */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		82A73788781B40E59D660CC9 /* FontAwesome6_Pro_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 06A6C741996241B18B7D22EB /* FontAwesome6_Pro_Regular.ttf */; };
 		9E635C125B8B4B778BABBFE0 /* FontAwesome6_Pro_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D65C8394D35419CA4082FE3 /* FontAwesome6_Pro_Light.ttf */; };
 		DA2B951D2F4C491FB0636EC6 /* FontAwesome6_Pro_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA584B18A2540FFA82F1E73 /* FontAwesome6_Pro_Solid.ttf */; };
@@ -74,7 +73,6 @@
 		1E2B3C84F4AFFA7CEC72F17A /* Pods_Avi_AviTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Avi_AviTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50C58C7A217504BB2451A219 /* Pods-Avi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Avi.debug.xcconfig"; path = "Target Support Files/Pods-Avi/Pods-Avi.debug.xcconfig"; sourceTree = "<group>"; };
 		67F614D67F894931848725E8 /* FontAwesome6_Pro_Sharp_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome6_Pro_Sharp_Solid.ttf; path = ../assets/fonts/FontAwesome6_Pro_Sharp_Solid.ttf; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Avi/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1A58AF66FFE48E89585BB90 /* Pods-Avi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Avi.release.xcconfig"; path = "Target Support Files/Pods-Avi/Pods-Avi.release.xcconfig"; sourceTree = "<group>"; };
 		ACF070119249FBB400511400 /* Pods-Avi-AviTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Avi-AviTests.staging.xcconfig"; path = "Target Support Files/Pods-Avi-AviTests/Pods-Avi-AviTests.staging.xcconfig"; sourceTree = "<group>"; };
 		BD4DD63E45930DBE85125EB5 /* Pods-Avi.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Avi.staging.xcconfig"; path = "Target Support Files/Pods-Avi/Pods-Avi.staging.xcconfig"; sourceTree = "<group>"; };
@@ -145,7 +143,6 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				EB1304B129AB1EEA00F16E4A /* BootSplash.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -341,7 +338,6 @@
 				EBEA591A2B091DDC00C42456 /* FontAwesome6_Pro_Brands.ttf in Resources */,
 				EBEA591E2B091DDC00C42456 /* FontAwesome6_Pro_Duotone.ttf in Resources */,
 				EBEA591C2B091DDC00C42456 /* FontAwesome6_Pro_Solid.ttf in Resources */,
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				EBEA591D2B091DDC00C42456 /* FontAwesome6_Pro_Thin.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				EB1304B229AB1EEA00F16E4A /* BootSplash.storyboard in Resources */,

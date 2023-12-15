@@ -30,9 +30,11 @@ export class Analytics {
   }
 
   static identify(user: User) {
-    this.logger.debug('Identify', user.uid);
-    this.user = user;
-    this.plugins = this.options.map((Plugin) => new Plugin(user));
+    if (user.uid !== this.user?.uid) {
+      this.logger.debug('Identify userID=%s', user.uid);
+      this.user = user;
+      this.plugins = this.options.map((Plugin) => new Plugin(user));
+    }
   }
 
   static registerPush() {

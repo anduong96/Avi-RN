@@ -1,7 +1,8 @@
-import auth from '@react-native-firebase/auth';
+import moment from 'moment';
 import { onError } from '@apollo/client/link/error';
 import { persistCache } from 'apollo3-cache-persist';
 import { setContext } from '@apollo/client/link/context';
+import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev';
 import {
   ApolloClient,
   ApolloLink,
@@ -10,18 +11,30 @@ import {
 } from '@apollo/client';
 
 import { ENV } from '@app/env';
-import { logger } from '@app/lib/logger';
+import { createLogger } from '@app/lib/logger';
 import { Analytics } from '@app/lib/analytics';
 import { getApolloStorage } from '@app/lib/storage';
+import { getAuthToken } from '@app/lib/get.auth.token';
 
-const gqlLogger = logger.getSubLogger('Apollo GraphQL');
+const logger = createLogger('Apollo GraphQL');
 const SERVER_URL = `${ENV.SERVER}/graphql`;
 
-gqlLogger.debug({ IS_DEV: ENV.IS_DEV, SERVER_URL });
+logger.debug({
+  IS_DEV: ENV.IS_DEV,
+  SERVER_URL,
+});
 
-const httpLink = createHttpLink({ uri: SERVER_URL });
-const authLink = setContext(async (_, { headers }) => {
-  const token = await auth().currentUser?.getIdToken();
+if (ENV.IS_DEV) {
+  loadDevMessages();
+  loadErrorMessages();
+}
+
+const httpLink = createHttpLink({
+  uri: SERVER_URL,
+});
+
+const authLink = setContext(async (op, { headers }) => {
+  const token = await getAuthToken();
   return {
     headers: {
       ...headers,
@@ -30,24 +43,23 @@ const authLink = setContext(async (_, { headers }) => {
   };
 });
 
-const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
-  gqlLogger.debug({ graphQLErrors, networkError, operation });
+const errorLink = onError(
+  ({ forward, graphQLErrors, networkError, operation }) => {
+    if (graphQLErrors) {
+      graphQLErrors.forEach((error) => {
+        Analytics.error(error);
+        logger.error(`Unexpected Error from ${operation.operationName}`, error);
+      });
 
-  if (graphQLErrors) {
-    graphQLErrors.forEach((error) => {
-      Analytics.error(error);
-      gqlLogger.error(
-        `Unexpected Error from ${operation.operationName}`,
-        error,
-      );
-    });
-  }
+      return forward(operation);
+    }
 
-  if (networkError) {
-    Analytics.error(networkError);
-    gqlLogger.error('Network error', networkError);
-  }
-});
+    if (networkError) {
+      Analytics.error(networkError);
+      logger.error('Network error', networkError);
+    }
+  },
+);
 
 const cache = new InMemoryCache();
 const storage = getApolloStorage();
@@ -62,9 +74,12 @@ export const AppServerApolloClient = new ApolloClient({
   cache,
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: ENV.IS_DEV ? 'cache-and-network' : 'cache-first',
-      pollInterval: 10 * 1000 * 60,
+      fetchPolicy: ENV.IS_DEV ? 'network-only' : 'cache-first',
+      pollInterval: ENV.IS_DEV
+        ? moment.duration({ seconds: 30 }).as('ms')
+        : moment.duration({ hour: 1 }).as('ms'),
     },
   },
   link: ApolloLink.from([errorLink, authLink, httpLink]),
+  uri: SERVER_URL,
 });

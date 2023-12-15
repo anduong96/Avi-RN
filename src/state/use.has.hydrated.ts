@@ -24,21 +24,23 @@ export function useHasHydrated<
   const [hydrated, setHydrated] = React.useState(store.persist.hasHydrated());
 
   React.useEffect(() => {
-    if (store.persist.hasHydrated()) {
+    if (hydrated) {
       logger.debug(format('Store %s hydrated', store.name));
+    }
+  }, [hydrated, store.name]);
+
+  React.useEffect(() => {
+    if (store.persist.hasHydrated()) {
       setHydrated(true);
       return;
     }
 
     const removeHydrateListener = store.persist.onHydrate(() =>
-      setHydrated(false),
+      setHydrated(true),
     );
 
-    const removeFinishHydrationListener = store.persist.onFinishHydration(
-      () => {
-        setHydrated(false);
-        logger.debug(format('Store %s hydrated', store.name));
-      },
+    const removeFinishHydrationListener = store.persist.onFinishHydration(() =>
+      setHydrated(true),
     );
 
     return () => {

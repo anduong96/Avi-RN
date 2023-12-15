@@ -13,7 +13,6 @@ import { ENV } from '@app/env';
 import { logger } from '../logger';
 import { format } from '../format';
 import { handleBuildInfo } from './build.info';
-import { handleFcmToken } from './push.notification';
 
 export async function startup() {
   await Promise.allSettled([
@@ -33,7 +32,6 @@ export async function startup() {
         );
       }),
     Sentry.setExtra('SERVER', ENV.SERVER),
-    handleFcmToken(),
     handleBuildInfo(),
     auth().currentUser
       ? auth().currentUser?.reload()

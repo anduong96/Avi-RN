@@ -20,16 +20,6 @@ import { AndroidPushChannel } from '../android.push.channels/constants';
 
 const logger = Logger.getSubLogger('Notification');
 
-export async function handleFcmToken() {
-  if (!__DEV__) {
-    return;
-  }
-
-  logger.debug('Getting FCM Token');
-  const fcmToken = await messaging().getToken();
-  logger.debug({ fcmToken });
-}
-
 export function useNotificationHandling() {
   const appIsActive = useAppActive();
 

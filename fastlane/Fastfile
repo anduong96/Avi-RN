@@ -28,7 +28,7 @@ before_all do |lane, options|
 
   BUILD_SCHEMES  = %i[develop staging].freeze
   AND_GRAD_PATH  = "android/app/build.gradle"
-  ICON_IMAGE_LOC =  "app.icon.png"
+  ICON_IMAGE_LOC = "app.icon.light.png"
   AND_PACKAGE_ID = CredentialsManager::AppfileConfig.try_fetch_value(:package_name) || ""
   IOS_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier) || ""
 
@@ -274,8 +274,15 @@ lane :prepare_icons do |options|
     appicon(
       appicon_image_file: ICON_IMAGE_LOC,
       appicon_path: "#{IOS_DIRECTORY}/Images.xcassets",
-      appicon_devices: [:ipad, :iphone, :ios_marketing]
+      appicon_devices: [
+        :ipad,
+        :iphone,
+        :ios_marketing,
+        :watch,
+        :watch_marketing
+      ]
     )
+
   elsif platform == :android
     android_appicon(
       generate_rounded: true,
@@ -303,7 +310,7 @@ lane :prepare_icons do |options|
       )
       add_badge(
         shield: shield,
-        glob: "/ios/**/*/bootsplash_logo*.png",
+        glob: "/ios/**/*/BootSplashLogo.imageset/logo*.png",
         no_badge: true,
         shield_gravity: "South",
         shield_no_resize: true
@@ -332,10 +339,10 @@ lane :reset do |options|
   files = []
 
   if platform == :ios
-    Dir.glob("../ios/**/*.appiconset") do |file|
+    Dir.glob("../ios/**/AppIcon.appiconset/app.icon*.png") do |file|
       files << File.expand_path(file)
     end
-    Dir.glob("../ios/**/*/bootsplash_logo*.png") do |file|
+    Dir.glob("../ios/**/*/BootSplashLogo.imageset/logo*.png") do |file|
       files << File.expand_path(file)
     end
   elsif platform == :android

@@ -1,10 +1,8 @@
 import React from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 
-import moment from 'moment';
 import { isNil } from 'lodash';
 
-import { ENV } from '@app/env';
 import { useGlobalState } from '@app/state/global';
 import { useHasHydrated } from '@app/state/use.has.hydrated';
 import { useUserHasFlightsQuery } from '@app/generated/server.gql';
@@ -20,7 +18,7 @@ const logger = createLogger('useBootApp');
  */
 export function useBootApp() {
   const hasBooted = React.useRef(false);
-  const userFlights = useUserHasFlightsQuery({ fetchPolicy: 'cache-only' });
+  const userFlights = useUserHasFlightsQuery({ fetchPolicy: 'network-only' });
   const userFlightsLoaded = !isNil(userFlights.data?.userHasFlights);
   const canBoot = useGlobalState((s) => s._hasFinishStartup);
   const hasGlobalStateHydrated = useHasHydrated(useGlobalState);
@@ -39,29 +37,4 @@ export function useBootApp() {
       RNBootSplash.hide({ fade: true });
     }
   }, [canBoot, userFlightsLoaded, hasGlobalStateHydrated]);
-
-  React.useEffect(() => {
-    if (ENV.APP_ENV === 'production') {
-      return;
-    }
-
-    const waitTime = moment.duration({ seconds: 10 }).as('milliseconds');
-    logger.debug('Waiting %s ms', waitTime);
-    const timeout = setTimeout(() => {
-      if (hasBooted.current) {
-        logger.debug('App already booted');
-        return;
-      }
-
-      logger.debug('App boot timeout');
-      hasBooted.current = true;
-      RNBootSplash.hide({ fade: true });
-    }, waitTime);
-
-    return () => {
-      if (!isNil(timeout)) {
-        clearTimeout(timeout);
-      }
-    };
-  }, [canBoot]);
 }

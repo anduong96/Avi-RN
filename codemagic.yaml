@@ -54,6 +54,13 @@ definitions:
       name: Mod GoogleService-Info.plist
       script: |
         cat ios/GoogleService-Info.${APP_ENV}.plist > ios/GoogleService-Info.plist
+    - &mod_google_service_json
+      name: Mod google-services.json
+      script: |
+        if [ -f "AND_GOOGLE_SERVICES_JSON" ]; then
+          echo "Modifying google-services.json"
+          echo "$AND_GOOGLE_SERVICES_JSON" > android/google-services.json
+        fi
     - &create_firebase_credentials
       name: Create Firebase Credentials
       script: |
@@ -64,11 +71,9 @@ definitions:
         bundle exec fastlane $PLATFORM $LANE
 
   build_android: &build_android
-    instance_type: linux_x2
+    instance_type: mac_mini_m1
     artifacts:
       - build/android/app/build/outputs/apk/release/*.apk
-    publishing:
-      <<: *notify_email
     cache:
       cache_paths:
       - $CM_BUILD_DIR/node_modules
@@ -83,6 +88,7 @@ definitions:
       - *install_rn_dep
       - *make_env_file
       - *create_firebase_credentials
+      - *mod_google_service_json
       - *build_app
   build_ios: &build_ios
     instance_type: mac_mini_m1
@@ -91,18 +97,6 @@ definitions:
       - $CM_BUILD_DIR/ios/*.ipa
       - $CM_BUILD_DIR/ios/*.dSYM.zip
     max_build_duration: 20
-    environment:
-      xcode: 15.1
-      cocoapods: default
-      groups:
-        - Global
-      vars:
-        <<: *rn_env
-        PLATFORM: ios
-        SENTRY_DSYM_PATH: $CM_BUILD_DIR/ios/build/Avi.app.dSYM.zip
-        GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json
-    publishing:
-      <<: *notify_email
     cache:
       cache_paths:
       - $CM_BUILD_DIR/node_modules
@@ -126,6 +120,7 @@ workflows:
     <<: *build_android
     name: Android Staging
     environment:
+      java: 20
       groups:
         - Global
         - Staging
@@ -138,6 +133,8 @@ workflows:
   android-production:
     <<: [*build_android]
     name: Android Beta
+    publishing:
+      <<: *notify_email
     triggering:
       <<: *production_triggering
     environment:
@@ -154,6 +151,8 @@ workflows:
     <<: [*build_ios]
     name: iOS Staging
     environment:
+      xcode: latest
+      cocoapods: default
       groups:
         - Global
         - Staging
@@ -162,8 +161,12 @@ workflows:
         PLATFORM: ios
         APP_ENV: staging
         LANE: staging
+        SENTRY_DSYM_PATH: $CM_BUILD_DIR/ios/build/Avi.app.dSYM.zip
+        GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json
   ios-beta:
     <<: [*build_ios]
+    publishing:
+      <<: *notify_email
     name: iOS Beta
     triggering:
       <<: *production_triggering

@@ -80,7 +80,6 @@ definitions:
       - $HOME/Library/Caches/Yarn
       - $CM_BUILD_DIR/.bundle/packages
       - $CM_BUILD_DIR/android/.gradle
-      - $CM_BUILD_DIR/android/.idea
     scripts:
       - *install_bundler
       - *install_imagemagick
@@ -135,8 +134,6 @@ workflows:
     name: Android Beta
     publishing:
       <<: *notify_email
-    triggering:
-      <<: *production_triggering
     environment:
       groups:
         - Global
@@ -168,9 +165,9 @@ workflows:
     publishing:
       <<: *notify_email
     name: iOS Beta
-    triggering:
-      <<: *production_triggering
     environment:
+      xcode: latest
+      cocoapods: default
       groups:
         - Global
         - Production
@@ -179,3 +176,5 @@ workflows:
         PLATFORM: ios
         APP_ENV: production
         LANE: beta
+        SENTRY_DSYM_PATH: $CM_BUILD_DIR/ios/build/Avi.app.dSYM.zip
+        GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json

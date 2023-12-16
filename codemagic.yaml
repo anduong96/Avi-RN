@@ -57,12 +57,12 @@ definitions:
     - &mod_google_service_json
       name: Mod google-services.json
       script: |
-        if [ -n "AND_GOOGLE_SERVICES_JSON" ]; then
+        if [ -z "${AND_GOOGLE_SERVICES_JSON}" ]; then
+          echo "Not modifying google-services.json"
+        else
           GOOGLE_SERVICE_JSON_LOCATION=$CM_BUILD_DIR/android/app/google-services.json
           echo "Modifying $GOOGLE_SERVICE_JSON_LOCATION"
           echo "$AND_GOOGLE_SERVICES_JSON" | base64 -d > $GOOGLE_SERVICE_JSON_LOCATION
-        else
-          echo "Not modifying google-services.json"
         fi
     - &install_android_ndk
       name: Install Android NDK

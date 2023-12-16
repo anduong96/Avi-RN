@@ -3,7 +3,6 @@ definitions:
     BUILD_NUMBER: $BUILD_NUMBER
     REPO: $CM_REPO_SLUG
     COMMIT_SHA: $CM_COMMIT
-    GOOGLE_APPLICATION_CREDENTIALS: $CM_BUILD_DIR/firebase_credentials.json
 
   notify_email: &notify_email
     email:
@@ -68,8 +67,8 @@ definitions:
     - &create_firebase_credentials
       name: Create Firebase Credentials
       script: |
-        echo "$FIREBASE_SERVICE_ACCOUNT" | base64 -d > $GOOGLE_APPLICATION_CREDENTIALS
-        echo "$AND_PLAY_STORE_AUTH_JSON" | base64 -d > $CM_BUILD_DIR/$FASTLANE_ANDROID_JSON_KEY_FILE.json
+        echo "$FIREBASE_SERVICE_ACCOUNT" | base64 -d > $CM_BUILD_DIR/firebase_credentials.json
+        echo "$AND_PLAY_STORE_AUTH_JSON" | base64 -d > $CM_BUILD_DIR/$FASTLANE_ANDROID_JSON_KEY_FILE
     - &build_app
       name: Build Application
       script: |

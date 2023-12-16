@@ -14,6 +14,7 @@ import { getAuthToken } from '@app/lib/get.auth.token';
 import { Typography } from '@app/components/typography';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { SpaceVertical } from '@app/components/space.vertical';
+import { HorizontalDivider } from '@app/components/divider.horizontal';
 
 export const DevCard: React.FC = () => {
   const theme = useTheme();
@@ -28,59 +29,63 @@ export const DevCard: React.FC = () => {
       padding={'medium'}
       title="Dev"
     >
-      <TouchableOpacity onPress={() => setShowEnv((current) => !current)}>
-        <ListItem icon={<FaIcon name="dev" />} title="Show ENV" />
-        <Modal
-          onClose={() => setShowEnv(false)}
-          subtitle={'Environment variables'}
-          title={'ENV'}
-          visible={showEnv}
-        >
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <List
-              ListFooterComponent={
-                <SpaceVertical size={Dimensions.get('window').height / 3} />
-              }
-              data={Object.entries(ENV)}
-              gap={10}
-              renderItem={([key, value], index) => (
-                <Group
-                  gap="tiny"
-                  key={key + index}
-                  marginHorizontal={'medium'}
-                  padding={'medium'}
-                  style={{
-                    backgroundColor: theme.pallette.card,
-                    borderRadius: theme.borderRadius,
-                  }}
-                >
-                  <Typography isBold type="small">
-                    {String(key)}
-                  </Typography>
-                  <Typography type="h3">{String(value)}</Typography>
-                </Group>
-              )}
-            />
-          </ScrollView>
-        </Modal>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() =>
-          getFcmToken().then((token) => logger.debug('fcm token=%s', token))
-        }
+      <Modal
+        onClose={() => setShowEnv(false)}
+        style={{ backgroundColor: theme.pallette.background }}
+        subtitle={'Environment variables'}
+        title={'ENV'}
+        visible={showEnv}
       >
-        <ListItem icon={<FaIcon name="dev" />} title="Get FCM Token"></ListItem>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() =>
-          getAuthToken().then((token) => logger.debug('token=%s', token))
-        }
-      >
-        <ListItem
-          icon={<FaIcon name="dev" />}
-          title="Get Auth Token"
-        ></ListItem>
-      </TouchableOpacity>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <List
+            ListFooterComponent={
+              <SpaceVertical size={Dimensions.get('window').height / 3} />
+            }
+            data={Object.entries(ENV)}
+            gap={10}
+            renderItem={([key, value], index) => (
+              <Group
+                gap="tiny"
+                key={key + index}
+                marginHorizontal={'medium'}
+                padding={'medium'}
+                style={{
+                  backgroundColor: theme.pallette.card,
+                  borderRadius: theme.borderRadius,
+                }}
+              >
+                <Typography isBold type="small">
+                  {String(key)}
+                </Typography>
+                <Typography type="h3">{String(value)}</Typography>
+              </Group>
+            )}
+          />
+        </ScrollView>
+      </Modal>
+      <List
+        data={[
+          {
+            onPress: () => setShowEnv((current) => !current),
+            title: 'Show ENV',
+          },
+          {
+            onPress: () => logger.debug('fcm token=%s', getFcmToken()),
+            title: 'Log FCM Token',
+          },
+          {
+            onPress: () => logger.debug('auth token=%s', getAuthToken()),
+            title: 'Log Auth Token',
+          },
+        ]}
+        gap={theme.space.small}
+        renderItem={(item) => (
+          <TouchableOpacity onPress={item.onPress}>
+            <ListItem icon={<FaIcon name="dev" />} title={item.title} />
+          </TouchableOpacity>
+        )}
+        separator={() => <HorizontalDivider />}
+      />
     </Card>
   );
 };

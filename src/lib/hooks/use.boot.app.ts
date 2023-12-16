@@ -24,6 +24,10 @@ export function useBootApp() {
   const hasGlobalStateHydrated = useHasHydrated(useGlobalState);
 
   React.useEffect(() => {
+    if (hasBooted.current) {
+      return;
+    }
+
     logger.debug(
       'Checking if app can boot canBoot=%s, hasGlobalStateHydrated=%s, userFlightsLoaded=%s',
       canBoot,

@@ -18,7 +18,7 @@ import { useAirlinesQuery } from '@app/generated/server.gql';
  */
 export function useAirlineSearch(searchValue: string, flightNumber?: string) {
   const airlines = useAirlinesQuery({
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'cache-first',
     pollInterval: moment.duration({ days: 1 }).asMilliseconds(),
   });
 

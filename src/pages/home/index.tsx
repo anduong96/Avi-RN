@@ -42,6 +42,7 @@ import {
 } from '@app/generated/server.gql';
 
 import { BottomTabs } from './bottom.tabs';
+import { EmptyFlights } from './empty.flights';
 import { AddFlightBtn } from './add.flight.btn';
 
 export const HomePage: React.FC = () => {
@@ -104,21 +105,21 @@ export const HomePage: React.FC = () => {
       <Page>
         <FlashList
           ListEmptyComponent={() => {
-            if (!isEmpty(flights.data)) {
-              return null;
+            if (isEmpty(activeFlights) && flights.loading) {
+              return (
+                <Group
+                  flexGrow={1}
+                  gap={'large'}
+                  isCentered
+                  paddingVertical={'large'}
+                >
+                  <SpaceVertical size="large" />
+                  <ActivityIndicator color={theme.pallette.text} size="large" />
+                </Group>
+              );
             }
 
-            return (
-              <Group
-                flexGrow={1}
-                gap={'large'}
-                isCentered
-                paddingVertical={'large'}
-              >
-                <SpaceVertical size="large" />
-                <ActivityIndicator color={theme.pallette.text} size="large" />
-              </Group>
-            );
+            return null;
           }}
           ListFooterComponent={() => {
             return (
@@ -185,6 +186,7 @@ export const HomePage: React.FC = () => {
           }}
           showsVerticalScrollIndicator={false}
         />
+        {isEmpty(activeFlights) && !flights.loading && <EmptyFlights />}
         <Footer>
           <BottomTabs />
           <AddFlightBtn />

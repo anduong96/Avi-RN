@@ -107,15 +107,20 @@ export const HomePage: React.FC = () => {
           ListEmptyComponent={() => {
             if (isEmpty(activeFlights) && flights.loading) {
               return (
-                <Group
-                  flexGrow={1}
-                  gap={'large'}
-                  isCentered
-                  paddingVertical={'large'}
-                >
-                  <SpaceVertical size="large" />
-                  <ActivityIndicator color={theme.pallette.text} size="large" />
-                </Group>
+                <Animated.View entering={FadeInDown.delay(5 * 1000)}>
+                  <Group
+                    flexGrow={1}
+                    gap={'large'}
+                    isCentered
+                    paddingVertical={'large'}
+                  >
+                    <SpaceVertical size="large" />
+                    <ActivityIndicator
+                      color={theme.pallette.text}
+                      size="large"
+                    />
+                  </Group>
+                </Animated.View>
               );
             }
 

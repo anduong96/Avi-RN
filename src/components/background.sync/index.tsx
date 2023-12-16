@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useThemeSync } from '@app/lib/hooks/use.theme';
 import { useStartup } from '@app/lib/startup/use.startup';
 import { useUserSync } from '@app/state/user/use.user.sync';
+import { useAirlinesQuery } from '@app/generated/server.gql';
 import { useAppStateSync } from '@app/lib/hooks/use.app.state';
 import { useFirstOpenSync } from '@app/lib/hooks/use.first.opened';
 import { usePreferenceSync } from '@app/state/global/use.preference.sync';
@@ -20,6 +21,7 @@ export const BackgroundSync: React.FC = () => {
   useNotificationHandling();
   useAndroidPushChannelsSync();
   usePreferenceSync();
+  useAirlinesQuery();
 
   return <></>;
 };

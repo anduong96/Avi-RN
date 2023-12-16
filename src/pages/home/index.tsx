@@ -186,10 +186,18 @@ export const HomePage: React.FC = () => {
           }}
           showsVerticalScrollIndicator={false}
         />
-        {isEmpty(activeFlights) && !flights.loading && <EmptyFlights />}
         <Footer>
-          <BottomTabs />
-          <AddFlightBtn />
+          {isEmpty(activeFlights) && !flights.loading && <EmptyFlights />}
+
+          <Group
+            direction="row"
+            paddingHorizontal={'medium'}
+            style={{ justifyContent: 'space-between' }}
+            verticalAlign="center"
+          >
+            <BottomTabs />
+            <AddFlightBtn />
+          </Group>
         </Footer>
       </Page>
     </PageContainer>
@@ -266,12 +274,9 @@ const Footer = withStyled(
   Animated.View,
   (theme) => [
     {
-      alignItems: 'center',
       bottom: theme.insets.bottom || theme.space.large,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+      gap: theme.space.medium,
       left: 0,
-      paddingHorizontal: theme.space.medium,
       position: 'absolute',
       right: 0,
     },

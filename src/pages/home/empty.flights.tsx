@@ -31,6 +31,7 @@ export const EmptyFlights: React.FC = () => {
       gap={'large'}
       horizontalAlign="right"
       paddingHorizontal={'medium'}
+      style={{ backgroundColor: 'transparent' }}
       verticalAlign="center"
     >
       <Lottie

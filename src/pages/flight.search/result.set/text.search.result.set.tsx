@@ -68,7 +68,7 @@ export const TextSearchResultSet: React.FC = () => {
     <FlashList
       ListEmptyComponent={() => (
         <>
-          {result.loading ? (
+          {result.loading && isEmpty(result.value) ? (
             <Animated.View entering={FadeInDown}>
               <Result
                 hero={

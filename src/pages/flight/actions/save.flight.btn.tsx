@@ -62,7 +62,7 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
 
   const handlePress = async () => {
     vibrate('impactHeavy');
-    isSaved ? await remove() : await add();
+    isSaved.value ? await remove() : await add();
     await isSaved.refetch();
   };
 

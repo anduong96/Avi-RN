@@ -68,7 +68,12 @@ definitions:
       name: Create Firebase Credentials
       script: |
         echo "$FIREBASE_SERVICE_ACCOUNT" | base64 -d > $CM_BUILD_DIR/firebase_credentials.json
-        echo "$AND_PLAY_STORE_AUTH_JSON" | base64 -d > $CM_BUILD_DIR/$FASTLANE_ANDROID_JSON_KEY_FILE
+
+        if [ -n "AND_PLAY_STORE_AUTH_JSON" ]; then
+          if [ ! -f $CM_BUILD_DIR/$FASTLANE_ANDROID_JSON_KEY_FILE ]; then
+            echo "$AND_PLAY_STORE_AUTH_JSON" | base64 -d > $CM_BUILD_DIR/$FASTLANE_ANDROID_JSON_KEY_FILE
+          fi
+        fi
     - &build_app
       name: Build Application
       script: |

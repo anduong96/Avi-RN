@@ -303,16 +303,17 @@ lane :prepare_icons do |options|
 
     if platform == :ios
       add_badge(
-        shield: shield,
         no_badge: true,
+        shield: shield,
+        glob: "/**/AppIcon.appiconset/*.{png,PNG}",
         shield_gravity: "North",
         shield_no_resize: true
       )
       add_badge(
         shield: shield,
-        glob: "/ios/**/*/BootSplashLogo.imageset/logo*.png",
-        no_badge: true,
+        glob: "/**/BootSplashLogo.imageset/*.{png,PNG}",
         shield_gravity: "South",
+        no_badge: true,
         shield_no_resize: true
       )
     elsif platform == :android

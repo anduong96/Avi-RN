@@ -19,6 +19,7 @@
 		DA2B951D2F4C491FB0636EC6 /* FontAwesome6_Pro_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA584B18A2540FFA82F1E73 /* FontAwesome6_Pro_Solid.ttf */; };
 		E4CE0BB42CECDE9F8C30B875 /* Pods_Avi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 056F5808F4D149090A675F2D /* Pods_Avi.framework */; };
 		EB1304B229AB1EEA00F16E4A /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB1304B129AB1EEA00F16E4A /* BootSplash.storyboard */; };
+		EB249A642B2E26AA00E70D2F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB249A632B2E26AA00E70D2F /* Colors.xcassets */; };
 		EB3E24602966686900AC0920 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB3E24502966686900AC0920 /* MaterialCommunityIcons.ttf */; };
 		EBC3A3EC2963CFDD0016A4C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EBC3A3EB2963CFDD0016A4C1 /* GoogleService-Info.plist */; };
 		EBEA59192B091DDC00C42456 /* FontAwesome6_Pro_Sharp_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBEA59122B091DDC00C42456 /* FontAwesome6_Pro_Sharp_Solid.ttf */; };
@@ -82,6 +83,7 @@
 		EB0800992993625B003D6261 /* Avi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Avi.entitlements; path = Avi/Avi.entitlements; sourceTree = "<group>"; };
 		EB1304B129AB1EEA00F16E4A /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = Avi/BootSplash.storyboard; sourceTree = "<group>"; };
 		EB1C7AF129A1E48700940574 /* AviRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AviRelease.entitlements; path = Avi/AviRelease.entitlements; sourceTree = "<group>"; };
+		EB249A632B2E26AA00E70D2F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = Avi/Colors.xcassets; sourceTree = "<group>"; };
 		EB3E24502966686900AC0920 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
 		EBA2123229A2C40A00222A96 /* AviStaging.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AviStaging.entitlements; path = Avi/AviStaging.entitlements; sourceTree = "<group>"; };
 		EBC3A3EB2963CFDD0016A4C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				EB1C7AF129A1E48700940574 /* AviRelease.entitlements */,
 				EB0800992993625B003D6261 /* Avi.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
+				EB249A632B2E26AA00E70D2F /* Colors.xcassets */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -347,6 +350,7 @@
 				EBEA591B2B091DDC00C42456 /* FontAwesome6_Pro_Regular.ttf in Resources */,
 				EBEA591F2B091DDC00C42456 /* FontAwesome6_Pro_Light.ttf in Resources */,
 				F28B61F6D90F4673A4E4A00D /* FontAwesome6_Pro_Brands.ttf in Resources */,
+				EB249A642B2E26AA00E70D2F /* Colors.xcassets in Resources */,
 				4025035098F04587B7DD03FA /* FontAwesome6_Pro_Duotone.ttf in Resources */,
 				9E635C125B8B4B778BABBFE0 /* FontAwesome6_Pro_Light.ttf in Resources */,
 				82A73788781B40E59D660CC9 /* FontAwesome6_Pro_Regular.ttf in Resources */,

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Image } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import tinycolor from 'tinycolor2';
@@ -8,7 +9,6 @@ import { useUserState } from '@app/state/user';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { Shadow } from '../shadow';
-import { FaIcon } from '../icons.fontawesome';
 
 type Props = {
   hasShadow?: boolean;
@@ -19,19 +19,28 @@ export const Avatar: React.FC<Props> = ({ hasShadow, size = 20 }) => {
   const theme = useTheme();
   const colors = useUserState((state) => state.colors);
 
+  const getColor = () => {
+    return tinycolor(colors.neon);
+  };
+
   return (
     <ShadowWrapper
-      color={tinycolor(colors.pastel).darken(10).toRgbString()}
+      color={getColor().darken(10).toRgbString()}
       disabled={!hasShadow}
       distance={20}
       offset={[size * 0.1, size * 0.1]}
       opacity={0.3}
     >
-      <Container color={colors.pastel}>
-        <FaIcon
-          color={colors.neon}
-          name="user-astronaut"
-          size={Math.max(size - theme.space.large, theme.space.large + 10)}
+      <Container color={getColor().setAlpha(0.4).toRgbString()}>
+        <Image
+          resizeMethod="auto"
+          resizeMode="contain"
+          source={require('@app/assets/logo_white.png')}
+          style={{
+            aspectRatio: 1,
+            height: Math.max(size - theme.space.large, theme.space.large + 10),
+            tintColor: getColor().toRgbString(),
+          }}
         />
       </Container>
     </ShadowWrapper>

@@ -91,6 +91,7 @@ export const TextSearchResultSet: React.FC = () => {
         </>
       )}
       data={result.value}
+      estimatedItemSize={50}
       keyExtractor={(item) => item.item.id}
       renderItem={({ index, item }) => {
         return (

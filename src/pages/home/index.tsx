@@ -1,11 +1,17 @@
 import * as React from 'react';
 import { Swipeable } from 'react-native-gesture-handler';
-import { Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
   FadeInDown,
   SlideInLeft,
   SlideOutLeft,
 } from 'react-native-reanimated';
+import {
+  ActivityIndicator,
+  RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { isEmpty } from 'lodash';
 import { FlashList } from '@shopify/flash-list';
@@ -19,10 +25,12 @@ import { withStyled } from '@app/lib/styled';
 import { Group } from '@app/components/group';
 import { Button } from '@app/components/button';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { ScrollUp } from '@app/components/scroll.up';
 import { FlightCard } from '@app/components/flight.card';
 import { usePrompt } from '@app/components/prompt/use.prompt';
 import { PageContainer } from '@app/components/page.container';
+import { SpaceVertical } from '@app/components/space.vertical';
 import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
 import { useRootNavigation } from '@app/navigation/use.root.navigation';
 import {
@@ -38,6 +46,7 @@ import { AddFlightBtn } from './add.flight.btn';
 
 export const HomePage: React.FC = () => {
   const prompt = usePrompt();
+  const theme = useTheme();
   const flights = useUserActiveFlightsQuery();
   const archived = useUserArchivedFlightsQuery();
   const rootNav = useRootNavigation();
@@ -94,6 +103,23 @@ export const HomePage: React.FC = () => {
     <PageContainer>
       <Page>
         <FlashList
+          ListEmptyComponent={() => {
+            if (!isEmpty(flights.data)) {
+              return null;
+            }
+
+            return (
+              <Group
+                flexGrow={1}
+                gap={'large'}
+                isCentered
+                paddingVertical={'large'}
+              >
+                <SpaceVertical size="large" />
+                <ActivityIndicator color={theme.pallette.text} size="large" />
+              </Group>
+            );
+          }}
           ListFooterComponent={() => {
             return (
               <ScrollUp
@@ -113,6 +139,7 @@ export const HomePage: React.FC = () => {
                   <ArchivedFlightsBtn
                     disabled={!hasArchivedFlights}
                     icon="rectangle-history"
+                    isLoading={archived.loading}
                     onPress={handleOpenArchivedFlights}
                   >
                     Past
@@ -124,10 +151,14 @@ export const HomePage: React.FC = () => {
           contentContainerStyle={{ paddingBottom: WINDOW_HEIGHT * 0.5 }}
           data={activeFlights}
           estimatedItemSize={200}
-          onRefresh={() => flights.refetch()}
           onScroll={scrollPosition.handleScroll}
           ref={scroll}
-          refreshing={false}
+          refreshControl={
+            <RefreshControl
+              onRefresh={() => flights.refetch()}
+              refreshing={false}
+            />
+          }
           renderItem={({ index, item: flight }) => {
             return (
               <Swipeable
@@ -215,7 +246,7 @@ const ItemActions = withStyled(View, (theme) => [
 
 const ArchivedFlightsBtn = withStyled(Button, (_, props) => [
   {
-    opacity: props.disabled ? 0 : 1,
+    opacity: props.disabled ? 0.5 : 1,
   },
 ]);
 

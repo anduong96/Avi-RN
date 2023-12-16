@@ -1,11 +1,8 @@
 import React from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 
-import { isNil } from 'lodash';
-
 import { useGlobalState } from '@app/state/global';
 import { useHasHydrated } from '@app/state/use.has.hydrated';
-import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 
 import { createLogger } from '../logger';
 
@@ -18,8 +15,6 @@ const logger = createLogger('useBootApp');
  */
 export function useBootApp() {
   const hasBooted = React.useRef(false);
-  const userFlights = useUserHasFlightsQuery({ fetchPolicy: 'network-only' });
-  const userFlightsLoaded = !isNil(userFlights.data?.userHasFlights);
   const canBoot = useGlobalState((s) => s._hasFinishStartup);
   const hasGlobalStateHydrated = useHasHydrated(useGlobalState);
 
@@ -32,13 +27,14 @@ export function useBootApp() {
       'Checking if app can boot canBoot=%s, hasGlobalStateHydrated=%s, userFlightsLoaded=%s',
       canBoot,
       hasGlobalStateHydrated,
-      userFlightsLoaded,
     );
 
-    if (canBoot && hasGlobalStateHydrated && userFlightsLoaded) {
+    if (canBoot && hasGlobalStateHydrated) {
       logger.debug('Booting App');
       hasBooted.current = true;
-      RNBootSplash.hide({ fade: true });
+      RNBootSplash.hide({
+        fade: true,
+      });
     }
-  }, [canBoot, userFlightsLoaded, hasGlobalStateHydrated]);
+  }, [canBoot, hasGlobalStateHydrated]);
 }

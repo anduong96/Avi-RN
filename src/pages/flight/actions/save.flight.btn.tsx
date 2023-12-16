@@ -71,7 +71,7 @@ export const SaveFlightButton: React.FC<Props> = ({ flightID }) => {
       icon="bookmark"
       isActive={isSaved.value}
       isLoading={isLoading}
-      label={isSaved ? 'Saved' : 'Save'}
+      label={isSaved.value ? 'Saved' : 'Save'}
       onPress={handlePress}
     />
   );

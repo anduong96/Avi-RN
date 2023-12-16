@@ -135,7 +135,7 @@ workflows:
         APP_ENV: staging
         LANE: staging
 
-  android-production:
+  android-beta:
     <<: [*build_android]
     name: Android Beta
     publishing:

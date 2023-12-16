@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.5</string>
+	<string>1.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -48,19 +48,19 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>1</string>
 	<key>GIDClientID</key>
 	<string>837257235182-bbdcc7tdtm8mhr4peiimrm21ss386cs9.apps.googleusercontent.com</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<false />
 	<key>LSRequiresIPhoneOS</key>
-	<true/>
+	<true />
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<false/>
+		<false />
 		<key>NSAllowsLocalNetworking</key>
-		<true/>
+		<true />
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Import your flight calendar</string>
@@ -68,26 +68,26 @@
 	<string>We may use your camera to assist with customer support</string>
 	<key>NSContactsUsageDescription</key>
 	<string>To easily connect and communicate with your contacts, our app needs access to your
-			contacts. We will only use this information to provide a seamless experience and help you stay
-			connected with your friends and colleagues.</string>
+		contacts. We will only use this information to provide a seamless experience and help you stay
+		connected with your friends and colleagues.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>To provide accurate location-based services, our app needs access to your location. We
-			will use this information to customize your experience, provide relevant content, and improve
-			our services</string>
+		will use this information to customize your experience, provide relevant content, and improve
+		our services</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Track your travel securely</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To enhance your experience and provide location-specific features, our app needs access
-			to your location when you are actively using it. We will use this information to provide
-			relevant content and improve our services.</string>
+		to your location when you are actively using it. We will use this information to provide
+		relevant content and improve our services.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We may use your photos to assist with customer support</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>To provide timely reminders and notifications, our app needs access to your reminders.
-			We will only use this information to enhance your experience and help you stay organized.</string>
+		We will only use this information to enhance your experience and help you stay organized.</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>Allow avi learn and provide exceptional experience. Your data will be stored and use
-			only within our app.</string>
+		only within our app.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -128,7 +128,7 @@
 		<string>armv7</string>
 	</array>
 	<key>UIStatusBarHidden</key>
-	<true/>
+	<true />
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -141,6 +141,6 @@
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<false />
 </dict>
 </plist>

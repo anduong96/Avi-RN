@@ -1,6 +1,6 @@
 {
   "name": "avi-app",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "engines": {
     "node": ">=18"
@@ -189,6 +189,7 @@
     "react-dom": "18.2.0",
     "react-native-clean-project": "^4.0.3",
     "react-native-localhost": "^1.0.0",
+    "react-native-version": "^4.0.0",
     "react-test-renderer": "18.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"

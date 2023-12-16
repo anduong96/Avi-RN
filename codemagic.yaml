@@ -64,6 +64,16 @@ definitions:
         else
           echo "Not modifying google-services.json"
         fi
+    - &install_android_ndk
+      name: Install Android NDK
+      script: |
+        export ANDROID_NDK_HOME="$HOMEBREW_PREFIX/share/android-ndk"
+        if [ ! -d "$ANDROID_NDK_HOME" ]; then
+          brew install --cask android-ndk
+        else
+          echo "Android NDK already installed"
+        fi
+
     - &create_firebase_credentials
       name: Create Firebase Credentials
       script: |
@@ -82,6 +92,7 @@ definitions:
     instance_type: mac_mini_m1
     artifacts:
       - build/android/app/build/outputs/apk/release/*.apk
+      - $HOMEBREW_PREFIX/share/android-ndk
     cache:
       cache_paths:
       - $CM_BUILD_DIR/node_modules
@@ -91,6 +102,7 @@ definitions:
     scripts:
       - *install_bundler
       - *install_imagemagick
+      - *install_android_ndk
       - *install_doppler
       - *install_rn_dep
       - *make_env_file

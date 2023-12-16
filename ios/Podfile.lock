@@ -1852,6 +1852,12 @@ PODS:
     - React-Core
   - react-native-safe-area-context (4.8.1):
     - React-Core
+  - react-native-skia (0.1.229):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
+    - React
+    - React-callinvoker
+    - React-Core
   - react-native-tracking-transparency (0.1.2):
     - React
   - react-native-wallet-manager (0.0.5):
@@ -2191,6 +2197,7 @@ DEPENDENCIES:
   - react-native-network-info (from `../node_modules/react-native-network-info`)
   - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - "react-native-skia (from `../node_modules/@shopify/react-native-skia`)"
   - react-native-tracking-transparency (from `../node_modules/react-native-tracking-transparency`)
   - react-native-wallet-manager (from `../node_modules/react-native-wallet-manager`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -2384,6 +2391,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-restart"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-skia:
+    :path: "../node_modules/@shopify/react-native-skia"
   react-native-tracking-transparency:
     :path: "../node_modules/react-native-tracking-transparency"
   react-native-wallet-manager:
@@ -2577,6 +2586,7 @@ SPEC CHECKSUMS:
   react-native-network-info: d1290ffc0bd0709e11436f5b8d7f605dcc5c4530
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
   react-native-safe-area-context: cd1169d797a2ef722a00bfc5af10748d5b6c94f9
+  react-native-skia: d60e3e5d5a85568c5e635f72210cefcf0f6021e7
   react-native-tracking-transparency: 25ff1ff866e338c137c818bdec20526bb05ffcc1
   react-native-wallet-manager: 53f1e4b8f312e4b77c06604b0626484dc142c4ed
   react-native-webview: 88293a0f23eca8465c0433c023ec632930e644d0

@@ -6,16 +6,20 @@ import moment from 'moment';
 import { useAirlinesQuery } from '@app/generated/server.gql';
 
 /**
- * The `useAirlineSearch` function is a TypeScript function that uses the Fuse library to search for
- * airlines based on a search value and returns the top 5 matching results.
- * @param {string} searchValue - The `searchValue` parameter is a string that represents the value to
- * search for in the list of airlines. It is used to filter and find matching airlines based on their
- * IATA code or name.
- * @returns The function `useAirlineSearch` returns an array of search results based on the
- * `searchValue` parameter. The search results are obtained by using the `searcher` object, which is
- * created using the `Fuse` library. The `searcher` object performs a fuzzy search on the
- * `airlines.data?.airlines` array, using the `iata` and `name` keys
+ * The `useAirlineSearch` function is a TypeScript function that performs a search for airlines based
+ * on a search value and an optional flight number.
+ * @param {string} searchValue - The search value is a string that represents the input value for
+ * searching airlines. It is used to filter and find matching airlines based on their IATA code or
+ * name.
+ * @param {string} [flightNumber] - The `flightNumber` parameter is an optional parameter that
+ * represents the flight number. It is used to filter the search results by removing the flight number
+ * from the search value before performing the search.
+ * @returns The function `useAirlineSearch` returns an object with two properties: `value` and
+ * `loading`. The `value` property contains an array of search results based on the `searchValue` and
+ * `flightNumber` parameters. The `loading` property indicates whether the airlines data is currently
+ * being loaded.
  */
+
 export function useAirlineSearch(searchValue: string, flightNumber?: string) {
   const airlines = useAirlinesQuery({
     fetchPolicy: 'cache-first',
@@ -43,5 +47,8 @@ export function useAirlineSearch(searchValue: string, flightNumber?: string) {
     [searchValue, searcher, flightNumber],
   );
 
-  return result;
+  return {
+    loading: airlines.loading,
+    value: result,
+  };
 }

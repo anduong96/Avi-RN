@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { StyleProp, ViewStyle } from 'react-native';
 
@@ -10,6 +10,7 @@ import type { StringOrElement } from '@app/types/string.or.component';
 import { withStyled } from '@app/lib/styled';
 
 import { Button } from '../button';
+import { Typography } from '../typography';
 import { StringRenderer } from '../string.renderer';
 
 type Props = {
@@ -33,10 +34,14 @@ export const Result: React.FC<Props> = ({
       <Content>
         <Meta>
           {title && (
-            <StringRenderer Container={TitleText}>{title}</StringRenderer>
+            <StringRenderer Container={Typography} isBold isCentered>
+              {title}
+            </StringRenderer>
           )}
           {subtitle && (
-            <StringRenderer Container={SubtitleText}>{subtitle}</StringRenderer>
+            <StringRenderer Container={Typography} color="secondary" isCentered>
+              {subtitle}
+            </StringRenderer>
           )}
         </Meta>
         {!isEmpty(actions) && (
@@ -75,22 +80,6 @@ const Actions = withStyled(View, (theme) => [
   {
     gap: theme.space.medium,
     marginTop: theme.space.large,
-  },
-]);
-
-const TitleText = withStyled(Text, (theme) => [
-  theme.typography.presets.h1,
-  {
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-]);
-
-const SubtitleText = withStyled(Text, (theme) => [
-  theme.typography.presets.p1,
-  {
-    color: theme.pallette.textSecondary,
-    textAlign: 'center',
   },
 ]);
 

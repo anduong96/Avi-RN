@@ -1,7 +1,10 @@
 import * as React from 'react';
-import { FlatList, Text } from 'react-native';
-import Animated from 'react-native-reanimated';
+import { ActivityIndicator } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import { isEmpty } from 'lodash';
+import { FlashList } from '@shopify/flash-list';
 
 import type { AirlinesQuery } from '@app/generated/server.gql';
 
@@ -11,6 +14,7 @@ import { Result } from '@app/components/result';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { ListItem } from '@app/components/list.item';
+import { Typography } from '@app/components/typography';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { parseFlightIata } from '@app/lib/parse.flight.iata';
 import { HighlightedText } from '@app/components/highlight.text';
@@ -29,6 +33,7 @@ export const TextSearchResultSet: React.FC = () => {
   const flightNumber = !isFocusOnAirlineIata
     ? parseFlightIata(textSearch)?.flightNumber.slice(0, 4)
     : undefined;
+
   const result = useAirlineSearch(textSearch, flightNumber);
   const currentFlightNumber = useFlightSearchState((s) => s.flightNumber);
 
@@ -55,22 +60,37 @@ export const TextSearchResultSet: React.FC = () => {
 
   useKeyboardSubmitEvent(() => {
     if (focused === 'textSearch' || focused === 'airlineIata') {
-      handleSelection(result[0].item);
+      handleSelection(result.value[0].item);
     }
   }, [result, handleSelection, focused]);
 
   return (
-    <FlatList
+    <FlashList
       ListEmptyComponent={() => (
         <>
-          {textSearch && (
-            <Animated.View>
-              <Result hero={<EmptyHero>😐</EmptyHero>} title="No results" />
+          {result.loading ? (
+            <Animated.View entering={FadeInDown}>
+              <Result
+                hero={
+                  <ActivityIndicator color={theme.pallette.text} size="large" />
+                }
+                title={'Loading airlines...'}
+              />
             </Animated.View>
+          ) : (
+            !isEmpty(textSearch) && (
+              <Animated.View entering={FadeInDown}>
+                <Result
+                  hero={<Typography type="massive">😐</Typography>}
+                  subtitle="Try a different query"
+                  title="No results"
+                />
+              </Animated.View>
+            )
           )}
         </>
       )}
-      data={result}
+      data={result.value}
       keyExtractor={(item) => item.item.id}
       renderItem={({ index, item }) => {
         return (
@@ -120,10 +140,6 @@ const ItemDescription = withStyled(HighlightedText, (theme) => [
   {
     color: theme.pallette.textSecondary,
   },
-]);
-
-const EmptyHero = withStyled(Text, (theme) => [
-  theme.typography.presets.massive,
 ]);
 
 const Item = withStyled<{ index: number }, typeof TouchableOpacity>(

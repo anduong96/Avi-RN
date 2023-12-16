@@ -1,4 +1,4 @@
-import type Fuse from 'fuse.js';
+import type { FuseResultMatch } from 'fuse.js';
 
 import * as React from 'react';
 import { Text } from 'react-native';
@@ -11,7 +11,7 @@ type Props = {
   children: string;
   matchKey: string;
   matchStyle?: StyleProp<TextStyle>;
-  matches?: readonly Fuse.FuseResultMatch[];
+  matches?: readonly FuseResultMatch[];
   style?: StyleProp<TextStyle>;
 };
 export const HighlightedText: React.FC<Props> = ({

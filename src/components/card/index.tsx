@@ -84,6 +84,21 @@ export const Card: React.FC<Props> = ({
           <Actions></Actions>
         </Header>
       )}
+      {collapsible && (
+        <CollapsibleBtn
+          onPress={() => {
+            vibrate('effectClick');
+            onCollapseState?.(!isCollapsed);
+          }}
+        >
+          <Animated.View style={collapseBtnAnimatedStyle}>
+            <FaIcon
+              color={theme.pallette.grey[400]}
+              name="circle-chevron-down"
+            />
+          </Animated.View>
+        </CollapsibleBtn>
+      )}
       <Collapsible isCollapsed={isCollapsed}>
         <Content
           direction={direction}
@@ -102,21 +117,6 @@ export const Card: React.FC<Props> = ({
           {children}
         </Content>
       </Collapsible>
-      {collapsible && (
-        <CollapsibleBtn
-          onPress={() => {
-            vibrate('effectClick');
-            onCollapseState?.(!isCollapsed);
-          }}
-        >
-          <Animated.View style={collapseBtnAnimatedStyle}>
-            <FaIcon
-              color={theme.pallette.grey[400]}
-              name="circle-chevron-down"
-            />
-          </Animated.View>
-        </CollapsibleBtn>
-      )}
     </Container>
   );
 };

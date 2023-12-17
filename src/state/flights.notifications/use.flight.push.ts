@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { isNil } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 
 import { logger } from '@app/lib/logger';
 import { findArrayDifferences } from '@app/lib/array/find.difference';
@@ -26,24 +26,27 @@ export function useFlightPushSync() {
 
   React.useEffect(() => {
     if (!isReady) {
-      logger.debug('Push Sync not ready');
       return;
     }
 
-    logger.debug('Push Sync ready');
     const subscriptions = useFlightNotificationsState.getState().subscriptions;
     const subscribedFlightIDs = activeFlights
       .filter((entry) => entry.shouldAlert)
       .map((entry) => entry.flightID);
 
-    logger.warn('Subscribed Flights', subscribedFlightIDs);
+    if (!isEmpty(subscribedFlightIDs)) {
+      logger.debug('Subscribed Flights=%j', subscribedFlightIDs);
+    }
 
     const diff = findArrayDifferences(
       Object.keys(subscriptions),
       subscribedFlightIDs,
     );
 
-    logger.debug('User Flights Diff', diff);
+    if (!isEmpty(diff.added) || !isEmpty(diff.removed)) {
+      logger.debug('User Flights Diff=%j', diff);
+    }
+
     diff.added?.forEach((flightID) => enableFlightPush(flightID));
     diff.removed?.forEach((flightID) => removeFlightPush(flightID));
   }, [isReady, activeFlights]);

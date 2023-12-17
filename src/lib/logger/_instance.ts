@@ -25,7 +25,7 @@ export class Logger {
   }
 
   private formatMessage(args: unknown[]) {
-    if (typeof args[0] === 'string') {
+    if (typeof args[0] === 'string' && args[0].includes('%')) {
       return format(args[0], ...slice(args, 1));
     }
 

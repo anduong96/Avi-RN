@@ -9,6 +9,7 @@ import { firebase } from '@react-native-firebase/messaging';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useUser } from '@app/state/user/use.user';
 import { useTheme } from '@app/lib/hooks/use.theme';
 
 import { Group } from '../group';
@@ -21,12 +22,21 @@ import { useToast } from '../toast/use.toast';
 export const FeatureFlightProblems: React.FC = () => {
   const featureName = 'Flight Problems';
   const theme = useTheme();
+  const user = useUser();
   const feature = useFeature(featureName);
   const toast = useToast();
   const textColor = theme.pallette.white;
 
   async function handleAdd() {
     vibrate('effectClick');
+    if (user.isAnonymous) {
+      return toast({
+        description: 'Please sign in to add to waitlist.',
+        preset: 'warning',
+        title: 'Sign in required!',
+      });
+    }
+
     try {
       const topic = `wait-list-${kebabCase(featureName.toLowerCase())}`;
       await firebase.messaging().subscribeToTopic(topic);

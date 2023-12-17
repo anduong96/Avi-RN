@@ -59,7 +59,7 @@ export const AccountConnectCard: React.FC = () => {
       gap="medium"
       isLoading={isLoading}
       padding={'medium'}
-      title="Connect"
+      title={user.isAnonymous ? 'Sign in' : 'Connected Accounts'}
     >
       {IS_IOS && (
         <Shadow level={2}>

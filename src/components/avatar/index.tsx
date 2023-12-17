@@ -39,7 +39,7 @@ export const Avatar: React.FC<Props> = ({ hasShadow, size = 20 }) => {
           style={{
             aspectRatio: 1,
             height: Math.max(size - theme.space.large, theme.space.large + 10),
-            tintColor: getColor().toRgbString(),
+            tintColor: getColor().brighten(30).toRgbString(),
           }}
         />
       </Container>
@@ -62,7 +62,6 @@ const Container = withStyled<{ color: string }, typeof Animated.View>(
       backgroundColor: props.color,
       borderRadius: theme.roundRadius,
       padding: theme.space.large,
-      shadowColor: props.color,
     },
   ],
 );

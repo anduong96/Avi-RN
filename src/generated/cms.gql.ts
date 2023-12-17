@@ -811,6 +811,7 @@ export type EntityTypeName = typeof EntityTypeName[keyof typeof EntityTypeName];
 export type EntityWhereInput = {
   /** The ID of an object */
   id: Scalars['ID']['input'];
+  locale?: InputMaybe<Locale>;
   stage: Stage;
   /** The Type name of an object */
   typename: EntityTypeName;

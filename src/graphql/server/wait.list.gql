@@ -1,0 +1,11 @@
+query WaitList($features: [String!]!) {
+  userWaitList(features: $features)
+}
+
+mutation AddToWaitList($feature: String!) {
+  addToWaitList(feature: $feature)
+}
+
+mutation RemoveFromWaitList($feature: String!) {
+  removeFromWaitList(feature: $feature)
+}

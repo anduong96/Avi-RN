@@ -69,9 +69,7 @@ export type Airline = {
 
 export type Airport = {
   __typename?: 'Airport';
-  ArrivalFlights: Array<Flight>;
   Country: Country;
-  DepartureFlights: Array<Flight>;
   cityCode: Scalars['String']['output'];
   cityName: Scalars['String']['output'];
   countryCode: Scalars['String']['output'];
@@ -126,6 +124,7 @@ export type AirportWeather = {
   precipitationAmountMillimeter: Scalars['Int']['output'];
   status: Scalars['String']['output'];
   updatedAt: Scalars['DateTimeISO']['output'];
+  vendor: Scalars['String']['output'];
   windFromDirectionDegrees: Scalars['Int']['output'];
   windSpeedMeterPerSecond: Scalars['Int']['output'];
   year: Scalars['Int']['output'];
@@ -250,8 +249,12 @@ export type MeasurementType = typeof MeasurementType[keyof typeof MeasurementTyp
 export type Mutation = {
   __typename?: 'Mutation';
   _sendFlightNotification: Scalars['Float']['output'];
+  /** Add user to wait list */
+  addToWaitList: Scalars['String']['output'];
   addUserFlight: Scalars['String']['output'];
   deleteUserFlight: Scalars['String']['output'];
+  /** Remove user from wait list */
+  removeFromWaitList: Scalars['String']['output'];
   syncUser: Scalars['Boolean']['output'];
   updateUserPreference: Scalars['Boolean']['output'];
 };
@@ -265,6 +268,11 @@ export type Mutation_SendFlightNotificationArgs = {
 };
 
 
+export type MutationAddToWaitListArgs = {
+  feature: Scalars['String']['input'];
+};
+
+
 export type MutationAddUserFlightArgs = {
   flightID: Scalars['String']['input'];
 };
@@ -272,6 +280,11 @@ export type MutationAddUserFlightArgs = {
 
 export type MutationDeleteUserFlightArgs = {
   flightID: Scalars['String']['input'];
+};
+
+
+export type MutationRemoveFromWaitListArgs = {
+  feature: Scalars['String']['input'];
 };
 
 
@@ -293,6 +306,7 @@ export type Query = {
   flight: Flight;
   flightPromptness: FlightPromptness;
   flights: Array<Flight>;
+  health: Scalars['String']['output'];
   randomFlight: Flight;
   user: User;
   userActiveFlights: Array<UserFlight>;
@@ -300,6 +314,8 @@ export type Query = {
   userFlight?: Maybe<UserFlight>;
   userHasFlights: Scalars['Boolean']['output'];
   userPreference: UserPreference;
+  /** Get user wait list features */
+  userWaitList: Array<Scalars['String']['output']>;
 };
 
 
@@ -372,6 +388,11 @@ export type QueryFlightsArgs = {
 
 export type QueryUserFlightArgs = {
   flightID: Scalars['String']['input'];
+};
+
+
+export type QueryUserWaitListArgs = {
+  features: Array<Scalars['String']['input']>;
 };
 
 export type UpdateUserPreferenceInput = {
@@ -583,6 +604,27 @@ export type UpdatePreferenceMutationVariables = Exact<{
 
 
 export type UpdatePreferenceMutation = { __typename?: 'Mutation', updateUserPreference: boolean };
+
+export type WaitListQueryVariables = Exact<{
+  features: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+
+export type WaitListQuery = { __typename?: 'Query', userWaitList: Array<string> };
+
+export type AddToWaitListMutationVariables = Exact<{
+  feature: Scalars['String']['input'];
+}>;
+
+
+export type AddToWaitListMutation = { __typename?: 'Mutation', addToWaitList: string };
+
+export type RemoveFromWaitListMutationVariables = Exact<{
+  feature: Scalars['String']['input'];
+}>;
+
+
+export type RemoveFromWaitListMutation = { __typename?: 'Mutation', removeFromWaitList: string };
 
 export const FullFlightFragmentFragmentDoc = gql`
     fragment FullFlightFragment on Flight {
@@ -1685,3 +1727,106 @@ export function useUpdatePreferenceMutation(baseOptions?: Apollo.MutationHookOpt
 export type UpdatePreferenceMutationHookResult = ReturnType<typeof useUpdatePreferenceMutation>;
 export type UpdatePreferenceMutationResult = Apollo.MutationResult<UpdatePreferenceMutation>;
 export type UpdatePreferenceMutationOptions = Apollo.BaseMutationOptions<UpdatePreferenceMutation, UpdatePreferenceMutationVariables>;
+export const WaitListDocument = gql`
+    query WaitList($features: [String!]!) {
+  userWaitList(features: $features)
+}
+    `;
+
+/**
+ * __useWaitListQuery__
+ *
+ * To run a query within a React component, call `useWaitListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWaitListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWaitListQuery({
+ *   variables: {
+ *      features: // value for 'features'
+ *   },
+ * });
+ */
+export function useWaitListQuery(baseOptions: Apollo.QueryHookOptions<WaitListQuery, WaitListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<WaitListQuery, WaitListQueryVariables>(WaitListDocument, options);
+      }
+export function useWaitListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WaitListQuery, WaitListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<WaitListQuery, WaitListQueryVariables>(WaitListDocument, options);
+        }
+export function useWaitListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<WaitListQuery, WaitListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<WaitListQuery, WaitListQueryVariables>(WaitListDocument, options);
+        }
+export type WaitListQueryHookResult = ReturnType<typeof useWaitListQuery>;
+export type WaitListLazyQueryHookResult = ReturnType<typeof useWaitListLazyQuery>;
+export type WaitListSuspenseQueryHookResult = ReturnType<typeof useWaitListSuspenseQuery>;
+export type WaitListQueryResult = Apollo.QueryResult<WaitListQuery, WaitListQueryVariables>;
+export function refetchWaitListQuery(variables: WaitListQueryVariables) {
+      return { query: WaitListDocument, variables: variables }
+    }
+export const AddToWaitListDocument = gql`
+    mutation AddToWaitList($feature: String!) {
+  addToWaitList(feature: $feature)
+}
+    `;
+export type AddToWaitListMutationFn = Apollo.MutationFunction<AddToWaitListMutation, AddToWaitListMutationVariables>;
+
+/**
+ * __useAddToWaitListMutation__
+ *
+ * To run a mutation, you first call `useAddToWaitListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddToWaitListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addToWaitListMutation, { data, loading, error }] = useAddToWaitListMutation({
+ *   variables: {
+ *      feature: // value for 'feature'
+ *   },
+ * });
+ */
+export function useAddToWaitListMutation(baseOptions?: Apollo.MutationHookOptions<AddToWaitListMutation, AddToWaitListMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddToWaitListMutation, AddToWaitListMutationVariables>(AddToWaitListDocument, options);
+      }
+export type AddToWaitListMutationHookResult = ReturnType<typeof useAddToWaitListMutation>;
+export type AddToWaitListMutationResult = Apollo.MutationResult<AddToWaitListMutation>;
+export type AddToWaitListMutationOptions = Apollo.BaseMutationOptions<AddToWaitListMutation, AddToWaitListMutationVariables>;
+export const RemoveFromWaitListDocument = gql`
+    mutation RemoveFromWaitList($feature: String!) {
+  removeFromWaitList(feature: $feature)
+}
+    `;
+export type RemoveFromWaitListMutationFn = Apollo.MutationFunction<RemoveFromWaitListMutation, RemoveFromWaitListMutationVariables>;
+
+/**
+ * __useRemoveFromWaitListMutation__
+ *
+ * To run a mutation, you first call `useRemoveFromWaitListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveFromWaitListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeFromWaitListMutation, { data, loading, error }] = useRemoveFromWaitListMutation({
+ *   variables: {
+ *      feature: // value for 'feature'
+ *   },
+ * });
+ */
+export function useRemoveFromWaitListMutation(baseOptions?: Apollo.MutationHookOptions<RemoveFromWaitListMutation, RemoveFromWaitListMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveFromWaitListMutation, RemoveFromWaitListMutationVariables>(RemoveFromWaitListDocument, options);
+      }
+export type RemoveFromWaitListMutationHookResult = ReturnType<typeof useRemoveFromWaitListMutation>;
+export type RemoveFromWaitListMutationResult = Apollo.MutationResult<RemoveFromWaitListMutation>;
+export type RemoveFromWaitListMutationOptions = Apollo.BaseMutationOptions<RemoveFromWaitListMutation, RemoveFromWaitListMutationVariables>;

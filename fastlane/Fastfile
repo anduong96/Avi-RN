@@ -702,9 +702,9 @@ platform :android do
       prepare_icons(platform: :android, lane: :develop)
       sh "yarn localhost"
       begin
-        sh "adb tcpip 8081"
+        sh "adb tcpip 5555"
       rescue => ex
-        # UI.error(ex)
+        UI.error(ex)
       ensure
         sh "cd .. && adb -s #{options[:device]} reverse tcp:8081 tcp:8081 && npx react-native run-android #{device} #{mode}"
       end

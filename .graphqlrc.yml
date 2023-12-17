@@ -6,7 +6,7 @@ projects:
       languageService:
         cacheSchemaFileForLookup: true
   cms:
-    schema: https://us-east-1-shared-usea1-02.cdn.hygraph.com/content/clg8hix5b1wdd01uj23zq2ql5/master
+    schema: https://api-us-east-1-shared-usea1-02.hygraph.com/v2/clq5vbkc727ot01um853p7kfo/master
     documents: "src/graphql/cms/*.{graphql,js,ts,jsx,tsx,gql}"
     extensions:
       languageService:

@@ -6,6 +6,7 @@ import {
 
 export function useFeature(feature: string) {
   const request = useIsInWaitListQuery({
+    fetchPolicy: 'cache-first',
     variables: {
       feature,
     },
@@ -26,7 +27,7 @@ export function useFeature(feature: string) {
 
   return {
     add,
-    isActive: !!request.data?.userIsInWaitList,
+    isActive: Boolean(request.data?.userIsInWaitList),
     isAdding,
     isLoading: request.loading,
   };

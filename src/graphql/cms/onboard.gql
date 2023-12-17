@@ -1,7 +1,0 @@
-query Onboard {
-  onboards(orderBy: id_ASC) {
-    title
-    subtitle
-    lottie
-  }
-}

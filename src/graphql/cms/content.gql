@@ -1,0 +1,19 @@
+query CoreContent($slug: String!) {
+  core(where: { slug: $slug }, stage: PUBLISHED) {
+    title
+    publishedAt
+    content {
+      markdown
+    }
+  }
+}
+
+query MarketingContent($slug: String!) {
+  marketing(where: { slug: $slug }, stage: PUBLISHED) {
+    title
+    publishedAt
+    content {
+      markdown
+    }
+  }
+}

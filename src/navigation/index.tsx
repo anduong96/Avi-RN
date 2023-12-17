@@ -13,19 +13,21 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import type { NavigationStack } from '@app/types/navigation';
+import type { CorePageSlug } from '@app/pages/[core]/constants';
+import type { MarketingPageSlug } from '@app/pages/[marketing]/constants';
 
 import { format } from '@app/lib/format';
 import { HomePage } from '@app/pages/home';
+import { CorePage } from '@app/pages/[core]';
 import { LINKING_CONFIG } from '@app/linking';
 import { Analytics } from '@app/lib/analytics';
 import { ProfilePage } from '@app/pages/profile';
 import { DebugMenuPage } from '@app/pages/debug.menu';
 import { useLogger } from '@app/lib/logger/use.logger';
+import { MarketingPage } from '@app/pages/[marketing]';
 import { useBootApp } from '@app/lib/hooks/use.boot.app';
 import { FlightSearchPage } from '@app/pages/flight.search';
-import { TermsOfServicePage } from '@app/pages/terms.of.service';
 import { ArchivedFlightsPage } from '@app/pages/flights.archived';
-import { PrivacyPoliciesPage } from '@app/pages/privacy.policies';
 
 import type { FlightStackParams } from './flight.stack';
 
@@ -35,11 +37,13 @@ import { AirportStack, type AirportStackParams } from './airport.stack';
 
 export type MainStackParams = {
   AirportStack: NavigatorScreenParams<AirportStackParams>;
+  Core: { slug: CorePageSlug };
   Debug: undefined;
   FlightSearch: undefined;
   FlightStack: NavigatorScreenParams<FlightStackParams>;
   FlightsArchive: undefined;
   Home: undefined;
+  Marketing: { slug: MarketingPageSlug };
   PrivacyPolicies: undefined;
   Profile: undefined;
   TermsOfService: undefined;
@@ -107,16 +111,13 @@ export const AppNavigator: React.FC = () => {
             },
           })}
         >
+          <Stack.Screen component={CorePage} name="Core" />
+          <Stack.Screen component={MarketingPage} name="Marketing" />
           <Stack.Screen component={AirportStack} name="AirportStack" />
           <Stack.Screen component={FlightStack} name="FlightStack" />
           <Stack.Screen component={FlightSearchPage} name="FlightSearch" />
           <Stack.Screen component={DebugMenuPage} name="Debug" />
           <Stack.Screen component={ProfilePage} name="Profile" />
-          <Stack.Screen
-            component={PrivacyPoliciesPage}
-            name="PrivacyPolicies"
-          />
-          <Stack.Screen component={TermsOfServicePage} name="TermsOfService" />
           <Stack.Screen component={ArchivedFlightsPage} name="FlightsArchive" />
         </Stack.Group>
       </Stack.Navigator>

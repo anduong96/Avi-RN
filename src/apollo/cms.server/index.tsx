@@ -1,3 +1,4 @@
+import { persistCache } from 'apollo3-cache-persist';
 import {
   ApolloClient,
   ApolloLink,
@@ -5,15 +6,27 @@ import {
   createHttpLink,
 } from '@apollo/client';
 
-const httpLink = createHttpLink({
-  uri: 'https://us-east-1-shared-usea1-02.cdn.hygraph.com/content/clg8hix5b1wdd01uj23zq2ql5/master',
+import { ENV } from '@app/env';
+import { getApolloStorage } from '@app/lib/storage';
+
+const URL =
+  'https://api-us-east-1-shared-usea1-02.hygraph.com/v2/clq5vbkc727ot01um853p7kfo/master';
+
+const httpLink = createHttpLink({ uri: URL });
+const cache = new InMemoryCache();
+const storage = getApolloStorage();
+
+persistCache({
+  cache,
+  key: URL,
+  storage,
 });
 
 export const CmsServerApolloClient = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache,
   defaultOptions: {
     watchQuery: {
-      initialFetchPolicy: 'cache-first',
+      initialFetchPolicy: ENV.IS_DEV ? 'network-only' : 'cache-first',
       pollInterval: 10 * 1000 * 60,
     },
   },

@@ -24,7 +24,7 @@ const config: CodegenConfig = {
         'typescript-react-apollo',
       ],
       schema:
-        'https://us-east-1-shared-usea1-02.cdn.hygraph.com/content/clg8hix5b1wdd01uj23zq2ql5/master',
+        'https://api-us-east-1-shared-usea1-02.hygraph.com/v2/clq5vbkc727ot01um853p7kfo/master',
     },
     './src/generated/server.gql.ts': {
       config: {

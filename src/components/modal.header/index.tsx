@@ -60,6 +60,7 @@ const Meta = withStyled<Pick<Props, 'withPadding'>, typeof View>(
   (theme, props) => [
     {
       flexGrow: 1,
+      gap: theme.space.tiny,
       paddingTop: 0,
     },
     props.withPadding && {

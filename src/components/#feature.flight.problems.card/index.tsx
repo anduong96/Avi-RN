@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, { StretchInY, StretchOutY } from 'react-native-reanimated';
 
 import tinycolor from 'tinycolor2';
@@ -11,6 +11,8 @@ import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useUser } from '@app/state/user/use.user';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { MarketingPageSlug } from '@app/pages/[marketing]/constants';
+import { useRootNavigation } from '@app/navigation/use.root.navigation';
 
 import { Group } from '../group';
 import { Shadow } from '../shadow';
@@ -22,6 +24,7 @@ import { useToast } from '../toast/use.toast';
 export const FeatureFlightProblems: React.FC = () => {
   const featureName = 'Flight Problems';
   const theme = useTheme();
+  const navigation = useRootNavigation();
   const user = useUser();
   const feature = useFeature(featureName);
   const toast = useToast();
@@ -82,14 +85,30 @@ export const FeatureFlightProblems: React.FC = () => {
                 💸 🎉
               </Typography>
             </Group>
-            <Button
-              color={textColor}
-              isLoading={feature.isAdding}
-              onPress={handleAdd}
-              textStyle={{ color: textColor }}
-            >
-              Join waitlist
-            </Button>
+            <Group gap={'small'} isCentered>
+              <Button
+                color={textColor}
+                fullWidth
+                isLoading={feature.isAdding}
+                onPress={handleAdd}
+                textStyle={{ color: textColor }}
+              >
+                Join waitlist
+              </Button>
+              <Pressable
+                onPress={() =>
+                  navigation.push('Marketing', {
+                    slug: MarketingPageSlug.FLIGHT_PROBLEMS,
+                  })
+                }
+              >
+                <Group style={{ paddingTop: theme.space.medium }}>
+                  <Typography color={textColor} isBold isCentered type="small">
+                    Learn more
+                  </Typography>
+                </Group>
+              </Pressable>
+            </Group>
           </Group>
         </Container>
       </Shadow>

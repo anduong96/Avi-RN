@@ -32,6 +32,7 @@ export const LINKING_CONFIG: LinkingOptions<MainStackParams> = {
           },
         },
       },
+      Core: buildPath('c', ':slug'),
       FlightSearch: buildPath('flights', 'search'),
       FlightStack: {
         screens: {
@@ -50,6 +51,7 @@ export const LINKING_CONFIG: LinkingOptions<MainStackParams> = {
         path: buildPath('flights', 'archived'),
       },
       Home: 'home',
+      Marketing: buildPath('m', ':slug'),
       PrivacyPolicies: 'privacy',
       Profile: 'profile',
       TermsOfService: 'terms',

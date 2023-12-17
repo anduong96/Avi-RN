@@ -5,6 +5,7 @@ import Animated, { StretchInY, StretchOutY } from 'react-native-reanimated';
 
 import tinycolor from 'tinycolor2';
 import { kebabCase } from 'lodash';
+import LottieView from 'lottie-react-native';
 import { firebase } from '@react-native-firebase/messaging';
 
 import { withStyled } from '@app/lib/styled';
@@ -20,6 +21,7 @@ import { Button } from '../button';
 import { Typography } from '../typography';
 import { useFeature } from './use.feature';
 import { useToast } from '../toast/use.toast';
+import { SPARKLES_ANIMATION_URL } from '../lottie/animations';
 
 export const FeatureFlightProblems: React.FC = () => {
   const featureName = 'Flight Problems';
@@ -58,13 +60,28 @@ export const FeatureFlightProblems: React.FC = () => {
     }
   }
 
-  if (feature.isActive) {
-    return null;
-  }
+  // if (feature.isActive) {
+  //   return null;
+  // }
 
   return (
     <Animated.View entering={StretchInY.delay(700)} exiting={StretchOutY}>
       <Shadow color={theme.pallette.primary} level={2}>
+        <LottieView
+          autoPlay
+          source={{ uri: SPARKLES_ANIMATION_URL }}
+          speed={0.5}
+          style={[
+            {
+              aspectRatio: 1,
+              position: 'absolute',
+              right: -15,
+              top: -15,
+              width: 75,
+              zIndex: 1,
+            },
+          ]}
+        />
         <Container>
           <LinearGradient
             colors={[
@@ -91,7 +108,7 @@ export const FeatureFlightProblems: React.FC = () => {
                 fullWidth
                 isLoading={feature.isAdding}
                 onPress={handleAdd}
-                textStyle={{ color: textColor }}
+                textStyle={{ color: textColor, fontWeight: 'bold' }}
               >
                 Join waitlist
               </Button>

@@ -53,7 +53,6 @@ export const AccountConnectCard: React.FC = () => {
 
   const isAppleConnected = getIsConnected(APPLE_PROVIDER_ID);
   const isGoogleConnected = getIsConnected(GOOGLE_PROVIDER_ID);
-
   return (
     <Card
       direction="row"

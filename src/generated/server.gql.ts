@@ -314,6 +314,8 @@ export type Query = {
   userArchivedFlights: Array<UserFlight>;
   userFlight?: Maybe<UserFlight>;
   userHasFlights: Scalars['Boolean']['output'];
+  /** Check if user is in wait list */
+  userIsInWaitList: Scalars['Boolean']['output'];
   userPreference: UserPreference;
   /** Get user wait list features */
   userWaitList: Array<Scalars['String']['output']>;
@@ -389,6 +391,11 @@ export type QueryFlightsArgs = {
 
 export type QueryUserFlightArgs = {
   flightID: Scalars['String']['input'];
+};
+
+
+export type QueryUserIsInWaitListArgs = {
+  feature: Scalars['String']['input'];
 };
 
 
@@ -611,12 +618,12 @@ export type UpdatePreferenceMutationVariables = Exact<{
 
 export type UpdatePreferenceMutation = { __typename?: 'Mutation', updateUserPreference: boolean };
 
-export type WaitListQueryVariables = Exact<{
-  features: Array<Scalars['String']['input']> | Scalars['String']['input'];
+export type IsInWaitListQueryVariables = Exact<{
+  feature: Scalars['String']['input'];
 }>;
 
 
-export type WaitListQuery = { __typename?: 'Query', userWaitList: Array<string> };
+export type IsInWaitListQuery = { __typename?: 'Query', userIsInWaitList: boolean };
 
 export type AddToWaitListMutationVariables = Exact<{
   feature: Scalars['String']['input'];
@@ -1763,46 +1770,46 @@ export function useUpdatePreferenceMutation(baseOptions?: Apollo.MutationHookOpt
 export type UpdatePreferenceMutationHookResult = ReturnType<typeof useUpdatePreferenceMutation>;
 export type UpdatePreferenceMutationResult = Apollo.MutationResult<UpdatePreferenceMutation>;
 export type UpdatePreferenceMutationOptions = Apollo.BaseMutationOptions<UpdatePreferenceMutation, UpdatePreferenceMutationVariables>;
-export const WaitListDocument = gql`
-    query WaitList($features: [String!]!) {
-  userWaitList(features: $features)
+export const IsInWaitListDocument = gql`
+    query IsInWaitList($feature: String!) {
+  userIsInWaitList(feature: $feature)
 }
     `;
 
 /**
- * __useWaitListQuery__
+ * __useIsInWaitListQuery__
  *
- * To run a query within a React component, call `useWaitListQuery` and pass it any options that fit your needs.
- * When your component renders, `useWaitListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useIsInWaitListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useIsInWaitListQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useWaitListQuery({
+ * const { data, loading, error } = useIsInWaitListQuery({
  *   variables: {
- *      features: // value for 'features'
+ *      feature: // value for 'feature'
  *   },
  * });
  */
-export function useWaitListQuery(baseOptions: Apollo.QueryHookOptions<WaitListQuery, WaitListQueryVariables>) {
+export function useIsInWaitListQuery(baseOptions: Apollo.QueryHookOptions<IsInWaitListQuery, IsInWaitListQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<WaitListQuery, WaitListQueryVariables>(WaitListDocument, options);
+        return Apollo.useQuery<IsInWaitListQuery, IsInWaitListQueryVariables>(IsInWaitListDocument, options);
       }
-export function useWaitListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<WaitListQuery, WaitListQueryVariables>) {
+export function useIsInWaitListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<IsInWaitListQuery, IsInWaitListQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<WaitListQuery, WaitListQueryVariables>(WaitListDocument, options);
+          return Apollo.useLazyQuery<IsInWaitListQuery, IsInWaitListQueryVariables>(IsInWaitListDocument, options);
         }
-export function useWaitListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<WaitListQuery, WaitListQueryVariables>) {
+export function useIsInWaitListSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<IsInWaitListQuery, IsInWaitListQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<WaitListQuery, WaitListQueryVariables>(WaitListDocument, options);
+          return Apollo.useSuspenseQuery<IsInWaitListQuery, IsInWaitListQueryVariables>(IsInWaitListDocument, options);
         }
-export type WaitListQueryHookResult = ReturnType<typeof useWaitListQuery>;
-export type WaitListLazyQueryHookResult = ReturnType<typeof useWaitListLazyQuery>;
-export type WaitListSuspenseQueryHookResult = ReturnType<typeof useWaitListSuspenseQuery>;
-export type WaitListQueryResult = Apollo.QueryResult<WaitListQuery, WaitListQueryVariables>;
-export function refetchWaitListQuery(variables: WaitListQueryVariables) {
-      return { query: WaitListDocument, variables: variables }
+export type IsInWaitListQueryHookResult = ReturnType<typeof useIsInWaitListQuery>;
+export type IsInWaitListLazyQueryHookResult = ReturnType<typeof useIsInWaitListLazyQuery>;
+export type IsInWaitListSuspenseQueryHookResult = ReturnType<typeof useIsInWaitListSuspenseQuery>;
+export type IsInWaitListQueryResult = Apollo.QueryResult<IsInWaitListQuery, IsInWaitListQueryVariables>;
+export function refetchIsInWaitListQuery(variables: IsInWaitListQueryVariables) {
+      return { query: IsInWaitListDocument, variables: variables }
     }
 export const AddToWaitListDocument = gql`
     mutation AddToWaitList($feature: String!) {

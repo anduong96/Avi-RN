@@ -13,6 +13,7 @@ import { useExitPage } from '@app/lib/hooks/use.exit.page';
 import { PageContainer } from '@app/components/page.container';
 import { SpaceVertical } from '@app/components/space.vertical';
 import { useScrollPosition } from '@app/lib/hooks/use.scroll.position';
+import { FeatureFlightProblems } from '@app/components/#feature.flight.problems.card';
 
 import { DevCard } from './dev.card';
 import { LegalCard } from './legal.card';
@@ -47,9 +48,10 @@ export const ProfilePage: React.FC = () => {
           <SignOutBtn />
         </SignOut>
         <AvatarContainer>
-          <Avatar hasShadow={theme.isDark} size={150} />
+          <Avatar hasShadow={theme.isDark} size={100} />
         </AvatarContainer>
         <SpaceVertical size="medium" />
+        <FeatureFlightProblems />
         <AccountConnectCard />
         {ENV.APP_ENV !== 'production' && <DevCard />}
         <SettingsCard />

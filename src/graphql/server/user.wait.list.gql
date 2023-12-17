@@ -1,5 +1,5 @@
-query WaitList($features: [String!]!) {
-  userWaitList(features: $features)
+query IsInWaitList($feature: String!) {
+  userIsInWaitList(feature: $feature)
 }
 
 mutation AddToWaitList($feature: String!) {

@@ -35,11 +35,10 @@ function getLogFn(logLevel: LogLevel) {
 export const consoleTransporter: LogTransporter = ({
   logLevel,
   message,
-  minLevel,
   name,
   timestamp,
 }) => {
-  if (minLevel < logLevel) {
+  if (!__DEV__) {
     return;
   }
 

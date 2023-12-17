@@ -6,15 +6,19 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import { withStyled } from '@app/lib/styled';
 
 type Props = {
+  size: number;
   style?: StyleProp<ViewStyle>;
 };
 
-export const VerticalDivider: React.FC<Props> = ({ style }) => {
-  return <Container style={style} />;
+export const VerticalDivider: React.FC<Props> = ({ size, style }) => {
+  return <Container size={size} style={style} />;
 };
 
-export const Container = withStyled(View, (theme) => ({
-  backgroundColor: theme.pallette.dividerColor,
-  height: '50%',
-  width: theme.borderWidth,
-}));
+export const Container = withStyled<Props, typeof View>(
+  View,
+  (theme, props) => ({
+    backgroundColor: theme.pallette.dividerColor,
+    height: '50%',
+    width: props.size ?? theme.borderWidth,
+  }),
+);

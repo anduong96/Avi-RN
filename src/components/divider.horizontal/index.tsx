@@ -7,7 +7,7 @@ import { withStyled } from '@app/lib/styled';
 
 type Props = {
   color?: string;
-  size?: SpaceKeys;
+  size?: SpaceKeys | number;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -35,6 +35,9 @@ const Container = withStyled<Pick<Props, 'size'>, typeof View>(
     },
     props.size === 'large' && {
       height: theme.space.large,
+    },
+    typeof props.size === 'number' && {
+      height: props.size,
     },
   ],
 );

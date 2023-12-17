@@ -2,10 +2,11 @@ import * as React from 'react';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import { logger } from '@app/lib/logger';
 import { withStyled } from '@app/lib/styled';
+import { useLogger } from '@app/lib/logger/use.logger';
 import { BlurredBackground } from '@app/components/blurred/background';
 
+import { List } from '../list';
 import { Typography } from '../typography';
 import { StringRenderer } from '../string.renderer';
 import { LoadingOverlay } from '../loading.overlay';
@@ -39,18 +40,22 @@ export const Prompt: React.FC<Props> = ({
   onFinish,
   title,
 }) => {
+  const logger = useLogger('Prompt');
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleAccept = async () => {
     setIsLoading(true);
+
     try {
+      logger.debug('Calling onAccept');
       await onAccept?.();
     } catch (e) {
-      logger.getSubLogger('Prompt').error('Failed onAccept');
+      logger.error('Failed onAccept');
       logger.error(e);
     } finally {
       setIsLoading(false);
     }
+
     onFinish?.();
   };
 
@@ -63,6 +68,7 @@ export const Prompt: React.FC<Props> = ({
     <Container entering={FadeIn}>
       <BlurredBackground />
       <Menu>
+        <LoadingOverlay isLoading={isLoading} type="translucent" />
         <Content>
           <StringRenderer Container={Typography} isBold isCentered type="h2">
             {title}
@@ -71,24 +77,39 @@ export const Prompt: React.FC<Props> = ({
             {description}
           </StringRenderer>
         </Content>
-        <HorizontalDivider />
+        <HorizontalDivider size={0} />
         <Actions>
-          {hasCancel && (
-            <OptionBtn onPress={handleCancel}>
-              <OptionText color={cancelStatus} isCentered>
-                {cancelText}
-              </OptionText>
-            </OptionBtn>
-          )}
-          <VerticalDivider />
-          {hasAccept && (
-            <OptionBtn onPress={handleAccept}>
-              <LoadingOverlay isLoading={isLoading} type="solid" />
-              <OptionText color={acceptStatus} isCentered>
-                {acceptText}
-              </OptionText>
-            </OptionBtn>
-          )}
+          <List
+            data={[
+              {
+                color: cancelStatus,
+                onPress: handleCancel,
+                text: cancelText,
+                visible: hasCancel,
+              },
+              {
+                color: acceptStatus,
+                onPress: handleAccept,
+                text: acceptText,
+                visible: hasAccept,
+              },
+            ]}
+            horizontal
+            renderItem={(item) => {
+              if (!item.visible) {
+                return null;
+              }
+
+              return (
+                <OptionBtn onPress={item.onPress}>
+                  <OptionText color={item.color} isCentered>
+                    {item.text}
+                  </OptionText>
+                </OptionBtn>
+              );
+            }}
+            separator={() => <VerticalDivider size={1} />}
+          />
         </Actions>
       </Menu>
     </Container>

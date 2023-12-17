@@ -2,6 +2,10 @@ mutation SyncUser {
   syncUser
 }
 
+mutation DeleteUser {
+  deleteUser
+}
+
 query Preference {
   userPreference {
     measurement

@@ -1,5 +1,10 @@
 import * as React from 'react';
 import { Swipeable } from 'react-native-gesture-handler';
+import Animated, {
+  FadeInDown,
+  FadeInLeft,
+  FadeOutLeft,
+} from 'react-native-reanimated';
 import {
   ActivityIndicator,
   RefreshControl,
@@ -7,12 +12,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Animated, {
-  FadeInDown,
-  FadeInLeft,
-  FadeOutDown,
-  FadeOutLeft,
-} from 'react-native-reanimated';
 
 import { isEmpty, size } from 'lodash';
 import { FlashList } from '@shopify/flash-list';
@@ -54,6 +53,7 @@ export const HomePage: React.FC = () => {
   const rootNav = useRootNavigation();
   const scrollPosition = useScrollPosition();
   const activeFlights = flights.data?.userActiveFlights;
+  const hasActiveFlights = !isEmpty(activeFlights);
   const archivedFlights = archived.data?.userArchivedFlights;
   const hasArchivedFlights = !isEmpty(archivedFlights);
   const scroll =
@@ -106,12 +106,9 @@ export const HomePage: React.FC = () => {
       <Page>
         <FlashList
           ListEmptyComponent={() => {
-            if (isEmpty(activeFlights) && flights.loading) {
+            if (!hasActiveFlights && flights.loading) {
               return (
-                <Animated.View
-                  entering={FadeInDown.delay(5 * 1000)}
-                  exiting={FadeOutDown}
-                >
+                <Animated.View entering={FadeInDown.delay(7 * 1000)}>
                   <Group
                     flexGrow={1}
                     gap={'large'}

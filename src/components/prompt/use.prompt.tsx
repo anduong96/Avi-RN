@@ -21,6 +21,7 @@ export function usePrompt() {
     params: Omit<React.ComponentProps<typeof Prompt>, 'onFinish'>,
   ) => {
     const portalName = uniqueId('prompt');
+
     portal.addPortal(
       portalName,
       <PortalWindowOverlay>

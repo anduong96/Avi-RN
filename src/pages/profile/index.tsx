@@ -18,6 +18,7 @@ import { DevCard } from './dev.card';
 import { LegalCard } from './legal.card';
 import { SignOutBtn } from './sign.out.btn';
 import { SettingsCard } from './settings.card';
+import { DeleteAccountCard } from './delete.account.card';
 import { AccountConnectCard } from './account.connect.card';
 
 export const ProfilePage: React.FC = () => {
@@ -49,20 +50,11 @@ export const ProfilePage: React.FC = () => {
           <Avatar hasShadow={theme.isDark} size={150} />
         </AvatarContainer>
         <SpaceVertical size="medium" />
-        <Section>
-          <AccountConnectCard />
-        </Section>
-        {ENV.APP_ENV !== 'production' && (
-          <Section>
-            <DevCard />
-          </Section>
-        )}
-        <Section>
-          <SettingsCard />
-        </Section>
-        <Section>
-          <LegalCard />
-        </Section>
+        <AccountConnectCard />
+        {ENV.APP_ENV !== 'production' && <DevCard />}
+        <SettingsCard />
+        <LegalCard />
+        <DeleteAccountCard />
         <ScrollUp
           isVisible={scrollPosition.isAtBottom}
           onScrollUp={handleScrollUp}
@@ -97,12 +89,6 @@ const Content = withStyled(ScrollView, undefined, (theme) => ({
     paddingHorizontal: theme.space.small,
   },
 }));
-
-const Section = withStyled(View, (theme) => [
-  {
-    gap: theme.space.small,
-  },
-]);
 
 const SignOut = withStyled(View, () => [
   {

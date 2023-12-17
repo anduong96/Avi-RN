@@ -107,6 +107,7 @@ const ShadowWrapper = withStyled(
     disabled: theme.isDark,
     distance: 1,
     level: 2,
+    opacity: 0.2,
   }),
 );
 

@@ -54,16 +54,15 @@ export const Shadow: React.FC<Props> = ({
 }) => {
   const theme = useTheme();
   const config = level ? levels[level] : {};
+  const startColor = color ?? theme.pallette.grey[theme.isDark ? 50 : 300];
 
   return (
     <RnShadow
       disabled={disabled}
       distance={distance ?? config.distance}
       offset={offset ?? config.offset}
-      paintInside
-      startColor={tinycolor(
-        color ?? theme.pallette.grey[theme.isDark ? 50 : 300],
-      )
+      paintInside={true}
+      startColor={tinycolor(startColor)
         .darken(darken)
         .setAlpha(opacity)
         .toRgbString()}

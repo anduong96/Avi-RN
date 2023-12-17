@@ -12,6 +12,7 @@ import { ENV } from '@app/env';
 
 import { logger } from '../logger';
 import { format } from '../format';
+import { signOut } from '../auth/sign.out';
 import { handleBuildInfo } from './build.info';
 
 export async function startup() {
@@ -34,7 +35,9 @@ export async function startup() {
     Sentry.setExtra('SERVER', ENV.SERVER),
     handleBuildInfo(),
     auth().currentUser
-      ? auth().currentUser?.reload()
+      ? auth()
+          .currentUser?.reload()
+          .catch(() => signOut())
       : auth().signInAnonymously(),
     ENV.RUDDER_STACK_KEY &&
       ENV.RUDDER_STACK_DATAPLANE_URL &&

@@ -11,6 +11,7 @@ const isDev = global.__DEV__ ?? APP_ENV === 'development';
 const ENV = {
   APP_ENV,
   IS_DEV: isDev,
+  IS_PROD: APP_ENV === 'production',
   CLARITY_PROJECT_ID: Config.CLARITY_PROJECT_ID,
   CODE_PUSH_DEPLOYMENT_KEY_IOS: Config.CODE_PUSH_DEPLOYMENT_KEY_IOS,
   CODE_PUSH_DEPLOYMENT_KEY_AND: Config.CODE_PUSH_DEPLOYMENT_KEY_AND,

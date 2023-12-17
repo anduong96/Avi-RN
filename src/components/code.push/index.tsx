@@ -13,9 +13,9 @@ import * as Sentry from '@sentry/react-native';
 import { useThrottleCallback } from '@react-hook/throttle';
 
 import { ENV } from '@app/env';
-import { logger } from '@app/lib/logger';
 import { IS_IOS } from '@app/lib/platform';
 import { withStyled } from '@app/lib/styled';
+import { useLogger } from '@app/lib/logger/use.logger';
 import { useAppActive } from '@app/lib/hooks/use.app.state';
 
 import { Button } from '../button';
@@ -25,6 +25,7 @@ import { PageContainer } from '../page.container';
 export const CodepushShield: React.FC = () => {
   const [progress, setProgress] = React.useState<number>(0);
   const [hasUpdate, setHasUpdate] = React.useState(false);
+  const logger = useLogger('CodepushShield');
   const isAppActive = useAppActive();
   const progressDerived = useDerivedValue(() => progress, [progress]);
   const progressStyle = useAnimatedStyle(() => ({
@@ -38,6 +39,11 @@ export const CodepushShield: React.FC = () => {
       ? ENV.CODE_PUSH_DEPLOYMENT_KEY_IOS
       : ENV.CODE_PUSH_DEPLOYMENT_KEY_AND;
 
+    logger.debug(
+      'Checking for codepush update deploymentKey=%s',
+      deploymentKey,
+    );
+
     if (deploymentKey) {
       const result = await codepush
         .checkForUpdate(deploymentKey)
@@ -48,11 +54,14 @@ export const CodepushShield: React.FC = () => {
         });
 
       if (result) {
+        logger.debug('Found codepush update');
         setHasUpdate(true);
         codepush.disallowRestart();
-        const payload = await result.download((data) =>
-          setProgress(round(data.receivedBytes / data.totalBytes, 2)),
-        );
+        const payload = await result.download((data) => {
+          const nextProgress = round(data.receivedBytes / data.totalBytes, 2);
+          logger.debug('Codepush progress=%s', nextProgress);
+          setProgress(nextProgress);
+        });
         await payload.install(codepush.InstallMode.ON_NEXT_RESTART);
         codepush.allowRestart();
       } else {

@@ -45,6 +45,10 @@ export function format(value: string, ...args: unknown[]): string {
         return JSON.stringify(arg, getCircularReplacer());
       case '%j':
         try {
+          if (arg instanceof Error) {
+            return arg.message;
+          }
+
           return JSON.stringify(arg, getCircularReplacer(), 2);
         } catch (e) {
           return `[Circular]`;

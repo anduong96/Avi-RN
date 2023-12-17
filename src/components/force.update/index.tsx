@@ -8,6 +8,7 @@ import Lottie from 'lottie-react-native';
 import { useThrottleCallback } from '@react-hook/throttle';
 
 import { ENV } from '@app/env';
+import { useLogger } from '@app/lib/logger/use.logger';
 import { useAppActive } from '@app/lib/hooks/use.app.state';
 
 import { Button } from '../button';
@@ -16,24 +17,37 @@ import { CodepushShield } from '../code.push';
 import { PageContainer } from '../page.container';
 
 const IOS_STORE_URL =
-  'https://apps.apple.com/us/app/avi-book-flights-travel-fly/id1672456122';
+  'https://apps.apple.com/us/app/avi-flight-tracker/id6457441009';
 
 export const ForceUpdateShield: React.FC = () => {
+  const logger = useLogger('ForceUpdateShield');
   const [hasUpdate, setHasUpdate] = React.useState<boolean>();
   const isAppActive = useAppActive();
 
   const checkVersion = useThrottleCallback(async () => {
-    const { result } = await checkStoreVersion({
-      country: 'us',
-      iosStoreURL: IOS_STORE_URL,
-      version: DeviceInfo.getVersion(),
-    });
+    logger.debug('Checking for store version');
+    if (!ENV.IS_PROD) {
+      setHasUpdate(false);
+      return;
+    }
 
-    setHasUpdate(result === 'new');
+    try {
+      const { result } = await checkStoreVersion({
+        country: 'us',
+        iosStoreURL: IOS_STORE_URL,
+        version: DeviceInfo.getVersion(),
+      });
+
+      logger.debug('Found store version result=%s', result);
+      setHasUpdate(result === 'new');
+    } catch (error) {
+      logger.error(error);
+      setHasUpdate(false);
+    }
   }, 1000);
 
   React.useEffect(() => {
-    if (isAppActive && ENV.APP_ENV === 'production') {
+    if (isAppActive) {
       checkVersion();
     }
   }, [isAppActive, checkVersion]);

@@ -83,7 +83,7 @@ export const TextSearchResultSet: React.FC = () => {
                 <Result
                   hero={<Typography type="massive">😐</Typography>}
                   subtitle="Try a different query"
-                  title="No results"
+                  title="No result(s)"
                 />
               </Animated.View>
             )

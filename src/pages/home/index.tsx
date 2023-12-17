@@ -1,10 +1,5 @@
 import * as React from 'react';
 import { Swipeable } from 'react-native-gesture-handler';
-import Animated, {
-  FadeInDown,
-  SlideInLeft,
-  SlideOutLeft,
-} from 'react-native-reanimated';
 import {
   ActivityIndicator,
   RefreshControl,
@@ -12,8 +7,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Animated, {
+  FadeInDown,
+  FadeInLeft,
+  FadeOutDown,
+  FadeOutLeft,
+} from 'react-native-reanimated';
 
-import { isEmpty } from 'lodash';
+import { isEmpty, size } from 'lodash';
 import { FlashList } from '@shopify/flash-list';
 import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
 
@@ -107,7 +108,10 @@ export const HomePage: React.FC = () => {
           ListEmptyComponent={() => {
             if (isEmpty(activeFlights) && flights.loading) {
               return (
-                <Animated.View entering={FadeInDown.delay(5 * 1000)}>
+                <Animated.View
+                  entering={FadeInDown.delay(5 * 1000)}
+                  exiting={FadeOutDown}
+                >
                   <Group
                     flexGrow={1}
                     gap={'large'}
@@ -154,7 +158,9 @@ export const HomePage: React.FC = () => {
               </Group>
             );
           }}
-          contentContainerStyle={{ paddingBottom: WINDOW_HEIGHT * 0.5 }}
+          contentContainerStyle={{
+            paddingBottom: size(activeFlights) > 1 ? WINDOW_HEIGHT * 0.5 : 0,
+          }}
           data={activeFlights}
           estimatedItemSize={200}
           onScroll={scrollPosition.handleScroll}
@@ -180,8 +186,8 @@ export const HomePage: React.FC = () => {
                 )}
               >
                 <Item
-                  entering={SlideInLeft.delay(index * 50).duration(300)}
-                  exiting={SlideOutLeft}
+                  entering={FadeInLeft.delay(index * 50).duration(300)}
+                  exiting={FadeOutLeft}
                   onPress={() => handleOpenFlight(flight.flightID)}
                 >
                   <FlightCard value={flight} />
@@ -261,7 +267,7 @@ const ItemActions = withStyled(View, (theme) => [
 
 const ArchivedFlightsBtn = withStyled(Button, (_, props) => [
   {
-    opacity: props.disabled ? 0.5 : 1,
+    opacity: props.disabled ? 0 : 1,
   },
 ]);
 

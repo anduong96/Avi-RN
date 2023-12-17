@@ -1,6 +1,11 @@
 import * as React from 'react';
-import { FlatList, Pressable, View } from 'react-native';
 import { RefreshControl } from 'react-native-gesture-handler';
+import { ActivityIndicator, FlatList, Pressable } from 'react-native';
+import Animated, {
+  FadeInDown,
+  FadeInLeft,
+  FadeOutDown,
+} from 'react-native-reanimated';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -8,7 +13,9 @@ import type { MainStack } from '@app/navigation';
 import type { FindFlightsQuery } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
+import { Result } from '@app/components/result';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { Typography } from '@app/components/typography';
 import { useFindFlightsQuery } from '@app/generated/server.gql';
 import { FlightCardCompact } from '@app/components/flight.card.compact';
@@ -16,19 +23,26 @@ import { FlightCardCompact } from '@app/components/flight.card.compact';
 import { useFlightSearchState } from '../state';
 
 export const FlightsResultSet: React.FC = () => {
+  const theme = useTheme();
   const navigation = useNavigation<MainStack>();
   const airlineIata = useFlightSearchState((s) => s.airlineIata!);
   const flightNumber = useFlightSearchState((s) => s.flightNumber!);
   const departureDate = useFlightSearchState((s) => s.departureDate!);
+  const date = departureDate.getDate();
+  const month = departureDate.getMonth();
+  const year = departureDate.getFullYear();
   const result = useFindFlightsQuery({
     variables: {
       airlineIata,
-      date: departureDate.getDate(),
+      date,
       flightNumber,
-      month: departureDate.getMonth(),
-      year: departureDate.getFullYear(),
+      month,
+      year,
     },
   });
+  const flights = result.data?.flights || [];
+  const isLoading = result.loading;
+  const hasFlights = flights.length > 0;
 
   const handlePress = (item: FindFlightsQuery['flights'][number]) => {
     vibrate('impactLight');
@@ -43,40 +57,50 @@ export const FlightsResultSet: React.FC = () => {
 
   return (
     <FlatList
-      ListEmptyComponent={() =>
-        result.called &&
-        !result.loading &&
-        !result.data?.flights.length && (
-          <Empty>
-            <Typography isBold type="h4">
-              No flight(s) found
-            </Typography>
-          </Empty>
-        )
-      }
-      data={result.data?.flights}
+      ListEmptyComponent={() => {
+        if (isLoading && !hasFlights) {
+          return (
+            <Animated.View
+              entering={FadeInDown.delay(2 * 1000)}
+              exiting={FadeOutDown}
+            >
+              <Result
+                hero={
+                  <ActivityIndicator color={theme.pallette.text} size="large" />
+                }
+                title="Loading..."
+              />
+            </Animated.View>
+          );
+        }
+
+        if (result.called && !isLoading && !hasFlights) {
+          return (
+            <Animated.View entering={FadeInDown} exiting={FadeOutDown}>
+              <Result
+                hero={<Typography type="massive">😐</Typography>}
+                subtitle="Try a different date or flight number"
+                title="No result(s)"
+              />
+            </Animated.View>
+          );
+        }
+      }}
+      data={flights}
       keyExtractor={(item) => item.id}
       refreshControl={
         <RefreshControl onRefresh={() => result.refetch()} refreshing={false} />
       }
-      renderItem={({ item }) => (
+      renderItem={({ index, item }) => (
         <Item onPress={() => handlePress(item)}>
-          <FlightCardCompact flight={item} />
+          <Animated.View entering={FadeInLeft.delay(index * 50).duration(300)}>
+            <FlightCardCompact flight={item} />
+          </Animated.View>
         </Item>
       )}
     />
   );
 };
-
-const Empty = withStyled(View, (theme) => [
-  theme.presets.centered,
-  {
-    backgroundColor: theme.pallette.grey[50],
-    borderRadius: theme.borderRadius,
-    margin: theme.space.medium,
-    padding: theme.space.large,
-  },
-]);
 
 const Item = withStyled(Pressable, (theme) => [
   {

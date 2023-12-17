@@ -35,6 +35,6 @@ const Btn = withStyled(AnimatedTouchable, (theme) => [
 
 const Icon = withStyled(FaIcon, (theme) => [
   {
-    color: theme.isDark ? theme.pallette.black : theme.pallette.white,
+    color: theme.pallette.white,
   },
 ]);

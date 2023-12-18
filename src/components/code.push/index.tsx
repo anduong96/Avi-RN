@@ -66,14 +66,19 @@ export const CodepushShield: React.FC = () => {
         setShouldShowUpdate(result.isMandatory);
         logger.debug('Found codepush update');
         codepush.disallowRestart();
-        const payload = await result.download((data) => {
-          const nextProgress = round(data.receivedBytes / data.totalBytes, 2);
-          logger.debug('Codepush progress=%s', nextProgress);
-          if (result.isMandatory) {
-            setProgress(nextProgress);
-          }
-        });
-        await payload.install(codepush.InstallMode.ON_NEXT_RESTART);
+        try {
+          const payload = await result.download((data) => {
+            const nextProgress = round(data.receivedBytes / data.totalBytes, 2);
+            logger.debug('Codepush progress=%s', nextProgress);
+            if (result.isMandatory) {
+              setProgress(nextProgress);
+            }
+          });
+          await payload.install(codepush.InstallMode.ON_NEXT_RESTART);
+        } catch (error) {
+          logger.error(error);
+          Sentry.captureException(error);
+        }
         codepush.allowRestart();
       } else {
         logger.debug('No codepush update');

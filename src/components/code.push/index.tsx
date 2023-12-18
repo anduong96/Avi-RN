@@ -1,6 +1,8 @@
+import type { LottieViewProps } from 'lottie-react-native';
+
 import * as React from 'react';
 import codepush from 'react-native-code-push';
-import { Modal, Text, View } from 'react-native';
+import { Image, Modal, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
@@ -15,16 +17,22 @@ import { useThrottleCallback } from '@react-hook/throttle';
 import { ENV } from '@app/env';
 import { IS_IOS } from '@app/lib/platform';
 import { withStyled } from '@app/lib/styled';
+import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { useLogger } from '@app/lib/logger/use.logger';
 import { useAppActive } from '@app/lib/hooks/use.app.state';
 
+import { Group } from '../group';
 import { Button } from '../button';
-import { Result } from '../result';
+import { Typography } from '../typography';
 import { PageContainer } from '../page.container';
+import { SpaceVertical } from '../space.vertical';
 
 export const CodepushShield: React.FC = () => {
+  const [shouldShowUpdate, setShouldShowUpdate] = React.useState(false);
   const [progress, setProgress] = React.useState<number>(0);
   const [hasUpdate, setHasUpdate] = React.useState(false);
+  const theme = useTheme();
   const logger = useLogger('CodepushShield');
   const isAppActive = useAppActive();
   const progressDerived = useDerivedValue(() => progress, [progress]);
@@ -54,13 +62,16 @@ export const CodepushShield: React.FC = () => {
         });
 
       if (result) {
-        logger.debug('Found codepush update');
         setHasUpdate(true);
+        setShouldShowUpdate(result.isMandatory);
+        logger.debug('Found codepush update');
         codepush.disallowRestart();
         const payload = await result.download((data) => {
           const nextProgress = round(data.receivedBytes / data.totalBytes, 2);
           logger.debug('Codepush progress=%s', nextProgress);
-          setProgress(nextProgress);
+          if (result.isMandatory) {
+            setProgress(nextProgress);
+          }
         });
         await payload.install(codepush.InstallMode.ON_NEXT_RESTART);
         codepush.allowRestart();
@@ -71,14 +82,22 @@ export const CodepushShield: React.FC = () => {
     }
   }, 1000);
 
-  const ActionItem = () => {
+  const handleRestart = () => {
+    vibrate('impactHeavy');
+    codepush.restartApp();
+  };
+
+  const getActionItem = () => {
     if (progress === 1) {
       return (
         <Button
           fullWidth
           hasShadow
-          onPress={() => codepush.restartApp()}
+          isSolid
+          onPress={handleRestart}
           size="large"
+          textStyle={{ color: theme.pallette.white }}
+          type="primary"
         >
           Restart now
         </Button>
@@ -89,7 +108,9 @@ export const CodepushShield: React.FC = () => {
           <ProgressBar>
             <ProgressBarInner style={[progressStyle]} />
           </ProgressBar>
-          <ProgressText>{Math.round(progress * 100)}%</ProgressText>
+          <Typography color="secondary" isBold type="small">
+            {Math.round(progress * 100)}%
+          </Typography>
         </Progress>
       );
     }
@@ -105,31 +126,45 @@ export const CodepushShield: React.FC = () => {
     <Modal
       animationType="slide"
       presentationStyle="fullScreen"
-      visible={hasUpdate}
+      visible={hasUpdate && shouldShowUpdate}
     >
       <PageContainer centered>
-        <Result
-          actions={[<ActionItem />]}
-          hero={
-            <Lottie
-              duration={2000}
-              resizeMode="contain"
-              source={{
-                uri: 'https://assets10.lottiefiles.com/packages/lf20_dbdmdrse.json',
-              }}
-              speed={0.5}
-              style={{ aspectRatio: 1, width: 500 }}
+        <Group direction="column" gap={'large'} padding={'large'}>
+          <Group isCentered>
+            <LottieAnimation source={require('./lottie.new.animation.json')} />
+            <Logo
+              source={
+                theme.isDark
+                  ? require('@app/assets/logo_white.png')
+                  : require('@app/assets/logo_black.png')
+              }
             />
-          }
-          subtitle="We are continually thinking of ways to improve your experience."
-          title="Installing update"
-        />
+          </Group>
+          <SpaceVertical size="large" />
+          <Group gap={'small'} isCentered>
+            {progress === 1 ? (
+              <>
+                <Typography isBold isCentered type="h2">
+                  Update installed
+                </Typography>
+                <Typography color="secondary" isBold type="p1">
+                  Please restart app
+                </Typography>
+              </>
+            ) : (
+              <Typography isBold isCentered type="h2">
+                Installing updates.
+              </Typography>
+            )}
+          </Group>
+          <Group>{getActionItem()}</Group>
+        </Group>
       </PageContainer>
     </Modal>
   );
 };
 
-export const ProgressBar = withStyled(View, (theme) => [
+const ProgressBar = withStyled(View, (theme) => [
   {
     backgroundColor: theme.pallette.grey[200],
     borderRadius: 30,
@@ -140,13 +175,13 @@ export const ProgressBar = withStyled(View, (theme) => [
   },
 ]);
 
-export const ProgressBarInner = withStyled(Animated.View, (theme) => [
+const ProgressBarInner = withStyled(Animated.View, (theme) => [
   {
     backgroundColor: theme.pallette.active,
   },
 ]);
 
-export const Progress = withStyled(View, (theme) => [
+const Progress = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     gap: theme.space.tiny,
@@ -154,9 +189,50 @@ export const Progress = withStyled(View, (theme) => [
   },
 ]);
 
-export const ProgressText = withStyled(Text, (theme) => [
-  theme.typography.presets.small,
+const LottieAnimation = withStyled(
+  Lottie,
+  () => [
+    {
+      aspectRatio: 1,
+      maxWidth: 500,
+      position: 'absolute',
+      width: '200%',
+    },
+  ],
+  (theme): Partial<LottieViewProps> => ({
+    autoPlay: true,
+    colorFilters: [
+      {
+        color: theme.pallette.background,
+        keypath: 'NEW_AnimOn',
+      },
+      {
+        color: theme.pallette.background,
+        keypath: 'NEW_AnimOff',
+      },
+      {
+        color: theme.pallette.background,
+        keypath: 'NEW_Loop',
+      },
+    ],
+    duration: 2000,
+    resizeMode: 'contain',
+    speed: 0.5,
+  }),
+);
+
+const Logo = withStyled(
+  Image,
+  () => [
+    {
+      height: '100%',
+      maxHeight: 100,
+      maxWidth: 100,
+      width: '100%',
+    },
+  ],
   {
-    color: theme.pallette.textSecondary,
+    resizeMethod: 'auto',
+    resizeMode: 'contain',
   },
-]);
+);

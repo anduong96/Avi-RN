@@ -60,12 +60,12 @@ export const FeatureFlightProblems: React.FC = () => {
     }
   }
 
-  // if (feature.isActive) {
-  //   return null;
-  // }
+  if (feature.isActive) {
+    return null;
+  }
 
   return (
-    <Animated.View entering={StretchInY.delay(700)} exiting={StretchOutY}>
+    <Animated.View entering={StretchInY.delay(100)} exiting={StretchOutY}>
       <Shadow color={theme.pallette.primary} level={2}>
         <LottieView
           autoPlay

@@ -36,8 +36,8 @@ export const MarketingPage: React.FC = () => {
       <LoadingOverlay isLoading={loading} type="solid" />
       <Group paddingHorizontal={'medium'}>
         <Group paddingVertical={'small'}>
-          <Group paddingHorizontal={'medium'}>
-            <Typography isBold isCentered type="h1">
+          <Group>
+            <Typography isBold type="h1">
               {data?.marketing?.title}
             </Typography>
           </Group>

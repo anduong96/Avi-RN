@@ -3,6 +3,7 @@ import * as React from 'react';
 import moment from 'moment';
 import { isNil } from 'lodash';
 
+import { Card } from '@app/components/card';
 import { Group } from '@app/components/group';
 import { Typography } from '@app/components/typography';
 import { LoadingOverlay } from '@app/components/loading.overlay';
@@ -27,11 +28,11 @@ export const PromptnessCompact: React.FC = () => {
   const getContent = () => {
     if (isNil(onTimePercent) || isNil(averageDelayTimeMs)) {
       return (
-        <Group>
-          <Typography type="h1">
+        <Card isCentered padding={'medium'}>
+          <Typography isCentered type="small">
             ⚠️ Delay information is not available for this flight.
           </Typography>
-        </Group>
+        </Card>
       );
     }
 

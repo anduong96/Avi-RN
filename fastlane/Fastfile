@@ -365,62 +365,58 @@ lane :reset do |options|
 end
 
 lane :upload_to_sentry do |options|
-  begin
-    if !is_ci
-      return
-    end
+  # ENV['SENTRY_LOG_LEVEL'] = "debug"
+  version = fetch_version(:ios)
+  commit = get_commit_identifier()
+  app_identifier = lane_context["PACKAGE_ID"]
+  start_time = options[:start_time]
 
-    version = fetch_version(:ios)
-    commit = get_commit_identifier()
-    app_identifier = lane_context["PACKAGE_ID"]
+  ensure_env_vars(
+    env_vars: [
+      "SENTRY_AUTH_TOKEN",
+      "SENTRY_ORG_SLUG",
+      "SENTRY_PROJECT_SLUG"
+    ]
+  )
 
-    ensure_env_vars(
-      env_vars: [
-        "SENTRY_AUTH_TOKEN",
-        "SENTRY_ORG_SLUG",
-        "SENTRY_PROJECT_SLUG"
-      ]
-    )
+  sentry_set_commits(
+    version: version[:name],
+    app_identifier: app_identifier,
+    build: version[:code],
+    auto: true, # enable completely automated commit management
+    # clear: false, # clear all current commits from the release
+    # commit: commit, # commit spec, see `sentry-cli releases help set-commits` for more information
+    # ignore_missing: false, # Optional boolean value: When the flag is set and the previous release commit was not found in the repository, will create a release with the default commits count (or the one specified with `--initial-depth`) instead of failing the command.
+  )
 
-    sentry_set_commits(
-      version: version[:name],
-      app_identifier: app_identifier,
-      build: version[:code],
-      auto: false, # enable completely automated commit management
-      clear: false, # clear all current commits from the release
-      commit: commit, # commit spec, see `sentry-cli releases help set-commits` for more information
-      ignore_missing: false # Optional boolean value: When the flag is set and the previous release commit was not found in the repository, will create a release with the default commits count (or the one specified with `--initial-depth`) instead of failing the command.
-    )
+  sentry_create_deploy(
+    auth_token: ENV['SENTRY_AUTH_TOKEN'],
+    org_slug: ENV['SENTRY_ORG_SLUG'],
+    project_slug: ENV['SENTRY_PROJECT_SLUG'],
+    version: version[:name],
+    app_identifier: app_identifier,
+    build: version[:code],
+    started: start_time,
+    finished: Time.now.to_i,
+    env: options[:environment],
+  )
 
-    sentry_create_deploy(
-      auth_token: ENV['SENTRY_AUTH_TOKEN'],
-      org_slug: ENV['SENTRY_ORG_SLUG'],
-      project_slug: ENV['SENTRY_PROJECT_SLUG'],
-      version: version[:name],
-      app_identifier: app_identifier,
-      build: version[:code],
-      env: options[:environment],
-    )
+  sentry_upload_dif(
+    auth_token: ENV['SENTRY_AUTH_TOKEN'],
+    org_slug: ENV['SENTRY_ORG_SLUG'],
+    project_slug: ENV['SENTRY_PROJECT_SLUG'],
+    include_sources: true,
+  )
 
-    sentry_upload_dif(
-      auth_token: ENV['SENTRY_AUTH_TOKEN'],
-      org_slug: ENV['SENTRY_ORG_SLUG'],
-      project_slug: ENV['SENTRY_PROJECT_SLUG'],
-      include_sources: true,
-    )
-
-    sentry_upload_file(
-      auth_token: ENV['SENTRY_AUTH_TOKEN'],
-      org_slug: ENV['SENTRY_ORG_SLUG'],
-      project_slug: ENV['SENTRY_PROJECT_SLUG'],
-      version: version[:name],
-      app_identifier: app_identifier,
-      build: version[:code], # Optionally pass in the build number of your app
-      file: 'main.jsbundle' # file to upload
-    )
-  rescue => ex
-    UI.error(ex)
-  end
+  sentry_upload_file(
+    auth_token: ENV['SENTRY_AUTH_TOKEN'],
+    org_slug: ENV['SENTRY_ORG_SLUG'],
+    project_slug: ENV['SENTRY_PROJECT_SLUG'],
+    version: version[:name],
+    app_identifier: app_identifier,
+    build: version[:code], # Optionally pass in the build number of your app
+    file: 'main.jsbundle' # file to upload
+  )
 end
 
 lane :codepush do |options|
@@ -556,6 +552,7 @@ platform :ios do
 
   desc "Submit a new staging build to Firebase testers..."
   lane :staging do |options|
+    start_time = Time.now
     ensure_env_vars(
       env_vars: [
         "FIREBASE_GROUPS",
@@ -587,7 +584,11 @@ platform :ios do
         debug: true
       )
 
-      upload_to_sentry(finalize: false, environment: "staging")
+      upload_to_sentry(
+        finalize: false,
+        environment: "staging-ios",
+        start_time: start_time,
+      )
       notify_the_team(:ios, :staging)
     ensure
       update_code_signing_settings(
@@ -601,6 +602,7 @@ platform :ios do
 
   desc "Once staging is approved, submit a production build to TestFlight testers..."
   lane :beta do
+    start_time = Time.now
     ensure_env_vars(
       env_vars: [
         "APP_STORE_CONNECT_API_KEY_ID",
@@ -666,7 +668,10 @@ platform :ios do
         }
       )
 
-      upload_to_sentry(environment: "production")
+      upload_to_sentry(
+        environment: "production-ios",
+        start_time: start_time,
+      )
       notify_the_team(:ios, :beta)
     ensure
         update_code_signing_settings(
@@ -684,8 +689,6 @@ platform :ios do
       skip_screenshots: true,
       include_in_app_purchases: false
     )
-
-    upload_to_sentry()
 
     sentry_create_release(
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
@@ -753,6 +756,7 @@ platform :android do
 
   desc "Submit a new staging build to internal testers..."
   lane :staging do
+    start_time = Time.now
     ensure_env_vars(
       env_vars: [
         "FIREBASE_GROUPS",
@@ -776,6 +780,11 @@ platform :android do
         app: ENV["FIREBASE_AND_APP_ID"],
         android_artifact_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
       )
+      upload_to_sentry(
+        finalize: false,
+        environment: "staging-android",
+        start_time: start_time,
+      )
       notify_the_team(:android, :staging)
     ensure
       suffix_name(suffix: nil)
@@ -785,6 +794,7 @@ platform :android do
 
   desc "Once staging is approved, submit a production build to beta testers..."
   lane :beta do
+    start_time = Time.now
     ensure_env_vars(
       env_vars: [
         "AND_PLAY_STORE_AUTH_JSON",
@@ -808,6 +818,10 @@ platform :android do
       upload_to_play_store(
         track: "beta",
         release_status: "draft"
+      )
+      upload_to_sentry(
+        environment: "beta-android",
+        start_time: start_time,
       )
       notify_the_team(:android, :beta)
     ensure
@@ -840,10 +854,7 @@ def get_commit_identifier()
   repo = ENV['REPO']
   commit_identifier = ENV['COMMIT_SHA']
 
-  if !is_ci
-    host = sh("hostname")
-    commit_identifier = HOST
-  elsif commit_identifier == nil
+  if commit_identifier == nil
     commit_identifier = last_git_commit
   end
 

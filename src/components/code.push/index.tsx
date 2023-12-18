@@ -122,7 +122,7 @@ export const CodepushShield: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (isAppActive) {
+    if (isAppActive && !ENV.IS_DEV) {
       sync();
     }
   }, [isAppActive, sync]);

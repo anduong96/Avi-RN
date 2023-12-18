@@ -715,7 +715,7 @@ platform :android do
       print_command: true,
       project_dir: "android",
       flavor: options[:flavor],
-      task: "clean #{options[:task] || "assemble"}",
+      task: "clean #{options[:task] || "bundle"}",
       build_type: options[:build_type] || "release",
       properties: {
         "releaseKeyStorePassword" => ENV['KEY_STORE_PASSWORD'],

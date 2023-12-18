@@ -48,6 +48,7 @@ definitions:
     - &install_rn_dep
       name: Yarn install
       script: |
+        rm patches/react-native-bootsplash+5.1.4.patch
         yarn --version
         yarn --production=false --frozen-lockfile
     - &mod_google_service_plist

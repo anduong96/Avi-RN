@@ -25,7 +25,7 @@ export const Avatar: React.FC<Props> = ({ hasShadow, size = 20 }) => {
 
   return (
     <ShadowWrapper
-      color={getColor().darken(10).toRgbString()}
+      color={getColor().darken(30).toRgbString()}
       disabled={!hasShadow}
       distance={20}
       offset={[size * 0.1, size * 0.1]}
@@ -39,7 +39,7 @@ export const Avatar: React.FC<Props> = ({ hasShadow, size = 20 }) => {
           style={{
             aspectRatio: 1,
             height: Math.max(size - theme.space.large, theme.space.large + 10),
-            tintColor: getColor().brighten(30).toRgbString(),
+            tintColor: getColor().darken(30).toRgbString(),
           }}
         />
       </Container>

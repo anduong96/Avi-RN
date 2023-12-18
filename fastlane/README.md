@@ -109,6 +109,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### codepush
+
+```sh
+[bundle exec] fastlane codepush
+```
+
+
+
 ----
 
 

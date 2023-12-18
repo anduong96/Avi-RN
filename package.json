@@ -22,7 +22,13 @@
     "patch": "patch-package",
     "storybook": "start-storybook -p 7007",
     "setup-permissions": "react-native setup-ios-permissions",
-    "localhost": "node ./node_modules/react-native-localhost/scripts/postinstall.js"
+    "localhost": "node ./node_modules/react-native-localhost/scripts/postinstall.js",
+    "codepush:ios:develop": "bundle exec fastlane codepush platform:\"ios\" deployment:\"Development\"",
+    "codepush:ios:staging": "bundle exec fastlane codepush platform:\"ios\" deployment:\"Staging\"",
+    "codepush:ios:production": "bundle exec fastlane codepush platform:\"ios\" deployment:\"Production\"",
+    "codepush:android:develop": "bundle exec fastlane codepush platform:\"android\" deployment:\"Development\"",
+    "codepush:android:staging": "bundle exec fastlane codepush platform:\"android\" deployment:\"Staging\"",
+    "codepush:android:production": "bundle exec fastlane codepush platform:\"android\" deployment:\"Production\""
   },
   "reactNativePermissionsIOS": [
     "AppTrackingTransparency",

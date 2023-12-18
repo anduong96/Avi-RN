@@ -423,6 +423,42 @@ lane :upload_to_sentry do |options|
   end
 end
 
+lane :codepush do |options|
+  ensure_env_vars(
+    env_vars: [
+      "GITHUB_USERNAME",
+      "REPO"
+    ]
+  )
+
+  platform = options[:platform].to_sym
+  deployment = options[:deployment]
+  owner = "FlyWithAvi"
+  repo = "Avi-#{platform == :ios ? 'iOS' : 'AND'}"
+  is_mandatory = options[:mandatory] or false
+  binary_version = Gem::Version.new(fetch_version(platform)[:name])
+  major = binary_version.segments[0]
+  minor = binary_version.segments[1]
+  patch = binary_version.segments[2]
+
+  mandatory_command = is_mandatory ? ' -m' : ''
+  version_command = "--target-binary-version ~#{major}.#{minor}.0"
+  deployment_command = "--deployment-name #{deployment}"
+  app_command = "-a #{owner}/#{repo}"
+  extra_command = ""
+
+  if platform == :ios
+    plist_path = "ios/#{IOS_PROJ_NAME}/Info.plist"
+    extra_command = "--plist-file '#{plist_path}'"
+  elsif platform == :android
+    # extra_command = "--gradle-file"
+  end
+
+  final_command = "appcenter codepush release-react #{deployment_command} #{app_command} #{mandatory_command} #{extra_command}"
+
+  sh("cd .. && #{final_command}")
+end
+
 
 platform :ios do
   before_all do
@@ -430,7 +466,6 @@ platform :ios do
       setup_circle_ci
     end
   end
-
 
   lane :build_application do |options|
     # Disable Metro
@@ -663,6 +698,7 @@ platform :ios do
 
     notify_the_team(:ios, :release)
   end
+
 end
 
 platform :android do

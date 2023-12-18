@@ -17,11 +17,14 @@ import { useTheme } from '@app/lib/hooks/use.theme';
 import { useAppActive } from '@app/lib/hooks/use.app.state';
 import { useUserHasFlightsQuery } from '@app/generated/server.gql';
 
+import { Group } from '../group';
 import { Button } from '../button';
 import { Shadow } from '../shadow';
 import { ListItem } from '../list.item';
+import { Typography } from '../typography';
 import { usePrompt } from '../prompt/use.prompt';
 import { SpaceVertical } from '../space.vertical';
+import { PrimaryBackground } from '../background.primary';
 import { BlurredSheetBackdrop } from '../sheet.backdrop.blurred';
 
 export const PushNotificationSheet: React.FC = () => {
@@ -121,8 +124,11 @@ export const PushNotificationSheet: React.FC = () => {
       <Container>
         <Content>
           <Header>
-            <Title>Notifications</Title>
+            <Typography isBold isCentered type="h1">
+              Notifications
+            </Typography>
           </Header>
+          <SpaceVertical size="tiny" />
           <Body>
             <Item
               description="Important information about your flights such as delay"
@@ -144,19 +150,23 @@ export const PushNotificationSheet: React.FC = () => {
             <Shadow
               color={theme.pallette.primary}
               darken={30}
+              disabled={!theme.isDark}
               level={2}
+              opacity={1}
               style={{ borderRadius: theme.roundRadius }}
             >
-              <EnableBtn
-                isBold
-                isLoading={loading}
-                isSolid
-                onPress={handleEnable}
-                size="large"
-                type="primary"
+              <Group
+                style={{ borderRadius: theme.roundRadius, overflow: 'hidden' }}
               >
-                Enable
-              </EnableBtn>
+                <PrimaryBackground />
+                <EnableBtn
+                  isLoading={loading}
+                  onPress={handleEnable}
+                  size="large"
+                >
+                  Enable
+                </EnableBtn>
+              </Group>
             </Shadow>
             <DismissBtn
               disabled={loading}
@@ -187,7 +197,7 @@ const Content = withStyled(View, (theme) => [
   {
     backgroundColor: theme.pallette.background,
     borderRadius: theme.borderRadius,
-    gap: theme.space.large,
+    gap: theme.space.medium,
     padding: theme.space.large,
     paddingBottom: theme.insets.bottom || theme.space.large,
   },
@@ -199,7 +209,7 @@ const Body = withStyled(View, (theme) => [
   theme.presets.centered,
   {
     flexGrow: 1,
-    gap: theme.space.medium,
+    gap: theme.space.large,
   },
 ]);
 
@@ -210,9 +220,18 @@ const Footer = withStyled(View, (theme) => [
   },
 ]);
 
-const Title = withStyled(Text, (theme) => [theme.typography.presets.h1]);
-
-const EnableBtn = withStyled(Button);
+const EnableBtn = withStyled(
+  Button,
+  {
+    borderWidth: 0,
+  },
+  (theme): Partial<React.ComponentProps<typeof Button>> => ({
+    textStyle: {
+      color: theme.pallette.white,
+    },
+    type: 'default',
+  }),
+);
 
 const DismissBtn = withStyled(
   Button,
@@ -223,7 +242,7 @@ const DismissBtn = withStyled(
   ],
   (theme) => ({
     textStyle: {
-      color: theme.pallette.danger,
+      color: theme.pallette.grey[300],
     },
   }),
 );

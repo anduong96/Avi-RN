@@ -706,7 +706,8 @@ platform :android do
       rescue => ex
         UI.error(ex)
       ensure
-        sh "cd .. && adb -s #{options[:device]} reverse tcp:8081 tcp:8081 && npx react-native run-android #{device} #{mode}"
+        # sh "cd .. && adb -s #{options[:device]} reverse tcp:8081 tcp:8081 && npx react-native run-android #{device} #{mode}"
+        sh "cd .. && npx react-native run-android #{device} #{mode}"
       end
     ensure
       suffix_name(suffix: nil)

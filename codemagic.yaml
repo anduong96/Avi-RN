@@ -100,6 +100,7 @@ definitions:
       - $HOME/Library/Caches/Yarn
       - $CM_BUILD_DIR/.bundle/packages
       - $CM_BUILD_DIR/android/.gradle
+      - $HOMEBREW_PREFIX/share/android-ndk
     scripts:
       - *install_bundler
       - *install_imagemagick

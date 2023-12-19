@@ -1,0 +1,13 @@
+query RecentFeedback {
+  recentFeedback {
+    id
+  }
+}
+
+mutation SubmitFeedback(
+  $type: FeedbackType!
+  $rating: Float!
+  $message: String!
+) {
+  submitFeedback(type: $type, rating: $rating, message: $message)
+}

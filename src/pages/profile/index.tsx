@@ -18,6 +18,7 @@ import { FeatureFlightProblems } from '@app/components/#feature.flight.problems.
 import { DevCard } from './dev.card';
 import { LegalCard } from './legal.card';
 import { SignOutBtn } from './sign.out.btn';
+import { SupportCard } from './support.card';
 import { SettingsCard } from './settings.card';
 import { DeleteAccountCard } from './delete.account.card';
 import { AccountConnectCard } from './account.connect.card';
@@ -53,8 +54,9 @@ export const ProfilePage: React.FC = () => {
         <SpaceVertical size="medium" />
         <FeatureFlightProblems />
         <AccountConnectCard />
-        {ENV.APP_ENV !== 'production' && <DevCard />}
+        {ENV.IS_DEV && <DevCard />}
         <SettingsCard />
+        <SupportCard />
         <LegalCard />
         <DeleteAccountCard />
         <ScrollUp

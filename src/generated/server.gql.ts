@@ -152,6 +152,26 @@ export const DateFormatType = {
 } as const;
 
 export type DateFormatType = typeof DateFormatType[keyof typeof DateFormatType];
+export type Feedback = {
+  __typename?: 'Feedback';
+  createdAt: Scalars['DateTimeISO']['output'];
+  id: Scalars['ID']['output'];
+  message: Scalars['String']['output'];
+  rating: Scalars['Int']['output'];
+  type: FeedbackType;
+  updatedAt: Scalars['DateTimeISO']['output'];
+  userID: Scalars['String']['output'];
+};
+
+export const FeedbackType = {
+  APP_ENHANCEMENT: 'APP_ENHANCEMENT',
+  BUG_REPORT: 'BUG_REPORT',
+  FEATURE_REQUEST: 'FEATURE_REQUEST',
+  INQUIRY: 'INQUIRY',
+  QUESTION: 'QUESTION'
+} as const;
+
+export type FeedbackType = typeof FeedbackType[keyof typeof FeedbackType];
 export type Flight = {
   __typename?: 'Flight';
   Airline: Airline;
@@ -256,6 +276,7 @@ export type Mutation = {
   deleteUserFlight: Scalars['String']['output'];
   /** Remove user from wait list */
   removeFromWaitList: Scalars['String']['output'];
+  submitFeedback: Scalars['String']['output'];
   syncUser: Scalars['Boolean']['output'];
   updateUserPreference: Scalars['Boolean']['output'];
 };
@@ -289,6 +310,13 @@ export type MutationRemoveFromWaitListArgs = {
 };
 
 
+export type MutationSubmitFeedbackArgs = {
+  message: Scalars['String']['input'];
+  rating: Scalars['Float']['input'];
+  type: FeedbackType;
+};
+
+
 export type MutationUpdateUserPreferenceArgs = {
   data: UpdateUserPreferenceInput;
 };
@@ -309,6 +337,7 @@ export type Query = {
   flights: Array<Flight>;
   health: Scalars['String']['output'];
   randomFlight: Flight;
+  recentFeedback?: Maybe<Feedback>;
   user: User;
   userActiveFlights: Array<UserFlight>;
   userArchivedFlights: Array<UserFlight>;
@@ -410,6 +439,7 @@ export type UpdateUserPreferenceInput = {
 
 export type User = {
   __typename?: 'User';
+  Feedback: Array<Feedback>;
   UserFlight: Array<UserFlight>;
   UserPreference?: Maybe<UserPreference>;
   UserWaitList: Array<UserWaitList>;
@@ -527,6 +557,20 @@ export type DebugFlightNotificationMutationVariables = Exact<{
 
 
 export type DebugFlightNotificationMutation = { __typename?: 'Mutation', _sendFlightNotification: number };
+
+export type RecentFeedbackQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RecentFeedbackQuery = { __typename?: 'Query', recentFeedback?: { __typename?: 'Feedback', id: string } | null };
+
+export type SubmitFeedbackMutationVariables = Exact<{
+  type: FeedbackType;
+  rating: Scalars['Float']['input'];
+  message: Scalars['String']['input'];
+}>;
+
+
+export type SubmitFeedbackMutation = { __typename?: 'Mutation', submitFeedback: string };
 
 export type FullFlightFragmentFragment = { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } };
 
@@ -1212,6 +1256,81 @@ export function useDebugFlightNotificationMutation(baseOptions?: Apollo.Mutation
 export type DebugFlightNotificationMutationHookResult = ReturnType<typeof useDebugFlightNotificationMutation>;
 export type DebugFlightNotificationMutationResult = Apollo.MutationResult<DebugFlightNotificationMutation>;
 export type DebugFlightNotificationMutationOptions = Apollo.BaseMutationOptions<DebugFlightNotificationMutation, DebugFlightNotificationMutationVariables>;
+export const RecentFeedbackDocument = gql`
+    query RecentFeedback {
+  recentFeedback {
+    id
+  }
+}
+    `;
+
+/**
+ * __useRecentFeedbackQuery__
+ *
+ * To run a query within a React component, call `useRecentFeedbackQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecentFeedbackQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRecentFeedbackQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRecentFeedbackQuery(baseOptions?: Apollo.QueryHookOptions<RecentFeedbackQuery, RecentFeedbackQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RecentFeedbackQuery, RecentFeedbackQueryVariables>(RecentFeedbackDocument, options);
+      }
+export function useRecentFeedbackLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RecentFeedbackQuery, RecentFeedbackQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RecentFeedbackQuery, RecentFeedbackQueryVariables>(RecentFeedbackDocument, options);
+        }
+export function useRecentFeedbackSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<RecentFeedbackQuery, RecentFeedbackQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<RecentFeedbackQuery, RecentFeedbackQueryVariables>(RecentFeedbackDocument, options);
+        }
+export type RecentFeedbackQueryHookResult = ReturnType<typeof useRecentFeedbackQuery>;
+export type RecentFeedbackLazyQueryHookResult = ReturnType<typeof useRecentFeedbackLazyQuery>;
+export type RecentFeedbackSuspenseQueryHookResult = ReturnType<typeof useRecentFeedbackSuspenseQuery>;
+export type RecentFeedbackQueryResult = Apollo.QueryResult<RecentFeedbackQuery, RecentFeedbackQueryVariables>;
+export function refetchRecentFeedbackQuery(variables?: RecentFeedbackQueryVariables) {
+      return { query: RecentFeedbackDocument, variables: variables }
+    }
+export const SubmitFeedbackDocument = gql`
+    mutation SubmitFeedback($type: FeedbackType!, $rating: Float!, $message: String!) {
+  submitFeedback(type: $type, rating: $rating, message: $message)
+}
+    `;
+export type SubmitFeedbackMutationFn = Apollo.MutationFunction<SubmitFeedbackMutation, SubmitFeedbackMutationVariables>;
+
+/**
+ * __useSubmitFeedbackMutation__
+ *
+ * To run a mutation, you first call `useSubmitFeedbackMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSubmitFeedbackMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [submitFeedbackMutation, { data, loading, error }] = useSubmitFeedbackMutation({
+ *   variables: {
+ *      type: // value for 'type'
+ *      rating: // value for 'rating'
+ *      message: // value for 'message'
+ *   },
+ * });
+ */
+export function useSubmitFeedbackMutation(baseOptions?: Apollo.MutationHookOptions<SubmitFeedbackMutation, SubmitFeedbackMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SubmitFeedbackMutation, SubmitFeedbackMutationVariables>(SubmitFeedbackDocument, options);
+      }
+export type SubmitFeedbackMutationHookResult = ReturnType<typeof useSubmitFeedbackMutation>;
+export type SubmitFeedbackMutationResult = Apollo.MutationResult<SubmitFeedbackMutation>;
+export type SubmitFeedbackMutationOptions = Apollo.BaseMutationOptions<SubmitFeedbackMutation, SubmitFeedbackMutationVariables>;
 export const FindFlightsDocument = gql`
     query FindFlights($airlineIata: String!, $flightNumber: String!, $year: Int!, $month: Int!, $date: Int!) {
   flights(

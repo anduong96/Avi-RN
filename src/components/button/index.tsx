@@ -85,13 +85,15 @@ export const Button = React.forwardRef<typeof AnimatedTouchable, Props>(
             : theme.pallette.transparent);
 
     const textColor = isSolid
-      ? tinycolor
-          .mostReadable(displayColor, [
-            theme.pallette.text,
-            theme.pallette.black,
-            theme.pallette.white,
-          ])
-          .toHexString()
+      ? type === 'primary'
+        ? theme.pallette.white
+        : tinycolor
+            .mostReadable(displayColor, [
+              theme.pallette.text,
+              theme.pallette.black,
+              theme.pallette.white,
+            ])
+            .toHexString()
       : type === 'primary'
         ? theme.pallette.primary
         : type === 'active'

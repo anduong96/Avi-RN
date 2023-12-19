@@ -49,7 +49,7 @@ export const Point: React.FC<Props> = ({ type }) => {
 
   return (
     <Group flexBasis={2} flexGrow={2} horizontalAlign={alignment}>
-      <Typography numberOfLines={1} type="massive">
+      <Typography numberOfLines={1} type="h0">
         {iata}
       </Typography>
       <Group direction="row">

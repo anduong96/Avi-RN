@@ -54,9 +54,14 @@ export const GateTimeCard: React.FC<Props> = ({ type }) => {
   return (
     <SectionTile>
       <TileLabel>Gate {title} Time</TileLabel>
-      <Group direction="row" gap={'medium'} verticalAlign="center">
+      <Group
+        direction="row"
+        gap={'medium'}
+        paddingVertical={'medium'}
+        verticalAlign="center"
+      >
         <Icon color={color} size={theme.typography.presets.h1.fontSize} />
-        <TileValue color={color} isBold type="massive">
+        <TileValue color={color} isBold type="h0">
           {estimatedTime.format('LT')}
         </TileValue>
         {hasDayDiff && (

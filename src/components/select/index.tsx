@@ -19,6 +19,7 @@ import { PortalWindowOverlay } from '../portal.window.overlay';
 
 type Props<T> = {
   description?: string;
+  hasErrors?: boolean;
   isDisabled?: boolean;
   isLoading?: boolean;
   onChange?: (value: T) => void;
@@ -34,6 +35,7 @@ type Props<T> = {
 };
 
 export const Select = <T extends number | string>({
+  hasErrors,
   isDisabled,
   isLoading,
   onChange,
@@ -59,7 +61,11 @@ export const Select = <T extends number | string>({
     <>
       <TouchableOpacity onPress={() => !isDisabled && setShowOptions(true)}>
         <LoadingOverlay isLoading={isLoading} size={'small'} />
-        <Label isDisabled={isDisabled} isPlaceholder={!Boolean(displayLabel)}>
+        <Label
+          isDisabled={isDisabled}
+          isPlaceholder={!Boolean(displayLabel)}
+          style={[hasErrors && { color: theme.pallette.danger }]}
+        >
           {displayLabel || placeholder}
         </Label>
       </TouchableOpacity>

@@ -38,7 +38,7 @@ export const TimezoneChangeCard: React.FC = () => {
       <Group direction="row" gap="small" verticalAlign="center">
         <Typography type="h1">{sign}</Typography>
         <Group direction="row" gap="tiny" verticalAlign="center">
-          <Typography isBold type="massive">
+          <Typography isBold type="h0">
             {Math.abs(hourChanges)}h
           </Typography>
         </Group>

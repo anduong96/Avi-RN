@@ -34,7 +34,9 @@ export const ModalHeader: React.FC<Props> = ({
         <StringRenderer Container={Typography} isBold type="h3">
           {title}
         </StringRenderer>
-        <StringRenderer Container={Typography}>{subtitle}</StringRenderer>
+        <StringRenderer Container={Typography} color="secondary">
+          {subtitle}
+        </StringRenderer>
       </Meta>
       <Actions>{withClose && <CloseBtn onPress={onClose ?? exit} />}</Actions>
     </Container>
@@ -60,7 +62,9 @@ const Meta = withStyled<Pick<Props, 'withPadding'>, typeof View>(
   (theme, props) => [
     {
       flexGrow: 1,
+      flexShrink: 1,
       gap: theme.space.tiny,
+      overflow: 'hidden',
       paddingTop: 0,
     },
     props.withPadding && {

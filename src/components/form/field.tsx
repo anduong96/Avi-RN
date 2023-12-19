@@ -36,6 +36,7 @@ export const FormField: React.FC<Props> = ({
   children,
   hideError,
   hint,
+  initialValue,
   isOptional,
   label,
   labelStyle,
@@ -59,13 +60,14 @@ export const FormField: React.FC<Props> = ({
           typeof children === 'function'
             ? children(form, meta, control)
             : React.isValidElement(children)
-            ? React.cloneElement(children, {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
-                hasErrors,
-                ...control,
-              })
-            : null;
+              ? React.cloneElement(children, {
+                  ...control,
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error
+                  hasErrors,
+                  value: control.value ?? initialValue,
+                })
+              : null;
 
         if (noStyle) {
           return childNode;

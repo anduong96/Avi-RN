@@ -15,6 +15,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { NavigationStack } from '@app/types/navigation';
 import type { CorePageSlug } from '@app/pages/[core]/constants';
 import type { MarketingPageSlug } from '@app/pages/[marketing]/constants';
+import type { SubmitFeedbackMutationVariables } from '@app/generated/server.gql';
 
 import { format } from '@app/lib/format';
 import { HomePage } from '@app/pages/home';
@@ -22,6 +23,7 @@ import { CorePage } from '@app/pages/[core]';
 import { LINKING_CONFIG } from '@app/linking';
 import { Analytics } from '@app/lib/analytics';
 import { ProfilePage } from '@app/pages/profile';
+import { FeedbackPage } from '@app/pages/feedback';
 import { DebugMenuPage } from '@app/pages/debug.menu';
 import { useLogger } from '@app/lib/logger/use.logger';
 import { MarketingPage } from '@app/pages/[marketing]';
@@ -39,6 +41,7 @@ export type MainStackParams = {
   AirportStack: NavigatorScreenParams<AirportStackParams>;
   Core: { slug: CorePageSlug };
   Debug: undefined;
+  Feedback?: Partial<SubmitFeedbackMutationVariables>;
   FlightSearch: undefined;
   FlightStack: NavigatorScreenParams<FlightStackParams>;
   FlightsArchive: undefined;
@@ -119,6 +122,7 @@ export const AppNavigator: React.FC = () => {
           <Stack.Screen component={DebugMenuPage} name="Debug" />
           <Stack.Screen component={ProfilePage} name="Profile" />
           <Stack.Screen component={ArchivedFlightsPage} name="FlightsArchive" />
+          <Stack.Screen component={FeedbackPage} name="Feedback" />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,3 +1,4 @@
+import { RFValue } from 'react-native-responsive-fontsize';
 import { type ImageStyle, type TextStyle, type ViewStyle } from 'react-native';
 
 import tinycolor from 'tinycolor2';
@@ -75,34 +76,34 @@ const borderWidth = 2;
 const typography = {
   presets: {
     h0: makeStyle({
-      fontSize: 50,
+      fontSize: RFValue(45),
     }),
     h1: makeStyle({
-      fontSize: 35,
+      fontSize: RFValue(30),
     }),
     h2: makeStyle({
-      fontSize: 24,
+      fontSize: RFValue(24),
     }),
     h3: makeStyle({
-      fontSize: 20,
+      fontSize: RFValue(17),
     }),
     h4: makeStyle({
-      fontSize: 18,
+      fontSize: RFValue(18),
     }),
     massive: makeStyle({
-      fontSize: 60,
+      fontSize: RFValue(60),
     }),
     p1: makeStyle({
-      fontSize: 17,
+      fontSize: RFValue(15),
     }),
     p2: makeStyle({
-      fontSize: 14,
+      fontSize: RFValue(14),
     }),
     small: makeStyle({
-      fontSize: 12,
+      fontSize: RFValue(12),
     }),
     tiny: makeStyle({
-      fontSize: 10,
+      fontSize: RFValue(10),
     }),
   },
 };

@@ -80,7 +80,7 @@ export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
             style={{ aspectRatio: 1, height: 64 }}
           />
           <Group direction="row" horizontalAlign="left" verticalAlign="top">
-            <Typography isBold type="massive">
+            <Typography isBold type="h0">
               {temperatureConverter(temperature).value}
             </Typography>
             <Typography type="h2">

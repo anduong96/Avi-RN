@@ -92,8 +92,8 @@ definitions:
     max_build_duration: 30
     instance_type: mac_mini_m1
     artifacts:
-      - build/android/app/build/outputs/apk/release/*.apk
-      - $HOMEBREW_PREFIX/share/android-ndk
+      - android/**/*.apk
+      - android/**/*.aab
     cache:
       cache_paths:
       - $CM_BUILD_DIR/node_modules
@@ -114,9 +114,8 @@ definitions:
   build_ios: &build_ios
     instance_type: mac_mini_m1
     artifacts:
-      - build/ios/ipa/*.ipa
-      - $CM_BUILD_DIR/ios/*.ipa
-      - $CM_BUILD_DIR/ios/*.dSYM.zip
+      - $CM_BUILD_DIR/ios/**/*.ipa
+      - $CM_BUILD_DIR/ios/**/*.dSYM.zip
     max_build_duration: 30
     cache:
       cache_paths:
@@ -187,6 +186,8 @@ workflows:
     publishing:
       <<: *notify_email
     name: iOS Beta
+    artifacts:
+      - android/app/build/**/*.aab
     environment:
       xcode: latest
       cocoapods: default

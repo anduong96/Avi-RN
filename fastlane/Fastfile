@@ -408,15 +408,15 @@ lane :upload_to_sentry do |options|
     include_sources: true,
   )
 
-  sentry_upload_file(
-    auth_token: ENV['SENTRY_AUTH_TOKEN'],
-    org_slug: ENV['SENTRY_ORG_SLUG'],
-    project_slug: ENV['SENTRY_PROJECT_SLUG'],
-    version: version[:name],
-    app_identifier: app_identifier,
-    build: version[:code], # Optionally pass in the build number of your app
-    file: 'main.jsbundle' # file to upload
-  )
+  # sentry_upload_file(
+  #   auth_token: ENV['SENTRY_AUTH_TOKEN'],
+  #   org_slug: ENV['SENTRY_ORG_SLUG'],
+  #   project_slug: ENV['SENTRY_PROJECT_SLUG'],
+  #   version: version[:name],
+  #   app_identifier: app_identifier,
+  #   build: version[:code], # Optionally pass in the build number of your app
+  #   file: 'main.jsbundle' # file to upload
+  # )
 end
 
 lane :codepush do |options|

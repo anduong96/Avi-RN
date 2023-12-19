@@ -587,7 +587,7 @@ platform :ios do
       upload_to_sentry(
         finalize: false,
         environment: "staging-ios",
-        start_time: start_time,
+        start_time: start_time.to_i,
       )
       notify_the_team(:ios, :staging)
     ensure
@@ -670,7 +670,7 @@ platform :ios do
 
       upload_to_sentry(
         environment: "production-ios",
-        start_time: start_time,
+        start_time: start_time.to_i,
       )
       notify_the_team(:ios, :beta)
     ensure
@@ -772,18 +772,18 @@ platform :android do
       build_application(
         flavor: "staging",
         build_type: "release",
-        task: "assemble"
+        task: "bundle"
       )
       firebase_app_distribution(
         android_artifact_type: "APK",
         groups: ENV["FIREBASE_GROUPS"],
         app: ENV["FIREBASE_AND_APP_ID"],
-        android_artifact_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
+        android_artifact_path: lane_context[SharedValues::GRADLE_AAB_OUTPUT_PATH]
       )
       upload_to_sentry(
         finalize: false,
         environment: "staging-android",
-        start_time: start_time,
+        start_time: start_time.to_i,
       )
       notify_the_team(:android, :staging)
     ensure
@@ -821,7 +821,7 @@ platform :android do
       )
       upload_to_sentry(
         environment: "beta-android",
-        start_time: start_time,
+        start_time: start_time.to_i,
       )
       notify_the_team(:android, :beta)
     ensure

@@ -44,7 +44,7 @@ export function useBootApp() {
     }
 
     logger.debug(
-      'Checking if app can boot canBoot=%s, hasGlobalStateHydrated=%s, userFlightsLoaded=%s',
+      'Checking if app can boot canBoot=%s, hasGlobalStateHydrated=%s',
       canBoot,
       hasGlobalStateHydrated,
     );

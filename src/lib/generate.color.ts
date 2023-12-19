@@ -17,7 +17,7 @@ const getColor = (seed: string) => {
  * @returns The function `generateColors` returns an object with two properties: `neon` and `pastel`.
  */
 export function generateColors(seed: string): { neon: string; pastel: string } {
-  const neon = getColor(seed).saturate();
+  const neon = getColor(seed).brighten(50);
   const pastel = neon.clone().complement();
 
   return {

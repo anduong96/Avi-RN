@@ -10,6 +10,7 @@ import { useThrottleCallback } from '@react-hook/throttle';
 import { ENV } from '@app/env';
 import { useLogger } from '@app/lib/logger/use.logger';
 import { useAppActive } from '@app/lib/hooks/use.app.state';
+import { isRemoteVersionHigher } from '@app/lib/parse.semver';
 
 import { Button } from '../button';
 import { Result } from '../result';
@@ -32,14 +33,21 @@ export const ForceUpdateShield: React.FC = () => {
     }
 
     try {
-      const { result } = await checkStoreVersion({
+      const { local, remote, result } = await checkStoreVersion({
         country: 'us',
         iosStoreURL: IOS_STORE_URL,
         version: DeviceInfo.getVersion(),
       });
 
-      logger.debug('Found store version result=%s', result);
-      setHasUpdate(result === 'new');
+      const hasNextUpdate = isRemoteVersionHigher(remote, local);
+
+      logger.debug(
+        'Found store version result=%s hasNextUpdate=%s',
+        result,
+        hasNextUpdate,
+      );
+
+      setHasUpdate(hasNextUpdate);
     } catch (error) {
       logger.error(error);
       setHasUpdate(false);

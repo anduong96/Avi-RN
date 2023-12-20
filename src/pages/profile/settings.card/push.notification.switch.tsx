@@ -2,12 +2,15 @@ import * as React from 'react';
 import { openSettings } from 'react-native-permissions';
 import { ActivityIndicator, Switch } from 'react-native';
 
+import type { SwitchProps } from 'react-native';
+
 import moment from 'moment';
 import { useQuery } from '@tanstack/react-query';
 import messaging from '@react-native-firebase/messaging';
 
 import { logger } from '@app/lib/logger';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useGlobalState } from '@app/state/global';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { useToast } from '@app/components/toast/use.toast';
 import { usePrompt } from '@app/components/prompt/use.prompt';
@@ -23,8 +26,11 @@ export const PushNotificationSwitch: React.FC = () => {
   const status = permission.data;
   const hasPermission = status === messaging.AuthorizationStatus.AUTHORIZED;
 
-  const handleChange = async () => {
-    logger.debug('Changing push notification permission', { status });
+  const handleChange: SwitchProps['onChange'] = async () => {
+    logger.debug('Changing push notification permission', {
+      status,
+    });
+
     if (!hasPermission) {
       try {
         await messaging().requestPermission({
@@ -33,9 +39,15 @@ export const PushNotificationSwitch: React.FC = () => {
           carPlay: true,
           sound: true,
         });
-        await permission.refetch();
+        const newStatus = await permission.refetch();
+        if (newStatus.data !== messaging.AuthorizationStatus.AUTHORIZED) {
+          throw new Error();
+        }
+
+        useGlobalState.setState({
+          pushPermission: newStatus.data,
+        });
       } catch (error) {
-        logger.error('Failed to request notifications', error);
         prompt({
           acceptStatus: 'active',
           acceptText: 'Open Settings',

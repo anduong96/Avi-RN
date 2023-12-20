@@ -14,6 +14,7 @@ import { logger } from '../logger';
 import { format } from '../format';
 import { signOut } from '../auth/sign.out';
 import { handleBuildInfo } from './build.info';
+import { checkTrackingPermission } from '../permissions/check.tracking.permission';
 
 export async function startup() {
   await Promise.allSettled([
@@ -34,6 +35,7 @@ export async function startup() {
       }),
     Sentry.setExtra('SERVER', ENV.SERVER),
     handleBuildInfo(),
+    checkTrackingPermission(),
     auth().currentUser
       ? auth()
           .currentUser?.reload()

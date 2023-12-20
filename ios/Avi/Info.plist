@@ -1,146 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-	<dict>
-		<key>BGTaskSchedulerPermittedIdentifiers</key>
-		<array>
-			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-		</array>
-		<key>CFBundleDevelopmentRegion</key>
-		<string>en</string>
-		<key>CFBundleDisplayName</key>
-		<string>Avi</string>
-		<key>CFBundleExecutable</key>
-		<string>$(EXECUTABLE_NAME)</string>
-		<key>CFBundleIdentifier</key>
+<dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-		<key>CFBundleInfoDictionaryVersion</key>
-		<string>6.0</string>
-		<key>CFBundleName</key>
-		<string>$(PRODUCT_NAME)</string>
-		<key>CFBundlePackageType</key>
-		<string>APPL</string>
-		<key>CFBundleShortVersionString</key>
-		<string>1.0.0</string>
-		<key>CFBundleSignature</key>
-		<string>????</string>
-		<key>CFBundleURLTypes</key>
-		<array>
-			<dict>
-				<key>CFBundleTypeRole</key>
-				<string>Editor</string>
-				<key>CFBundleURLSchemes</key>
-				<array>
-					<string>com.googleusercontent.apps.770636852536-87n3ten04ld9n2fsp9h1a15dqd7bn4gq</string>
-					<string>com.googleusercontent.apps.770636852536-dos5e7ugc6dap42ub6eeo38d1sel7ab2</string>
-					<string>com.googleusercontent.apps.837257235182-00hui99c5k5nh5fo5bks7htiu3s4prrk</string>
-				</array>
-			</dict>
-			<dict>
-				<key>CFBundleTypeRole</key>
-				<string>Editor</string>
-				<key>CFBundleURLName</key>
-				<string>flywithavi</string>
-				<key>CFBundleURLSchemes</key>
-				<array>
-					<string>flywithavi</string>
-				</array>
-			</dict>
-		</array>
-		<key>CFBundleVersion</key>
-		<string>1</string>
-		<key>GIDClientID</key>
-		<string>837257235182-bbdcc7tdtm8mhr4peiimrm21ss386cs9.apps.googleusercontent.com</string>
-		<key>ITSAppUsesNonExemptEncryption</key>
-		<false />
-		<key>LSRequiresIPhoneOS</key>
-		<true />
-		<key>NSAppTransportSecurity</key>
+	</array>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Avi</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.1</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
 		<dict>
-			<key>NSAllowsArbitraryLoads</key>
-			<false />
-			<key>NSAllowsLocalNetworking</key>
-			<true />
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.770636852536-87n3ten04ld9n2fsp9h1a15dqd7bn4gq</string>
+				<string>com.googleusercontent.apps.770636852536-dos5e7ugc6dap42ub6eeo38d1sel7ab2</string>
+				<string>com.googleusercontent.apps.837257235182-00hui99c5k5nh5fo5bks7htiu3s4prrk</string>
+			</array>
 		</dict>
-		<key>NSCalendarsUsageDescription</key>
-		<string>Import your flight calendar</string>
-		<key>NSCameraUsageDescription</key>
-		<string>We may use your camera to assist with customer support</string>
-		<key>NSContactsUsageDescription</key>
-		<string>To easily connect and communicate with your contacts, our app needs access to your
-			contacts. We will only use this information to provide a seamless experience and help you stay
-			connected with your friends and colleagues.</string>
-		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>To provide accurate location-based services, our app needs access to your location. We
-			will use this information to customize your experience, provide relevant content, and improve
-			our services</string>
-		<key>NSLocationAlwaysUsageDescription</key>
-		<string>Track your travel securely</string>
-		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>To enhance your experience and provide location-specific features, our app needs access
-			to your location when you are actively using it. We will use this information to provide
-			relevant content and improve our services.</string>
-		<key>NSPhotoLibraryAddUsageDescription</key>
-		<string>We may use your photos to assist with customer support</string>
-		<key>NSRemindersUsageDescription</key>
-		<string>To provide timely reminders and notifications, our app needs access to your reminders.
-			We will only use this information to enhance your experience and help you stay organized.</string>
-		<key>NSUserTrackingUsageDescription</key>
-		<string>Allow avi learn and provide exceptional experience. Your data will be stored and use
-			only within our app.</string>
-		<key>UIAppFonts</key>
-		<array>
-			<string>AntDesign.ttf</string>
-			<string>Entypo.ttf</string>
-			<string>EvilIcons.ttf</string>
-			<string>Feather.ttf</string>
-			<string>FontAwesome.ttf</string>
-			<string>FontAwesome5_Brands.ttf</string>
-			<string>FontAwesome5_Regular.ttf</string>
-			<string>FontAwesome5_Solid.ttf</string>
-			<string>FontAwesome6_Pro_Brands.ttf</string>
-			<string>FontAwesome6_Pro_Regular.ttf</string>
-			<string>FontAwesome6_Pro_Solid.ttf</string>
-			<string>FontAwesome6_Pro_Light.ttf</string>
-			<string>FontAwesome6_Pro_Duotone.ttf</string>
-			<string>FontAwesome6_Pro_Thin.ttf</string>
-			<string>FontAwesome6_Pro_Sharp_Solid.ttf</string>
-			<string>Foundation.ttf</string>
-			<string>Ionicons.ttf</string>
-			<string>MaterialCommunityIcons.ttf</string>
-			<string>MaterialIcons.ttf</string>
-			<string>Octicons.ttf</string>
-			<string>SimpleLineIcons.ttf</string>
-			<string>Zocial.ttf</string>
-			<string>Fontisto.ttf</string>
-		</array>
-		<key>UIBackgroundModes</key>
-		<array>
-			<string>fetch</string>
-			<string>location</string>
-			<string>processing</string>
-			<string>remote-notification</string>
-		</array>
-		<key>UILaunchStoryboardName</key>
-		<string>BootSplash.storyboard</string>
-		<key>UIRequiredDeviceCapabilities</key>
-		<array>
-			<string>armv7</string>
-		</array>
-		<key>UIStatusBarHidden</key>
-		<true />
-		<key>UISupportedInterfaceOrientations</key>
-		<array>
-			<string>UIInterfaceOrientationPortrait</string>
-			<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		</array>
-		<key>UISupportedInterfaceOrientations~ipad</key>
-		<array>
-			<string>UIInterfaceOrientationLandscapeLeft</string>
-			<string>UIInterfaceOrientationLandscapeRight</string>
-			<string>UIInterfaceOrientationPortrait</string>
-		</array>
-		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>flywithavi</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>flywithavi</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>2</string>
+	<key>GIDClientID</key>
+	<string>837257235182-bbdcc7tdtm8mhr4peiimrm21ss386cs9.apps.googleusercontent.com</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false />
+	<key>LSRequiresIPhoneOS</key>
+	<true />
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
 		<false />
+		<key>NSAllowsLocalNetworking</key>
+		<true />
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Import your flight calendar</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We may use your camera to assist with customer support</string>
+	<key>NSContactsUsageDescription</key>
+	<string>To easily connect and communicate with your contacts, our app needs access to your
+		contacts. We will only use this information to provide a seamless experience and help you stay
+		connected with your friends and colleagues.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>To provide accurate location-based services, our app needs access to your location. We
+		will use this information to customize your experience, provide relevant content, and improve
+		our services</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Track your travel securely</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To enhance your experience and provide location-specific features, our app needs access
+		to your location when you are actively using it. We will use this information to provide
+		relevant content and improve our services.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We may use your photos to assist with customer support</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>To provide timely reminders and notifications, our app needs access to your reminders.
+		We will only use this information to enhance your experience and help you stay organized.</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Allow avi learn and provide exceptional experience. Your data will be stored and use
+		only within our app.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>FontAwesome6_Pro_Brands.ttf</string>
+		<string>FontAwesome6_Pro_Regular.ttf</string>
+		<string>FontAwesome6_Pro_Solid.ttf</string>
+		<string>FontAwesome6_Pro_Light.ttf</string>
+		<string>FontAwesome6_Pro_Duotone.ttf</string>
+		<string>FontAwesome6_Pro_Thin.ttf</string>
+		<string>FontAwesome6_Pro_Sharp_Solid.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
+		<string>Fontisto.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>location</string>
+		<string>processing</string>
+		<string>remote-notification</string>
+	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>BootSplash.storyboard</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIStatusBarHidden</key>
+	<true />
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false />
+</dict>
 </plist>

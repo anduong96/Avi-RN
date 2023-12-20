@@ -795,12 +795,12 @@ platform :android do
   desc "Once staging is approved, submit a production build to beta testers..."
   lane :beta do
     start_time = Time.now
-    # ensure_env_vars(
-    #   env_vars: [
-    #     "AND_PLAY_STORE_AUTH_JSON",
-    #     "FASTLANE_ANDROID_JSON_KEY_FILE",
-    #   ]
-    # )
+    ensure_env_vars(
+      env_vars: [
+        "AND_PLAY_STORE_AUTH_JSON",
+        "FASTLANE_ANDROID_JSON_KEY_FILE",
+      ]
+    )
     begin
       update_google_map_key()
       increment_build(:android)
@@ -809,20 +809,25 @@ platform :android do
         build_type: "release",
         task: "bundle"
       )
-      # firebase_app_distribution(
-      #   android_artifact_type: "APK",
-      #   groups: ENV["FIREBASE_GROUPS"],
-      #   app: ENV["FIREBASE_AND_APP_ID"],
-      #   android_artifact_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
-      # )
-      # upload_to_play_store(
-      #   track: "beta",
-      #   release_status: "draft"
-      # )
-      # upload_to_sentry(
-      #   environment: "beta-android",
-      #   start_time: start_time.to_i,
-      # )
+      begin
+        firebase_app_distribution(
+          android_artifact_type: "APK",
+          groups: ENV["FIREBASE_GROUPS"],
+          app: ENV["FIREBASE_AND_APP_ID"],
+          android_artifact_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
+        )
+        upload_to_play_store(
+          track: "beta",
+          release_status: "draft"
+        )
+        upload_to_sentry(
+          environment: "beta-android",
+          start_time: start_time.to_i,
+        )
+      rescue => ex
+        UI.error(ex)
+      end
+
       notify_the_team(:android, :beta)
     ensure
       suffix_name(suffix: nil)

@@ -42,9 +42,11 @@ export const ForceUpdateShield: React.FC = () => {
       const hasNextUpdate = isRemoteVersionHigher(remote, local);
 
       logger.debug(
-        'Found store version result=%s hasNextUpdate=%s',
+        'Found store version result=%s hasNextUpdate=%s remote=%s local=%s',
         result,
         hasNextUpdate,
+        remote,
+        local,
       );
 
       setHasUpdate(hasNextUpdate);

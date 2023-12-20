@@ -43,5 +43,5 @@ export function isRemoteVersionHigher(
   }
 
   // If parsing fails, consider the remote version higher by default
-  return true;
+  return false;
 }

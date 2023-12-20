@@ -8,6 +8,7 @@ import Lottie from 'lottie-react-native';
 import { useThrottleCallback } from '@react-hook/throttle';
 
 import { ENV } from '@app/env';
+import { useTheme } from '@app/lib/hooks/use.theme';
 import { useLogger } from '@app/lib/logger/use.logger';
 import { useAppActive } from '@app/lib/hooks/use.app.state';
 import { isRemoteVersionHigher } from '@app/lib/parse.semver';
@@ -21,6 +22,7 @@ const IOS_STORE_URL =
   'https://apps.apple.com/us/app/avi-flight-tracker/id6457441009';
 
 export const ForceUpdateShield: React.FC = () => {
+  const theme = useTheme();
   const logger = useLogger('ForceUpdateShield');
   const [hasUpdate, setHasUpdate] = React.useState<boolean>();
   const isAppActive = useAppActive();
@@ -39,7 +41,7 @@ export const ForceUpdateShield: React.FC = () => {
         version: DeviceInfo.getVersion(),
       });
 
-      const hasNextUpdate = isRemoteVersionHigher(remote, local);
+      const hasNextUpdate = isRemoteVersionHigher(local, remote);
 
       logger.debug(
         'Found store version result=%s hasNextUpdate=%s remote=%s local=%s',
@@ -86,11 +88,24 @@ export const ForceUpdateShield: React.FC = () => {
           ]}
           hero={
             <Lottie
+              autoPlay
+              colorFilters={[
+                {
+                  color: theme.pallette.text,
+                  keypath: 'NEW_AnimOn',
+                },
+                {
+                  color: theme.pallette.text,
+                  keypath: 'NEW_AnimOff',
+                },
+                {
+                  color: theme.pallette.text,
+                  keypath: 'NEW_Loop',
+                },
+              ]}
               duration={2000}
               resizeMode="contain"
-              source={{
-                uri: 'https://assets10.lottiefiles.com/packages/lf20_dbdmdrse.json',
-              }}
+              source={require('@app/components/code.push/lottie.new.animation.json')}
               speed={0.5}
               style={{ aspectRatio: 1, width: 500 }}
             />

@@ -43,12 +43,8 @@ export const EmptyFlights: React.FC = () => {
         speed={0.7}
         style={{
           aspectRatio: 1,
-          transform: [
-            {
-              rotate: rotation,
-            },
-          ],
-          width: 300,
+          transform: [{ rotate: rotation }],
+          width: Math.min(300, Dimensions.get('screen').width / 2),
         }}
       />
       <Animated.View entering={FadeInDown}>

@@ -28,6 +28,8 @@ export const SupportCard: React.FC = () => {
         preset: 'warning',
         title: 'Sign in required!',
       });
+
+      return;
     }
 
     vibrate('effectClick');

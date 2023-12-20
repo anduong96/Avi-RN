@@ -53,7 +53,11 @@ export const FlightCard: React.FC<Props> = ({ value: { Flight } }) => {
             <Group flexBasis={2} flexGrow={1} horizontalAlign="left">
               <AirportIata textAlign="left">{Flight.Origin.iata}</AirportIata>
             </Group>
-            <Group flexBasis={1} flexGrow={1}>
+            <Group
+              flexBasis={1}
+              flexGrow={1}
+              style={{ height: 1, overflow: 'hidden' }}
+            >
               <DividerDashed dashThickness={2} />
               <ActiveDivider progressPercent={Flight.progressPercent} />
             </Group>

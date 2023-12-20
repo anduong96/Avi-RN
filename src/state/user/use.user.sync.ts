@@ -3,8 +3,11 @@ import * as React from 'react';
 import auth from '@react-native-firebase/auth';
 
 import { logger } from '@app/lib/logger';
-import { SyncUserDocument } from '@app/generated/server.gql';
 import { AppServerApolloClient } from '@app/apollo/app.server';
+import {
+  SyncUserDocument,
+  UserFlightDocument,
+} from '@app/generated/server.gql';
 
 import { useUserState } from '.';
 
@@ -20,6 +23,11 @@ export function useUserSync() {
       AppServerApolloClient.mutate({
         errorPolicy: 'ignore',
         mutation: SyncUserDocument,
+      });
+
+      AppServerApolloClient.query({
+        errorPolicy: 'ignore',
+        query: UserFlightDocument,
       });
     });
   }, []);

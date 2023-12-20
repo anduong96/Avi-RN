@@ -33,14 +33,8 @@
   "reactNativePermissionsIOS": [
     "AppTrackingTransparency",
     "Calendars",
-    "Camera",
     "Contacts",
-    "LocationAccuracy",
-    "LocationWhenInUse",
-    "MediaLibrary",
-    "Notifications",
-    "PhotoLibrary",
-    "PhotoLibraryAddOnly"
+    "Notifications"
   ],
   "dependencies": {
     "@apollo/client": "^3.8.8",

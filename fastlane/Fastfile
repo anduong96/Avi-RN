@@ -979,10 +979,11 @@ def fetch_version(platform)
 end
 
 def increment_build(platform)
+  curr_build_number = 0
+
   # https://github.com/fastlane/fastlane-plugin-firebase_app_distribution/blob/master/lib/fastlane/plugin/firebase_app_distribution/actions/firebase_app_distribution_get_latest_release.rb
   # https://circleci.com/docs/deploy-ios-applications/
   if platform == :ios
-    curr_build_number = 0
     if ENV["BUILD_NUMBER"]
       curr_build_number = ENV["BUILD_NUMBER"]
     else
@@ -995,20 +996,24 @@ def increment_build(platform)
       build_number: curr_build_number
     )
   elsif platform == :android
-    ensure_env_vars(
-      env_vars: [
-        "FIREBASE_AND_APP_ID",
-      ]
-    )
+    if ENV['BUILD_NUMBER']
+      curr_build_number = ENV['BUILD_NUMBER']
+    else
+      ensure_env_vars(
+        env_vars: [
+          "FIREBASE_AND_APP_ID",
+        ]
+      )
 
-    firebase_app_id = ENV["FIREBASE_AND_APP_ID"]
-    latest_release = firebase_app_distribution_get_latest_release(
-      debug: !is_ci,
-      app: firebase_app_id
-    )
+      firebase_app_id = ENV["FIREBASE_AND_APP_ID"]
+      latest_release = firebase_app_distribution_get_latest_release(
+        debug: !is_ci,
+        app: firebase_app_id
+      )
 
-    prev_build_number = latest_release ? latest_release[:buildVersion]&.to_i : 0
-    curr_build_number = prev_build_number + 1
+      prev_build_number = latest_release ? latest_release[:buildVersion]&.to_i : 0
+      curr_build_number = prev_build_number + 1
+    end
 
     UI.message("Version code: #{curr_build_number}")
 

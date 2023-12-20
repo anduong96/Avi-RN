@@ -22,6 +22,7 @@ import { Button } from '../button';
 import { Shadow } from '../shadow';
 import { ListItem } from '../list.item';
 import { Typography } from '../typography';
+import { useToast } from '../toast/use.toast';
 import { usePrompt } from '../prompt/use.prompt';
 import { SpaceVertical } from '../space.vertical';
 import { PrimaryBackground } from '../background.primary';
@@ -30,6 +31,7 @@ import { BlurredSheetBackdrop } from '../sheet.backdrop.blurred';
 export const PushNotificationSheet: React.FC = () => {
   const sheet = React.useRef<BottomSheetModal>(null);
   const prompt = usePrompt();
+  const toast = useToast();
   const theme = useTheme();
   const hasPushAsked = useGlobalState((s) => s._hasPushAsked);
   const status = useGlobalState((s) => s.pushPermission);
@@ -85,10 +87,18 @@ export const PushNotificationSheet: React.FC = () => {
         sound: true,
       });
       logger.debug(format('Set Push permission statusCode=%s', responseStatus));
+      sheet.current?.dismiss();
       useGlobalState.setState({
         _hasPushAsked: true,
         pushPermission: responseStatus,
       });
+
+      if (responseStatus === messaging.AuthorizationStatus.AUTHORIZED) {
+        toast({
+          preset: 'success',
+          title: 'Push notifications enabled',
+        });
+      }
     } catch (error) {
       logger.error('Error requesting push notification permission', error);
     } finally {

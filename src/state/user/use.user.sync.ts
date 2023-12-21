@@ -6,7 +6,8 @@ import { logger } from '@app/lib/logger';
 import { AppServerApolloClient } from '@app/apollo/app.server';
 import {
   SyncUserDocument,
-  UserFlightDocument,
+  UserActiveFlightsDocument,
+  UserArchivedFlightsDocument,
 } from '@app/generated/server.gql';
 
 import { useUserState } from '.';
@@ -27,7 +28,11 @@ export function useUserSync() {
 
       AppServerApolloClient.query({
         errorPolicy: 'ignore',
-        query: UserFlightDocument,
+        query: UserActiveFlightsDocument,
+      });
+      AppServerApolloClient.query({
+        errorPolicy: 'ignore',
+        query: UserArchivedFlightsDocument,
       });
     });
   }, []);

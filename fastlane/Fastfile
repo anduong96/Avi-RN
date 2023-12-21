@@ -811,7 +811,7 @@ platform :android do
       )
       begin
         firebase_app_distribution(
-          android_artifact_type: "APK",
+          android_artifact_type: "AAB",
           groups: ENV["FIREBASE_GROUPS"],
           app: ENV["FIREBASE_AND_APP_ID"],
           android_artifact_path: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]

@@ -437,7 +437,7 @@ lane :codepush do |options|
   minor = binary_version.segments[1]
   patch = binary_version.segments[2]
 
-  mandatory_command = is_mandatory ? ' -m' : ''
+  mandatory_command = '-m'
   version_command = "--target-binary-version ~#{major}.#{minor}.0"
   deployment_command = "--deployment-name #{deployment}"
   app_command = "-a #{owner}/#{repo}"

@@ -9,6 +9,7 @@ import * as React from 'react';
 import { Platform } from 'react-native';
 
 import { last } from 'lodash';
+import * as Sentry from '@sentry/react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -80,6 +81,8 @@ export const AppNavigator: React.FC = () => {
 
     if (currentRouteName && previousRouteName !== currentRouteName) {
       Analytics.screen(currentRouteName);
+      Sentry.setExtra('Screen', currentRouteName);
+      Sentry.setExtra('Previous Screen', previousRouteName);
       logger.debug(
         format(
           'Route changed from=%s to=%s',

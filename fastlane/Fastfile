@@ -424,7 +424,7 @@ lane :upload_to_sentry do |options|
       build: version[:code],
       app_identifier: app_identifier,
       rewrite: true,
-      file: [
+      sourcemap: [
         'ios/build/DerivedData/Build/Intermediates.noindex/ArchiveIntermediates/Avi/BuildProductsPath/Release-iphoneos/main.jsbundle'
       ]
     )

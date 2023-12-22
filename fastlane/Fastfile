@@ -478,6 +478,7 @@ platform :ios do
       scheme: options[:scheme],
       workspace: IOS_WORK_PATH,
       output_directory: "ios/build",
+      output_name: "Avi.ipa",
       archive_path: "ios/build/app.xcarchive",
       derived_data_path: 'ios/build/DerivedData',
       xcargs: "-allowProvisioningUpdates",
@@ -633,7 +634,7 @@ platform :ios do
       build_application(
         scheme: lane_context["IOS_SCHEME"],
         configuration: "Release",
-        export_method: "app-store"
+        export_method: "app-store",
       )
 
       firebase_app_distribution(

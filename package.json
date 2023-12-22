@@ -20,6 +20,7 @@
     "clean": "react-native clean-project-auto && yarn && npx pod-install && bundle install",
     "pre-build": "patch-package && npm run setup-permissions && pod-install",
     "patch": "patch-package",
+    "postversion": "sh ./scripts/git/post.version.sh",
     "storybook": "start-storybook -p 7007",
     "setup-permissions": "react-native setup-ios-permissions",
     "localhost": "node ./node_modules/react-native-localhost/scripts/postinstall.js",

@@ -398,6 +398,7 @@ lane :upload_to_sentry do |options|
     build: version[:code],
     started: start_time,
     finished: Time.now.to_i,
+    name: "#{version[:name]} (#{version[:code]})",
     env: options[:environment],
   )
 

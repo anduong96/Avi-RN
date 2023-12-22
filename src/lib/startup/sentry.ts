@@ -1,4 +1,4 @@
-import { Alert, BackHandler } from 'react-native';
+import { Alert, BackHandler, Platform } from 'react-native';
 import {
   setJSExceptionHandler,
   setNativeExceptionHandler,
@@ -9,12 +9,16 @@ import * as Sentry from '@sentry/react-native';
 import { ENV } from '@app/env';
 
 import { logger } from '../logger';
+import { format } from '../format';
 
 Sentry.init({
   attachScreenshot: true,
+  attachViewHierarchy: true,
   debug: false,
   dsn: ENV.SENTRY_DSN,
+  enableCaptureFailedRequests: true,
   enabled: !__DEV__,
+  environment: format('%s-%s', ENV.APP_ENV, Platform.OS),
   integrations: [
     new Sentry.ReactNativeTracing({
       routingInstrumentation: new Sentry.ReactNavigationInstrumentation(),

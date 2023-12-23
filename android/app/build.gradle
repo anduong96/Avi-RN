@@ -145,11 +145,9 @@ android {
     productFlavors {
         develop {
             applicationIdSuffix ".develop"
-            versionNameSuffix "-develop"
         }
         staging {
             applicationIdSuffix ".staging"
-            versionNameSuffix "-staging"
         }
         production {}
     }

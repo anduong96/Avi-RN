@@ -93,6 +93,7 @@ def releaseKeyAlias = project.hasProperty('releaseKeyAlias')
     ? project.property('releaseKeyAlias')
     : null
 
+apply from: new File(["node", "--print", "require.resolve('@sentry/react-native/package.json')"].execute().text.trim(), "../sentry.gradle")
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion

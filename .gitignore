@@ -120,3 +120,4 @@ amplifytools.xcconfig
 /node_modules/react-native-vector-icons/Fonts/FontAwesome6_Pro_Thin.ttf
 
 firebase_credentials.json
+.dist

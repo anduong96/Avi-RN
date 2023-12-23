@@ -408,30 +408,6 @@ lane :upload_to_sentry do |options|
     project_slug: ENV['SENTRY_PROJECT_SLUG'],
     include_sources: true,
   )
-
-  if options[:platform] === :ios
-    sentry_upload_dsym(
-      auth_token: ENV['SENTRY_AUTH_TOKEN'],
-      org_slug: ENV['SENTRY_ORG_SLUG'],
-      project_slug: ENV['SENTRY_PROJECT_SLUG'],
-      dsym_path: "ios/build/Avi.app.dSYM.zip"
-    )
-
-    sentry_upload_sourcemap(
-      auth_token: ENV['SENTRY_AUTH_TOKEN'],
-      org_slug: ENV['SENTRY_ORG_SLUG'],
-      project_slug: ENV['SENTRY_PROJECT_SLUG'],
-      version: version[:name],
-      build: version[:code],
-      app_identifier: app_identifier,
-      rewrite: true,
-      sourcemap: [
-        'ios/build/DerivedData/Build/Intermediates.noindex/ArchiveIntermediates/Avi/BuildProductsPath/Release-iphoneos/main.jsbundle'
-      ]
-    )
-  end
-
-
 end
 
 lane :codepush do |options|

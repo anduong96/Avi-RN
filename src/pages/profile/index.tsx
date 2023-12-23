@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ScrollView, View } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
 import { ENV } from '@app/env';
 import { withStyled } from '@app/lib/styled';
@@ -54,7 +55,9 @@ export const ProfilePage: React.FC = () => {
         <SpaceVertical size="medium" />
         <FeatureFlightProblems />
         <AccountConnectCard />
-        {ENV.IS_DEV && <DevCard />}
+        {(ENV.IS_DEV || DeviceInfo.getBundleId().includes('staging')) && (
+          <DevCard />
+        )}
         <SettingsCard />
         <SupportCard />
         <LegalCard />

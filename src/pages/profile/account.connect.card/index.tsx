@@ -9,11 +9,13 @@ import { IS_IOS } from '@app/lib/platform';
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
 import { Shadow } from '@app/components/shadow';
+import { castError } from '@app/lib/cast.error';
 import { useUser } from '@app/state/user/use.user';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { StatusIcon } from '@app/components/icon.status';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { signInWithApple } from '@app/lib/auth/apple.auth';
+import { useToast } from '@app/components/toast/use.toast';
 import { signInWithGoogle } from '@app/lib/auth/google.auth';
 
 const APPLE_PROVIDER_ID = 'apple.com' as const;
@@ -21,6 +23,7 @@ const GOOGLE_PROVIDER_ID = 'google.com' as const;
 
 export const AccountConnectCard: React.FC = () => {
   const user = useUser();
+  const toast = useToast();
   const [isLoading, setLoading] = React.useState(false);
 
   const handleSignin = async (providerID: string) => {
@@ -36,6 +39,11 @@ export const AccountConnectCard: React.FC = () => {
           break;
       }
     } catch (error) {
+      toast({
+        description: castError(error).message,
+        preset: 'error',
+        title: ' Error!',
+      });
       logger.error(format('Failed to sign in with provider=%s', providerID));
       logger.error(error);
     } finally {

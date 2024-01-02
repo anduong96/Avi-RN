@@ -374,8 +374,8 @@ lane :upload_to_sentry do |options|
   ensure_env_vars(
     env_vars: [
       "SENTRY_AUTH_TOKEN",
-      "SENTRY_ORG_SLUG",
-      "SENTRY_PROJECT_SLUG"
+      "SENTRY_ORG",
+      "SENTRY_PROJECT"
     ]
   )
 
@@ -391,8 +391,8 @@ lane :upload_to_sentry do |options|
 
   sentry_create_deploy(
     auth_token: ENV['SENTRY_AUTH_TOKEN'],
-    org_slug: ENV['SENTRY_ORG_SLUG'],
-    project_slug: ENV['SENTRY_PROJECT_SLUG'],
+    org_slug: ENV['SENTRY_ORG'],
+    project_slug: ENV['SENTRY_PROJECT'],
     version: version[:name],
     app_identifier: app_identifier,
     build: version[:code],
@@ -404,8 +404,8 @@ lane :upload_to_sentry do |options|
 
   sentry_upload_dif(
     auth_token: ENV['SENTRY_AUTH_TOKEN'],
-    org_slug: ENV['SENTRY_ORG_SLUG'],
-    project_slug: ENV['SENTRY_PROJECT_SLUG'],
+    org_slug: ENV['SENTRY_ORG'],
+    project_slug: ENV['SENTRY_PROJECT'],
     include_sources: true,
   )
 end
@@ -686,8 +686,8 @@ platform :ios do
 
     sentry_create_release(
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
-      org_slug: ENV['SENTRY_ORG_SLUG'],
-      project_slug: ENV['SENTRY_PROJECT_SLUG'],
+      org_slug: ENV['SENTRY_ORG'],
+      project_slug: ENV['SENTRY_PROJECT'],
       version: version[:name],
       app_identifier: lane_context["IOS_APP_ID"],
       finalize: true # Whether to finalize the release. If not provided or false, the release can be finalized using the sentry_finalize_release action

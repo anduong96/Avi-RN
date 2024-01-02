@@ -9281,6 +9281,11 @@ react-is@^17.0.1:
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-actions-shortcuts@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-actions-shortcuts/-/react-native-actions-shortcuts-1.0.1.tgz#7b41660a51ddb349ec0ca7a0f852773b3451dd98"
+  integrity sha512-oAVi15d4Y3YygsObRzPVcV6ZYPbPb25iHTeO4UYNwYVnW8VtpguOj6d4u6kZ7dh9c7fQvyCSf1gEyLwqydlYqg==
+
 react-native-bootsplash@^5.1.4:
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/react-native-bootsplash/-/react-native-bootsplash-5.1.4.tgz#48e064e59c2218e3c6c99cef34fceba37e265576"

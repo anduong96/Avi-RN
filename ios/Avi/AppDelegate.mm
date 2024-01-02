@@ -1,5 +1,6 @@
 #import "AppDelegate.h"
 #import "RNBootSplash.h"
+#import "RNShortcuts.h"
 #import <CodePush/CodePush.h>
 #import <Firebase.h>
 #import <React/RCTBundleURLProvider.h>

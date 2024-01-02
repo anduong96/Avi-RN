@@ -7,8 +7,9 @@ import Shortcuts from 'react-native-actions-shortcuts';
 import type { NativeModule } from 'react-native';
 
 import * as Sentry from '@sentry/react-native';
+import { useNavigation } from '@react-navigation/native';
 
-import { useRootNavigation } from '@app/navigation/use.root.navigation';
+import type { MainStack } from '@app/navigation';
 
 import { castError } from '../cast.error';
 import { useLogger } from '../logger/use.logger';
@@ -23,21 +24,20 @@ const ShortcutsEmitter = new NativeEventEmitter(ShortCutsModule);
 const QUICK_ACTIONS: ShortcutItem[] = [
   {
     iconName: 'ic_flight_search',
-    subtitle: 'Search for flights',
     title: 'Search Flights',
     type: Action.SEARCH_FLIGHTS,
   },
   {
     iconName: 'ic_feedback',
-    subtitle: 'Provide feedback',
-    title: 'Provide Feedback',
+    subtitle: 'Let us know!',
+    title: 'Having problem?',
     type: Action.FEEDBACK,
   },
 ];
 
 export function useQuickActionsSync() {
   const logger = useLogger('useQuickActionsSync');
-  const navigation = useRootNavigation();
+  const navigation = useNavigation<MainStack>();
 
   const setShortcuts = React.useCallback(async () => {
     try {
@@ -57,14 +57,25 @@ export function useQuickActionsSync() {
     (item?: ShortcutItem | null) => {
       logger.debug('Quick action=%j', item);
 
-      if (!item) {
+      if (!item || !navigation) {
         return;
       }
 
-      if (item.type === Action.SEARCH_FLIGHTS) {
-        navigation.push('FlightSearch');
-      } else if (item.type === Action.FEEDBACK) {
-        navigation.push('Feedback');
+      try {
+        if (item.type === Action.SEARCH_FLIGHTS) {
+          logger.debug('Opening flight search');
+          navigation.navigate('FlightSearch');
+        } else if (item.type === Action.FEEDBACK) {
+          logger.debug('Opening feedback');
+          navigation.navigate('Feedback');
+        }
+      } catch (error) {
+        logger.error(
+          'Failed to handle quick action: %s',
+          castError(error).message,
+        );
+
+        Sentry.captureException(error);
       }
     },
     [logger, navigation],

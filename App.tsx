@@ -19,7 +19,6 @@ import { AppNavigator } from '@app/navigation';
 import { APP_PORTAL_HOST } from '@app/lib/portal';
 import { AppServerApolloClient } from '@app/apollo/app.server';
 import { ForceUpdateShield } from '@app/components/force.update';
-import { BackgroundSync } from '@app/components/background.sync';
 import { PushNotificationSheet } from '@app/components/sheet.push.notification';
 
 const queryClient = new QueryClient();
@@ -35,7 +34,6 @@ function App() {
               <PortalHost name={APP_PORTAL_HOST} />
               <GestureHandlerRootView style={{ flex: 1 }}>
                 <BottomSheetModalProvider>
-                  <BackgroundSync />
                   <AppNavigator />
                   <PushNotificationSheet />
                 </BottomSheetModalProvider>

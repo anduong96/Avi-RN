@@ -110,8 +110,8 @@ android {
         applicationId "com.avitech.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
-        versionName "1.0.2"
+        versionCode 7
+        versionName "1.0.3"
         resConfigs "en", "US"
         resValue "string", "build_config_package", "com.avitech.app"
     }

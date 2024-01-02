@@ -30,6 +30,7 @@ import { useLogger } from '@app/lib/logger/use.logger';
 import { MarketingPage } from '@app/pages/[marketing]';
 import { useBootApp } from '@app/lib/hooks/use.boot.app';
 import { FlightSearchPage } from '@app/pages/flight.search';
+import { BackgroundSync } from '@app/components/background.sync';
 import { ArchivedFlightsPage } from '@app/pages/flights.archived';
 
 import type { FlightStackParams } from './flight.stack';
@@ -100,6 +101,7 @@ export const AppNavigator: React.FC = () => {
       onStateChange={handleStateChange}
       ref={navigationRef}
     >
+      <BackgroundSync />
       <Stack.Navigator
         id={ROOT_NAVIGATOR_ID}
         initialRouteName="Home"

@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { NavigationStack } from '@app/types/navigation';
 
 import { FlightPage } from '@app/pages/flight';
+import { FlightTSAPage } from '@app/pages/flight.tsa';
 import { FlightCoursePage } from '@app/pages/flight.course';
 import { FlightRatingsPage } from '@app/pages/flight.ratings';
 
@@ -17,6 +18,9 @@ export type FlightStackParams = {
     isFromSearch?: boolean;
   };
   Ratings: {
+    flightID: string;
+  };
+  TSA: {
     flightID: string;
   };
 };
@@ -36,6 +40,7 @@ export const FlightStack: React.FC = () => {
       <Stack.Screen component={FlightPage} name="Flight" />
       <Stack.Screen component={FlightCoursePage} name="Course" />
       <Stack.Screen component={FlightRatingsPage} name="Ratings" />
+      <Stack.Screen component={FlightTSAPage} name="TSA" />
     </Stack.Navigator>
   );
 };

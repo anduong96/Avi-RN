@@ -32,6 +32,7 @@ export function useUserSync() {
         errorPolicy: 'ignore',
         query: UserActiveFlightsDocument,
       });
+
       AppServerApolloClient.query({
         errorPolicy: 'ignore',
         query: UserArchivedFlightsDocument,

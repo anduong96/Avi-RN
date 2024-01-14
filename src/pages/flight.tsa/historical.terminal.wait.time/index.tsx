@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ScrollView } from 'react-native';
 
+import moment from 'moment';
 import { inRange, isEmpty } from 'lodash';
 
 import { logger } from '@app/lib/logger';
@@ -10,11 +11,11 @@ import { SpaceVertical } from '@app/components/space.vertical';
 import { getAdjustedDepartureTime } from '@app/lib/flight/get.adjusted.flight.time';
 
 import { Bar } from './bar';
-import { useFlight } from '../context';
-import { SectionTile, TileLabel } from '../styles';
-import { useAirportTsaWait } from '../hooks/use.airport.tsa.wait';
+import { useFlight } from '../../flight/context';
+import { SectionTile, TileLabel } from '../../flight/styles';
+import { useAirportTsaWait } from '../../flight/hooks/use.airport.tsa.wait';
 
-export const TsaCard: React.FC = () => {
+export const HistoricalTerminalWaitTimeCard: React.FC = () => {
   const theme = useTheme();
   const waitTimes = useAirportTsaWait();
   const content = React.useRef<ScrollView>(null);
@@ -37,7 +38,7 @@ export const TsaCard: React.FC = () => {
     logger.debug('TsaCard: indexToShow=%s', indexToShow);
     content.current?.scrollTo({
       animated: false,
-      x: indexToShow * 40 + theme.space.tiny * indexToShow,
+      x: indexToShow * 40 + theme.space.tiny * 2 * indexToShow,
     });
   }, [minShowingHour, theme, waitTimes]);
 
@@ -47,21 +48,23 @@ export const TsaCard: React.FC = () => {
 
   return (
     <SectionTile paddingHorizontal={0}>
-      <TileLabel>Typical TSA Wait Time</TileLabel>
-      <SpaceVertical size="large" />
+      <Group paddingHorizontal={'medium'}>
+        <TileLabel>Historical Wait Time</TileLabel>
+      </Group>
       <SpaceVertical size="small" />
       <ScrollView
         horizontal
         ref={content}
         showsHorizontalScrollIndicator={false}
       >
-        <Group direction="row" gap="tiny" paddingHorizontal={'medium'}>
+        <Group direction="row" gap="small" paddingHorizontal={'medium'}>
           {displayTimes.map((entry) => (
             <Bar
               columnHeight={(entry.maxWaitMinute / highestMaxWaitMinute) * 100}
               isActive={inRange(entry.hour, minShowingHour, maxShowingHour)}
               key={entry.hour}
-              value={entry}
+              label={moment().set('hour', entry.hour).format('h A')}
+              value={entry.hour}
             />
           ))}
         </Group>

@@ -65,44 +65,47 @@ export const AirportWeatherCard: React.FC<Props> = ({ type }) => {
     <SectionTile gap={'large'} style={{ minHeight: 100 }}>
       <LoadingOverlay isLoading={weather.loading} />
       <TileLabel>{startCase(type)} weather</TileLabel>
-      <Group width={'100%'}>
+      <Group direction="row" gap="large" verticalAlign="center">
         <Group
           direction="row"
-          gap="large"
+          flexBasis={1}
+          flexGrow={1}
           horizontalAlign="center"
-          paddingVertical={'medium'}
-          verticalAlign="center"
+          verticalAlign="top"
         >
+          <Typography isBold type="h0">
+            {temperatureConverter(temperature).value}
+          </Typography>
+          <Typography type="h2">
+            {temperatureConverter(temperature).unit}
+          </Typography>
+        </Group>
+        <Group flexBasis={1} flexGrow={1} gap="tiny" horizontalAlign="center">
           <FastImage
             fallback={require('@app/assets/airline.png')}
             resizeMode="contain"
             source={{ uri: airportWeather.iconURL }}
             style={{ aspectRatio: 1, height: 64 }}
           />
-          <Group direction="row" horizontalAlign="left" verticalAlign="top">
-            <Typography isBold type="h0">
-              {temperatureConverter(temperature).value}
-            </Typography>
-            <Typography type="h2">
-              {temperatureConverter(temperature).unit}
-            </Typography>
-          </Group>
+          <Typography color="secondary" type="tiny">
+            {startCase(airportWeather.status)}
+          </Typography>
         </Group>
-        <Group>
-          <Group direction="row" gap="small" marginTop={'medium'}>
-            <InnerTile flexBasis={1} flexGrow={1}>
-              <InnerTileLabel>Wind Speed</InnerTileLabel>
-              <InnerTileValue>
-                {windSpeed ? windSpeedConverter(windSpeed).label : 'None'}
-              </InnerTileValue>
-            </InnerTile>
-            <InnerTile flexBasis={1} flexGrow={1}>
-              <InnerTileLabel>Rain</InnerTileLabel>
-              <InnerTileValue>
-                {rainAmount ? rainConverter(rainAmount).label : 'None'}
-              </InnerTileValue>
-            </InnerTile>
-          </Group>
+      </Group>
+      <Group>
+        <Group direction="row" gap="small" marginTop={'medium'}>
+          <InnerTile flexBasis={1} flexGrow={1}>
+            <InnerTileLabel>Wind Speed</InnerTileLabel>
+            <InnerTileValue>
+              {windSpeed ? windSpeedConverter(windSpeed).label : 'None'}
+            </InnerTileValue>
+          </InnerTile>
+          <InnerTile flexBasis={1} flexGrow={1}>
+            <InnerTileLabel>Rain</InnerTileLabel>
+            <InnerTileValue>
+              {rainAmount ? rainConverter(rainAmount).label : 'None'}
+            </InnerTileValue>
+          </InnerTile>
         </Group>
       </Group>
     </SectionTile>

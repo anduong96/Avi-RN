@@ -23,8 +23,8 @@ import { HorizontalDivider } from '@app/components/divider.horizontal';
 import { BlurredBackground } from '@app/components/blurred/background';
 
 import { Meta } from './meta';
-import { TsaCard } from './tsa';
 import { Header } from './header';
+import { TsaCard } from './tsa.card';
 import { TravelMap } from './travel.map';
 import { ProgressBar } from './progress.bar';
 import { AirportCard } from './airport.card';
@@ -38,6 +38,7 @@ import { PromptnessCompact } from './promptness.compact';
 import { PlaneLocationCard } from './plane.location.card';
 import { TimezoneChangeCard } from './timezone.change.card';
 import { AirportWeatherCard } from './airport.weather.card';
+import { useSectionColor } from './hooks/use.section.color';
 import { SaveFlightButton } from './actions/save.flight.btn';
 import { AlertFlightButton } from './actions/alert.flight.btn';
 import { useFlightDuration } from './hooks/use.flight.duration';
@@ -50,6 +51,7 @@ export const FlightContent: React.FC = () => {
   const flightID = useFlightID();
   const flightDuration = useFlightDuration();
   const flightDistance = useFlightDistance();
+  const getSectionColor = useSectionColor();
   const container = React.useRef<ScrollView>(null);
   const scrollPositionY = useSharedValue(0);
   const metaSection = React.useRef<View>(null);
@@ -63,6 +65,19 @@ export const FlightContent: React.FC = () => {
   const metaSectionHeight = React.useRef(0);
   const metaMarginHorizontal = useSharedValue(theme.space.medium);
   const metaBorderRadius = useSharedValue(theme.borderRadius);
+  const isFlightCompleted = flight.progressPercent === 1;
+  const [isDepartureCollapsed, setIsDepartureCollapsed] = React.useState(
+    getSectionColor(FlightSectionEnum.DEPARTURE) === theme.pallette.active &&
+      !isFlightCompleted,
+  );
+  const [isArrivalCollapsed, setIsArrivalCollapsed] = React.useState(
+    getSectionColor(FlightSectionEnum.ARRIVAL) === theme.pallette.active &&
+      !isFlightCompleted,
+  );
+  const [isInFlightCollapsed, setIsInFlightCollapsed] = React.useState(
+    getSectionColor(FlightSectionEnum.IN_FLIGHT) === theme.pallette.active &&
+      !isFlightCompleted,
+  );
 
   const scrollToY = (y: number) => {
     logger.debug('Scrolling to y=%s', y);
@@ -206,7 +221,11 @@ export const FlightContent: React.FC = () => {
               ref={departureSection}
             >
               <Card
+                collapsible
                 gap="medium"
+                isCollapsed={isDepartureCollapsed}
+                onCollapseState={setIsDepartureCollapsed}
+                padding={'small'}
                 title={<SectionHeader section={FlightSectionEnum.DEPARTURE} />}
                 type="transparent"
               >
@@ -246,7 +265,11 @@ export const FlightContent: React.FC = () => {
               ref={inFlightSection}
             >
               <Card
+                collapsible
                 gap="medium"
+                isCollapsed={isInFlightCollapsed}
+                onCollapseState={setIsInFlightCollapsed}
+                padding={'small'}
                 title={<SectionHeader section={FlightSectionEnum.IN_FLIGHT} />}
                 type="transparent"
               >
@@ -277,7 +300,11 @@ export const FlightContent: React.FC = () => {
               ref={arrivalSection}
             >
               <Card
+                collapsible
                 gap="medium"
+                isCollapsed={isArrivalCollapsed}
+                onCollapseState={setIsArrivalCollapsed}
+                padding={'small'}
                 title={<SectionHeader section={FlightSectionEnum.ARRIVAL} />}
                 type="transparent"
               >

@@ -32,3 +32,22 @@ query AircraftPosition($aircraftID: Float!) {
     updatedAt
   }
 }
+
+query AircraftSeatMeta($tailNumber: String!) {
+  aircraftSeatMeta(tailNumber: $tailNumber) {
+    id
+    aircraftTailNumber
+    name
+    pitchInches
+    widthInches
+  }
+}
+
+query AircraftAmenities($tailNumber: String!) {
+  aircraftAmenities(tailNumber: $tailNumber) {
+    id
+    aircraftTailNumber
+    type
+    descriptionMarkdown
+  }
+}

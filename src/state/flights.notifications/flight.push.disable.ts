@@ -12,5 +12,5 @@ export function disableFlightPush(flightID: string) {
   current.pushEnabled = false;
   state.setFlightPush(flightID, current);
   tryNice(() => messaging().unsubscribeFromTopic(flightID));
-  logger.warn(format('Disabled push notifications for flight[%s]', flightID));
+  logger.debug(format('Disabled push notifications for flight[%s]', flightID));
 }

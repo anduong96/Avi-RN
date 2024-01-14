@@ -12,5 +12,5 @@ export function enableFlightPush(flightID: string) {
   current.pushEnabled = true;
   state.setFlightPush(flightID, current);
   tryNice(() => messaging().subscribeToTopic(flightID));
-  logger.warn(format('Enabled push notifications for flight[%s]', flightID));
+  logger.debug(format('Enabled push notifications for flight[%s]', flightID));
 }

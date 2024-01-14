@@ -54,50 +54,61 @@ export const GateTimeCard: React.FC<Props> = ({ type }) => {
   return (
     <SectionTile>
       <TileLabel>Gate {title} Time</TileLabel>
-      <Group
-        direction="row"
-        gap={'medium'}
-        paddingVertical={'medium'}
-        verticalAlign="center"
-      >
-        <Icon color={color} size={theme.typography.presets.h1.fontSize} />
-        <TileValue color={color} isBold type="h0">
-          {estimatedTime.format('LT')}
-        </TileValue>
-        {hasDayDiff && (
-          <Typography
-            color={color}
-            isBold
-            style={{
-              position: 'absolute',
-              right: -theme.typography.presets.h1.fontSize / 2,
-              top: -theme.typography.presets.h1.fontSize / 2,
-            }}
-            type="h1"
-          >
-            {flightData.destination.dayDiff}
+      <Group direction="column">
+        <Group
+          direction="row"
+          gap={'medium'}
+          paddingVertical={'small'}
+          verticalAlign="center"
+        >
+          <Group>
+            <TileValue color={color} isBold type="h0">
+              {estimatedTime.format('LT')}
+            </TileValue>
+            {hasDayDiff && (
+              <Typography
+                color={color}
+                isBold
+                style={{
+                  position: 'absolute',
+                  right: -theme.typography.presets.h1.fontSize,
+                  top: -theme.typography.presets.h1.fontSize / 2,
+                }}
+                type="h1"
+              >
+                {flightData.destination.dayDiff}
+              </Typography>
+            )}
+          </Group>
+        </Group>
+        <Group direction="row" gap={'small'} verticalAlign="center">
+          <Icon color={color} size={theme.typography.presets.h4.fontSize} />
+          <Typography color={color} isBoldest type="p2">
+            {estimatedTime.fromNow()}
           </Typography>
-        )}
+        </Group>
       </Group>
       {status !== 'on-time' && (
-        <Group direction="row" gap={'small'}>
-          <InnerTile flexBasis={1} flexGrow={1}>
-            <InnerTileLabel>Original Time</InnerTileLabel>
-            <InnerTileValue>
-              {moment(scheduledTime).utcOffset(utcOffset).format('LT')}
-            </InnerTileValue>
-          </InnerTile>
-          <InnerTile flexBasis={1} flexGrow={1}>
-            <InnerTileLabel>Difference</InnerTileLabel>
-            <InnerTileValue>
-              {moment(scheduledTime).isBefore(estimatedTime) ? '+' : '-'}
-              {` `}
-              {formatMillisToDuration(
-                Math.abs(moment(scheduledTime).diff(estimatedTime)),
-              )}
-            </InnerTileValue>
-          </InnerTile>
-        </Group>
+        <>
+          <Group direction="row" gap={'small'}>
+            <InnerTile flexBasis={1} flexGrow={1}>
+              <InnerTileLabel>Original Time</InnerTileLabel>
+              <InnerTileValue>
+                {moment(scheduledTime).utcOffset(utcOffset).format('LT')}
+              </InnerTileValue>
+            </InnerTile>
+            <InnerTile flexBasis={1} flexGrow={1}>
+              <InnerTileLabel>Difference</InnerTileLabel>
+              <InnerTileValue>
+                {moment(scheduledTime).isBefore(estimatedTime) ? '+' : '-'}
+                {` `}
+                {formatMillisToDuration(
+                  Math.abs(moment(scheduledTime).diff(estimatedTime)),
+                )}
+              </InnerTileValue>
+            </InnerTile>
+          </Group>
+        </>
       )}
     </SectionTile>
   );

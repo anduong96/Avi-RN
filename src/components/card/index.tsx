@@ -1,28 +1,24 @@
 import * as React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useDerivedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import { View } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 import type { StyleProp, ViewStyle } from 'react-native';
 
 import { isNil } from 'lodash';
+import tinycolor from 'tinycolor2';
 
 import type { SpaceKeys } from '@app/themes';
 import type { StringOrElement } from '@app/types/string.or.component';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { useTheme } from '@app/lib/hooks/use.theme';
 import { getSpaceValue } from '@app/lib/get.space.value';
 
 import { Typography } from '../typography';
 import { Collapsible } from '../collapsible';
-import { FaIcon } from '../icons.fontawesome';
 import { LoadingOverlay } from '../loading.overlay';
 import { StringRenderer } from '../string.renderer';
+import { AnimatedTouchable } from '../animated.touchable';
 
 type Props = React.PropsWithChildren<{
   collapsible?: boolean;
@@ -62,16 +58,6 @@ export const Card: React.FC<Props> = ({
   title,
   type = 'filled',
 }) => {
-  const theme = useTheme();
-  const isCollapsedDerived = useDerivedValue(() => isCollapsed, [isCollapsed]);
-  const collapseBtnAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        rotate: withTiming(isCollapsedDerived.value ? '0deg' : '180deg'),
-      },
-    ],
-  }));
-
   return (
     <Container>
       {!isNil(title) && (
@@ -81,22 +67,24 @@ export const Card: React.FC<Props> = ({
               {title}
             </StringRenderer>
           </Meta>
-          <Actions></Actions>
         </Header>
       )}
       {collapsible && (
         <CollapsibleBtn
+          isCollapsed={isCollapsed}
           onPress={() => {
             vibrate('effectClick');
             onCollapseState?.(!isCollapsed);
           }}
+          padding={padding}
         >
-          <Animated.View style={collapseBtnAnimatedStyle}>
-            <FaIcon
-              color={theme.pallette.grey[400]}
-              name="circle-chevron-down"
-            />
-          </Animated.View>
+          <Typography
+            color={isCollapsed ? 'active' : 'secondary'}
+            isBold
+            type="small"
+          >
+            Tap to {isCollapsed ? 'Expand' : 'Minimize'}
+          </Typography>
         </CollapsibleBtn>
       )}
       <Collapsible isCollapsed={isCollapsed}>
@@ -194,23 +182,34 @@ const Content = withStyled<
   },
 ]);
 
-const Meta = withStyled(View, () => [{}]);
-
-const Actions = withStyled(View, (theme) => [
+const Meta = withStyled(View, () => [
   {
-    flexDirection: 'row',
-    gap: theme.space.medium,
+    flexGrow: 1,
   },
 ]);
 
-const CollapsibleBtn = withStyled(
-  Animated.createAnimatedComponent(TouchableOpacity),
-  (theme) => [
+const CollapsibleBtn = withStyled<
+  Pick<Props, 'isCollapsed' | 'padding'>,
+  typeof AnimatedTouchable
+>(
+  AnimatedTouchable,
+  (theme, props) => [
     theme.presets.centered,
     {
-      backgroundColor: theme.pallette.card,
+      backgroundColor: tinycolor(theme.pallette.card)
+        .setAlpha(0.5)
+        .toRgbString(),
+      borderColor: theme.pallette.card,
       borderRadius: theme.borderRadius,
+      borderWidth: theme.borderWidth,
+      margin: theme.space.medium,
       padding: theme.space.medium,
+    },
+    props.isCollapsed && {
+      borderColor: tinycolor(theme.pallette.active).setAlpha(0.2).toRgbString(),
+    },
+    !isNil(props.padding) && {
+      margin: getSpaceValue(props.padding, theme),
     },
   ],
   {

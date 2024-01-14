@@ -35,6 +35,23 @@ export type Aircraft = {
   updatedAt: Scalars['DateTimeISO']['output'];
 };
 
+export type AircraftAmenity = {
+  __typename?: 'AircraftAmenity';
+  aircraftTailNumber: Scalars['String']['output'];
+  descriptionMarkdown: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  type: AircraftAmenityType;
+};
+
+export const AircraftAmenityType = {
+  AC_POWER: 'AC_POWER',
+  AUDIO: 'AUDIO',
+  FOOD: 'FOOD',
+  INTERNET: 'INTERNET',
+  VIDEO: 'VIDEO'
+} as const;
+
+export type AircraftAmenityType = typeof AircraftAmenityType[keyof typeof AircraftAmenityType];
 export type AircraftPosition = {
   __typename?: 'AircraftPosition';
   aircraftID: Scalars['Int']['output'];
@@ -51,6 +68,15 @@ export type AircraftPosition = {
   longitude?: Maybe<Scalars['Float']['output']>;
   originIata: Scalars['String']['output'];
   updatedAt: Scalars['DateTimeISO']['output'];
+};
+
+export type AircraftSeatMeta = {
+  __typename?: 'AircraftSeatMeta';
+  aircraftTailNumber: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  pitchInches: Scalars['Int']['output'];
+  widthInches: Scalars['Int']['output'];
 };
 
 export type Airline = {
@@ -101,6 +127,13 @@ export type AirportTsaCheckPoints = {
   __typename?: 'AirportTsaCheckPoints';
   checkPointName: Scalars['String']['output'];
   hours: Array<AirportTsaCheckPointHour>;
+};
+
+export type AirportTsaEstimatedWaitTime = {
+  __typename?: 'AirportTsaEstimatedWaitTime';
+  airportIata: Scalars['String']['output'];
+  estimatedWaitMinutes: Scalars['Float']['output'];
+  terminal: Scalars['String']['output'];
 };
 
 export type AirportTsaWaitTime = {
@@ -191,7 +224,7 @@ export type Flight = {
   destinationIata: Scalars['String']['output'];
   destinationTerminal?: Maybe<Scalars['String']['output']>;
   destinationUtcHourOffset: Scalars['Int']['output'];
-  durationMs: Scalars['Float']['output'];
+  durationMs: Scalars['Int']['output'];
   estimatedGateArrival: Scalars['DateTimeISO']['output'];
   estimatedGateDeparture: Scalars['DateTimeISO']['output'];
   flightDate: Scalars['Int']['output'];
@@ -203,9 +236,10 @@ export type Flight = {
   originIata: Scalars['String']['output'];
   originTerminal?: Maybe<Scalars['String']['output']>;
   originUtcHourOffset: Scalars['Int']['output'];
-  progressPercent: Scalars['Float']['output'];
+  progressPercent: Scalars['Int']['output'];
   reconAttempt?: Maybe<Scalars['Int']['output']>;
-  remainingDurationMs: Scalars['Float']['output'];
+  /** Time in milliseconds until the flight departs */
+  remainingDurationMs: Scalars['Int']['output'];
   scheduledGateArrival: Scalars['DateTimeISO']['output'];
   scheduledGateDeparture: Scalars['DateTimeISO']['output'];
   status: FlightStatus;
@@ -324,11 +358,17 @@ export type MutationUpdateUserPreferenceArgs = {
 export type Query = {
   __typename?: 'Query';
   aircraft?: Maybe<Aircraft>;
+  aircraftAmenities: Array<AircraftAmenity>;
   aircraftPosition?: Maybe<AircraftPosition>;
+  aircraftSeatMeta: Array<AircraftSeatMeta>;
   airline: Airline;
   airlines: Array<Airline>;
   airport: Airport;
+  /** TSA check points status */
   airportTsaCheckpointsStatus?: Maybe<Array<AirportTsaCheckPointTerminal>>;
+  /** Current TSA estimated wait time */
+  airportTsaCurrentWaitTime?: Maybe<Array<AirportTsaEstimatedWaitTime>>;
+  /** History TSA averaged wait time */
   airportTsaWaitTime?: Maybe<Array<AirportTsaWaitTime>>;
   airportWeather: AirportWeather;
   airportWeatherDay: Array<AirportWeather>;
@@ -356,8 +396,18 @@ export type QueryAircraftArgs = {
 };
 
 
+export type QueryAircraftAmenitiesArgs = {
+  tailNumber: Scalars['String']['input'];
+};
+
+
 export type QueryAircraftPositionArgs = {
   aircraftID: Scalars['Float']['input'];
+};
+
+
+export type QueryAircraftSeatMetaArgs = {
+  tailNumber: Scalars['String']['input'];
 };
 
 
@@ -374,6 +424,11 @@ export type QueryAirportArgs = {
 export type QueryAirportTsaCheckpointsStatusArgs = {
   airportIata: Scalars['String']['input'];
   dayOfWeek: Scalars['Float']['input'];
+};
+
+
+export type QueryAirportTsaCurrentWaitTimeArgs = {
+  airportIata: Scalars['String']['input'];
 };
 
 
@@ -493,6 +548,20 @@ export type AircraftPositionQueryVariables = Exact<{
 
 export type AircraftPositionQuery = { __typename?: 'Query', aircraftPosition?: { __typename?: 'AircraftPosition', id: number, aircraftID: number, latitude?: number | null, longitude?: number | null, altitude?: number | null, flightYear: number, flightMonth: number, flightDate: number, flightNumber: string, airlineIata: string, originIata: string, destinationIata: string, createdAt: any, updatedAt: any } | null };
 
+export type AircraftSeatMetaQueryVariables = Exact<{
+  tailNumber: Scalars['String']['input'];
+}>;
+
+
+export type AircraftSeatMetaQuery = { __typename?: 'Query', aircraftSeatMeta: Array<{ __typename?: 'AircraftSeatMeta', id: number, aircraftTailNumber: string, name: string, pitchInches: number, widthInches: number }> };
+
+export type AircraftAmenitiesQueryVariables = Exact<{
+  tailNumber: Scalars['String']['input'];
+}>;
+
+
+export type AircraftAmenitiesQuery = { __typename?: 'Query', aircraftAmenities: Array<{ __typename?: 'AircraftAmenity', id: number, aircraftTailNumber: string, type: AircraftAmenityType, descriptionMarkdown: string }> };
+
 export type AirlinesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -526,6 +595,13 @@ export type AirportTsaWaitTimeQueryVariables = Exact<{
 
 
 export type AirportTsaWaitTimeQuery = { __typename?: 'Query', airportTsaWaitTime?: Array<{ __typename?: 'AirportTsaWaitTime', dayOfWeek: number, hour: number, maxWaitMinute: number }> | null };
+
+export type AirportTsaCurrentWaitTimeQueryVariables = Exact<{
+  airportIata: Scalars['String']['input'];
+}>;
+
+
+export type AirportTsaCurrentWaitTimeQuery = { __typename?: 'Query', airportTsaCurrentWaitTime?: Array<{ __typename?: 'AirportTsaEstimatedWaitTime', airportIata: string, estimatedWaitMinutes: number, terminal: string }> | null };
 
 export type AirportWeatherQueryVariables = Exact<{
   hour: Scalars['Int']['input'];
@@ -852,6 +928,99 @@ export type AircraftPositionQueryResult = Apollo.QueryResult<AircraftPositionQue
 export function refetchAircraftPositionQuery(variables: AircraftPositionQueryVariables) {
       return { query: AircraftPositionDocument, variables: variables }
     }
+export const AircraftSeatMetaDocument = gql`
+    query AircraftSeatMeta($tailNumber: String!) {
+  aircraftSeatMeta(tailNumber: $tailNumber) {
+    id
+    aircraftTailNumber
+    name
+    pitchInches
+    widthInches
+  }
+}
+    `;
+
+/**
+ * __useAircraftSeatMetaQuery__
+ *
+ * To run a query within a React component, call `useAircraftSeatMetaQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAircraftSeatMetaQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAircraftSeatMetaQuery({
+ *   variables: {
+ *      tailNumber: // value for 'tailNumber'
+ *   },
+ * });
+ */
+export function useAircraftSeatMetaQuery(baseOptions: Apollo.QueryHookOptions<AircraftSeatMetaQuery, AircraftSeatMetaQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AircraftSeatMetaQuery, AircraftSeatMetaQueryVariables>(AircraftSeatMetaDocument, options);
+      }
+export function useAircraftSeatMetaLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AircraftSeatMetaQuery, AircraftSeatMetaQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AircraftSeatMetaQuery, AircraftSeatMetaQueryVariables>(AircraftSeatMetaDocument, options);
+        }
+export function useAircraftSeatMetaSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AircraftSeatMetaQuery, AircraftSeatMetaQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AircraftSeatMetaQuery, AircraftSeatMetaQueryVariables>(AircraftSeatMetaDocument, options);
+        }
+export type AircraftSeatMetaQueryHookResult = ReturnType<typeof useAircraftSeatMetaQuery>;
+export type AircraftSeatMetaLazyQueryHookResult = ReturnType<typeof useAircraftSeatMetaLazyQuery>;
+export type AircraftSeatMetaSuspenseQueryHookResult = ReturnType<typeof useAircraftSeatMetaSuspenseQuery>;
+export type AircraftSeatMetaQueryResult = Apollo.QueryResult<AircraftSeatMetaQuery, AircraftSeatMetaQueryVariables>;
+export function refetchAircraftSeatMetaQuery(variables: AircraftSeatMetaQueryVariables) {
+      return { query: AircraftSeatMetaDocument, variables: variables }
+    }
+export const AircraftAmenitiesDocument = gql`
+    query AircraftAmenities($tailNumber: String!) {
+  aircraftAmenities(tailNumber: $tailNumber) {
+    id
+    aircraftTailNumber
+    type
+    descriptionMarkdown
+  }
+}
+    `;
+
+/**
+ * __useAircraftAmenitiesQuery__
+ *
+ * To run a query within a React component, call `useAircraftAmenitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAircraftAmenitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAircraftAmenitiesQuery({
+ *   variables: {
+ *      tailNumber: // value for 'tailNumber'
+ *   },
+ * });
+ */
+export function useAircraftAmenitiesQuery(baseOptions: Apollo.QueryHookOptions<AircraftAmenitiesQuery, AircraftAmenitiesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AircraftAmenitiesQuery, AircraftAmenitiesQueryVariables>(AircraftAmenitiesDocument, options);
+      }
+export function useAircraftAmenitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AircraftAmenitiesQuery, AircraftAmenitiesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AircraftAmenitiesQuery, AircraftAmenitiesQueryVariables>(AircraftAmenitiesDocument, options);
+        }
+export function useAircraftAmenitiesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AircraftAmenitiesQuery, AircraftAmenitiesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AircraftAmenitiesQuery, AircraftAmenitiesQueryVariables>(AircraftAmenitiesDocument, options);
+        }
+export type AircraftAmenitiesQueryHookResult = ReturnType<typeof useAircraftAmenitiesQuery>;
+export type AircraftAmenitiesLazyQueryHookResult = ReturnType<typeof useAircraftAmenitiesLazyQuery>;
+export type AircraftAmenitiesSuspenseQueryHookResult = ReturnType<typeof useAircraftAmenitiesSuspenseQuery>;
+export type AircraftAmenitiesQueryResult = Apollo.QueryResult<AircraftAmenitiesQuery, AircraftAmenitiesQueryVariables>;
+export function refetchAircraftAmenitiesQuery(variables: AircraftAmenitiesQueryVariables) {
+      return { query: AircraftAmenitiesDocument, variables: variables }
+    }
 export const AirlinesDocument = gql`
     query Airlines {
   airlines {
@@ -1094,6 +1263,51 @@ export type AirportTsaWaitTimeSuspenseQueryHookResult = ReturnType<typeof useAir
 export type AirportTsaWaitTimeQueryResult = Apollo.QueryResult<AirportTsaWaitTimeQuery, AirportTsaWaitTimeQueryVariables>;
 export function refetchAirportTsaWaitTimeQuery(variables: AirportTsaWaitTimeQueryVariables) {
       return { query: AirportTsaWaitTimeDocument, variables: variables }
+    }
+export const AirportTsaCurrentWaitTimeDocument = gql`
+    query AirportTsaCurrentWaitTime($airportIata: String!) {
+  airportTsaCurrentWaitTime(airportIata: $airportIata) {
+    airportIata
+    estimatedWaitMinutes
+    terminal
+  }
+}
+    `;
+
+/**
+ * __useAirportTsaCurrentWaitTimeQuery__
+ *
+ * To run a query within a React component, call `useAirportTsaCurrentWaitTimeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAirportTsaCurrentWaitTimeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAirportTsaCurrentWaitTimeQuery({
+ *   variables: {
+ *      airportIata: // value for 'airportIata'
+ *   },
+ * });
+ */
+export function useAirportTsaCurrentWaitTimeQuery(baseOptions: Apollo.QueryHookOptions<AirportTsaCurrentWaitTimeQuery, AirportTsaCurrentWaitTimeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AirportTsaCurrentWaitTimeQuery, AirportTsaCurrentWaitTimeQueryVariables>(AirportTsaCurrentWaitTimeDocument, options);
+      }
+export function useAirportTsaCurrentWaitTimeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AirportTsaCurrentWaitTimeQuery, AirportTsaCurrentWaitTimeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AirportTsaCurrentWaitTimeQuery, AirportTsaCurrentWaitTimeQueryVariables>(AirportTsaCurrentWaitTimeDocument, options);
+        }
+export function useAirportTsaCurrentWaitTimeSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<AirportTsaCurrentWaitTimeQuery, AirportTsaCurrentWaitTimeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AirportTsaCurrentWaitTimeQuery, AirportTsaCurrentWaitTimeQueryVariables>(AirportTsaCurrentWaitTimeDocument, options);
+        }
+export type AirportTsaCurrentWaitTimeQueryHookResult = ReturnType<typeof useAirportTsaCurrentWaitTimeQuery>;
+export type AirportTsaCurrentWaitTimeLazyQueryHookResult = ReturnType<typeof useAirportTsaCurrentWaitTimeLazyQuery>;
+export type AirportTsaCurrentWaitTimeSuspenseQueryHookResult = ReturnType<typeof useAirportTsaCurrentWaitTimeSuspenseQuery>;
+export type AirportTsaCurrentWaitTimeQueryResult = Apollo.QueryResult<AirportTsaCurrentWaitTimeQuery, AirportTsaCurrentWaitTimeQueryVariables>;
+export function refetchAirportTsaCurrentWaitTimeQuery(variables: AirportTsaCurrentWaitTimeQueryVariables) {
+      return { query: AirportTsaCurrentWaitTimeDocument, variables: variables }
     }
 export const AirportWeatherDocument = gql`
     query AirportWeather($hour: Int!, $date: Int!, $month: Int!, $year: Int!, $airportIata: String!) {

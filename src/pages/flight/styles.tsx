@@ -12,27 +12,18 @@ export const TileValue = withStyled(Typography, undefined, {
   type: 'h1',
 });
 
-export const Section = withStyled(Group, undefined, (theme) => ({
-  paddingHorizontal: theme.space.small,
-}));
+export const Section = withStyled(Group, undefined, () => ({}));
 
-export const SectionTile = withStyled(
-  Group,
-  (theme) => [
-    {
-      backgroundColor: theme.pallette.card,
-      borderRadius: theme.borderRadius,
-      flexBasis: 1,
-      flexGrow: 1,
-      gap: theme.space.medium,
-      padding: theme.space.medium,
-    },
-  ],
+export const SectionTile = withStyled(Group, (theme) => [
   {
-    horizontalAlign: 'center',
-    verticalAlign: 'center',
+    backgroundColor: theme.pallette.card,
+    borderRadius: theme.borderRadius,
+    flexBasis: 1,
+    flexGrow: 1,
+    gap: theme.space.large,
+    padding: theme.space.medium,
   },
-);
+]);
 
 export const InnerTile = withStyled(SectionTile, (theme) => [
   {

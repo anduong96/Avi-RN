@@ -10,5 +10,5 @@ export function removeFlightPush(flightID: string) {
   const state = useFlightNotificationsState.getState();
   state.removeFlightPush(flightID);
   tryNice(() => messaging().unsubscribeFromTopic(flightID));
-  logger.warn(format('Removed push notifications for flight[%s]', flightID));
+  logger.debug(format('Removed push notifications for flight[%s]', flightID));
 }

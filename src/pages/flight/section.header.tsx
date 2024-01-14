@@ -23,16 +23,18 @@ export const SectionHeader: React.FC<Props> = ({ section }) => {
   return (
     <Group
       direction="row"
-      gap="medium"
-      paddingHorizontal={'medium'}
+      gap={'large'}
+      paddingHorizontal={'small'}
       verticalAlign="center"
     >
-      <SectionIcon>
-        <FaIcon color={color} name={entry.icon} size={15} />
-      </SectionIcon>
-      <Typography isBold type="h1">
-        {entry.label}
-      </Typography>
+      <Group direction="row" flexGrow={1} gap="medium">
+        <SectionIcon>
+          <FaIcon color={color} name={entry.icon} size={15} />
+        </SectionIcon>
+        <Typography isBold type="h1">
+          {entry.label}
+        </Typography>
+      </Group>
     </Group>
   );
 };

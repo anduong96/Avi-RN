@@ -139,7 +139,7 @@ workflows:
     <<: *build_android
     name: Android Staging
     environment:
-      java: 20
+      java: 21
       groups:
         - Global
         - Staging

@@ -285,14 +285,15 @@ export const FlightContent: React.FC = () => {
                     <TileValue>{flightDistance}</TileValue>
                   </SectionTile>
                 </Section>
-                <Section>
-                  <AircraftCard />
-                </Section>
+
                 <Section>
                   <AmenitiesCard />
                 </Section>
                 <Section>
                   <SeatsCard />
+                </Section>
+                <Section>
+                  <AircraftCard />
                 </Section>
                 <Section>
                   <EmissionCard />

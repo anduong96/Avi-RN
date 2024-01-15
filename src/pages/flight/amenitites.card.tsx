@@ -45,7 +45,8 @@ export const AmenitiesCard: React.FC = () => {
 
   const idealSize = 75;
   const count = Math.floor(layout.width / idealSize);
-  const cellSize = Math.max(layout.width / count - theme.space.small, 0) ?? 0;
+  const cellSize = Math.max(layout.width / count - theme.space.small, 1);
+  const usableCellSize = Number.isNaN(cellSize) ? 0 : cellSize;
 
   return (
     <SectionTile>
@@ -69,11 +70,11 @@ export const AmenitiesCard: React.FC = () => {
             style={{
               backgroundColor: theme.pallette.grey[100],
               borderRadius: theme.borderRadius,
-              height: cellSize,
-              width: cellSize,
+              height: usableCellSize,
+              width: usableCellSize,
             }}
           >
-            <FaIcon name={getIcon(item.type)} size={cellSize / 3} />
+            <FaIcon name={getIcon(item.type)} size={usableCellSize / 3} />
           </Group>
         ))}
       </Group>

@@ -76,6 +76,11 @@ export const SupportCard: React.FC = () => {
     Linking.openURL('https://www.flywithavi.com');
   }
 
+  function handleEmail() {
+    vibrate('effectClick');
+    Linking.openURL('mailto:support@flywithavi.com');
+  }
+
   const extra = <FaIcon color={theme.pallette.active} name="chevron-right" />;
 
   return (
@@ -89,6 +94,14 @@ export const SupportCard: React.FC = () => {
           extra={extra}
           icon={<FaIcon name="browser" />}
           title={'Website'}
+        />
+      </Pressable>
+      <HorizontalDivider />
+      <Pressable onPress={handleEmail}>
+        <ListItem
+          extra={extra}
+          icon={<FaIcon name="envelope" />}
+          title={'Email us!'}
         />
       </Pressable>
       <HorizontalDivider />

@@ -22,6 +22,7 @@ import { Typography } from '../typography';
 import { useFeature } from './use.feature';
 import { useToast } from '../toast/use.toast';
 import { SPARKLES_ANIMATION_URL } from '../lottie/animations';
+import { useSignInSheet } from '../sign.in.sheet/use.sign.in.sheet';
 
 export const FeatureFlightProblems: React.FC = () => {
   const featureName = 'Flight Problems';
@@ -30,16 +31,13 @@ export const FeatureFlightProblems: React.FC = () => {
   const user = useUser();
   const feature = useFeature(featureName);
   const toast = useToast();
+  const showSignIn = useSignInSheet();
   const textColor = theme.pallette.white;
 
   async function handleAdd() {
     vibrate('effectClick');
     if (user.isAnonymous) {
-      return toast({
-        description: 'Please sign in to add to waitlist.',
-        preset: 'warning',
-        title: 'Sign in required!',
-      });
+      return showSignIn();
     }
 
     try {

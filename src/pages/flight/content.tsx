@@ -21,6 +21,7 @@ import { SpaceVertical } from '@app/components/space.vertical';
 import { VerticalDivider } from '@app/components/divider.vertical';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
 import { BlurredBackground } from '@app/components/blurred/background';
+import { FeatureFlightProblems } from '@app/components/#feature.flight.problems.card';
 
 import { Meta } from './meta';
 import { Header } from './header';
@@ -194,7 +195,6 @@ export const FlightContent: React.FC = () => {
           {/* -------------------------------------------------------------------------- */
           /*                                 Action Section                              */
           /* -------------------------------------------------------------------------- */}
-
           <Group
             direction="row"
             gap="small"
@@ -207,6 +207,7 @@ export const FlightContent: React.FC = () => {
             <VerticalDivider />
             <AlertFlightButton flightID={flightID} />
           </Group>
+          <FeatureFlightProblems />
           <HorizontalDivider size="medium" />
           <Group gap="xLarge">
             {/* -------------------------------------------------------------------------- */

@@ -36,8 +36,8 @@ export const EmissionCard: React.FC = () => {
         data={data}
         renderItem={([label, value]) => (
           <Group direction="row" style={{ justifyContent: 'space-between' }}>
-            <Typography type="h3">{label}</Typography>
-            <Typography type="h3">
+            <Typography type="small">{label}</Typography>
+            <Typography type="small">
               {Math.ceil(converter(Number(value)))} {displayMeasurement}
             </Typography>
           </Group>

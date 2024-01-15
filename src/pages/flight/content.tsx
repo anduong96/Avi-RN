@@ -26,6 +26,7 @@ import { Meta } from './meta';
 import { Header } from './header';
 import { TsaCard } from './tsa.card';
 import { TravelMap } from './travel.map';
+import { SeatsCard } from './seats.card';
 import { ProgressBar } from './progress.bar';
 import { AirportCard } from './airport.card';
 import { AircraftCard } from './aircraft.card';
@@ -33,6 +34,7 @@ import { EmissionCard } from './emission.card';
 import { FlightSectionEnum } from './constants';
 import { GateTimeCard } from './gate.time.card';
 import { SectionHeader } from './section.header';
+import { AmenitiesCard } from './amenitites.card';
 import { useFlight, useFlightID } from './context';
 import { PromptnessCompact } from './promptness.compact';
 import { PlaneLocationCard } from './plane.location.card';
@@ -285,6 +287,12 @@ export const FlightContent: React.FC = () => {
                 </Section>
                 <Section>
                   <AircraftCard />
+                </Section>
+                <Section>
+                  <AmenitiesCard />
+                </Section>
+                <Section>
+                  <SeatsCard />
                 </Section>
                 <Section>
                   <EmissionCard />

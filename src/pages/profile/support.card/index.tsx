@@ -1,8 +1,9 @@
 import * as React from 'react';
 import InAppReview from 'react-native-in-app-review';
-import { ActivityIndicator, Pressable } from 'react-native';
+import { ActivityIndicator, Linking, Pressable } from 'react-native';
 
 import { Card } from '@app/components/card';
+import { Logo } from '@app/components/logo';
 import { castError } from '@app/lib/cast.error';
 import { useUser } from '@app/state/user/use.user';
 import { vibrate } from '@app/lib/haptic.feedback';
@@ -10,6 +11,7 @@ import { useTheme } from '@app/lib/hooks/use.theme';
 import { ListItem } from '@app/components/list.item';
 import { FaIcon } from '@app/components/icons.fontawesome';
 import { useToast } from '@app/components/toast/use.toast';
+import { CorePageSlug } from '@app/pages/[core]/constants';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
 import { useRootNavigation } from '@app/navigation/use.root.navigation';
 
@@ -62,10 +64,37 @@ export const SupportCard: React.FC = () => {
     }
   }
 
+  function handleAbout() {
+    vibrate('effectClick');
+    navigation.push('Core', {
+      slug: CorePageSlug.ABOUT,
+    });
+  }
+
+  function handleWebsite() {
+    vibrate('effectClick');
+    Linking.openURL('https://www.flywithavi.com');
+  }
+
+  const extra = <FaIcon color={theme.pallette.active} name="chevron-right" />;
+
   return (
     <Card padding="medium" title="Support">
+      <Pressable onPress={handleAbout}>
+        <ListItem extra={extra} icon={<Logo size={20} />} title={'About Avi'} />
+      </Pressable>
+      <HorizontalDivider />
+      <Pressable onPress={handleWebsite}>
+        <ListItem
+          extra={extra}
+          icon={<FaIcon name="browser" />}
+          title={'Website'}
+        />
+      </Pressable>
+      <HorizontalDivider />
       <Pressable disabled={isReviewing} onPress={handleRating}>
         <ListItem
+          extra={extra}
           icon={
             isReviewing ? (
               <ActivityIndicator size="small" />
@@ -79,7 +108,7 @@ export const SupportCard: React.FC = () => {
       <HorizontalDivider />
       <Pressable onPress={handleFeedback}>
         <ListItem
-          extra={<FaIcon color={theme.pallette.active} name="chevron-right" />}
+          extra={extra}
           icon={<FaIcon name="comment-smile" />}
           title="Provide Feedback"
         />

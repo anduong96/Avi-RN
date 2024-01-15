@@ -42,7 +42,7 @@ export const TsaCard: React.FC = () => {
       <SectionTile>
         <Group direction="row" verticalAlign="center">
           <Group flexGrow={1} verticalAlign="center">
-            <TileLabel>Estimated TSA Wait Time</TileLabel>
+            <TileLabel>Estimated TSA Now</TileLabel>
           </Group>
           <Group>
             {route.name !== 'TSA' && (

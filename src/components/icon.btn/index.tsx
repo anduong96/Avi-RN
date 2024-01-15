@@ -61,6 +61,6 @@ const Container = withStyled<
     opacity: 0.5,
   },
   props.type === 'solid' && {
-    backgroundColor: tinycolor(props.color!).setAlpha(0.2).toRgbString(),
+    backgroundColor: tinycolor(props.color!).setAlpha(0.1).toRgbString(),
   },
 ]);

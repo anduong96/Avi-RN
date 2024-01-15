@@ -1,16 +1,18 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
 import type { MainStack } from '@app/navigation';
 
 import { withStyled } from '@app/lib/styled';
-import { IconBtn } from '@app/components/icon.btn';
 import { vibrate } from '@app/lib/haptic.feedback';
+import { useTheme } from '@app/lib/hooks/use.theme';
+import { FaIcon } from '@app/components/icons.fontawesome';
 import { BlurredBackground } from '@app/components/blurred/background';
 
 export const BottomTabs: React.FC = () => {
+  const theme = useTheme();
   const navigation = useNavigation<MainStack>();
 
   const handleNavigation = (
@@ -25,12 +27,23 @@ export const BottomTabs: React.FC = () => {
       <Rounded>
         <BlurredBackground />
       </Rounded>
-      <Item
-        icon="house-blank"
-        isActive
-        onPress={() => vibrate('effectHeavyClick')}
-      />
-      <User icon="user-astronaut" onPress={() => handleNavigation('Profile')} />
+      <Item isActive onPress={() => vibrate('effectHeavyClick')}>
+        <FaIcon
+          color={theme.pallette.active}
+          name="house-blank"
+          size={20}
+          solid
+        />
+      </Item>
+      <User onPress={() => handleNavigation('Profile')}>
+        <FaIcon
+          color={theme.pallette.grey[500]}
+          name="user-astronaut"
+          sharpSolid
+          size={20}
+          solid
+        />
+      </User>
     </Container>
   );
 };
@@ -46,8 +59,8 @@ const Container = withStyled(View, (theme) => [
   },
 ]);
 
-const Item = withStyled<{ isActive?: boolean }, typeof IconBtn>(
-  IconBtn,
+const Item = withStyled<{ isActive?: boolean }, typeof TouchableOpacity>(
+  TouchableOpacity,
   (theme, props) => [
     {
       borderRadius: theme.roundRadius,
@@ -60,16 +73,10 @@ const Item = withStyled<{ isActive?: boolean }, typeof IconBtn>(
   ],
   (theme, props) => ({
     activeOpacity: props.isActive ? 1 : undefined,
-    color: props.isActive
-      ? theme.pallette.active
-      : theme.pallette.textSecondary,
-    size: 20,
   }),
 );
 
-const User = withStyled(Item, () => [], {
-  size: 20,
-});
+const User = withStyled(Item, () => [], {});
 
 const Rounded = withStyled(View, (theme) => [
   StyleSheet.absoluteFill,

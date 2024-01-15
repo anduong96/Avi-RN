@@ -34,18 +34,18 @@ import { EmissionCard } from './emission.card';
 import { FlightSectionEnum } from './constants';
 import { GateTimeCard } from './gate.time.card';
 import { SectionHeader } from './section.header';
-import { AmenitiesCard } from './amenitites.card';
+import { AmenitiesCard } from './amenities.card';
 import { useFlight, useFlightID } from './context';
 import { PromptnessCompact } from './promptness.compact';
 import { PlaneLocationCard } from './plane.location.card';
 import { TimezoneChangeCard } from './timezone.change.card';
 import { AirportWeatherCard } from './airport.weather.card';
-import { useSectionColor } from './hooks/use.section.color';
 import { SaveFlightButton } from './actions/save.flight.btn';
 import { AlertFlightButton } from './actions/alert.flight.btn';
 import { useFlightDuration } from './hooks/use.flight.duration';
 import { useFlightDistance } from './hooks/use.flight.distance';
 import { Section, SectionTile, TileLabel, TileValue } from './styles';
+import { getIsSectionAutoCollapsed } from './lib/get.is.section.auto.collapsed';
 
 export const FlightContent: React.FC = () => {
   const flight = useFlight();
@@ -53,7 +53,6 @@ export const FlightContent: React.FC = () => {
   const flightID = useFlightID();
   const flightDuration = useFlightDuration();
   const flightDistance = useFlightDistance();
-  const getSectionColor = useSectionColor();
   const container = React.useRef<ScrollView>(null);
   const scrollPositionY = useSharedValue(0);
   const metaSection = React.useRef<View>(null);
@@ -67,18 +66,14 @@ export const FlightContent: React.FC = () => {
   const metaSectionHeight = React.useRef(0);
   const metaMarginHorizontal = useSharedValue(theme.space.medium);
   const metaBorderRadius = useSharedValue(theme.borderRadius);
-  const isFlightCompleted = flight.progressPercent === 1;
   const [isDepartureCollapsed, setIsDepartureCollapsed] = React.useState(
-    getSectionColor(FlightSectionEnum.DEPARTURE) === theme.pallette.active &&
-      !isFlightCompleted,
+    getIsSectionAutoCollapsed(FlightSectionEnum.DEPARTURE, flight),
   );
   const [isArrivalCollapsed, setIsArrivalCollapsed] = React.useState(
-    getSectionColor(FlightSectionEnum.ARRIVAL) === theme.pallette.active &&
-      !isFlightCompleted,
+    getIsSectionAutoCollapsed(FlightSectionEnum.ARRIVAL, flight),
   );
   const [isInFlightCollapsed, setIsInFlightCollapsed] = React.useState(
-    getSectionColor(FlightSectionEnum.IN_FLIGHT) === theme.pallette.active &&
-      !isFlightCompleted,
+    getIsSectionAutoCollapsed(FlightSectionEnum.IN_FLIGHT, flight),
   );
 
   const scrollToY = (y: number) => {

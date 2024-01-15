@@ -155,7 +155,7 @@ workflows:
     publishing:
       <<: *notify_email
     environment:
-      java: 20
+      java: 17
       groups:
         - Global
         - Production

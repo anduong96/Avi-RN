@@ -222,11 +222,13 @@ PODS:
   - libwebp/webp (1.3.2):
     - libwebp/sharpyuv
   - lottie-ios (4.3.4)
-  - lottie-react-native (6.4.1):
+  - lottie-react-native (6.5.1):
+    - glog
     - lottie-ios (~> 4.3.3)
+    - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - MetricsReporter (1.1.1):
-    - RSCrashReporter (= 1.0.0)
+  - MetricsReporter (1.2.1):
+    - RSCrashReporter (= 1.0.1)
     - RudderKit (= 1.4.0)
   - MMKV (1.3.2):
     - MMKVCore (~> 1.3.2)
@@ -1120,18 +1122,20 @@ PODS:
     - React-Core
   - react-native-in-app-review (4.3.3):
     - React-Core
-  - react-native-maps (1.8.4):
+  - react-native-maps (1.9.1):
     - React-Core
   - react-native-mmkv (2.11.0):
     - MMKV (>= 1.2.13)
     - React-Core
   - react-native-restart (0.0.27):
     - React-Core
-  - react-native-safe-area-context (4.8.1):
+  - react-native-safe-area-context (4.8.2):
     - React-Core
   - react-native-tracking-transparency (0.1.2):
     - React
-  - react-native-webview (13.6.3):
+  - react-native-webview (13.6.4):
+    - glog
+    - RCT-Folly (= 2022.05.16.00)
     - React-Core
   - React-nativeconfig (0.73.0)
   - React-NativeModulesApple (0.73.0):
@@ -1356,11 +1360,11 @@ PODS:
     - RNFBApp
   - RNFlashList (1.6.3):
     - React-Core
-  - RNGestureHandler (2.14.0):
+  - RNGestureHandler (2.14.1):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - RNGoogleSignin (10.1.1):
+  - RNGoogleSignin (11.0.0):
     - GoogleSignIn (~> 7.0)
     - React-Core
   - RNNotifee (7.8.2):
@@ -1368,7 +1372,7 @@ PODS:
     - RNNotifee/NotifeeCore (= 7.8.2)
   - RNNotifee/NotifeeCore (7.8.2):
     - React-Core
-  - RNPermissions (4.0.0):
+  - RNPermissions (4.0.4):
     - React-Core
   - RNReactNativeHapticFeedback (2.2.0):
     - React-Core
@@ -1377,14 +1381,14 @@ PODS:
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNRudderSdk (1.11.2):
+  - RNRudderSdk (1.11.3):
     - React
-    - Rudder (< 2.0.0, >= 1.23.0)
+    - Rudder (< 2.0.0, >= 1.24.1)
   - RNScreens (3.29.0):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - RNSentry (5.15.2):
+  - RNSentry (5.16.0):
     - hermes-engine
     - React-Core
     - React-hermes
@@ -1393,9 +1397,9 @@ PODS:
     - React-Core
   - RNSVG (14.1.0):
     - React-Core
-  - RSCrashReporter (1.0.0)
-  - Rudder (1.23.1):
-    - MetricsReporter (= 1.1.1)
+  - RSCrashReporter (1.0.1)
+  - Rudder (1.24.2):
+    - MetricsReporter (= 1.2.1)
   - RudderKit (1.4.0)
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
@@ -1770,8 +1774,8 @@ SPEC CHECKSUMS:
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   lottie-ios: 3d98679b41fa6fd6aff2352b3953dbd3df8a397e
-  lottie-react-native: a2ae9c27c273b060b2affff2957bc0ff7fdca353
-  MetricsReporter: 759631361ffd2b8f0d375b1225c8a631311f6da2
+  lottie-react-native: 01b0fc0cfd7619de43e878edd6a61b930ccf485b
+  MetricsReporter: 99596ee5003c69949ed2f50acc34aee83c42f843
   MMKV: f21593c0af4b3f2a0ceb8f820f28bb639ea22bb7
   MMKVCore: 31b4cb83f8266467eef20a35b6d78e409a11060d
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
@@ -1802,12 +1806,12 @@ SPEC CHECKSUMS:
   react-native-blur: cfdad7b3c01d725ab62a8a729f42ea463998afa2
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-in-app-review: db8bb167a5f238e7ceca5c242d6b36ce8c4404a4
-  react-native-maps: e2b78affd8e90c807a87bd042dc6b1af2decbcf1
+  react-native-maps: 4f45622710094c3603b262279c40026750579b1f
   react-native-mmkv: e97c0c79403fb94577e5d902ab1ebd42b0715b43
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
-  react-native-safe-area-context: cd1169d797a2ef722a00bfc5af10748d5b6c94f9
+  react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
   react-native-tracking-transparency: 25ff1ff866e338c137c818bdec20526bb05ffcc1
-  react-native-webview: 88293a0f23eca8465c0433c023ec632930e644d0
+  react-native-webview: 1f6c37318115b6e96285e0b06770307d9a751bb8
   React-nativeconfig: ec27fca81345a852feddbae7efa9231b423a1a71
   React-NativeModulesApple: aeb3e1c43af5aa4b97096fbb575792585f5e3a3e
   React-perflogger: b61e5db8e5167f5e70366e820766c492847c082e
@@ -1845,19 +1849,19 @@ SPEC CHECKSUMS:
   RNFBPerf: 0283ecc525e82d08c62391cffe2dd28c50394a6d
   RNFBRemoteConfig: dc5418251c49d2f40edfd76cc935d2c36b8331b0
   RNFlashList: 4b4b6b093afc0df60ae08f9cbf6ccd4c836c667a
-  RNGestureHandler: a426f2b9134a10ac56ff78593fb068541e68f0e7
-  RNGoogleSignin: aac5c1ec73422109dec1da770247a1e410dcc620
+  RNGestureHandler: 28bdf9a766c081e603120f79e925b72817c751c6
+  RNGoogleSignin: fc408799f1990a12497a32f64280c0fe353ffcc1
   RNNotifee: 8e2d3df3f0e9ce8f5d1fe4c967431138190b6175
-  RNPermissions: 9eaaf9b37aab2a9d7b486506da07369409536a47
+  RNPermissions: 883207438ee15c46aa50c6de6d205b85613d671e
   RNReactNativeHapticFeedback: ec56a5f81c3941206fd85625fa669ffc7b4545f9
   RNReanimated: 9fc2b08ed365d7dc451bc451605d89c01f2c935b
-  RNRudderSdk: 3113e10525cef12079c91b68ac755875cf5f042b
+  RNRudderSdk: 3275f6bae942129e3a2d5a5f2f0801d2f0df2392
   RNScreens: 2b73f5eb2ac5d94fbd61fa4be0bfebd345716825
-  RNSentry: b7f4f53bb7076f119558f8898fca901b48213f12
+  RNSentry: 9a8aebd354d3b47c428c72ec7264b7822cf4f3c2
   RNShare: 859ff710211285676b0bcedd156c12437ea1d564
   RNSVG: ba3e7232f45e34b7b47e74472386cf4e1a676d0a
-  RSCrashReporter: e9ccaebd996263f8325a6cbef44ff74aa5f58e30
-  Rudder: 18897c785af9cfe84c2be2a1d15a645edbeda6d0
+  RSCrashReporter: 6b8376ac729b0289ebe0908553e5f56d8171f313
+  Rudder: ab48e09403e369eec3e8f2c8fb1ef8cc549457ea
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d

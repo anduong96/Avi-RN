@@ -77,7 +77,7 @@ export const AppServerApolloClient = new ApolloClient({
       fetchPolicy: ENV.IS_DEV ? 'network-only' : 'cache-first',
       pollInterval: ENV.IS_DEV
         ? moment.duration({ seconds: 30 }).as('ms')
-        : moment.duration({ minutes: 5 }).as('ms'),
+        : moment.duration({ hour: 1 }).as('ms'),
     },
   },
   link: ApolloLink.from([errorLink, authLink, httpLink]),

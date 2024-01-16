@@ -46,6 +46,7 @@
     "@react-hook/throttle": "^2.2.0",
     "@react-native-community/blur": "^4.3.2",
     "@react-native-community/hooks": "^3.0.0",
+    "@react-native-community/netinfo": "^11.2.1",
     "@react-native-firebase/analytics": "^18.7.3",
     "@react-native-firebase/app": "^18.7.3",
     "@react-native-firebase/app-distribution": "^18.7.3",

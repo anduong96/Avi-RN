@@ -23,12 +23,23 @@ export const FlightPage: React.FC = () => {
   const route = useRoute<Route>();
   const flightID = route.params.flightID;
   const isFromSearch = route.params.isFromSearch;
-  const flightResponse = useFlightQuery({ variables: { flightID } });
+  const [lastRefreshed, setLastRefreshed] = React.useState(new Date());
+  const flightResponse = useFlightQuery({
+    onCompleted: () => {
+      setLastRefreshed(new Date());
+    },
+    variables: {
+      flightID,
+    },
+  });
+
   const flight = flightResponse.data?.flight;
 
   return (
     <PageContainer>
-      <FlightContext.Provider value={{ flight: flight!, flightID }}>
+      <FlightContext.Provider
+        value={{ flight: flight!, flightID, lastRefreshed }}
+      >
         <LoadingOverlay isDark isLoading={flightResponse.loading} />
         {flight && <FlightContent />}
         {isFromSearch && <ExitToHomeBtn />}

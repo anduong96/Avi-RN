@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
+import { Portal } from '@gorhom/portal';
+
 import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
@@ -10,6 +12,7 @@ import { useRandomFlightLazyQuery } from '@app/generated/server.gql';
 import { FaIcon } from '../icons.fontawesome';
 import { useToast } from '../toast/use.toast';
 import { LoadingOverlay } from '../loading.overlay';
+import { PortalWindowOverlay } from '../portal.window.overlay';
 
 type Props = {
   onFlight: (flight: FullFlightFragmentFragment) => void;
@@ -34,11 +37,19 @@ export const RandomFlightBtn: React.FC<Props> = ({ onFlight, withLabel }) => {
   };
 
   return (
-    <Btn disabled={loading} onPress={handlePress}>
-      <LoadingOverlay isDark isLoading={loading} size="small" type="solid" />
-      <FaIcon name="dice" />
-      {withLabel && <Label>Random Flight</Label>}
-    </Btn>
+    <>
+      <Btn disabled={loading} onPress={handlePress}>
+        <FaIcon name="dice" />
+        {withLabel && <Label>Random Flight</Label>}
+      </Btn>
+      {loading && (
+        <Portal>
+          <PortalWindowOverlay>
+            <LoadingOverlay isLoading type="blur" />
+          </PortalWindowOverlay>
+        </Portal>
+      )}
+    </>
   );
 };
 

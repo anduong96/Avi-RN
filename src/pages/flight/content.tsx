@@ -8,6 +8,7 @@ import Animated, {
 
 import type { ScrollViewProps, ViewProps } from 'react-native';
 
+import moment from 'moment';
 import { WINDOW_HEIGHT } from '@gorhom/bottom-sheet';
 
 import { FILLER } from '@app/constants';
@@ -17,6 +18,7 @@ import { withStyled } from '@app/lib/styled';
 import { Group } from '@app/components/group';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { useTheme } from '@app/lib/hooks/use.theme';
+import { Typography } from '@app/components/typography';
 import { SpaceVertical } from '@app/components/space.vertical';
 import { VerticalDivider } from '@app/components/divider.vertical';
 import { HorizontalDivider } from '@app/components/divider.horizontal';
@@ -36,7 +38,6 @@ import { FlightSectionEnum } from './constants';
 import { GateTimeCard } from './gate.time.card';
 import { SectionHeader } from './section.header';
 import { AmenitiesCard } from './amenities.card';
-import { useFlight, useFlightID } from './context';
 import { PromptnessCompact } from './promptness.compact';
 import { PlaneLocationCard } from './plane.location.card';
 import { TimezoneChangeCard } from './timezone.change.card';
@@ -46,12 +47,14 @@ import { AlertFlightButton } from './actions/alert.flight.btn';
 import { useFlightDuration } from './hooks/use.flight.duration';
 import { useFlightDistance } from './hooks/use.flight.distance';
 import { Section, SectionTile, TileLabel, TileValue } from './styles';
+import { useFlight, useFlightID, useFlightLastRefreshed } from './context';
 import { getIsSectionAutoCollapsed } from './lib/get.is.section.auto.collapsed';
 
 export const FlightContent: React.FC = () => {
   const flight = useFlight();
   const theme = useTheme();
   const flightID = useFlightID();
+  const lastRefreshed = useFlightLastRefreshed();
   const flightDuration = useFlightDuration();
   const flightDistance = useFlightDistance();
   const container = React.useRef<ScrollView>(null);
@@ -346,6 +349,14 @@ export const FlightContent: React.FC = () => {
               </Card>
             </View>
           </Group>
+        </Group>
+        <Group gap={'small'} isCentered paddingVertical={'medium'}>
+          <Typography color="secondary" type="small">
+            Data refreshed {moment(lastRefreshed).fromNow()}
+          </Typography>
+          <Typography color="secondary" type="small">
+            Flight updated {moment(flight.updatedAt).fromNow()}
+          </Typography>
         </Group>
       </Container>
       <ProgressBar

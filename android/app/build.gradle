@@ -111,7 +111,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 7
-        versionName "1.0.4"
+        versionName "1.0.5"
         resConfigs "en", "US"
         resValue "string", "build_config_package", "com.avitech.app"
     }

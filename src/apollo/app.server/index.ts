@@ -62,24 +62,24 @@ const errorLink = onError(
 );
 
 const cache = new InMemoryCache();
-const storage = getApolloStorage();
 
-persistCache({
-  cache,
-  key: SERVER_URL,
-  storage,
-});
+if (__DEV__) {
+  persistCache({
+    cache,
+    key: SERVER_URL,
+    storage: getApolloStorage(),
+  });
+}
 
 export const AppServerApolloClient = new ApolloClient({
   cache,
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: ENV.IS_DEV ? 'network-only' : 'cache-first',
-      pollInterval: ENV.IS_DEV
-        ? moment.duration({ seconds: 30 }).as('ms')
-        : moment.duration({ hour: 1 }).as('ms'),
+      pollInterval: moment.duration({ minute: 2 }).as('ms'),
     },
   },
   link: ApolloLink.from([errorLink, authLink, httpLink]),
+  ssrForceFetchDelay: 100,
+  ssrMode: false,
   uri: SERVER_URL,
 });

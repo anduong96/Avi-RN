@@ -102,7 +102,7 @@ query Flight($flightID: String!) {
   }
 }
 
-query RandomFlight {
+mutation RandomFlight {
   randomFlight {
     ...FullFlightFragment
   }

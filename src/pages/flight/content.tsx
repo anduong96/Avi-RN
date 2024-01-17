@@ -38,6 +38,7 @@ import { FlightSectionEnum } from './constants';
 import { GateTimeCard } from './gate.time.card';
 import { SectionHeader } from './section.header';
 import { AmenitiesCard } from './amenities.card';
+import { useFlight, useFlightID } from './context';
 import { PromptnessCompact } from './promptness.compact';
 import { PlaneLocationCard } from './plane.location.card';
 import { TimezoneChangeCard } from './timezone.change.card';
@@ -47,14 +48,12 @@ import { AlertFlightButton } from './actions/alert.flight.btn';
 import { useFlightDuration } from './hooks/use.flight.duration';
 import { useFlightDistance } from './hooks/use.flight.distance';
 import { Section, SectionTile, TileLabel, TileValue } from './styles';
-import { useFlight, useFlightID, useFlightLastRefreshed } from './context';
 import { getIsSectionAutoCollapsed } from './lib/get.is.section.auto.collapsed';
 
 export const FlightContent: React.FC = () => {
   const flight = useFlight();
   const theme = useTheme();
   const flightID = useFlightID();
-  const lastRefreshed = useFlightLastRefreshed();
   const flightDuration = useFlightDuration();
   const flightDistance = useFlightDistance();
   const container = React.useRef<ScrollView>(null);
@@ -198,18 +197,21 @@ export const FlightContent: React.FC = () => {
           {/* -------------------------------------------------------------------------- */
           /*                                 Action Section                              */
           /* -------------------------------------------------------------------------- */}
-          <Group
-            direction="row"
-            gap="small"
-            horizontalAlign="center"
-            paddingHorizontal="medium"
-            verticalAlign="center"
-            width="100%"
-          >
-            <SaveFlightButton flightID={flightID} />
-            <VerticalDivider />
-            <AlertFlightButton flightID={flightID} />
-          </Group>
+
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <Group
+              direction="row"
+              gap="small"
+              horizontalAlign="center"
+              paddingHorizontal="medium"
+              verticalAlign="center"
+              width="100%"
+            >
+              <SaveFlightButton flightID={flightID} />
+              <VerticalDivider />
+              <AlertFlightButton flightID={flightID} />
+            </Group>
+          </ScrollView>
           <FeatureFlightProblems />
           <HorizontalDivider size="medium" />
           <Group gap="xLarge">
@@ -351,9 +353,6 @@ export const FlightContent: React.FC = () => {
           </Group>
         </Group>
         <Group gap={'small'} isCentered paddingVertical={'medium'}>
-          <Typography color="secondary" type="small">
-            Data refreshed {moment(lastRefreshed).fromNow()}
-          </Typography>
           <Typography color="secondary" type="small">
             Flight updated {moment(flight.updatedAt).fromNow()}
           </Typography>

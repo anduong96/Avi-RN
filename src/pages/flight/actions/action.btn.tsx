@@ -11,6 +11,7 @@ import { LoadingOverlay } from '@app/components/loading.overlay';
 import { PrimaryBackground } from '@app/components/background.primary';
 
 type Props = {
+  disabled?: boolean;
   icon: string;
   isActive: boolean;
   isLoading: boolean;
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export const ActionBtn: React.FC<Props> = ({
+  disabled,
   icon,
   isActive,
   isLoading,
@@ -29,7 +31,7 @@ export const ActionBtn: React.FC<Props> = ({
   const color = isActive ? theme.pallette.white : theme.pallette.text;
 
   return (
-    <Button onPress={onPress}>
+    <Button disabled={disabled} onPress={onPress}>
       <LoadingOverlay isLoading={isLoading} />
       {isActive && (
         <Animated.View
@@ -55,7 +57,7 @@ export const ActionBtn: React.FC<Props> = ({
   );
 };
 
-const Button = withStyled(Pressable, (theme) => [
+const Button = withStyled(Pressable, (theme, props) => [
   theme.presets.centered,
   {
     backgroundColor: theme.pallette.background,
@@ -65,5 +67,8 @@ const Button = withStyled(Pressable, (theme) => [
     overflow: 'hidden',
     paddingVertical: theme.space.small,
     width: 150,
+  },
+  props.disabled && {
+    opacity: 0.3,
   },
 ]);

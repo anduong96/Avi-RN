@@ -9,9 +9,16 @@ export function getIsSectionAutoCollapsed(
   flight: Pick<Flight, 'status'>,
 ) {
   if (section === FlightSectionEnum.DEPARTURE) {
-    return flight.status === FlightStatus.DEPARTED;
+    return (
+      flight.status === FlightStatus.DEPARTED ||
+      flight.status === FlightStatus.LANDED ||
+      flight.status === FlightStatus.ARRIVED
+    );
   } else if (section === FlightSectionEnum.IN_FLIGHT) {
-    return flight.status === FlightStatus.LANDED;
+    return (
+      flight.status === FlightStatus.LANDED ||
+      flight.status === FlightStatus.ARRIVED
+    );
   } else if (section === FlightSectionEnum.ARRIVAL) {
     return flight.status === FlightStatus.ARCHIVED;
   }

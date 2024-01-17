@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { persistCache } from 'apollo3-cache-persist';
 import {
   ApolloClient,
@@ -27,7 +28,7 @@ export const CmsServerApolloClient = new ApolloClient({
   defaultOptions: {
     watchQuery: {
       initialFetchPolicy: ENV.IS_DEV ? 'network-only' : 'cache-first',
-      pollInterval: 10 * 1000 * 60,
+      pollInterval: moment.duration({ day: 1 }).as('ms'),
     },
   },
   link: ApolloLink.from([httpLink]),

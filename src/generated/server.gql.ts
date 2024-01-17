@@ -236,7 +236,7 @@ export type Flight = {
   originIata: Scalars['String']['output'];
   originTerminal?: Maybe<Scalars['String']['output']>;
   originUtcHourOffset: Scalars['Int']['output'];
-  progressPercent: Scalars['Int']['output'];
+  progressPercent: Scalars['Float']['output'];
   reconAttempt?: Maybe<Scalars['Int']['output']>;
   /** Time in milliseconds until the flight departs */
   remainingDurationMs: Scalars['Int']['output'];
@@ -308,6 +308,7 @@ export type Mutation = {
   addUserFlight: Scalars['String']['output'];
   deleteUser: Scalars['Boolean']['output'];
   deleteUserFlight: Scalars['String']['output'];
+  randomFlight: Flight;
   /** Remove user from wait list */
   removeFromWaitList: Scalars['String']['output'];
   submitFeedback: Scalars['String']['output'];
@@ -376,7 +377,6 @@ export type Query = {
   flightPromptness: FlightPromptness;
   flights: Array<Flight>;
   health: Scalars['String']['output'];
-  randomFlight: Flight;
   recentFeedback?: Maybe<Feedback>;
   user: User;
   userActiveFlights: Array<UserFlight>;
@@ -675,10 +675,10 @@ export type FlightQueryVariables = Exact<{
 
 export type FlightQuery = { __typename?: 'Query', flight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } } };
 
-export type RandomFlightQueryVariables = Exact<{ [key: string]: never; }>;
+export type RandomFlightMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RandomFlightQuery = { __typename?: 'Query', randomFlight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } } };
+export type RandomFlightMutation = { __typename?: 'Mutation', randomFlight: { __typename?: 'Flight', id: string, airlineIata: string, aircraftTailNumber?: string | null, flightNumber: string, totalDistanceKm?: number | null, durationMs: number, remainingDurationMs: number, progressPercent: number, co2EmissionKgEconomy?: number | null, co2EmissionKgFirst?: number | null, co2EmissionKgBusiness?: number | null, co2EmissionKgEco?: number | null, originIata: string, originTerminal?: string | null, originGate?: string | null, originUtcHourOffset: number, status: FlightStatus, destinationIata: string, destinationGate?: string | null, destinationTerminal?: string | null, destinationBaggageClaim?: string | null, destinationUtcHourOffset: number, scheduledGateDeparture: any, scheduledGateArrival: any, estimatedGateDeparture: any, estimatedGateArrival: any, actualGateDeparture?: any | null, actualGateArrival?: any | null, updatedAt: any, Airline: { __typename?: 'Airline', id: string, name: string, logoCompactImageURL?: string | null }, Origin: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number }, Destination: { __typename?: 'Airport', id: string, name: string, cityName: string, countryCode: string, cityCode: string, iata?: string | null, timezone: string, latitude: number, longitude: number } } };
 
 export type UserActiveFlightsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1687,47 +1687,37 @@ export function refetchFlightQuery(variables: FlightQueryVariables) {
       return { query: FlightDocument, variables: variables }
     }
 export const RandomFlightDocument = gql`
-    query RandomFlight {
+    mutation RandomFlight {
   randomFlight {
     ...FullFlightFragment
   }
 }
     ${FullFlightFragmentFragmentDoc}`;
+export type RandomFlightMutationFn = Apollo.MutationFunction<RandomFlightMutation, RandomFlightMutationVariables>;
 
 /**
- * __useRandomFlightQuery__
+ * __useRandomFlightMutation__
  *
- * To run a query within a React component, call `useRandomFlightQuery` and pass it any options that fit your needs.
- * When your component renders, `useRandomFlightQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useRandomFlightMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRandomFlightMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useRandomFlightQuery({
+ * const [randomFlightMutation, { data, loading, error }] = useRandomFlightMutation({
  *   variables: {
  *   },
  * });
  */
-export function useRandomFlightQuery(baseOptions?: Apollo.QueryHookOptions<RandomFlightQuery, RandomFlightQueryVariables>) {
+export function useRandomFlightMutation(baseOptions?: Apollo.MutationHookOptions<RandomFlightMutation, RandomFlightMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<RandomFlightQuery, RandomFlightQueryVariables>(RandomFlightDocument, options);
+        return Apollo.useMutation<RandomFlightMutation, RandomFlightMutationVariables>(RandomFlightDocument, options);
       }
-export function useRandomFlightLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RandomFlightQuery, RandomFlightQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<RandomFlightQuery, RandomFlightQueryVariables>(RandomFlightDocument, options);
-        }
-export function useRandomFlightSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<RandomFlightQuery, RandomFlightQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<RandomFlightQuery, RandomFlightQueryVariables>(RandomFlightDocument, options);
-        }
-export type RandomFlightQueryHookResult = ReturnType<typeof useRandomFlightQuery>;
-export type RandomFlightLazyQueryHookResult = ReturnType<typeof useRandomFlightLazyQuery>;
-export type RandomFlightSuspenseQueryHookResult = ReturnType<typeof useRandomFlightSuspenseQuery>;
-export type RandomFlightQueryResult = Apollo.QueryResult<RandomFlightQuery, RandomFlightQueryVariables>;
-export function refetchRandomFlightQuery(variables?: RandomFlightQueryVariables) {
-      return { query: RandomFlightDocument, variables: variables }
-    }
+export type RandomFlightMutationHookResult = ReturnType<typeof useRandomFlightMutation>;
+export type RandomFlightMutationResult = Apollo.MutationResult<RandomFlightMutation>;
+export type RandomFlightMutationOptions = Apollo.BaseMutationOptions<RandomFlightMutation, RandomFlightMutationVariables>;
 export const UserActiveFlightsDocument = gql`
     query UserActiveFlights {
   userActiveFlights {

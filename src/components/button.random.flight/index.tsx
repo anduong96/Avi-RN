@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Keyboard, Text, TouchableOpacity } from 'react-native';
 
 import { Portal } from '@gorhom/portal';
 
@@ -7,7 +7,7 @@ import type { FullFlightFragmentFragment } from '@app/generated/server.gql';
 
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
-import { useRandomFlightLazyQuery } from '@app/generated/server.gql';
+import { useRandomFlightMutation } from '@app/generated/server.gql';
 
 import { FaIcon } from '../icons.fontawesome';
 import { useToast } from '../toast/use.toast';
@@ -21,7 +21,7 @@ type Props = {
 
 export const RandomFlightBtn: React.FC<Props> = ({ onFlight, withLabel }) => {
   const toast = useToast();
-  const [getFlight, { loading }] = useRandomFlightLazyQuery({
+  const [getFlight, { loading }] = useRandomFlightMutation({
     onCompleted(data) {
       onFlight(data.randomFlight);
     },
@@ -33,6 +33,7 @@ export const RandomFlightBtn: React.FC<Props> = ({ onFlight, withLabel }) => {
 
   const handlePress = () => {
     vibrate('impactHeavy');
+    Keyboard.dismiss();
     getFlight();
   };
 

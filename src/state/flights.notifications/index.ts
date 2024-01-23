@@ -27,8 +27,9 @@ export const useFlightNotificationsState = create<State>()(
       setFlightPush(flightID, value) {
         set({
           subscriptions: {
-            ...get()['subscriptions'],
-            [flightID]: value,
+            [flightID]: {
+              ...value,
+            },
           },
         });
       },

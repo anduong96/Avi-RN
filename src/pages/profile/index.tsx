@@ -53,8 +53,8 @@ export const ProfilePage: React.FC = () => {
           <Avatar hasShadow={theme.isDark} size={100} />
         </AvatarContainer>
         <SpaceVertical size="medium" />
-        <FeatureFlightProblems />
         <AccountConnectCard />
+        <FeatureFlightProblems />
         {(ENV.IS_DEV || DeviceInfo.getBundleId().includes('staging')) && (
           <DevCard />
         )}
@@ -71,13 +71,7 @@ export const ProfilePage: React.FC = () => {
   );
 };
 
-const AvatarContainer = withStyled(View, (theme) => [
-  theme.presets.centered,
-  {
-    paddingTop: theme.space.large,
-  },
-]);
-
+const AvatarContainer = withStyled(View, (theme) => [theme.presets.centered]);
 const RightActions = withStyled(View, (theme) => [
   {
     position: 'absolute',

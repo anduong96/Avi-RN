@@ -3,13 +3,15 @@ import FastImage from 'react-native-fast-image';
 import { TouchableOpacity } from 'react-native';
 import { FadeIn } from 'react-native-reanimated';
 
+import appleAuth from '@invertase/react-native-apple-authentication';
+import { statusCodes } from '@react-native-google-signin/google-signin';
+
 import { logger } from '@app/lib/logger';
 import { format } from '@app/lib/format';
 import { IS_IOS } from '@app/lib/platform';
 import { Card } from '@app/components/card';
 import { withStyled } from '@app/lib/styled';
 import { Shadow } from '@app/components/shadow';
-import { castError } from '@app/lib/cast.error';
 import { useUser } from '@app/state/user/use.user';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { StatusIcon } from '@app/components/icon.status';
@@ -17,6 +19,11 @@ import { FaIcon } from '@app/components/icons.fontawesome';
 import { signInWithApple } from '@app/lib/auth/apple.auth';
 import { useToast } from '@app/components/toast/use.toast';
 import { signInWithGoogle } from '@app/lib/auth/google.auth';
+import {
+  castAppleAuthError,
+  castError,
+  castGoogleAuthError,
+} from '@app/lib/cast.error';
 
 const APPLE_PROVIDER_ID = 'apple.com' as const;
 const GOOGLE_PROVIDER_ID = 'google.com' as const;
@@ -39,6 +46,20 @@ export const AccountConnectCard: React.FC = () => {
           break;
       }
     } catch (error) {
+      if (
+        providerID === APPLE_PROVIDER_ID &&
+        castAppleAuthError(error).code === appleAuth.Error.CANCELED
+      ) {
+        logger.debug('User canceled Apple sign in flow');
+        return;
+      } else if (
+        providerID === GOOGLE_PROVIDER_ID &&
+        castGoogleAuthError(error).code === statusCodes.SIGN_IN_CANCELLED
+      ) {
+        logger.debug('User closed Google sign in flow');
+        return;
+      }
+
       toast({
         description: castError(error).message,
         preset: 'error',

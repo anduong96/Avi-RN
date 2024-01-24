@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 
 import { withStyled } from '@app/lib/styled';
 
@@ -29,9 +29,9 @@ const Container = withStyled<{ centered?: boolean }, typeof View>(
       backgroundColor: theme.pallette.background,
       display: 'flex',
       flexGrow: 1,
-      height: '100%',
+      height: Dimensions.get('screen').height,
       overflow: 'hidden',
-      width: '100%',
+      width: Dimensions.get('screen').width,
     },
   ],
 );

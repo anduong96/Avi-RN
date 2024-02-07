@@ -13,6 +13,20 @@ query Airport($airportIata: String!) {
   }
 }
 
+query Airports {
+  airports {
+    id
+    name
+    iata
+    cityName
+    cityCode
+    timezone
+    state
+    countryCode
+    countyName
+  }
+}
+
 query AirportTsaCheckpointsStatus($dayOfWeek: Float!, $airportIata: String!) {
   airportTsaCheckpointsStatus(
     dayOfWeek: $dayOfWeek

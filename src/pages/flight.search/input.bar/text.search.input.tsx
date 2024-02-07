@@ -35,9 +35,9 @@ export const TextSearchInput: React.FC = () => {
       autoFocus
       onChange={handleChangeText}
       onFocus={handleFocus}
-      placeholder="i.e. AA100"
+      placeholder="i.e. AA100 or LAX"
       returnKeyType="next"
-      value={value}
+      value={value ?? undefined}
     />
   );
 };

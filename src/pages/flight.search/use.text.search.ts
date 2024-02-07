@@ -2,8 +2,9 @@ import * as React from 'react';
 
 import Fuse from 'fuse.js';
 import moment from 'moment';
+import { concat } from 'lodash';
 
-import { useAirlinesQuery } from '@app/generated/server.gql';
+import { useAirlinesQuery, useAirportsQuery } from '@app/generated/server.gql';
 
 /**
  * The `useAirlineSearch` function is a TypeScript function that performs a search for airlines based
@@ -20,7 +21,16 @@ import { useAirlinesQuery } from '@app/generated/server.gql';
  * being loaded.
  */
 
-export function useAirlineSearch(searchValue: string, flightNumber?: string) {
+export enum TextSearchItemType {
+  AIRLINE,
+  AIRPORT,
+}
+
+export function useTextSearch(searchValue: string, flightNumber?: string) {
+  const airports = useAirportsQuery({
+    fetchPolicy: 'cache-first',
+    pollInterval: moment.duration({ days: 1 }).asMilliseconds(),
+  });
   const airlines = useAirlinesQuery({
     fetchPolicy: 'cache-first',
     pollInterval: moment.duration({ days: 1 }).asMilliseconds(),
@@ -28,18 +38,44 @@ export function useAirlineSearch(searchValue: string, flightNumber?: string) {
 
   const searcher = React.useMemo(
     () =>
-      new Fuse(airlines.data?.airlines ?? [], {
-        includeMatches: true,
-        includeScore: true,
-        keys: ['iata', 'name'],
-        minMatchCharLength: 2,
-        shouldSort: true,
-      }),
-    [airlines.data],
+      new Fuse(
+        concat(
+          [],
+          airlines.data?.airlines.map((airline) => ({
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data: airline as any,
+            iata: airline.iata,
+            tags: [airline.iata, airline.name],
+            type: TextSearchItemType.AIRLINE,
+          })),
+          airports.data?.airports.map((airport) => ({
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data: airport as any,
+            iata: airport.iata,
+            tags: [
+              airport.cityName,
+              airport.cityCode,
+              airport.iata,
+              airport.state,
+              airport.name,
+            ],
+            type: TextSearchItemType.AIRPORT,
+          })),
+        ),
+        {
+          includeMatches: true,
+          includeScore: true,
+          keys: ['tags'],
+          minMatchCharLength: 2,
+          shouldSort: true,
+        },
+      ),
+    [airlines.data, airports.data],
   );
+
   const result = React.useMemo(
     () =>
-      searchValue
+      searchValue.length >= 2
         ? searcher
             .search(searchValue.replace(flightNumber || '', ''))
             .slice(0, 5)

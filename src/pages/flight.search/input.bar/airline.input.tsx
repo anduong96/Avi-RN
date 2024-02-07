@@ -11,9 +11,7 @@ import { useFlightSearchState } from '../state';
 export const AirlineInput = React.forwardRef<TextInput>((_, ref) => {
   const airlineIata = useFlightSearchState((s) => s.airlineIata);
   const inputValue = useFlightSearchState((s) =>
-    s.focusInput === 'airlineIata'
-      ? s.textSearch
-      : s.airlineIata ?? s.textSearch,
+    s.focusInput === 'airlineIata' ? s.textSearch : s.airlineIata,
   );
 
   const handleFocus = () => {
@@ -43,7 +41,7 @@ export const AirlineInput = React.forwardRef<TextInput>((_, ref) => {
       prefix={<AirlineLogoAvatar airlineIata={airlineIata!} size={15} />}
       ref={ref}
       returnKeyType="next"
-      value={inputValue}
+      value={inputValue ?? undefined}
     />
   );
 });

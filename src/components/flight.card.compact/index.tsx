@@ -11,8 +11,10 @@ import { transformFlightData } from '@app/lib/transformers/transform.flight.data
 import type { ShadowProps } from '../shadow';
 
 import { Shadow } from '../shadow';
+import { Typography } from '../typography';
 import { FaIcon } from '../icons.fontawesome';
 import { DividerDashed } from '../divider.dashed';
+import { AirlineLogoAvatar } from '../airline.logo.avatar';
 
 type Props = {
   flight: FindFlightsQuery['flights'][number];
@@ -32,6 +34,19 @@ export const FlightCardCompact: React.FC<Props> = ({ flight }) => {
   return (
     <ShadowWrapper>
       <Container>
+        <Header>
+          <AirlineContainer>
+            <AirlineLogoAvatar airlineIata={flight.airlineIata} size={25} />
+            <AirlineFlightNumber>
+              {flight.airlineIata} {flight.flightNumber}
+            </AirlineFlightNumber>
+          </AirlineContainer>
+          <Time>
+            <TimeText color="secondary" isBold>
+              {data.origin.time.fromNow()}
+            </TimeText>
+          </Time>
+        </Header>
         <Main>
           <FlightPoint type="origin">
             <AirportIata>{flight.Origin.iata}</AirportIata>
@@ -196,3 +211,39 @@ const ActiveDivider = withStyled<Pick<Flight, 'progressPercent'>, typeof View>(
     },
   ],
 );
+
+const Header = withStyled(View, (theme) => [
+  {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space.medium,
+    justifyContent: 'space-between',
+  },
+]);
+
+const AirlineContainer = withStyled(View, (theme) => [
+  {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space.tiny,
+  },
+]);
+
+const AirlineFlightNumber = withStyled(Text, (theme) => [
+  {
+    color: theme.pallette.textSecondary,
+  },
+]);
+
+const Time = withStyled(View, (theme) => [
+  {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space.tiny,
+    justifyContent: 'center',
+  },
+]);
+
+const TimeText = withStyled(Typography, undefined, {
+  type: 'small',
+});

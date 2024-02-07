@@ -1,14 +1,18 @@
 import { isNil } from 'lodash';
 import { create } from 'zustand';
 
+import type { MaybeNil } from '@app/types/maybe.nil';
+
 type State = {
-  airlineIata?: string;
+  airlineIata?: MaybeNil<string>;
   departureDate?: Date;
+  destinationIata?: string;
   flightNumber?: string;
   focusInput?: Exclude<keyof State, 'focusInput'>;
   hasValue: <T extends keyof State>(key: Exclude<T, 'hasValue'>) => boolean;
+  originIata?: MaybeNil<string>;
   reset: () => void;
-  textSearch?: string;
+  textSearch?: MaybeNil<string>;
 };
 
 export const useFlightSearchState = create<State>((set, get) => ({
@@ -24,8 +28,10 @@ export const useFlightSearchState = create<State>((set, get) => ({
     set({
       airlineIata: undefined,
       departureDate: undefined,
+      destinationIata: undefined,
       flightNumber: undefined,
       focusInput: undefined,
+      originIata: undefined,
       textSearch: undefined,
     });
   },

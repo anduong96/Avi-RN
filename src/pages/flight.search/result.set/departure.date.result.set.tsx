@@ -9,6 +9,7 @@ import * as chrono from 'chrono-node';
 import { compact, uniqBy } from 'lodash';
 import { useDebounce } from 'use-debounce';
 
+import { logger } from '@app/lib/logger';
 import { withStyled } from '@app/lib/styled';
 import { vibrate } from '@app/lib/haptic.feedback';
 import { Calendar } from '@app/components/calendar';
@@ -35,8 +36,12 @@ export const DepartureDateResultSet: React.FC = () => {
   );
 
   const handleSelect = (date: moment.MomentInput) => {
+    logger.debug('Selected', date);
     vibrate('impactMedium');
-    useFlightSearchState.setState({ departureDate: moment(date).toDate() });
+    useFlightSearchState.setState({
+      departureDate: moment(date).toDate(),
+      focusInput: undefined,
+    });
     Publisher.broadcast('Selected', undefined);
   };
 

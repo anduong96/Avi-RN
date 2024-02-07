@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import type { MainStack } from '@app/navigation';
 
+import { logger } from '@app/lib/logger';
 import { Group } from '@app/components/group';
 import { useTheme } from '@app/lib/hooks/use.theme';
 import { RandomFlightBtn } from '@app/components/button.random.flight';
@@ -14,6 +15,7 @@ import { useKeyboardSubmitEvent } from '@app/components/input/use.keyboard.submi
 
 import { useTopic } from '../publisher';
 import { AirlineInput } from './airline.input';
+import { AirportInput } from './airport.input';
 import { useFlightSearchState } from '../state';
 import { TextSearchInput } from './text.search.input';
 import { FocusedContainer } from './focused.container';
@@ -24,29 +26,42 @@ export const InputBar: React.FC = () => {
   const theme = useTheme();
   const navigation = useNavigation<MainStack>();
   const focusedInput = useFlightSearchState((s) => s.focusInput);
+  const hasValue = useFlightSearchState((s) => s.hasValue);
   const hasAirlineIata = useFlightSearchState((s) => s.hasValue('airlineIata'));
   const hasFlightNumber = useFlightSearchState((s) =>
     s.hasValue('flightNumber'),
   );
+  const hasOriginIata = useFlightSearchState((s) => s.hasValue('originIata'));
   const airlineInput = React.useRef<TextInput>(null);
   const flightNumberInput = React.useRef<TextInput>(null);
   const departureDateInput = React.useRef<TextInput>(null);
+  const originInput = React.useRef<TextInput>(null);
+  const destinationInput = React.useRef<TextInput>(null);
 
   const handleFocus = React.useCallback(() => {
-    if (
-      focusedInput === 'airlineIata' ||
-      (focusedInput === 'textSearch' && !hasFlightNumber)
-    ) {
-      flightNumberInput.current?.focus();
-    } else if (focusedInput === 'flightNumber') {
-      departureDateInput.current?.focus();
-    } else if (focusedInput === 'textSearch') {
-      departureDateInput.current?.focus();
-    } else if (focusedInput === 'departureDate') {
-      useFlightSearchState.setState({ focusInput: undefined });
-      departureDateInput.current?.blur();
+    logger.debug('Choosing next input', focusedInput);
+
+    const flightNumberFlow = [
+      [flightNumberInput, 'flightNumber'],
+      [departureDateInput, 'departureDate'],
+    ] as const;
+    const flightAirportsFlow = [
+      [destinationInput, 'destinationIata'],
+      [airlineInput, 'airlineIata'],
+      [departureDateInput, 'departureDate'],
+    ] as const;
+
+    const flow = hasValue('originIata') ? flightAirportsFlow : flightNumberFlow;
+    for (const [input, key] of flow) {
+      if (!hasValue(key) && focusedInput !== key) {
+        logger.debug('Focusing %s', key);
+        input.current?.focus();
+        return;
+      }
     }
-  }, [focusedInput, hasFlightNumber]);
+
+    logger.debug('No next input');
+  }, [hasValue, focusedInput]);
 
   useKeyboardSubmitEvent(handleFocus, [handleFocus]);
   useTopic('Selected', handleFocus, [handleFocus]);
@@ -61,26 +76,61 @@ export const InputBar: React.FC = () => {
     });
   };
 
-  if (!hasAirlineIata && !hasFlightNumber) {
+  if (hasOriginIata) {
     return (
-      <Group direction="row" gap={'tiny'} paddingHorizontal={theme.space.small}>
-        <TextSearchInput />
-        <RandomFlightBtn onFlight={handleRandomFlight} />
+      <Group
+        direction="column"
+        gap="tiny"
+        paddingHorizontal={theme.space.small}
+      >
+        <Group direction="row" gap="tiny">
+          <FocusedContainer isFocused={focusedInput === 'originIata'}>
+            <AirportInput focusKey="originIata" ref={originInput} />
+          </FocusedContainer>
+          <FocusedContainer isFocused={focusedInput === 'destinationIata'}>
+            <AirportInput focusKey="destinationIata" ref={destinationInput} />
+          </FocusedContainer>
+        </Group>
+        <Group direction="row" gap="tiny">
+          <FocusedContainer isFocused={focusedInput === 'airlineIata'}>
+            <AirlineInput ref={airlineInput} />
+          </FocusedContainer>
+          <FocusedContainer isFocused={focusedInput === 'departureDate'}>
+            <DepartureDateInput ref={departureDateInput} />
+          </FocusedContainer>
+        </Group>
+      </Group>
+    );
+  }
+
+  if (hasAirlineIata && hasFlightNumber) {
+    return (
+      <Group
+        direction="column"
+        gap="tiny"
+        paddingHorizontal={theme.space.small}
+      >
+        <Group direction="row" gap={'tiny'}>
+          <FocusedContainer isFocused={focusedInput === 'airlineIata'}>
+            <AirlineInput ref={airlineInput} />
+          </FocusedContainer>
+          <FocusedContainer isFocused={focusedInput === 'flightNumber'}>
+            <FlightNumberInput ref={flightNumberInput} />
+          </FocusedContainer>
+        </Group>
+        <Group>
+          <FocusedContainer isFocused={focusedInput === 'departureDate'}>
+            <DepartureDateInput ref={departureDateInput} />
+          </FocusedContainer>
+        </Group>
       </Group>
     );
   }
 
   return (
-    <Group direction="row" gap="tiny" paddingHorizontal={theme.space.small}>
-      <FocusedContainer isFocused={focusedInput === 'airlineIata'}>
-        <AirlineInput ref={airlineInput} />
-      </FocusedContainer>
-      <FocusedContainer isFocused={focusedInput === 'flightNumber'}>
-        <FlightNumberInput ref={flightNumberInput} />
-      </FocusedContainer>
-      <FocusedContainer isFocused={focusedInput === 'departureDate'}>
-        <DepartureDateInput ref={departureDateInput} />
-      </FocusedContainer>
+    <Group direction="row" gap={'tiny'} paddingHorizontal={theme.space.small}>
+      <TextSearchInput />
+      <RandomFlightBtn onFlight={handleRandomFlight} />
     </Group>
   );
 };

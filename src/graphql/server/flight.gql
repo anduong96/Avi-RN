@@ -88,6 +88,26 @@ query FindFlights(
   }
 }
 
+query FindFlightsWithAirports(
+  $airlineIata: String!
+  $originIata: String!
+  $destinationIata: String!
+  $year: Int!
+  $month: Int!
+  $date: Int!
+) {
+  flightsWithAirports(
+    airlineIata: $airlineIata
+    originIata: $originIata
+    destinationIata: $destinationIata
+    year: $year
+    month: $month
+    date: $date
+  ) {
+    ...FullFlightFragment
+  }
+}
+
 query FlightPromptness($flightID: String!) {
   flightPromptness(flightID: $flightID) {
     onTimePercent

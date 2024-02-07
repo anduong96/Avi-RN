@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 
+import { logger } from '@app/lib/logger';
 import { withStyled } from '@app/lib/styled';
 import { CloseBtn } from '@app/components/btn.close';
 import { PageHeader } from '@app/components/page.header';
@@ -15,6 +16,7 @@ export const FlightSearchPage: React.FC = () => {
   const exit = useExitPage();
 
   React.useEffect(() => {
+    logger.debug('FlightSearchPage mounted');
     useFlightSearchState.getState().reset();
   }, []);
 

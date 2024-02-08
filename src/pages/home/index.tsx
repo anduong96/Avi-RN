@@ -108,7 +108,7 @@ export const HomePage: React.FC = () => {
           ListEmptyComponent={() => {
             if (!hasActiveFlights && flights.loading) {
               return (
-                <Animated.View entering={FadeInDown.delay(7 * 1000)}>
+                <Animated.View>
                   <Group
                     flexGrow={1}
                     gap={'large'}

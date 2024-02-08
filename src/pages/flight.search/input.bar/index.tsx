@@ -31,6 +31,9 @@ export const InputBar: React.FC = () => {
   const hasFlightNumber = useFlightSearchState((s) =>
     s.hasValue('flightNumber'),
   );
+  const hasDestinationIata = useFlightSearchState((s) =>
+    s.hasValue('destinationIata'),
+  );
   const hasOriginIata = useFlightSearchState((s) => s.hasValue('originIata'));
   const airlineInput = React.useRef<TextInput>(null);
   const flightNumberInput = React.useRef<TextInput>(null);
@@ -76,7 +79,7 @@ export const InputBar: React.FC = () => {
     });
   };
 
-  if (hasOriginIata) {
+  if (hasOriginIata || hasDestinationIata) {
     return (
       <Group
         direction="column"
@@ -103,7 +106,7 @@ export const InputBar: React.FC = () => {
     );
   }
 
-  if (hasAirlineIata && hasFlightNumber) {
+  if (hasAirlineIata || hasFlightNumber) {
     return (
       <Group
         direction="column"

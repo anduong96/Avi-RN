@@ -53,12 +53,14 @@ export const AirportResultSet: React.FC = () => {
 
       if (focused === 'originIata') {
         useFlightSearchState.setState({
+          focusInput: undefined,
           originIata: selection.iata!,
           textSearch: undefined,
         });
       } else if (focused === 'destinationIata') {
         useFlightSearchState.setState({
           destinationIata: selection.iata!,
+          focusInput: undefined,
           textSearch: undefined,
         });
       }

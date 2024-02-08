@@ -49,7 +49,7 @@ export const DepartureDateInput = React.forwardRef<TextInput>((_, ref) => {
       placeholder="Flight Date"
       ref={ref}
       returnKeyType="search"
-      value={inputValue}
+      value={inputValue ?? undefined}
     />
   );
 });

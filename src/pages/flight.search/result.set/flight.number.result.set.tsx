@@ -21,6 +21,7 @@ export const FlightNumberResultSet: React.FC = () => {
     vibrate('impactMedium');
     useFlightSearchState.setState({
       flightNumber: value,
+      focusInput: undefined,
       textSearch: undefined,
     });
 
